@@ -8,10 +8,15 @@ When a computer [^1] is started, the first piece of code that will run is the fi
 
 The booting process is too specific to the computer architecture as we have seen and it may differs between one architecture and another. Some readers, especially Computer Science students may notice that the academic textbooks of operating systems don't mention the boot loader or discuss it.
 
+## BIOS Services
+When our bootloader loads, it is going to work on an x86 mode called *Real Mode* [^real-mode] which is a 16-bit operating mode, don't worry right now about these details, we are going to examine them. We are trying to write an operating system kernel, which means that our bootloader is running in a really harsh environment! Do you remember all libraries that we are lucky to have when developing normal software, well, none of them are available right now! And they will not be available until we decide to make them available and work to do that. Even the simple function "printf" of C is not available. 
+
+But that's fine, for our luck, in this harsh environment, where there is too little available for us to write our code, BIOS provides us with a bunch of useful services that we can use in our bootloader to get things done. You can consider BIOS services as the APIs available on high-level languages that provide us with functions and classes to do what we want to do.
+
 ## Step 0: Creating Makefile
 
 ## Step 1: A bootloader that Prints "539kernel"
-Let's start our journey and write a bootloader that prints the string "539kernel". When our bootloader loads, it is going to work on an x86 mode called *Real Mode* [^real-mode]. For our luck, in this hard environment, where there is too little available for us to write our code, BIOS provides us with a bunch of useful services that we can use in our bootloader to get things done. You can consider BIOS services as the APIs available on high-level languages that provide us with functions and classes to do what we want to do.
+Let's start our journey and write a bootloader that prints the string "539kernel". 
 
 We can call a BIOS service by using interrupts [^interrupts] and each service has its own unique number which receives unique parameters to perform some task. For example, BIOS has a service which has the number 12h [^hex], so to call this service in assembly code we use the instruction "int" which is short for interrupt.
 
