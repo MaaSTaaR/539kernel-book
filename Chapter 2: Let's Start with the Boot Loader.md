@@ -1,6 +1,8 @@
-# Let's Start with the Boot Loader
+# Let's Start with the Bootloader
 
-Boot loader is the piece of code that loads an operating system's kernel. When a computer first turns on, the boot loader will be loaded and run. So, the first step of our journey of building an operating system kernel is to create a boot loader. In x86 architecture, the size of the boot loader is 512 bytes and due to this restricted size and the need of using low-level services, the boot loader is usually written in assembly language.
+When a computer powers on, a piece of code called bootloader is loaded and takes the control of the computer. Usually, the goal of the bootloader is loading the kernel of an operating system from the disk to the main memory and gives the kernel the control of the computer.
+
+So, before start writing 539kernel, we need to write the bootloader that is going to load 539kernel from the disk. In x86 architecture, the size of the boot loader is 512 bytes and due to this restricted size and the need of using low-level services, the bootloader is usually written in assembly language.
 
 When a computer [^1] is started, the first piece of code that will run is the firmware which is a system called BIOS in IBM-compatible computers [^2]. There is a place in the hard disk called *boot sector*, it is the first sector of a hard disk [^3], BIOS is going to load the content of the boot sector as a first step of running the operating system. Loading the boot sector's content means that BIOS reads the content from hard disk and loads it into the main memory (RAM). This loaded content from the boot sector should be the boot loader, and once its loaded into the main memory, the CPU will be able to execute it as any normal application we use in our computers. So, the last step performed by BIOS in this process is giving the control to the boot loader to do whatever it wants.
 
