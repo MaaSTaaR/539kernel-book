@@ -2,6 +2,9 @@
 
 Before start creating 539kernel, we need to learn some basics, let's start with practical aspects and get our hands dirty!
 
+## Computer Architecture
+[MQH] CPU and Main Memory (The program should be here to be executed), the program counter
+
 ## x86 Assembly Language Overview
 To build a boot loader, we need to use assembly language. The program that takes a source code which is written in assembly language and transforms this code to the machine language is known as *assembler* [^4]. There are many assemblers available for x86 but the one that we are going to use is Netwide Assembler (NASM). However, the concepts of x86 assembly are the same, they are tight to the architecture itself, also the instructions are the same, so if you grasp the basics it will be easy to use any other assembler [^5]. Don't forget that the assembler is just a tool that helps us to generate an executable x86 machine code out of an assembly code.
 
