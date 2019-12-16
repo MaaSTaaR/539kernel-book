@@ -12,7 +12,13 @@ The booting process is too specific to the computer architecture as we have seen
 
 ## Hard Disk Structure
 
-The sectors of hard disk have been mentioned too quickly above, so, let's examine them in a little details now. 
+A hard disk consists of multiple *platters* which are stacked together one above the other, have you ever seen a CD or a DVD? A platter has exactly the same shape. The both surfaces (top and down) of a platter are covered by a magnetic layer which stores the data. For each surface of a platter there is a read/write head on it, and as you guessed, the role of this head is to read from a surface or write to it, a head is attached to an arm. Those arms move horizontally, that is, back and forth, and because the other end of all of those arms are attached to the same physical part, they will be moved back and forth together to the same location.
+
+A surface of a platter is divided intro tracks and each track is divided into sectors. A sector is the smallest unit that holds data in hard disks and as you know from our previous discussion, the first sector in a hard disk is a boot sector.
+
+When the operating system needs to write some data to the hard disk or read from it, at least two mechanical moves [^mech-moves] are performed. This first move is performed by the read/write arms, they move back or forth to be upon the track that contains the data we would like to read, this operation is known as *seek*. So, *seek time* is the time needed to put a specific track under read/write head. Until now, the read/write head is on the right track but also it is on a random sector [^random-sector], to reach the sector that we would like to read from (or write to) the platter rotates until the read/write head becomes on the desired sector. The speed of rotation is measured by the unit RPM (Revolutions Per Minute) and the needed time to reach the desired sector is known as *rotational latency*. Finally, the data will be *transferred* from the hard disk to the main memory, the time needed to transfer a number of bits known as *transfer time*.
+
+Now, based on what we know about how a hard disk work, can we imagine what happens inside the hard disk when BIOS loads a bootloader? First, the arms will be *seek* the track number 0 [^bootloader-track-0], that is, the arms move back or forth until they reach the track #0, then the platter rotates until the read/write head become upon the sector #0, finally, the content of sector #0 is transferred to the main memory.
 
 ## BIOS Services
 When our bootloader loads, it is going to work on an x86 mode called *Real Mode* [^real-mode] which is a 16-bit operating mode, don't worry right now about these details, we are going to examine them. We are trying to write an operating system kernel, which means that our bootloader is running in a really harsh environment! Do you remember all libraries that we are lucky to have when developing normal software, well, none of them are available right now! And they will not be available until we decide to make them available and work to do that. Even the simple function "printf" of C is not available. 
@@ -56,3 +62,6 @@ EFI
 [^real-mode]: We will see later what is the meaning of Real Mode in x86 architecture.
 [^interrupts]: Another x86 concept. Don't worry, everything will be explained on its suitable time, just get the terms by faith right now.
 [^hex]: Note "h" in the number, that means this number is in hexadecimal numbering system. It does't equal the decimal number 12. When we use hexadecimal number we use "h" as a postfix. For decimal numbers we use "d" as a postfix.
+[^mech-moves]: This fancy term "Mechanical Moves" means the physical parts of hard disk moves.
+[^random-sector]: Not exactly random, can you tell why?
+[^bootloader-track-0]: I didn't mention that previously, but yes, the bootloader resides in track #0.
