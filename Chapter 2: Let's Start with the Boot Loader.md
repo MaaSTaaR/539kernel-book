@@ -69,6 +69,73 @@ mov al, 'S'
 int 10h
 ```
 
+## A Little Bit More of x86 Assembly
+We need to learn a couple more things about x86 to be able to start. In NASM, each source line has the following format.
+
+```{.assembly}
+label: instruction operands
+```
+
+The label is optional, the operands depend on the instruction in use, if it doesn't get any operand then we don't need to write any operand. To write comments on NASM we begin with semi-colon and write whatever we like after it as a comment, the rest of the source line will be considered as a part of the comment after writing the semi-colon.
+
+A label is a way to give an instruction or a group of instructions a meaningful name, then we can use this name in other places in the source code to, for example, call this group of instructions or to get the starting memory address of these instructions. Sometimes, we may use labels to make the code more readable.
+
+We can say that a label is something like a function or variable name in C, as we know a variable name in C is a meaningful name that represents the memory address of the place in the main memory that contains the value of a variable, the same holds for a function name. Labels in NASM works in the same way, underhood it represents a memory address. The colon in label is also optional.
+
+```{.assembly}
+print_character_S_with_BIOS:
+    mov ah, 0Eh
+    mov al, 'S'
+    int 10h
+```
+
+You can see in the code above, we gave a meaningful name "print_character_S_with_BIOS" for the bunch of instructions that prints the character "S" on the screen. We can use this label anywhere in the assembly source code to refer to this bunch of instructions. 
+
+```{.assembly}
+call_video_service int 10h
+```
+
+This is another example of labels. The time we eliminated the optional colon in label's name and the label here point to only one instruction. Please not that extra whitespaces and new lines doesn't matter in NASM, so, the following is equivalent to the one above.
+
+```{.assembly}
+call_video_service 
+    int 10h
+```
+
+Consider the following code, what do you think it does?
+
+```{.assembly}
+print_character_S_with_BIOS:
+    mov ah, 0Eh
+    mov al, 'S'
+
+call_video_service:
+    int 10h
+```
+
+Still it prints "S" on the screen. Introducing labels in the code doesn't change the flow of the program, it will be executed sequentially whether we used the labels or not. The sequence of execution will not be changed by merely using labels, if we need to change the sequence of execution we need to use other methods than labels. You already know one of these methods, it is calling an interrupt.
+
+So, we can say that labels are more general than a variable name or function name in C. A label is a human-readable name for a memory location which can contain anything, code or data!
+
+### Unconditional Jump and Return with The Instruction "call"
+Let's start this section with a simple question. What happens when we call a function in C? Consider the following C code.
+
+```{.c}
+int result = sum( 5, 3 );
+
+printf( "%d\n", result );
+```
+We called a function named "sum" here, this function reside in a different region in memory and by calling it we are telling the processor to go to this different region of memory and execute what's inside it, the function "sum" is going to do its job, and after that, in some magical way, the CPU is going to return to the original memory region where we called "sum" from and proceed the execution of the code that follows the calling of "sum", in this case, the "printf" function. How does the CPU know where to return after completing the execution of "sum"?
+
+#### x86 Calling Convension
+
+<!--
+### The One-Way Unconditional Jump with The Instruction "jmp"
+### The Difference Between "call" and "jmp"
+### The Instruction "ret"
+### Conditional Jump
+### NASM's Pseudo-instructions
+
 ## Step 0: Creating Makefile
 
 ## Step 1: A bootloader that Prints "539kernel"
@@ -93,6 +160,7 @@ void interrupt_10( int ah /* Service Number */, int al /* If the parameter ah ==
 ```
 
 Now, we are ready to write our first bootloader. 
+-->
 
 [^3]: A magnetic hard disk has multiple stacked *platters*, each platter is divided into multiple *tracks* and inside each track there are multiple *sectors*. The size of a sector is 512 bytes, and from here the restricted size of a boot loader came.
 [^hex]: Note "h" in the number, that means this number is in hexadecimal numbering system. It does't equal the decimal number 10. When we use hexadecimal number we use "h" as a postfix.
