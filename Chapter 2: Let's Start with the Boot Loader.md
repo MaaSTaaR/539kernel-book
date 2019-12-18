@@ -2,7 +2,7 @@
 
 ## Introduction
 
-When a computer powers on, a piece of code called bootloader is loaded and takes the control of the computer. Usually, the goal of the bootloader is loading the kernel of an operating system from the disk to the main memory and gives the kernel the control over the computer. The firmware of a computer is the program which loads the bootloader, in IBM-compatible computers the name of this program is BIOS (Basic Input/Output System) [^2].
+When a computer powers on, a piece of code called bootloader is loaded and takes the control of the computer. Usually, the goal of the bootloader is loading the kernel of an operating system from the disk to the main memory and gives the kernel the control over the computer. The firmware of a computer is the program which loads the bootloader, in IBM-compatible computers the name of this program is BIOS (Basic Input/Output System).
 
 There is a place in the hard disk called *boot sector*, it is the first sector of a hard disk [^3], BIOS is going to load the content of the boot sector as a first step of running the operating system. Loading the boot sector's content means that BIOS reads the content from hard disk and loads it into the main memory (RAM). This loaded content from the boot sector should be the bootloader, and once its loaded into the main memory, the CPU will be able to execute it as any normal application we use in our computers. So, the last step performed by BIOS in this process is giving the control to the bootloader to do whatever it wants.
 
@@ -28,7 +28,7 @@ Let's say that a hard disk has 3 platters, which means it has 6 surfaces, arms a
 
 Now, based on what we know about how a hard disk work, can we imagine what happens inside the hard disk when BIOS loads a bootloader? First, the arms will be *seek* the track number 0 [^bootloader-track-0], that is, the arms move back or forth until they reach the track #0, then the platter rotates until the read/write head become upon the sector #0, finally, the content of sector #0 is transferred to the main memory.
 
-## Operating Mode
+## x86 Operating Mode
 When the bootloader loads, it is going to work on *Real Mode* which is an x86 16-bit operating mode. Being a 16-bit operating mode means that only 16-bit of register size can be used, even if the actual size of the registers is 64-bit [^64bitcpus]. Using only 16-bit of registers has consequences other than the size itself, also, any code which is going to run on Real Mode should be 16-bit code, for example, the aforementioned 32-bit registers (such as "eax") cannot be used in Real Mode, their 16-bit counterparts should be used instead, for example, the 16-bit "ax" should be used instead of "eax" and so on. 
 
 Real Mode is old operating, and modern computers runs initially on this operating mode for backward compatibility. It has been replaced by modern operating modes: Protected Mode which is a 32-bit operating mode and Long Mode which is a 64-bit operating mode. One of Real Mode disadvantages is the limited size of main memory, even if the computer has 16GB of memory, Real Mode can deal with only 1MB. On the other hand, Protected Mode can deal with 4GM of memory. 539kernel is a 32-bit kernel, which means it is going to run on Protected Mode instead of Real Mode and there is a way to switch from Real Mode to Protected Mode, but that's a story for a different day! What we need to concern on now is creating a bootloader that loads the 32-bit 536kernel and it's fine for the bootloader to run on Real Mode instead of Protected Mode. After all, we don't need more than 1MB of main memory to run the bootloader.
@@ -36,14 +36,45 @@ Real Mode is old operating, and modern computers runs initially on this operatin
 ## BIOS Services
 We are trying to write an operating system kernel, which means that our bootloader is running in a really harsh environment! Do you remember all libraries that we are lucky to have when developing normal software (user-space software), well, none of them are available right now! And they will not be available until we decide to make them so and work hard to do that. Even the simple function "printf" of C is not available. 
 
-But that's fine, for our luck, in this environment, where there is too little available for us to write our code, BIOS provides us with a bunch of useful services that we be can used in Real Mode, we can use these services in our bootloader to get things done. You can consider BIOS services as the APIs available on high-level languages that provide us with functions and classes to do what we want to do.
+But that's fine, for our luck, in this environment, where there is too little available for us to write our code, BIOS provides us with a bunch of useful services that we be can used in Real Mode, we can use these services in our bootloader to get things done. 
+
+BIOS services are like a group of functions in high-level languages that is provided by some library, each function does something useful and we deal with those functions as black boxes, we don't know what's inside these functions but we know what they do and how to use them. So, basically, BIOS provides us a library and we are going to use some of these functions in our bootloader.
+
+BIOS services are divided into categories, there are video services category, disk services category, keyboard services category and so on and each category is labeled by a number called *interrupt number*. In high-level world, we witnessed the same concept but with different mechanism, for example, C standard library provides us with many services (functions) such as input/output functions, string manipulation functions, mathematical functions and so on, these functions are categorized and each category is label by the *library name*, for example, all input/output functions can be found in "stdio.h" and so on. In BIOS, for example, the category of video services has the interrupt number 10h [^hex].
+
+Inside each services category, these is a bunch of services, each one can do a specific thing. Also, there are labeled by a number. In C, a service is a function labeled by a name (printf for example) and this function reside in a library (stdio.h for example) which is same as a category of services in BIOS. As we said, the interrupt number 10h represents the category of video services, and the service of printing a character on a screen is represented by the number 0Eh.
+
+Interrupts is a fundamental concept in x86 architecture. What we need to know about them right now is that they are a way to call a specific code which is registered to them and calling an interrupt in assembly is really simple:
+
+```{.assembly}
+int 10h
+```
+
+That's it! We use the instruction "int" and gives it the interrupt that we would like to call as an operand. In this example, we are calling the interrupt 10h which is, as we mentioned multiple time, the category of BIOS video services. When the CPU executes this instruction, BIOS will be called and based on the interrupt number it will know that we want to use one of available video services, but which one exactly!
+
+In the previous example, we actually didn't tell BIOS which video service we would like to use and to do that we need to specify service number in "ah" register before calling the interrupt.
+
+```{.assembly}
+mov ah, 0Eh
+int 10h
+```
+
+That's it, all the BIOS services can be used in this exact way. First we need to know what is the interrupt number that the service which we which to use belong to, then, we need to know the number of the service that we're going to use, we put the service number in the register "ah" then we call the interrupt by its number by using "int" instruction. The previous code calls the service of printing a character on a screen, but is it complete yet? Actually no, we didn't specify what is the character that we would like to print. We need something like parameters in high-level languages to pass additional information for BIOS to be able to do its job. Well, lucky us! the registers are here to the rescue.
+
+When a BIOS service need additional information, that is, parameters. It expects to find these information in a specific register. For example, the service 0Eh in interrupt 10h expects to find the character that the user wants to print in the register "al". So, the register "al" is one of service 0Eh parameter. The following code requests from BIOS to print the character S on the screen:
+
+```{.assembly}
+mov ah, 0Eh
+mov al, 'S'
+int 10h
+```
 
 ## Step 0: Creating Makefile
 
 ## Step 1: A bootloader that Prints "539kernel"
 Let's start our journey and write a bootloader that prints the string "539kernel". 
 
-We can call a BIOS service by using interrupts [^interrupts] and each service has its own unique number which receives unique parameters to perform some task. For example, BIOS has a service which has the number 12h [^hex], so to call this service in assembly code we use the instruction "int" which is short for interrupt.
+We can call a BIOS service by using interrupts [^interrupts] and each service has its own unique number which receives unique parameters to perform some task. For example, BIOS has a service which has the number 12h, so to call this service in assembly code we use the instruction "int" which is short for interrupt.
 
 ```{.assembly}
 int 12h
@@ -63,12 +94,8 @@ void interrupt_10( int ah /* Service Number */, int al /* If the parameter ah ==
 
 Now, we are ready to write our first bootloader. 
 
-
-[^1]: Actually not any computer, but an IBM compatible computer.
-[^2]: We will see later in this chapter that BIOS has been replaced by UEFI in modern computers.
 [^3]: A magnetic hard disk has multiple stacked *platters*, each platter is divided into multiple *tracks* and inside each track there are multiple *sectors*. The size of a sector is 512 bytes, and from here the restricted size of a boot loader came.
-[^interrupts]: Another x86 concept. Don't worry, everything will be explained on its suitable time, just get the terms by faith right now.
-[^hex]: Note "h" in the number, that means this number is in hexadecimal numbering system. It does't equal the decimal number 12. When we use hexadecimal number we use "h" as a postfix. For decimal numbers we use "d" as a postfix.
+[^hex]: Note "h" in the number, that means this number is in hexadecimal numbering system. It does't equal the decimal number 10. When we use hexadecimal number we use "h" as a postfix.
 [^mech-moves]: This fancy term "Mechanical Moves" means the physical parts of hard disk moves.
 [^random-sector]: Not exactly random, can you tell why?
 [^bootloader-track-0]: I didn't mention that previously, but yes, the bootloader resides in track #0.
