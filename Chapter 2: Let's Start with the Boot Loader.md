@@ -28,10 +28,15 @@ Let's say that a hard disk has 3 platters, which means it has 6 surfaces, arms a
 
 Now, based on what we know about how a hard disk work, can we imagine what happens inside the hard disk when BIOS loads a bootloader? First, the arms will be *seek* the track number 0 [^bootloader-track-0], that is, the arms move back or forth until they reach the track #0, then the platter rotates until the read/write head become upon the sector #0, finally, the content of sector #0 is transferred to the main memory.
 
-## BIOS Services
-When our bootloader loads, it is going to work on an x86 mode called *Real Mode* [^real-mode] which is a 16-bit operating mode, don't worry right now about these details, we are going to examine them. We are trying to write an operating system kernel, which means that our bootloader is running in a really harsh environment! Do you remember all libraries that we are lucky to have when developing normal software, well, none of them are available right now! And they will not be available until we decide to make them available and work to do that. Even the simple function "printf" of C is not available. 
+## Operating Mode
+When the bootloader loads, it is going to work on *Real Mode* which is an x86 16-bit operating mode. Being a 16-bit operating mode means that only 16-bit of register size can be used, even if the actual size of the registers is 64-bit [^64bitcpus]. Using only 16-bit of registers has consequences other than the size itself, also, any code which is going to run on Real Mode should be 16-bit code, for example, the aforementioned 32-bit registers (such as "eax") cannot be used in Real Mode, their 16-bit counterparts should be used instead, for example, the 16-bit "ax" should be used instead of "eax" and so on. 
 
-But that's fine, for our luck, in this harsh environment, where there is too little available for us to write our code, BIOS provides us with a bunch of useful services that we can use in our bootloader to get things done. You can consider BIOS services as the APIs available on high-level languages that provide us with functions and classes to do what we want to do.
+Real Mode is old operating, and modern computers runs initially on this operating mode for backward compatibility. It has been replaced by modern operating modes: Protected Mode which is a 32-bit operating mode and Long Mode which is a 64-bit operating mode. One of Real Mode disadvantages is the limited size of main memory, even if the computer has 16GB of memory, Real Mode can deal with only 1MB. On the other hand, Protected Mode can deal with 4GM of memory. 539kernel is a 32-bit kernel, which means it is going to run on Protected Mode instead of Real Mode and there is a way to switch from Real Mode to Protected Mode, but that's a story for a different day! What we need to concern on now is creating a bootloader that loads the 32-bit 536kernel and it's fine for the bootloader to run on Real Mode instead of Protected Mode. After all, we don't need more than 1MB of main memory to run the bootloader.
+
+## BIOS Services
+We are trying to write an operating system kernel, which means that our bootloader is running in a really harsh environment! Do you remember all libraries that we are lucky to have when developing normal software (user-space software), well, none of them are available right now! And they will not be available until we decide to make them so and work hard to do that. Even the simple function "printf" of C is not available. 
+
+But that's fine, for our luck, in this environment, where there is too little available for us to write our code, BIOS provides us with a bunch of useful services that we be can used in Real Mode, we can use these services in our bootloader to get things done. You can consider BIOS services as the APIs available on high-level languages that provide us with functions and classes to do what we want to do.
 
 ## Step 0: Creating Makefile
 
@@ -62,9 +67,9 @@ Now, we are ready to write our first bootloader.
 [^1]: Actually not any computer, but an IBM compatible computer.
 [^2]: We will see later in this chapter that BIOS has been replaced by UEFI in modern computers.
 [^3]: A magnetic hard disk has multiple stacked *platters*, each platter is divided into multiple *tracks* and inside each track there are multiple *sectors*. The size of a sector is 512 bytes, and from here the restricted size of a boot loader came.
-[^real-mode]: We will see later what is the meaning of Real Mode in x86 architecture.
 [^interrupts]: Another x86 concept. Don't worry, everything will be explained on its suitable time, just get the terms by faith right now.
 [^hex]: Note "h" in the number, that means this number is in hexadecimal numbering system. It does't equal the decimal number 12. When we use hexadecimal number we use "h" as a postfix. For decimal numbers we use "d" as a postfix.
 [^mech-moves]: This fancy term "Mechanical Moves" means the physical parts of hard disk moves.
 [^random-sector]: Not exactly random, can you tell why?
 [^bootloader-track-0]: I didn't mention that previously, but yes, the bootloader resides in track #0.
+[^64bitcpus]: 64-bit CPUs.

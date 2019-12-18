@@ -3,3 +3,6 @@
 	* x86 Interrupts [Just mention. The details in next chapter]
 * x86 Segmentation [Just mention. The details in next chapter]
 * UEFI & Historical Background (On IBM PC and BIOS) [Appendix or [Modern Technology] Chapter]
+
+Next Chapter:
+	* Do you remember the constraint of 1MB of RAM in Real Mode? Why we have only 1MB??
