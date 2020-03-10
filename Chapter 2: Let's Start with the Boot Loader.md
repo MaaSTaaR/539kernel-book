@@ -136,7 +136,7 @@ The function which call another is named *caller* while the function which is ca
 
 #### x86 Calling Convension
 
-When a program is running, a copy of its machine code is loaded in the main memory, this machine code is a sequence of instructions which are understandable by the processor, these instructions are executed by the processor sequentially, that is, one after another in each cycle in the processor. So, when a processor starts a new *instruction cycle*, it fetches the next instruction that should be executed from the main memory and executes it ^[The instruction cycle is also called *fetch-decode-execute cycle*.]. Each *memory location* in the main memory is represented and referred to by a unique *memory address*, that means each instruction in the machine code of the program under execution has a unique memory address, consider the following hypothetical example of the memory addresses of each instruction in the previous C code, note that the memory addresses in this example are by no means accurate.
+When a program is running, a copy of its machine code is loaded in the main memory, this machine code is a sequence of instructions which are understandable by the processor, these instructions are executed by the processor sequentially, that is, one after another in each cycle in the processor ^[This is known as *von Neumann architecture* where both code and data are stored in the same memory and the processor uses this memory to read the instructions that should be executed, and manipulate the data which is stored in the same memory. There is another well-known architecture called *Harvard architecture* where the code and data are stored in two different memories. x86 uses *von Neumann architecture*.]. So, when a processor starts a new *instruction cycle*, it fetches the next instruction that should be executed from the main memory and executes it ^[The instruction cycle is also called *fetch-decode-execute cycle*.]. Each *memory location* in the main memory is represented and referred to by a unique *memory address*, that means each instruction in the machine code of the program under execution has a unique memory address, consider the following hypothetical example of the memory addresses of each instruction in the previous C code, note that the memory addresses in this example are by no means accurate.
 
 ```{.c}
 100 main() {
@@ -157,7 +157,7 @@ When the above C code runs for the first time, the value of the instruction poin
 
 #### The Instructions `call` and `ret`
 
-The instruction `call` in assembly works exactly in the same way that we have explained in the previous section, it is used to call a code that resides in a given memory address, it is going to push the return address into the stack, and when the callee uses the instruction `ret` the return address from the stack is used to resume the execution of the caller. Consider the following example.
+The instruction `call` in assembly works exactly in the same way that we have explained in the previous section, it is used to call a code (or jump to a code) that resides in a given memory address. `call` pushes the return address into the stack, to return to the caller, the callee should use the instruction `ret` which gets ^[Actually it *pop*s the value since we are talking about stack here.] the return address from the stack and use it to resume the execution of the caller. Consider the following example.
 
 ```{.assembly}
 call print_character_S_with_BIOS
@@ -170,13 +170,41 @@ print_character_S_with_BIOS:
     ret
 ```
 
-You can see here that we have used the code sample `print_character_S_with_BIOS` to define something like C function by using the instructions `call` and `ret`. It should be obvious that this code prints the character `S` two times.
+You can see here that we have used the code sample `print_character_S_with_BIOS` to define something like C function by using the instructions `call` and `ret`. It should be obvious that this code prints the character `S` two times, as we have said previously, a label represents a memory address and `print_character_S_with_BIOS` is a label, the operand of `call` is the memory address of the code that we wish to call (or jump to), the instructions of `print_character_S_with_BIOS` will be executed sequentially until the processor reaches the instruction `ret`, at this point, the return address is obtained from the stack and the execution of the caller is resumed.
+
+`call` performs an *unconditional jump*, that means processor will always jump to the callee, without any condition, later in this chapter we will see the instruction while performs a *conditional jump*, which only jumps to the callee when some condition is satisfied, otherwise, the execution of the caller is resumed.
 
 ### The One-Way Unconditional Jump with The Instruction "jmp"
 
-<!--
-### The Difference Between "call" and "jmp"
+Like `call`, the instruction `jmp` jumps to the specified memory address, but unlike `call`, it doesn't store the return address in the stack which means `ret` cannot be used in the `callee` which is called by using `jmp`. We use `jmp` when we want to jump the a code that we will not return from it, `jmp` has the same functionality of `goto` statement in C. Consider the following example.
+
+```{.assembly}
+print_character_S_with_BIOS:
+    mov ah, 0Eh
+    mov al, 'S'
+    jmp call_video_service
+
+print_character_A_with_BIOS:
+    mov ah, 0Eh
+    mov al, 'A'
+
+call_video_service:
+    int 10h
+```
+
+Can you guess what is the output? it is `S` and the code of the label `print_character_A_with_BIOS` will never be executed because of the line `jmp call_video_service` which is mentioned in the code of the label `print_character_S_with_BIOS`. If we remove the line of `jmp` from this code sample, both `S` and `A` will be printed on the screen. Another example which causes infinite loop.
+
+```{.assembly}
+infinite_loop:
+    jmp infinite_loop
+```
+
 ### Conditional Jump
+
+There are multiple instructions that perform *conditional* jump, if a specific condition is satisfied the callee will be called, otherwise, the code of the caller will be continued. Conditional jump instructions have the same functionality of `if` statement in C.
+
+<!--
+### Compare Instruction
 ### NASM's Pseudo-instructions
 
 ## Step 0: Creating Makefile
