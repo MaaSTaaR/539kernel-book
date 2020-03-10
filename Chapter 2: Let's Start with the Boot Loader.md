@@ -199,13 +199,60 @@ infinite_loop:
     jmp infinite_loop
 ```
 
-### Conditional Jump
+### Comparison and Conditional Jump
 
-There are multiple instructions that perform *conditional* jump, if a specific condition is satisfied the callee will be called, otherwise, the code of the caller will be continued. Conditional jump instructions have the same functionality of `if` statement in C.
+In x86 there is a special register called *FLAGS* register ^[In 32-bit x86 processors its name is *EFLAGS* and in 64-bit its name is *RFLAGS*.]. It is the *status register* which holds the current status of the processor. Each usable bit of this register has its own purpose and name, and represents something different than any other bit on the same register, that is, each bit is a separate flag. For example, the first bit (bit 0) of FLAGS register is known as *Carry Flag* (CF) and the seventh bit (bit 6) is known as *Zero Flag* (ZF).
+
+Many x86 instructions use FLAGS register to store their result on, one of those instruction is `cmp` which can be used to compare two integers, it takes to operands which are the two integers that we would like to compare then the processor stores the result in FLAGS register by using some mechanism that we will not mention here for the sake of simplicity. The following example compares the value which reside in the register `al` and `5`.
+
+```{.assembly}
+cmp al, 5
+```
+
+Now, let's say that we would like to jump a piece of code only if the value of `al` equals `5`, otherwise, the code of the caller continues without jumping. There are multiple instructions that perform *conditional* jump based on the result of `cmp`. One of these instructions is `je` which means *jump if equal*, that is, if the two operands of the `cmp` instruction equals each other, them jump to a specific code, another conditional jump instruction is `jne` which means *jump if not equal*, there are other conditional jump instruction and all of them named `Jcc` when they are discussed in Intel's official manual of x86. We can see that the conditional jump instructions have the same functionality of `if` statement in C. Consider the following example.
+
+```{.assembly}
+main:
+    cmp al, 5
+    je the_value_equals_5
+    ; The rest of the code of `main` label
+```
+
+This example jumps to the code of the label `the_value_equals_5` if the value of the register `al` equals `5`. In C, the above assembly example will be something like the following.
+
+```{.c}
+main() 
+{
+    if ( register_al == 5 )
+        the_value_equals_5();
+
+    // The rest of the code
+}
+```
+
+Like `jmp`, but unlike `call`, conditional jump instructions don't push the return address into the stack, which means the callee can't use `ret` to return and resume caller's code, that is, the jump will be *one way jump*. We can also imitate `while` loop by using `Jcc` instructions and `cmp`, the following example prints `S` five times by looping over the same bunch of code.
+
+```{.assembly}
+mov bx, 5
+
+loop_start:
+	cmp bx, 0
+	je loop_end
+	
+	call print_character_S_with_BIOS
+	
+	dec bx
+	
+	jmp loop_start
+	
+loop_end:
+    ; The code after loop
+```
 
 <!--
-### Compare Instruction
 ### NASM's Pseudo-instructions
+### lodsb
+## The Bootloader
 
 ## Step 0: Creating Makefile
 
