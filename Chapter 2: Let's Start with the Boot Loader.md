@@ -174,7 +174,7 @@ You can see here that we have used the code sample `print_character_S_with_BIOS`
 
 `call` performs an *unconditional jump*, that means processor will always jump to the callee, without any condition, later in this chapter we will see the instruction while performs a *conditional jump*, which only jumps to the callee when some condition is satisfied, otherwise, the execution of the caller is resumed.
 
-### The One-Way Unconditional Jump with The Instruction "jmp"
+### The One-Way Unconditional Jump with The Instruction `jmp`
 
 Like `call`, the instruction `jmp` jumps to the specified memory address, but unlike `call`, it doesn't store the return address in the stack which means `ret` cannot be used in the `callee` which is called by using `jmp`. We use `jmp` when we want to jump the a code that we will not return from it, `jmp` has the same functionality of `goto` statement in C. Consider the following example.
 
@@ -248,10 +248,31 @@ loop_start:
 loop_end:
     ; The code after loop
 ```
+You should be familiar with the most of the code of this sample, first we assign the value `5` to the register `bx` ^[Can you tell why we used `bx` instead of `ax`? \[Hint: review the code of `print_character_S_with_BIOS`.\]], then we start the label `loop_start` which the first thing it does it comparing the value of `bx` with `0`, when `bx` equals `0` the code jumps to the label `loop_end` which contains the code after the loop. When `bx` doesn't equal `0` the label `print_character_S_with_BIOS` will be called to print `S` and return to the caller `loop_start`, after that the instruction `dec` is used to decrease `1` form its operand, that is `bx = bx - 1`, finally, the label `loop_start` will be called again and the code repeats until the value of `bx` reaches to `0`. The equivalent code in C is the following.
+
+```{.c}
+int bx = 5;
+
+while ( bx != 0 )
+{
+    print_character_S_with_BIOS();
+    bx--;
+}
+
+// The code after loop
+```
+
+### Load String with The Instruction `lods`
+
+It is well-known that `1` byte equals `8` bits. Moreover, there are two other size units in x86, a *word* which is `16` bits, that is, `2` bytes, and *doubleword* which is `32` bits, that is, `4` bytes. Some x86 instructions have multiple variants to deal with these different size units, while the functionality of an instruction is the same, the difference will be in the size of the data that a variant of instruction deals with. For example, the instruction `lods` has three variants `lodsb` which works a **b**yte, `lodsw` which works with a **w**ord and `loadsd` which works with a **d**oubleword.
+
+To simplify the explanation let's consider `lodsb` which works with a single byte, its functionality is too simple, it is going to read the value of the register `si`, it deals with it as a memory address and loads a byte from this content of memory address to the register `al`. The same holds for the other variants of `lods`, only the size of the data and the used registers are different, the register which is used in `lodsw` is `ax` ^[Because the size of `ax` is a **word**], while `lodsd` uses the register `eax` ^[Because the size of `eax` is a **doubleword**.]. ^[As fun exercise, try to figure out why are we explaining the instruction `lodsb` in this chapter, what is the relation between this instruction and the bootloader that we are going to write? Hint: Review the code of `print_character_S_with_BIOS` and how to print a character by using BIOS services. If you can't figure the answer out don't worry, you will get it soon.]
+
+### NASM's Pseudo-instructions
 
 <!--
-### NASM's Pseudo-instructions
-### lodsb
+
+
 ## The Bootloader
 
 ## Step 0: Creating Makefile
