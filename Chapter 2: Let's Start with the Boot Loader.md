@@ -46,7 +46,7 @@ Inside each services category, these is a bunch of services, each one can do a s
 
 Interrupts is a fundamental concept in x86 architecture. What we need to know about them right now is that they are a way to call a specific code which is registered to them and calling an interrupt in assembly is really simple:
 
-```{.assembly}
+```{.asm}
 int 10h
 ```
 
@@ -54,7 +54,7 @@ That's it! We use the instruction `int` and gives it the interrupt that we would
 
 In the previous example, we actually didn't tell BIOS which video service we would like to use and to do that we need to specify service number in `ah` register before calling the interrupt.
 
-```{.assembly}
+```{.asm}
 mov ah, 0Eh
 int 10h
 ```
@@ -63,16 +63,16 @@ That's it, all the BIOS services can be used in this exact way. First we need to
 
 When a BIOS service need additional information, that is, parameters. It expects to find these information in a specific register. For example, the service 0Eh in interrupt 10h expects to find the character that the user wants to print in the register `al`. So, the register `al` is one of service 0Eh parameter. The following code requests from BIOS to print the character S on the screen:
 
-```{.assembly}
+```{.asm}
 mov ah, 0Eh
 mov al, 'S'
 int 10h
 ```
 
-## A Little Bit More of x86 Assembly
+## A Little Bit More of x86 Assembly and NASM
 We need to learn a couple more things about x86 to be able to start. In NASM, each line in the source code has the following format.
 
-```{.assembly}
+```{.asm}
 label: instruction operands
 ```
 
@@ -82,7 +82,7 @@ A label is a way to give an instruction or a group of instructions a meaningful 
 
 We can say that a label is something like the name of a function or variable in C, as we know a variable name in C is a meaningful name that represents the memory address of the place in the main memory that contains the value of a variable, the same holds for a function name. Labels in NASM works in the same way, underhood it represents a memory address. The colon in label is also optional.
 
-```{.assembly}
+```{.asm}
 print_character_S_with_BIOS:
     mov ah, 0Eh
     mov al, 'S'
@@ -91,20 +91,20 @@ print_character_S_with_BIOS:
 
 You can see in the code above, we gave a meaningful name `print_character_S_with_BIOS` for the bunch of instructions that prints the character `S` on the screen. After defining this label in our source code, we can use it anywhere in the same source code to refer to this bunch of instructions.
 
-```{.assembly}
+```{.asm}
 call_video_service int 10h
 ```
 
 This is another example of labels. This time we eliminated the optional colon in label's name and the label here point to only one instruction. Please not that extra whitespaces and new lines doesn't matter in NASM, so, the following is equivalent to the one above.
 
-```{.assembly}
+```{.asm}
 call_video_service
     int 10h
 ```
 
 Consider the following code, what do you think it does?
 
-```{.assembly}
+```{.asm}
 print_character_S_with_BIOS:
     mov ah, 0Eh
     mov al, 'S'
@@ -159,7 +159,7 @@ When the above C code runs for the first time, the value of the instruction poin
 
 The instruction `call` in assembly works exactly in the same way that we have explained in the previous section, it is used to call a code (or jump to a code) that resides in a given memory address. `call` pushes the return address into the stack, to return to the caller, the callee should use the instruction `ret` which gets ^[Actually it *pop*s the value since we are talking about stack here.] the return address from the stack and use it to resume the execution of the caller. Consider the following example.
 
-```{.assembly}
+```{.asm}
 call print_character_S_with_BIOS
 call print_character_S_with_BIOS
 
@@ -178,7 +178,7 @@ You can see here that we have used the code sample `print_character_S_with_BIOS`
 
 Like `call`, the instruction `jmp` jumps to the specified memory address, but unlike `call`, it doesn't store the return address in the stack which means `ret` cannot be used in the `callee` which is called by using `jmp`. We use `jmp` when we want to jump the a code that we will not return from it, `jmp` has the same functionality of `goto` statement in C. Consider the following example.
 
-```{.assembly}
+```{.asm}
 print_character_S_with_BIOS:
     mov ah, 0Eh
     mov al, 'S'
@@ -194,7 +194,7 @@ call_video_service:
 
 Can you guess what is the output? it is `S` and the code of the label `print_character_A_with_BIOS` will never be executed because of the line `jmp call_video_service` which is mentioned in the code of the label `print_character_S_with_BIOS`. If we remove the line of `jmp` from this code sample, both `S` and `A` will be printed on the screen. Another example which causes infinite loop.
 
-```{.assembly}
+```{.asm}
 infinite_loop:
     jmp infinite_loop
 ```
@@ -205,13 +205,13 @@ In x86 there is a special register called *FLAGS* register ^[In 32-bit x86 proce
 
 Many x86 instructions use FLAGS register to store their result on, one of those instruction is `cmp` which can be used to compare two integers, it takes to operands which are the two integers that we would like to compare then the processor stores the result in FLAGS register by using some mechanism that we will not mention here for the sake of simplicity. The following example compares the value which reside in the register `al` and `5`.
 
-```{.assembly}
+```{.asm}
 cmp al, 5
 ```
 
 Now, let's say that we would like to jump a piece of code only if the value of `al` equals `5`, otherwise, the code of the caller continues without jumping. There are multiple instructions that perform *conditional* jump based on the result of `cmp`. One of these instructions is `je` which means *jump if equal*, that is, if the two operands of the `cmp` instruction equals each other, them jump to a specific code, another conditional jump instruction is `jne` which means *jump if not equal*, there are other conditional jump instruction and all of them named `Jcc` when they are discussed in Intel's official manual of x86. We can see that the conditional jump instructions have the same functionality of `if` statement in C. Consider the following example.
 
-```{.assembly}
+```{.asm}
 main:
     cmp al, 5
     je the_value_equals_5
@@ -232,7 +232,7 @@ main()
 
 Like `jmp`, but unlike `call`, conditional jump instructions don't push the return address into the stack, which means the callee can't use `ret` to return and resume caller's code, that is, the jump will be *one way jump*. We can also imitate `while` loop by using `Jcc` instructions and `cmp`, the following example prints `S` five times by looping over the same bunch of code.
 
-```{.assembly}
+```{.asm}
 mov bx, 5
 
 loop_start:
@@ -268,11 +268,61 @@ It is well-known that `1` byte equals `8` bits. Moreover, there are two other si
 
 To simplify the explanation let's consider `lodsb` which works with a single byte, its functionality is too simple, it is going to read the value of the register `si`, it deals with it as a memory address and loads a byte from this content of memory address to the register `al`. The same holds for the other variants of `lods`, only the size of the data and the used registers are different, the register which is used in `lodsw` is `ax` ^[Because the size of `ax` is a **word**], while `lodsd` uses the register `eax` ^[Because the size of `eax` is a **doubleword**.]. ^[As fun exercise, try to figure out why are we explaining the instruction `lodsb` in this chapter, what is the relation between this instruction and the bootloader that we are going to write? Hint: Review the code of `print_character_S_with_BIOS` and how to print a character by using BIOS services. If you can't figure the answer out don't worry, you will get it soon.]
 
-### NASM's Pseudo-instructions
+### NASM's Pseudoinstructions
+
+When you encounter the prefix ^[In linguistics, which is the science that studies languages, a prefix is a word (actually a morpheme) that is attached in the beginning of another word and changes its meaning, for example, in **un**do, **un** is a prefix.] *pseudo* before a word, you should know that describes something fake, false or not real ^[For example, in algorithm design which is a branch of computer science, the word **pseudo**code which means a code that is written in a fake programming language. Another example is the word **pseudo**science, a statement is a pseudoscience when it is claimed to be a scientific fact, but in reality it is not, that is, it doesn't follow the scientific method.]. NASM provides us a number of **Pseudo**instructions, that is, they are not real x86 instructions, the processor doesn't understand them and they can't be used in other assemblers ^[Unless, of course, they are provided in the other assembler as pseudoinstructions.], on the other hand, NASM understands those instructions and can translate them to something understandable by the processor. They are useful, and we are going to use them to the writing of the bootloader easier.
+
+#### Declaring Initialized Data
+
+The concept of *declaring something* is well-known by the programmers, In C for example, when you *declare* a function, you are announcing that this function *exists*, it is there, it has a specific name and takes the declared number of parameters ^[It is important to note that *declaring* a function in C differs from *defining* a function, the following declares a function: `int foo();` You can see that the code block (the source doe) of `foo` is not a part of the declaration, once the code block of the function is presented, we say this is the *definition* of the function.]. The same concept holds when you declare a variable, you are letting the rest of the code know that there exists a variable with a specific name. When we declare a variable, without assigning any value to it, we say that this variable is *uninitialized*, that is, no initial value has been assigned to this variable when it is declared, later on a value will be assigned to the variable, but not as early of its declaration. In contrast, a variable is *initialized* when a value is assigned to it when it's declared.
+
+The pseudoinstructions `db`, `dw`, `dd`, `dq`, `dt`, `ddq`, and `do` helps us to declare initialized *data*, and with using *labels* when can mimic the concept of *initialized variable* in C. Let's consider `db` as an example, the second letter of `db` means *b*ytes, that means `db` declare and initialize a byte of data.
+
+```{.asm}
+db 'a'
+```
+
+The above example reserve a byte in the memory, this is the declaration step, then the character `a` will be stored on this reserved byte of the memory, which is the initialization step.
+
+```{.asm}
+db 'a', 'b', 'c'
+```
+
+In the above example we have used comma to declare three bytes and store the values `a`, `b` and `c` respectively on them, also, on memory these values will be stored *contiguously*, that is, one after another, the memory location ^[Hence, the memory address.] of the value `b` will be right after the memory location of value `a` and the same rule for `c`. Since `a`, `b` and `c` are of the same type, a character, we can write the previous code as the following and it gives as the same result.
+
+```{.asm}
+db 'abc'
+```
+
+Also, we can declare different types of data in the same source line, given the above code, let's say that we would like to store the number `0` after the character `c`, this can be achieved by simply using a comma.
+
+```{.asm}
+db 'abc', 0
+```
+
+Now, to make this data accessible from other parts of the code, we can use a label to represent the starting memory address of this data. Consider the following example which define the label `our_variable`, after that, we can use this label to refer to the initialized data.
+
+```{.asm}
+our_variable db 'abc', 0
+```
+
+#### Repeating with `times`
+
+To repeat some source line multiple times, we can use the pseudoinstruction `times` which takes the number of desired repetitions as first operand and the instruction that we would like to execute repeatedly as second operand. The following example prints `S` five times on the screen.
+
+```{.asm}
+times 5 call print_character_S_with_BIOS
+```
+
+Not only normal x86 instructions can be used with `times`, also NASM's pseudoinstructions can be used with `times`. The following example reserves `100` bytes of the memory and fills them with `0`.
+
+```{.asm}
+times 100 db 0
+```
+
+### NASM's Special Expressions `$` and `$$`
 
 <!--
-
-
 ## The Bootloader
 
 ## Step 0: Creating Makefile
@@ -282,7 +332,7 @@ Let's start our journey and write a bootloader that prints the string "539kernel
 
 We can call a BIOS service by using interrupts [^interrupts] and each service has its own unique number which receives unique parameters to perform some task. For example, BIOS has a service which has the number 12h, so to call this service in assembly code we use the instruction "int" which is short for interrupt.
 
-```{.assembly}
+```{.asm}
 int 12h
 ```
 
