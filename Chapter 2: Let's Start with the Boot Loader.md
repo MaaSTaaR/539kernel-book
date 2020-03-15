@@ -322,6 +322,10 @@ times 100 db 0
 
 ### NASM's Special Expressions `$` and `$$`
 
+In programming languages, an *expression* is a part in the code that evaluates a value, for example, `x + 1` is an expression, also, `x == 5` is an expression. On the other hands, a *statement* is a part of the code that performs some actions, for example, in C, `x = 15 * y;` is a statement that assigns the values of an expression to the variable `x`.
+
+NASM has two special expressions, the first one is `$` which points to the beginning of the *assembly position* of the current source line. So, one ways of implementing infinite loop is the following: `jmp $`. The second special expression is `$$` which points to the beginning of the current *section*.
+
 <!--
 ## The Bootloader
 
