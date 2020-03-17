@@ -326,8 +326,79 @@ In programming languages, an *expression* is a part in the code that evaluates a
 
 NASM has two special expressions, the first one is `$` which points to the beginning of the *assembly position* of the current source line. So, one ways of implementing infinite loop is the following: `jmp $`. The second special expression is `$$` which points to the beginning of the current *section*.
 
-<!--
 ## The Bootloader
+
+As you have learned previously, the size of the bootloader should be `512` bytes, the firmware loads the bootloader in the memory address `07C0h`, also, the firmware can only recognize the data in the first sector as a bootloader when the data finishes with the magic code `AA55h`. When 539kernel's bootloader starts, it shows two messages for the user, the first one is "The Bootloader of 539kernel." and the second one "The kernel is loading...", after that, it is going to read the disk to find 539kernel and loads it to memory, after loading 539kernel to memory, the bootloader gives the control to the kernel by jumping to the start code of the kernel. Till this point, 539kernel doesn't exist, we haven't write it yet, instead of loading 539kernel, the bootloader is going to load a code that prints "Hello World!, From Simple Assembly 539kernel!". In this section, we are going to write two assembly files, the bootloader `bootstrap.asm` and `simple_kernel.asm` which is the temporary replacement of 539kernel, also, `Makefile` which complies the source code will be presented in this section.
+
+### Implementing the Bootloader in `bootstrap.asm`
+
+Till now, you have learned enough to understand the most of the bootloader that we are going to implement, however, some details have not been explained in this chapter and have been delayed to be explained later. The first couple lines of the bootloader is an example of not explained concepts, our bootloader source code starts with the following.
+
+```{.asm}
+start:
+	mov ax, 07C0h
+	mov ds, ax
+```
+
+First, we define a label named `start`, there is no practical reason to define this label ^[Such as jump to it for example.], the only reason of defining it is the readability of the code, when someone else tries to read the code, it should be obvious for her that `start` is the starting point of executing the bootloader.
+
+The function of next two lines is obvious, we are moving the hexdecimal number `07C0` to the register `ax` to be able to move it to the register `ds`, note that we can't store the value `07C0` directly in `ds` by using `mov` as the following: `mov ds, 07C0h`, due to that, we have put the value on `ax` and then moved it to `ds`, so, our goal was to set the value `07C0` in the register `ds`. Now, you may ask why we want the value `07C0` in the register `ds`, this is story for another chapter, just take these two lines on faith, and you will know later the purpose of them. Let's continue.
+
+```{.asm}
+	mov si, title_string
+	call message_string
+	
+	mov si, message_string
+	call print_string
+```
+
+This block of code prints the two messages, both of them are represented by separate label `title_string` and `message_string`, you can see that we are calling the code of the label (or the function) `print_string`, its name indicates that it prints a *string* of character, and you can infer that the function `print_string` receives the address of the string that we would like to print as a parameter in the register `si`, the implementation of `print_string` will be examined in a minute. 
+
+```{.asm}
+	mov ax, 1000h
+	mov es, ax
+```
+These couple of lines, also, should be taken on faith. You can see, we are setting the value `1000h` on the register `es`. Now, we move to the most important part of any bootloader.
+
+```{.asm}
+	mov ah, 02h
+	mov al, 01h
+	mov ch, 0h
+	mov cl, 02h
+	mov dh, 0h
+	mov dl, 80h
+	mov bx, 0h
+	int 13h
+	
+	jc kernel_load_error
+
+    jmp 1000h:0000
+```
+
+This block of code performs two things, first, it *loads* the kernel from the disk into the memory, then it gives the control to the kernel by jumping to its starting point. To load the kernel from the disk, we are using the BIOS Service `13h` which provides services that perform operations of the disks such as reading and writing. The service number which is `02h` is specified on the register `ah`, this service read sectors from disks and loads them into the memory, the following registers should be set when we use the service `02h` in `13h`: 
+
+The value of register `al` is the number of sectors that we would like to read, in our case, we read only `1` sector, the size of our temporary kernel `simple_kernel.asm` doesn't exceed `512` bytes. Please keep in mind that we are going to store our kernel right after the bootloader in the disk, knowing that, you can make sense of the registers' values `ch`, `cl` and `dh` that we will explain next. The value of register `ch` is the track number we would like to read from, in our case, it is the track `0`. The values of the register `cl` is the sector number that we would like to read its content, in our case, it is the second sector. The value of the register `dh` is the number of head. The values of of `dl` specifies which disk we would like to read from, the value `0h` in this register means that we would like to read the sector from a floppy disk, while the value `80h` means we would like to read from the hard disk #0 and `81h` for hard disk #1, in our case, the kernel is stored in the hard disk #0, se, the value of `dl` should be `80h`. Finally, the value of the register `bx` is the memory address that the content will be loaded to, in our case, we are reading one sector, and its content will be stored on the memory address `0h` ^[Not exactly the memory address 0h. We will see why in the next chapter.].
+
+When the content is loaded successfully, the BIOS Service `13h:02h` is going to set the carry flag to `0`, otherwise, it sets the carry flag to `1` and stores the error code in register `ax`, the instruction `jc` is a conditional jump instruction that jumps when `CF = 1`, that is, when the value of the carry flag is `1`. That means our bootloader is going to jump to the label `kernel_load_error` when the kernel isn't loaded correctly. 
+
+If the kernel is loaded correctly, the last instruction `jmp 1000h:0000` will be executed instead. This time, the operand of `jmp` is an *explicit* memory address `1000h:0000`, it has two parts, the first part is the one before the colon, it will be explained later, you can see that it is the same value that we have loaded in the register `es` previously. The second part of the memory address is the one after the colon, it is `0h` ^[Here, `0h` is equivalent to `0000`.] which is the memory address that we loaded our kernel to by setting the value of `bx` to `0h` before calling `13h:02h`.
+
+Now we have finished the basic code of the bootloader, we can start defining that labels that we have used before in its code. We start with the label `kernel_load_error` which simply prints an error message that is stored on another label, as we have done previously, the label `kernel_load_error` prints the error message by using the function `print_string`, after printing the message, nothing can be done, so, `kernel_load_error` enters an infinite loop.
+
+```{.asm}
+kernel_load_error:
+	mov si, load_error_string
+	call print_string
+	
+	jmp $
+```
+
+In our previous samples of using the BIOS Service `10h:0Eh` were printing only one character, in real world, we need to print a *string* of characters and that's what the function `print_string` exactly does, it takes the memory address which is stored in the register `si` and prints the character which is stored in it, then it goes to the next memory address and prints the character which is stored in it and so on, that is, `print_string` prints a string character by character by using loop. So, you may ask, how `print_string` can know when should it stop? There should be a stop condition in any loop, otherwise, it is an infinite loop.
+
+--> Marker in the last of the string, nul character in C
+
+<!--
+
 
 ## Step 0: Creating Makefile
 
