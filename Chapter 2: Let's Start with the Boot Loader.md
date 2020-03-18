@@ -266,7 +266,7 @@ while ( bx != 0 )
 
 It is well-known that `1` byte equals `8` bits. Moreover, there are two other size units in x86, a *word* which is `16` bits, that is, `2` bytes, and *doubleword* which is `32` bits, that is, `4` bytes. Some x86 instructions have multiple variants to deal with these different size units, while the functionality of an instruction is the same, the difference will be in the size of the data that a variant of instruction deals with. For example, the instruction `lods` has three variants `lodsb` which works a **b**yte, `lodsw` which works with a **w**ord and `loadsd` which works with a **d**oubleword.
 
-To simplify the explanation let's consider `lodsb` which works with a single byte, its functionality is too simple, it is going to read the value of the register `si`, it deals with it as a memory address and loads a byte from this content of memory address to the register `al`. The same holds for the other variants of `lods`, only the size of the data and the used registers are different, the register which is used in `lodsw` is `ax` ^[Because the size of `ax` is a **word**], while `lodsd` uses the register `eax` ^[Because the size of `eax` is a **doubleword**.]. ^[As fun exercise, try to figure out why are we explaining the instruction `lodsb` in this chapter, what is the relation between this instruction and the bootloader that we are going to write? Hint: Review the code of `print_character_S_with_BIOS` and how to print a character by using BIOS services. If you can't figure the answer out don't worry, you will get it soon.]
+To simplify the explanation let's consider `lodsb` which works with a single byte, its functionality is too simple, it reads the value of the register `si`, it deals with it as a memory address and transfers a byte from the content of memory address to the register `al`, finally, it increments the value of `si` by `1` byte. The same holds for the other variants of `lods`, only the size of the data, the used registers and the increment size are different, the register which is used in `lodsw` is `ax` ^[Because the size of `ax` is a **word**] and `si` is incremented by `2` bytes, while `lodsd` uses the register `eax` ^[Because the size of `eax` is a **doubleword**.] and `si` is incremented by `4` bytes. ^[As fun exercise, try to figure out why are we explaining the instruction `lodsb` in this chapter, what is the relation between this instruction and the bootloader that we are going to write? Hint: Review the code of `print_character_S_with_BIOS` and how to print a character by using BIOS services. If you can't figure the answer out don't worry, you will get it soon.]
 
 ### NASM's Pseudoinstructions
 
@@ -393,35 +393,104 @@ kernel_load_error:
 	jmp $
 ```
 
-In our previous samples of using the BIOS Service `10h:0Eh` were printing only one character, in real world, we need to print a *string* of characters and that's what the function `print_string` exactly does, it takes the memory address which is stored in the register `si` and prints the character which is stored in it, then it goes to the next memory address and prints the character which is stored in it and so on, that is, `print_string` prints a string character by character by using loop. So, you may ask, how `print_string` can know when should it stop? There should be a stop condition in any loop, otherwise, it is an infinite loop.
+In our previous samples of using the BIOS Service `0Eh:10h` were printing only one character, in real world, we need to print a *string* of characters and that's what the function `print_string` exactly does, it takes the memory address which is stored in the register `si` and prints the character which is stored in it, then it goes to the next memory address and prints the character which is stored in it and so on, that is, `print_string` prints a string character by character by using loop. So, you may ask, how `print_string` can know when should it stop? There should be a stop condition in any loop, otherwise, it is an infinite loop.
 
---> Marker in the last of the string, nul character in C
-
-<!--
-
-
-## Step 0: Creating Makefile
-
-## Step 1: A bootloader that Prints "539kernel"
-Let's start our journey and write a bootloader that prints the string "539kernel". 
-
-We can call a BIOS service by using interrupts [^interrupts] and each service has its own unique number which receives unique parameters to perform some task. For example, BIOS has a service which has the number 12h, so to call this service in assembly code we use the instruction "int" which is short for interrupt.
+A string in C programming language, as in our situation, is an *array of characters*, and the same problem of "where does a string end" is encountered in C programming language, to solve the problem, each string in C programming language ends with a special character named *null character* and represented by the symbol `\0` in C ^[This type of strings named *null-terminated strings*.], so, you can handle any string in C character by character and once you encounter the null character `\0` that means you have reached the end of the string. We are going to use the same mechanism in our bootloader to recognize the end of a string by putting the value `0` as a marker in the end of the string. By using this way, we can now use the service `0Eh:10h` to print any string character by character through a loop and once we encounter the value `0` we can stop the printing.
 
 ```{.asm}
-int 12h
+print_string:
+	mov ah, 0Eh
+
+print_char:
+	lodsb
+	
+	cmp al, 0
+	je printing_finished
+	
+	int 10h
+	
+	jmp print_char
+
+printing_finished:
+    mov al, 10d ; Print new line
+    int 10h
+
+	ret
 ```
 
-For now, you can consider the previous line as a call for a function named 12h which is provided by BIOS and performs some specific task. Well, to do our task of creating the bootloader that prints the string "539kernel" we are going to use the interrupt 10h, BIOS provides videos services through this interrupt. When we use interrupt 10h, we need to tell BIOS which video service we want to use, to do so, we need to set the value of the register *ah* to the service's number which we would like to use. The video service number *0Eh* prints one character on the screen. If we imagine interrupt 10h as a C function, it will have the following signature:
+When `print_string` starts, the BIOS services number `0Eh` is loaded in `ah`, this operation need to take a place just one time for each call for `print_string`, so it is not a part of the next label `print_char` which is a part of `print_string` and it will be executed after moving `0Eh` to `ah`.
 
-```{.c}
-void interrupt_10( int ah /* Service Number */ )
+As you can remember, that parameter of `print_string` is the memory address which contains the string that we would like to print, this parameter is passed to `print_string` via the register `si`, so, the first thing `print_char` does is using the instruction `lodsb` which is going to transfer the first character of the string to the register `al` and increase the value of `si` by `1` byte, after that, we check the character that has been transferred from the memory, if it is `0`, that means we have reached to the end of the string and the code jumps to the label `printing_finished`, otherwise, the interrupt `10h` of BIOS is called to print the content of the register `al` on the screen, then we jump to `print_char` again to repeat this operation until we read the end of the string. When printing a string finishes, the label `printing_finished` starts by printing a new line after the string, the new line is represented by the number `10` in ASCII then it returns to the caller by using the instruction `ret`.
+
+```{.asm}
+title_string        db  'The Bootloader of 539kernel.', 0
+message_string      db  'The kernel is loading...', 0
+load_error_string   db  'The kernel cannot be loaded', 0
 ```
 
-So, you got the idea, when we want to pass a parameter to a BIOS service we need to use the registers. Each service specifies some specific registers to mean something special. As we have seen, interrupt 10h considers the register *ah* as the value holder of the required video service. In the same way, the printing service *0Eh* considers the register *al* as the holder of the character that we wish to print. One again, if we were in C world, it will be in this way:
+The code above defines the strings that have been used previously in the source code, note the last part of each string which is the null character that indicates the end of a string ^[Exercise: What will be the behavior of the bootloader if we remove the null character from `title_string` and `message_string` and keeps it in `load_error_string`?]. 
 
-```{.c}
-void interrupt_10( int ah /* Service Number */, int al /* If the parameter ah == 0Eh, then this parameter should hold the character that we want to print */ )
+Now, we have written our bootloader and the last thing to do is to put the *magic code* in the end of it, the magic code which is a `2` bytes value should be the last two bytes in the first sector, that is, in the locations `510` and `511` ^[The location number starts from `0`.], otherwise, the firmware will not recognize the content of the sector as a bootloader. To ensure that the magic code is written on the correct location, we are going to fill the empty space between the last part of bootloader code and the magic code by zeros, this can be achieved by this line.
+
+```{.asm}
+times 510-($-$$) db 0
 ```
 
-Now, we are ready to write our first bootloader. 
--->
+So, the instruction `db` will be called `510-($-$$)` times, this expression gives us the remaining empty space in our bootloader before the magic code, and because the magic code is a `2` bytes value we subtract `($-$$)` from `510` instead of `512`, we will use these two bytes for the magic code, the expression `($-$$)` uses the special expressions of NASM `$` and `$$` and it gives the size of the bootloader code until this line. Finally, the magic code is presented.
+
+```{.asm}
+dw 0xAA55
+```
+
+### Implementing `simple_kernel.asm` and Makefile
+
+The `simple_kernel.asm` which the bootloader loads is too simple, it prints the message "Hello World!, From Simple Assembly 539kernel!", we don't need to go through its code in details since you know most of it.
+
+```{.asm}
+start:
+	mov ax, cs
+	mov ds, ax
+
+	; --- ;
+	
+	mov si, hello_string
+	call print_string
+	
+	jmp $
+
+print_string:
+	mov ah, 0Eh
+
+print_char:
+	lodsb
+	
+	cmp al, 0
+	je done
+	
+	int 10h
+	
+	jmp print_char
+
+done:
+	ret
+	
+hello_string db 'Hello World!, From Simple Assembly 539kernel!', 0
+```
+
+The only lines that you are not familiar with until now are the first two lines in the label `start` which will be explained in details in the next chapter. Finally the `Makefile` is the following.
+
+```{.makefile}
+ASM = nasm
+BOOTSTRAP_FILE = bootstrap.asm 
+KERNEL_FILE = simple_kernel.asm
+
+build: $(BOOTSTRAP_FILE) $(KERNEL_FILE)
+	$(ASM) -f bin $(BOOTSTRAP_FILE) -o bootstrap.o
+	$(ASM) -f bin $(KERNEL_FILE) -o kernel.o
+	dd if=bootstrap.o of=kernel.img
+	dd seek=1 conv=sync if=kernel.o of=kernel.img bs=512
+	qemu-system-x86_64 -s kernel.img
+
+clean:
+	rm -f *.o
+```
