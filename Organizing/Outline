@@ -1,0 +1,16 @@
+Part I: The Basics
+
+Chapter 1: First Things First: The Basics
+Chapter 2: Let's Start with the Bootloader
+Chapter 3: x86 Operating Modes, Segmentation and Interrupts
+Chapter 4: Switching 539kernel to Protected Mode
+
+Part II: Process Management
+
+Chapter 5: Process Management in Theory
+Chapter 6: Process Management in x86
+Chapter 7: Process Management in 539kernel
+
+Part III: Memory Management
+
+Part IV: Filesystems (or Storage Management?) 
