@@ -70,10 +70,39 @@ Once this instruction is executed, the value of `CS` will be changed from the va
 
 ### Segmentation in Protected Mode
 
+The fundamentals of segmentation in protected mode is exactly same as the ones explained in real mode, but it has been extended in protected mode to provide more features such as *memory protection*. In protected mode, a table named *global descriptor table* (GDT) is presented, this table is stored in the main memory and the starting memory address of it is stored in the special purpose register `GDTR`, each entry in this table called a *segment descriptor* which has the size `8 bytes` and they can be referred to by an index number called *segment selector* which is the offset of the entry from the starting memory address of GDT, that is, the content of the register `GDTR`, the first entry of GDT, which is entry #0, should not be used. An entry of GDT, that is, a segment descriptor, defines a segment and has the information that is required by the processor to deal with a segment, the starting memory address of the segment is stored in its descriptor ^[In real mode, the starting address of the segment is stored directly on the corresponding segment register (eg, `CS` for code segment).], also, the size (or limit) of the segment. The segment selector of the currently active segment should be stored in the corresponding segment register.
+
+To clarify the matter, consider the following example. Let's assume we are running two programs currently and the code of each one of them is stored in the main memory and we would like to use each one of them as a separated code segment. Let's call them `A` which its starting memory address is `800` and `B` which is starting address is `900` and assume that the starting memory address of GDT is `500` and is already loaded in `GDTR`, to be able to use `A` and `B` as segments we should define a segment descriptor for each one of them. We already know that the size of a segment descriptor is `8 bytes`, so, if we define a segment descriptor for the segment `A` as entry #1 ^[Remember that the entries on GDT starts from zero.] then its offset in GDT will be `8`, the segment descriptor of `A` should have the starting address of `A` which is `800`, and we will define the segment descriptor of `B` as entry #2 which has the offset `16` since the previous entry took `8 bytes` from the memory, since the offset of `A`'s entry is `8` then its segment selector is also `8`, the same applies for `B`'s entry ^[And all other entries of course.] which its segment selector is `16`. Let's assume now that we want the processor to execute the code of segment `A`, we already know that the processor consults the register `CS` to know which code segment is currently active and should be executed next, for that, the **segment selector** of code segment `A` should be loaded in `CS`, so the processor can start executing it. In real mode, the content of `CS` and all other segment registers was a memory address, on the other hand, the content of `CS` and all other segment registers is a segment selector. In our situation, the processor takes the segment selector of `A` from `CS` which is `8` and the from the starting memory address of `GDTR` walks `8` bytes, so, if `GDTR = 500`, the processor will find the segment descriptor of `A` in the memory address `508`. The starting address of `A` will be found in the segment descriptor and the processor can use it with the value of register `EIP` to execute `A`'s code. Let's assume a far jump is occurred from `A` to `B`, then the value of `CS` will be changed to the segment selector of `B` which is `16`.
+
+#### The Structure of Segment Descriptor
+
+A segment descriptor is an `8 bytes` entry of global descriptor table which describes a specific segment in the memory. To be able to explain the structure of a segment descriptor in a simple way, let's handle it a series of `1 byte` fields starting from the byte `0` and ending in the byte `7`.
+
+* Bytes `0` and `1`, that is, the first `16 bits` stores a **part** of segment segment's limit.
+* Bytes `2`, `3` and `4` a part of segment's *base address* ^[The base address of the segment is its starting memory address.] is stored. 
+* Byte `5` is divided into several components: 
+	* The first `4 bits` ^[As the `8 bits` known as a byte, the `4 bits` is known as a *nibble*. That is, a nibble is a half byte.] known as *type field*.
+	* The following bit is known as *descriptor type flag* (or *S flag*).
+	* The following `2 bits` is known as *descriptor privilege level field* (DPL).
+	* The last bit is known as *segment-present flag* (or *P flag*). 
+* Byte `6` is also divided into several components
+	* The first `4 bits` stores is the last part of segment limit.
+	* The following bit is known as *AVL* and has no functionality, it is available for the operating system to use it however it wants.
+	* The following bit is known as *L* and its value should always be `0` in 32-bit environment.
+	* The following bit is known as *default operation size flag*.
+	* The last bit is known as *granularity flag*.
+* Byte `7` stores the last part of segment base address.
+
+The segment limit and size are two different things, the limit can be used to infer the size of a segment, consider the following example to illustrate the matter.
+
+
 <!--
-The fundamentals of segmentation in protected mode is exactly same as the ones explained in real mode, but it has been extended in protected mode to provide more features such as *memory protection*. [The main difference is the meaning of a segment register's value]
+#### The Special Register `GDTR`
+#### Local Descriptor Table
+-->
 
 
+<!--
 ## x86 Interrupts
 -->
 

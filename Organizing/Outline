@@ -3,7 +3,10 @@ Part I: The Basics
 Chapter 1: First Things First: The Basics
 Chapter 2: Let's Start with the Bootloader
 Chapter 3: x86 Operating Modes, Segmentation and Interrupts
-Chapter 4: Switching 539kernel to Protected Mode
+Chapter 4: The Progenitor of 539kernel
+    * Switching 539kernel to Protected Mode
+    * print function
+    * Maybe loading the other parts? since a segment in real-mode is 64KB?
 
 Part II: Process Management
 
