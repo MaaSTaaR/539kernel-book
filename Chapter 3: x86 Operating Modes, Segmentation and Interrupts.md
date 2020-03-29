@@ -17,13 +17,50 @@ Some core features of modern operating systems nowadays are multitaksing, memory
 
 As we have said, protected mode is a 32-bit operating mode, that is, registers with the size of 32-bit can be used, also, protected mode has the ability to deal with 4GB of main memory, and most importantly, it provides important features which we are going to explore through this book that helps us in implementing modern operating system kernel features.
 
+## The Basic View of Memory
+
+The basic view of the main memory is that it is an *array of cells*, the size of each cell is a byte, each cell is able to store some data (of 1 bytes of course) and is reachable by a unique number called *memory address* ^[The architecture which each memory address points to `1 byte` is known as *byte-addressable architecture* or *byte machines*. It is the most common architecture, of course, other architectures are possible, such as *word-addressable architecture* or *word machines*.], the range of memory addresses starts from `0` until some limit, for example, if the system has `1MB` of *physical* main memory, then the last memory address in the range is `1023` ^[As we know, `1MB` = `1024 bytes` and since the range starts from `0` and not `1`, then the last memory address in this case is `1023` and not `1024`.]. This range of memory addresses is known as *address space* and it can be *physical address space* which is limited by the physical main memory or *logical address space*. A well-known example of using logical address space that we will be discuss in later chapters is *virtual memory* which provides a logical address space of size `4GB` in 32-bit architecture even if the actual size of physical main memory is less than `4GB`. However, The address space starts from the memory address `0`, which is the index of the first cell (byte) of the memory, and it increases by `1`, so the memory address `1` is the index of the second cell of the memory, `2` is the index of third cell of memory and so on.
+
+When we say *physical* we mean the actual hardware, that is when the hardware of the main memory (RAM) size is `1MB` then the physical address space of the machine is up to `1MB`. On the other hand, when we say *logical* that means it doesn't necessarily represents or obeys the way the actual hardware works, instead it is a hypothetical way of something that doesn't exist in the real world (the hardware). To make the *logical* view of anything works, it should be mapped into the real *physical* view, that is, it should be somehow translated for the physical hardware, this mapping is handled by the software or sometimes special parts of the hardware.
+
+Now, for the following discussion, let me remind you the the memory address is just a numerical value, it is just a number. When I discuss the memory address as a mere number I call it *memory address value* or *the value of memory address*, while the term *memory address* keeps that same meaning, which is a number that refers to a specific location (cell) in the main memory.
+
+The values of memory addresses are used by the processor all the time to perform its job, and when it is executing some instructions that involve the main memory (e.g. reading a content from some memory location), the related values of memory addresses are stored temporarily on the registers of the processor, due to that, the length of a memory address value is bounded to the size of the processor's registers, so, in `32-bit` environments, where the size of the registers is usually `32-bit`, the length of the memory address value is **always** `32 bits`, Why am I stressing "always" here? because even if less than `32 bits` it is enough to represent the memory address value, it will be represented in `32 bits` though, for example, assume the memory address value `1`, in binary, the value `1` can be represented by only `1 bit` and no more, by in reality, when it is stored (and handled) by the `32-bit` processor, it will be stored as the following sequence of bits 
+
+```{.c}
+00000000 00000000 00000000 00000001
+```
+
+As you can see, the value `1` has been represented in exactly `32 bits`, appending zeros to the left doesn't change the value itself, it is similar to writing the name `0000539` which is exactly `539`. The processor works with all values, beside the memory addresses values, as a sequence of *binary number*. It is natural for us as human beings to deal with numbers as *decimal numbers*. 
+
+A number by itself is an abstract concept, it is something in our mind, but to communicate with each others, we represent the numbers by using symbols which is named *numerals*. For example, the conceptual number one can be represented by different *numeral system*. In Arabic numeral system the number one is expressed as `1`, while Roman numeral system it is expressed as `I`. A numeral system is *writing system*, that is, it gives us rules to write a number down as a symbol, it focuses on the way of writing the numbers. On the other hand, the numbers can be dealt with by a *numbering system*, we use the *decimal numbering system* to deal with numbers, think about them and perform arithmetic operations upon them, the processor use the *binary numbering system* to do the same with numbers. There are numbering systems other that the decimal and binary numbering system, and any number can be represented by any numbering system.
+
+A number system is defined by its *base* which is also called *radix*, this base defines the list of available *digits* in the numbering system starting from `0` to `base - 1`, and the total of available digits equals the base. Consider the decimal numbering system, its base is `10` which means the available digits are: `0, 1, 2, 3, 4, 5, 6, 7, 8, 9`, a total of `10` digits. These digits can be used to create larger numbers, for example, `539` which consists of the digits `5`, `3` and `9`.
+
+On the other hand, the base of binary numbering system is `2`, therefore, the available digits are only `0` and `1`, and as in the decimal numbering system they can be used to compose larger numbers, for example, the number `two` in binary numbering system is `10` ^[And from here came the well-known joke: "There are 10 types of people in this world, those who understand binary and those who don't".], be careful, this numeral does not represent the number `ten`, it represents the number `two` but in binary numbering system. When we discuss numbers in different numbering systems, we put the initial letter of the numbering system name in the last of the number, for example, `10d` and `10b` are two different numbers, the first one is `ten` in **d**ecimal which the second one is `two` in **b**inary.
+
+Furthermore, basic arithmetic operations such as addition and subtraction can be performed on the numbering system, for example, in binary `1 + 1 = 10` and it can be performed systematically, also, a representation of any number in any numbering system can be converted to any other numbering system systematically ^[I think It's too brave to state this claim, however, it holds at least for the well-known numbering system.], while this is not a good place to show how to perform the operations and conversions for different numbering system, I have dedicated Appendix A for this sake.
+
+By now it should be obvious for you that changing the base (radix) gives us a new numbering system and the base can be any number ^[Which implies that the total of numbering systems is infinite!], one of useful and well-known numbering system is *hexadecimal* which its base is `16` and its digits are `0, 1, 2, 3, 4, 5, 6, 7, 8, 9, A, B, C, D, E, F` where `A` means `ten`, `B` means `eleven` and so on. So, why hexadecimal is useful in our situation? We know binary is used in the processor and it is easier for us to discuss some entities such as the memory addresses in binary instead of decimal due to that, but have you seen the previous example of memory address value in binary?
+
+```{.c}
+00000000 00000000 00000000 00000001b
+```
+
+It is too long and it will be tedious to work with, and for that the hexadecimal numbering system come be useful. Each digit in hexadecimal represents **four** bits, that is, the number `0h` in **h**exadecimal equals `0000b` in binary. As the `8 bits` known as a byte, the `4 bits` is known as a *nibble*, that is, a nibble is a half byte. And, as we have said, but in other words, one digit of hexadecimal represents a nibble. So, we can use hexadecimal to represent the same memory address value in more elegant way.
+
+```{.c}
+00 00 00 01h
+```
+
+<!--
+Now if I tell you, you have 5 blanks, what is the largest decimal number that you can represent in these 5 blanks? the answer is 99999
+-->
+
+
 ## x86 Segmentation
 
-The basic view of the main memory is that it is an *array of cells*, the size of each cell is a byte, each cell is able to store some data (of 1 bytes of course) and is reachable by a unique number called *memory address* ^[The architecture which each memory address points to `1 byte` is known as *byte-addressable architecture* or *byte machines*. It is the most common architecture, of course, other architectures are possible, such as *word-addressable architecture* or *word machines*.], the range of memory addresses starts from `0` until some limit, for example, if the system has `1MB` of *physical* main memory, then the last memory address in the range is `1023` ^[As we know, `1MB` = `1024 bytes` and since the range starts from `0` and not `1`, then the last memory address in this case is `1023` and not `1024`.]. This range of memory addresses is known as *address space* and it can be *physical address space* which is limited by the physical main memory or *logical address space*. An well-known example of using logical address space that we will be discuss in later chapters is *virtual memory* which provides a logical address space of size `4GB` even if the actual size of physical main memory is less than `4GB`.
-
-When we say *physical* we mean the actual hardware, that is when the hardware of the main memory (RAM) size is `1MB` then the physical address space of the machine is up to `1MB`. On the other hand, when we say *logical* that means it doesn't necessarily represents or obeys the way the actual hardware works, instead it is a hypothetical way of something that doesn't exist in the real world (the hardware). To make the *logical* view of anything works, it should be mapped to the real *physical* view, that is, it should be somehow translated for the physical hardware, this mapping is handled by the software or sometimes special parts of the hardware.
-
-This aforementioned view of memory, that is the *addressable array of bytes* can be considered as the physical view of the main memory which specifies the mechanism of accessing the data. Based on this physical view a logical view can be created and one example of logical views is *x86 segmentation*. In x86 segmentation the main memory is viewed as separated parts called *segments* and each segment stores a bunch of related data. To access data inside a segment, each byte can be referred to by its *offset*. The running program can be separated into three possible types of segments in x86. The types of x86 segments are: *code segment* which stores the code of the program under execution, *data segments* which store the data of the program and the *stack segment* which stores the data of program's stack. **[Figure shows the difference between segmentation view and the physical view .....]**
+The aforementioned view of memory, that is the *addressable array of bytes* can be considered as the *physical* view of the main memory which specifies the mechanism of accessing the data. Based on this physical view a *logical* view can be created and one example of logical views is *x86 segmentation*. In x86 segmentation the main memory is viewed as separated parts called *segments* and each segment stores a bunch of related data. To access data inside a segment, each byte can be referred to by its *offset*. The running program can be separated into three possible types of segments in x86. The types of x86 segments are: *code segment* which stores the code of the program under execution, *data segments* which store the data of the program and the *stack segment* which stores the data of program's stack. **[Figure shows the difference between segmentation view and the physical view .....]**
 
 ### Segmentation in Real Mode
 
@@ -81,7 +118,7 @@ A segment descriptor is an `8 bytes` entry of global descriptor table which desc
 * Bytes `0` and `1`, that is, the first `16 bits` stores a **part** of segment segment's limit.
 * Bytes `2`, `3` and `4` a part of segment's *base address* ^[The base address of the segment is its starting memory address.] is stored. 
 * Byte `5` is divided into several components: 
-	* The first `4 bits` ^[As the `8 bits` known as a byte, the `4 bits` is known as a *nibble*. That is, a nibble is a half byte.] known as *type field*.
+	* The first `4 bits` known as *type field*.
 	* The following bit is known as *descriptor type flag* (or *S flag*).
 	* The following `2 bits` is known as *descriptor privilege level field* (DPL).
 	* The last bit is known as *segment-present flag* (or *P flag*). 
@@ -93,10 +130,15 @@ A segment descriptor is an `8 bytes` entry of global descriptor table which desc
 	* The last bit is known as *granularity flag*.
 * Byte `7` stores the last part of segment base address.
 
-The segment limit and size are two different things, the limit can be used to infer the size of a segment, consider the following example to illustrate the matter.
+<!--
+	[MQH] 28 March 2020. I think the following is a mistake. The limit is the size and not the memory address of the last byte in the segment. DOUBLE CHECK PLEASE ==> No, I think what is mentioned previously is a mistake, refer to 3A, page 158: "For all types of segments except expand-down data segments, the effective limit is the last address that is allowed
+	to be accessed in the segment, which is one less than the size, in bytes, of the segment."
 
+The segment limit and size are two different things, the limit can be used to infer the size of a segment, consider the following example to illustrate the matter.
+-->
 
 <!--
+#### Segment Protection
 #### The Special Register `GDTR`
 #### Local Descriptor Table
 -->
