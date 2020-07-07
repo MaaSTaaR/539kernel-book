@@ -15,7 +15,7 @@ In any CPU architecture, and x86 is not an exception, a register is a small memo
 
 The CPU's architecture provides us with a number of registers, and in x86 there are two types of registers: general purpose registers and special purpose registers. In general purpose registers we can store any kind of data we want, while the special purpose registers are provided by the architecture for some specific purposes, we will see the second type latter in our journey of creating 539kernel.
 
-x86 provides us with eight general purpose registers and we refer to them by their names in assembly code. The names of these registers are: EAX, EBX, ECX, EDX, ESI, EDI, EBP, and ESP. The size of these registers is 32-bit (4 bytes) and due to that, they are available only on 32-bit x86 CPUs [^6] such as Pentium 4 for instance, that is, you can't use the register EAX (for example) in Intel 8086 because it is a 16-bit CPU and not 32-bit.
+x86 provides us with eight general purpose registers and we refer to them by their names in assembly code. The names of these registers are: `EAX`, `EBX`, `ECX`, `EDX`, `ESI`, `EDI`, `EBP`, and `ESP`. The size of these registers is 32-bit (4 bytes) and due to that, they are available only on 32-bit x86 CPUs [^6] such as Pentium 4 for instance, that is, you can't use the register EAX (for example) in Intel 8086 because it is a 16-bit CPU and not 32-bit.
 
 The registers ESI, EDI, EBP and ESP are considered as general purpose in x86 architecture, but we will see latter that they store some important data in some cases and it's better to use them carefully if we are forced to.
 
