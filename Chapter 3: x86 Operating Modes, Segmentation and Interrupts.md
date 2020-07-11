@@ -120,24 +120,45 @@ To clarify the matter, consider the following example. Let's assume we are runni
 
 #### The Structure of Segment Descriptor
 
-A segment descriptor is an `8 bytes` entry of global descriptor table which describes a specific segment in the memory. To be able to explain the structure of a segment descriptor in a simple way, let's handle it as a series of `1 byte` fields starting from the byte `0` and ending in the byte `7`.
+A segment descriptor is an `8 bytes` entry of global descriptor table which stores multiple *fields* and *flags* that describe a specific segment in the memory and its properties. With each memory reference by the running code to a segment, the processor is going to consult the descriptor that describes the segment in question to obtain basic information like starting memory address of this segment, also, segmentation in x86 is considered as a way for *memory protection*, a descriptor stores the properties of memory protection. By using those stored properties the processor will be able to protect the different segments on the system from each other and not letting some less privileged to call a code or manipulate data which belong to more privileged area of the system, a concrete example of that is when a userspace software (e.g. Web Browser) tries to modify an internal data structure in the kernel . In the following, the explanation of each field and flag of segment descriptor, but before getting started we need to note that here and in Intel's official x86 manual the term *field* is used when the information the field represents occupies **more than** `1 byte` from the descriptor, for example the segment's starting memory address is stored in `4 bytes`, then the place where this address is stored in the descriptor is called a field, otherwise the term *flag* is used, which means that the information which is stored in the flag occupies only `1 byte`.
 
+##### Segment's Starting Point and Limit
+The most important information about a segment is its starting memory address, which is called the *base address* of a segment. In real mode, the base address was stored in the corresponding segment register directly, but in protected mode, where we have more information about a segment than mere base address, then this information will be stored in the descriptor of the segment ^[Reminder: In protected mode, the corresponding segment register stores the selector of the currently active segment.].
+
+When a segment is referenced by some instruction to read from it, write to it (in the case of data segments) or call it (in the case of code segments) the processor 
+<!-- [MQH] 11 July 2020. HERE NOW. Describe how the processor use the referenced memory address to go to GDT and obtain the appropriate descriptor to get the base address and check that the requested offset doesn't exceed the limit -->
+
+<!--
 * Bytes `0` and `1`, that is, the first `16 bits` stores a **part** of segment segment's limit.
-* Bytes `2`, `3` and `4` a part of segment's *base address* ^[The base address of the segment is its starting memory address.] is stored. 
+* Bytes `2`, `3` and `4` a part of segment's *base address* ^[The base address of the segment is its starting memory address.] is stored.
+* Byte `7` stores the last part of segment base address.
+ -->
+ 
+##### Segment's Access Rights
+
+<!--
 * Byte `5` is divided into several components: 
 	* The first `4 bits` known as *type field*.
 	* The following bit is known as *descriptor type flag* (or *S flag*).
 	* The following `2 bits` is known as *descriptor privilege level field* (DPL).
 	* The last bit is known as *segment-present flag* (or *P flag*).
+-->
+
+##### Granularity Flag 
+
+##### Other Fields
+<!--
 * Byte `6` is also divided into several components
 	* The first `4 bits` stores is the last part of segment limit.
 	* The following bit is known as *AVL* and has no functionality, it is available for the operating system to use it however it wants.
 	* The following bit is known as *L* and its value should always be `0` in 32-bit environment.
 	* The following bit is known as *default operation size flag*.
 	* The last bit is known as *granularity flag*.
-* Byte `7` stores the last part of segment base address.
+-->
 
+<!--
 Basically, a segment descriptor contains the starting point of a segment and its properties which are used by the processor to decide how to protect the content of this segment, with each memory access in the currently running program a segment descriptor is used by the processor to decide if this access is valid or not.
+-->
 
 <!--
 	[MQH] 28 March 2020. I think the following is a mistake. The limit is the size and not the memory address of the last byte in the segment. DOUBLE CHECK PLEASE ==> No, I think what is mentioned previously is a mistake, refer to 3A, page 158: "For all types of segments except expand-down data segments, the effective limit is the last address that is allowed
