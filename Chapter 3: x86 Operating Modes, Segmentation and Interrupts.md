@@ -52,7 +52,9 @@ It is too long and it will be tedious to work with, and for that the hexadecimal
 00 00 00 01h
 ```
 
-**[TABLE OF NUMBER REPRESENTATIONS IN THE DIFFERENT NUMBERING SYSTEMS]**
+<!-- 
+TODO: [TABLE OF NUMBER REPRESENTATIONS IN THE DIFFERENT NUMBERING SYSTEMS]** 
+-->
 
 From our previous discussions you may glanced that the register size that stores the values of memory address in the processor in order to deal with memory contents affects the available size of main memory for the system. Take for example the instruction pointer register, if its size say `16 bits` then the maximum available memory will be `64KB` ^[64 KB = 65536 Bytes / 1024], and if its size is `32 bits`, then the maximum available memory will be `4GB`. Why is that? To answer this example let's work with decimal numbers first. If I tell you that you have five blanks, what is the largest decimal number you can represent in these five blanks? the answer is `99999d`. In the same manner, if you have 5 blanks, what is the largest binary number you can represent in these 5 blanks? it is `11111b` which is equivalent to `31d`, the same holds for the registers that store the value of memory addresses, given the size of such register is `16 bits`, then there is 16 blanks, and the largest binary number that can be represented in those 16 blanks is `11111111 11111111b` or in hexadecimal `FF FFh`, which is equivalent to `65535d`, that means the last bytes a register of size `16 bits` can refer to is the byte number `65535d` because it is the largest value this register can store and no more, which leads to the maximum size of main memory this register can handle, it is `65535 bytes` which is equivalent to `64KB`.
 
@@ -61,7 +63,10 @@ From our previous discussions you may glanced that the register size that stores
 
 The aforementioned view of memory, that is the *addressable array of bytes* can be considered as the *physical* view of the main memory which specifies the mechanism of accessing the data. On top of this physical view a *logical* view can be created and one example of logical views is *x86 segmentation*. 
 
-In x86 segmentation the main memory is viewed as separated parts called *segments* and each segment stores a bunch of related data. To access data inside a segment, each byte can be referred to by its *offset*. The running program can be separated into three possible types of segments in x86. The types of x86 segments are: *code segment* which stores the code of the program under execution, *data segments* which store the data of the program and the *stack segment* which stores the data of program's stack. **[Figure shows the difference between segmentation view and the physical view .....]**
+In x86 segmentation the main memory is viewed as separated parts called *segments* and each segment stores a bunch of related data. To access data inside a segment, each byte can be referred to by its *offset*. The running program can be separated into three possible types of segments in x86. The types of x86 segments are: *code segment* which stores the code of the program under execution, *data segments* which store the data of the program and the *stack segment* which stores the data of program's stack.
+
+<!-- TODO[FIGURE]
+**[Figure shows the difference between segmentation view and the physical view .....]** -->
 
 ### Segmentation in Real Mode
 
@@ -145,8 +150,9 @@ Back to the structure of descriptor, the bytes `2`, `3` and `4` of the descripto
 
 <!-- [MQH] 11 July 2020. WE ARE HERE. Before starting the next subsection, we need some place to explain the terms "least significant bytes" and "most significant bytes" -->
 
+<!--
 ##### Segment's Access Rights
-
+-->
 <!--
 * Byte `5` is divided into several components: 
 	* The first `4 bits` known as *type field*.
@@ -155,9 +161,11 @@ Back to the structure of descriptor, the bytes `2`, `3` and `4` of the descripto
 	* The last bit is known as *segment-present flag* (or *P flag*).
 -->
 
+<!--
 ##### Granularity Flag 
 
-##### Other Fields
+##### Other Fields and Flags
+-->
 <!--
 * Byte `6` is also divided into several components
 	* The first `4 bits` stores is the last part of segment limit.
@@ -165,17 +173,6 @@ Back to the structure of descriptor, the bytes `2`, `3` and `4` of the descripto
 	* The following bit is known as *L* and its value should always be `0` in 32-bit environment.
 	* The following bit is known as *default operation size flag*.
 	* The last bit is known as *granularity flag*.
--->
-
-<!--
-Basically, a segment descriptor contains the starting point of a segment and its properties which are used by the processor to decide how to protect the content of this segment, with each memory access in the currently running program a segment descriptor is used by the processor to decide if this access is valid or not.
--->
-
-<!--
-	[MQH] 28 March 2020. I think the following is a mistake. The limit is the size and not the memory address of the last byte in the segment. DOUBLE CHECK PLEASE ==> No, I think what is mentioned previously is a mistake, refer to 3A, page 158: "For all types of segments except expand-down data segments, the effective limit is the last address that is allowed
-	to be accessed in the segment, which is one less than the size, in bytes, of the segment."
-
-The segment limit and size are two different things, the limit can be used to infer the size of a segment, consider the following example to illustrate the matter.
 -->
 
 <!--
@@ -191,8 +188,4 @@ TODO [10 July 2020]: Final word about segmentation: after all of these complex d
 
 <!--
 ## x86 Interrupts
--->
-
-<!--
-there is a way to switch from Real Mode to Protected Mode, but that's a story for a different day!
 -->
