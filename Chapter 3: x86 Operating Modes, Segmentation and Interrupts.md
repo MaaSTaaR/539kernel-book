@@ -148,11 +148,33 @@ During this operation, the processor uses the other information in the segment d
 
 Back to the structure of descriptor, the bytes `2`, `3` and `4` of the descriptor store the *least significant bytes* of segments base address and the by `7` of the descriptor store the *most significant byte* of the base address, that's `32-bit` for the base address. While the bytes `0` and `1` of the descriptor store the *least significant bytes* of segment's limit and byte `6` stores the *most significant byte* of the limit.
 
-<!-- [MQH] 11 July 2020. WE ARE HERE. Before starting the next subsection, we need some place to explain the terms "least significant bytes" and "most significant bytes" -->
+Before finishing this subsection, we need to define the meaning of *least significant* and *most significant* byte or bit. Take for example the following binary sequence which may represent anything, from a memory address value to a UTF-32 character.
+
+**0**111 0101 0000 0000 0000 0000 0100 110*1*
+
+You can see the first bit from left is on bold format and its value is `0`, based on its position in the sequence we call this bit the *most significant bit* or *high-order bit*, while the last bit on the right which is on italic format and its value is `1` is known as *least significant bit* or *low-order bit*. The same terms can be used on byte level, given the same sequence with different formatting.
+
+**0111 0101** 0000 0000 0000 0000 *0100 1101*
+
+The first byte (`8-bits`) on the left which is on bold format and its value is `0111 0101` is known as *most significant byte* or *high-order byte* while the last byte on the right which is on italic format and its value is `0100 1101` is known as *least significant byte* or *low-order byte*.
+
+Now, imagine that this binary sequence is the base address of a segment, then the least significant `3` bytes of it will be stored in bytes `2`, `3` and `4` of the descriptor, that is, the following binary sequence.
+
+```{.asm}
+0000 0000 0000 0000 0100 1101
+```
+
+While the most significant byte of the binary sequence will be stored in the `7th` byte of the descriptor, that is, the following binary sequence.
+
+```{.asm}
+0111 0101
+```
 
 <!--
 ##### Segment's Access Rights
 -->
+<!-- [MQH] 11 July 2020. WE ARE HERE. -->
+
 <!--
 * Byte `5` is divided into several components: 
 	* The first `4 bits` known as *type field*.
