@@ -170,10 +170,14 @@ While the most significant byte of the binary sequence will be stored in the `7t
 0111 0101
 ```
 
-<!--
-##### Segment's Access Rights
--->
-<!-- [MQH] 11 July 2020. WE ARE HERE. -->
+##### Segment's Type
+Given any binary sequence, it doesn't have any meaning until some context is added. For example, what does the binary sequence `1100 1111 0000 1010` represents? It could represent anything, a number, characters, pixels on image or even all of them based on how its user interprets it. When an agent (e.g. a bunch of code in running software or the processor) works with a binary sequence, it should know what does this binary sequence represent to be able to perform useful tasks. In the same manner, when a segment is defined, the processor (the agent) should be told how to interpret the content inside this segment, that is, the type of the segment should be known by the processor.
+
+Till this point, you probably noticed that there is at least two types of segments, code segment and data segment. The content of the former should be machine code that can be executed by the processor to perform some tasks, while the content of the latter should be data (e.g. values of constants) that can be used by a running code. There is a third type of segments called *system segment* which is out of this subsection scope.
+
+Each type of segment types has special properties which is different from the other type. Code segments are *executable* by definition, and the can be ...
+
+<!-- [MQH] 12 July 2020. WE ARE HERE. -->
 
 <!--
 * Byte `5` is divided into several components: 
