@@ -177,11 +177,22 @@ Till this point, you probably noticed that there is at least two types of segmen
 
 Whether a specific segment is an application or system segment, this should be mentioned in the descriptor of the segment in a flag called *S flag* or *descriptor type flag* which is the fifth **bit** in **byte** number `5` of the segment descriptor. When the value of S flag is `0`, then the segment which is described by the descriptor is considered as a system segment, while it is considered as an application segment when the value of S flag is `1`. Our current focus is on the latter case.
 
-As we have mentioned before an application segment can be either code or data segment. Let's assume some application segment has been referenced by currently running code, the processor is going to consult the descriptor of this segment, and by reading the value of S flag (which should be `1`) it will know that the segment in question is an application segment, but which of the two types? Is it a code segment of data segment? To answer this question for the processor, this information should be stored in a field called *type field* in the segments descriptor.
+As we have mentioned before, an application segment can be either code or data segment. Let's assume some application segment has been referenced by a currently running code, the processor is going to consult the descriptor of this segment, and by reading the value of S flag (which should be `1`) it will know that the segment in question is an application segment, but which of the two types? Is it a code segment or data segment? To answer this question for the processor, this information should be stored in a field called *type field* in the segment's descriptor.
 
-Type field in segment descriptor is the first `4-bits` (nibble) of the fifth byte of the descriptor and the most significant bit specifies if the application segment is a code segment (when the value of the bit is `1`) or a data segment (when the value of the bit is `0`). Whether the segment is a code or data segment, the least significant bit indicates if the segment is *accessed* or not.
+Type field in segment descriptor is the first `4-bits` (nibble) of the fifth byte of the descriptor and the most significant bit specifies if the application segment is a code segment (when the value of the bit is `1`) or a data segment (when the value of the bit is `0`). Whether the segment is a code or data segment, the least significant bit indicates if the segment is *accessed* or not, when the value of this flag is `1`, that means the segment has been written to or read from (AKA: accessed), but if the value of this flag is `0`, that means the segment has not been accessed. The value of this flag is manipulated by the processor in one situation only, and that's happen when the selector of the segment in question is loaded into a segment register. In any other situation, it is up to the operating system to decide the value of accessed flag. According to Intel's manual, this flag can be used for virtual memory management and for debugging.
 
-<!-- [MQH] 12 July 2020. WE ARE HERE. -->
+###### Code Segment Flags
+When the segment is a code segment, the second most significant bit (tenth bit) called *conforming flag* [^AKA: `C` flag.] while the third most significant bit (ninth bit) called *read-enabled flag* [^AKA: `R` flag.]. Let's start our discussion with the simplest among those two flags which is the read-enabled flag, which its value indicates how the code inside the segment in question can be used, when the value of read-enabled flag is `1` [^Which means **do** enable read since `1` is equivilant to `true` in the context of flags.], that means the content of the code segment can be executed **and** read from, but when the value of this flag is `0` [^Which means **don't** enable read.] that means the content of the code segment can be **only** executed and cannot read from. The former option can be useful when the code contains data inside it (e.g. constants) and we would like to provide the ability of reading this data. When read is enabled for the segment in question, the selector of this segment can also be loaded into one of data segment register [^Which makes sense, enabling reads from a code segment means it contains data also.].
+
+The conforming flag is related to the privilege levels that we had an overview about them previously in this chapter.
+
+<!-- [MQH] 23 Oct 2020. WE ARE HERE. Go to "x86 Operating Modes" section and write an overview about privilege levels (Big Picture) to be able to explain the purpose of "conforming flag". Note: use high-level terms in here such as "less-privileged" and "more-privileged" instead of the technical ones such as "CPL" and "DPL", there will be a section below for those stuff. -->
+
+###### Data Segment Flags
+When the segment is data segment, the second most significant bit (tenth bit) called `E` flag while the third most significant bit (ninth bit) called `W` flag.
+
+
+
 
 <!--
 * Byte `5` is divided into several components: 
