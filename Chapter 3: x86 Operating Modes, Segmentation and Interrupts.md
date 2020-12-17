@@ -20,7 +20,7 @@ Since protected mode is a 32-bit operating mode then 32-bit of registers can be 
 
 As we have said before, *multitasking* is one of core features that modern operating systems provide. In multitasking environment more than one software can run at the same time ^[At least illusionary] even if there is only one processor or the current processor has one core. To achieve this goal, the code of these running software are loaded into memory ^[You will find out later that this claim isn't too accurate. But for the sake of simplicity of explaination, consider that the code of **all** running software are loaded into the memory.], that means, one of these running software may access parts of memory that doesn't belong to itself. This behavior is undesirable of course, imagine that you have entered some sensitive information (e.g. credit card number) in one of a running software that you trust, and at the same time, without your knowledge, a malicious code which is a part of another running software is able to read the content of first software memory, it will be able to retrieve this sensitive information. Therefore, one of most important thing to be considered in multitasking environment is the matter of protection, the running software should not be trusted by the operating system, hence, it should protect the software from each other and also it should protect itself from the running software ^[Imagine that a running software can manipulate operating system data structures!].
 
-Multiple features of x86 protected mode can be used to enforce protection in multiple aspects while running in multitasking environment, while we will explore memory protection ^[That is protecting the memory area of running software A from being accessed by software B.] later gradually we are going to focus our discussion on privilege levels in this subsection.
+Multiple features of x86 protected mode can be used to enforce protection in multiple aspects while running in multitasking environment, while we will explore memory protection ^[That is protecting the memory area of running software A from being accessed by software B.] later gradually, in this subsection we are going to focus our discussion on privilege levels.
 
 <!-- __HERE__: 16 Dec 2020 -->
 
@@ -225,7 +225,7 @@ When the segment is data segment, the second most significant bit (tenth bit) ca
 -->
 
 <!--
-#### Privilege Levels
+#### The Technical Details of Privilege Levels
 #### The Special Register `GDTR`
 #### Local Descriptor Table
 -->
