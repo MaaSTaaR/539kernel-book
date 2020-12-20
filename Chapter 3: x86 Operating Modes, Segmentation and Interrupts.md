@@ -24,11 +24,7 @@ Due to these two properties of modern general-purpose operating systems, the ove
 
 In x86, the *segmentation* mechanism provided a logical view of memory in real-mode and it has been extended in protected-mode to provide the needed protection which has been described in the third point ^[Segmentation will be examined in details later on this chapter.], while segmentation can be used in x86 for this kind of protection, it is not the sole way to perform that, the another well-known way is called *paging*, but segmentation is the default in x86 and cannot be turned off while paging is optional the operating system has the option to use it as a way of memory management and protection or not.
 
-Also, in the protected-mode the concept of *privilege levels* has been introduced to handle the protections needed in the previous first and second points. The academic literature of operating systems separate the system environment into two modes, *kernel-mode* and *user-mode*, at a given time the system can either run on one of these modes. The kernel runs on kernel-mode, and has the privilege to do anything (e.g. access any memory location, access any resource of the system and perform any operation), while the user applications run on user-mode which is a restricted environment where the code that runs on doesn't have the privilege to perform sensitive actions. This kind of separation has been realized through privilege levels in x86 which provides **four privilege levels** numbered from `0` to `3`. The privilege level `0` is the most privileged level which can be used to realize the kernel-mode while the privilege level `3` is the least privileged which can be used to realized the user-mode. For privilege levels `1` and `2` it's up to the kernel's designer to use them or not, some kernels design suggest to use these levels for device drivers. According to Intel's manual, if the kernel's design uses only two privilege levels, that is, a kernel-mode and user-mode, then the privilege level `0` and `3` should be used and not for example `0` and `1` ^[According to my knowledge, no reason has been presented for this restriction.].
-
-<!-- All instructions for level `0` and example of GDTR, also, more-privileged code cannot be called by less-privileged as we will see later when we examine the segmentation -->
-
-<!-- __HERE__: 19 Dec 2020 -->
+Also, in the protected-mode the concept of *privilege levels* has been introduced to handle the protections needed in the previous first and second points. The academic literature of operating systems separate the system environment into two modes, *kernel-mode* and *user-mode*, at a given time the system can either run on one of these modes. The kernel runs on kernel-mode, and has the privilege to do anything (e.g. access any memory location, access any resource of the system and perform any operation), while the user applications run on user-mode which is a restricted environment where the code that runs on doesn't have the privilege to perform sensitive actions. This kind of separation has been realized through privilege levels in x86 which provides **four privilege levels** numbered from `0` to `3`. The privilege level `0` is the most privileged level which can be used to realize the kernel-mode while the privilege level `3` is the least privileged which can be used to realized the user-mode. For privilege levels `1` and `2` it's up to the kernel's designer to use them or not, some kernels design suggest to use these levels for device drivers. According to Intel's manual, if the kernel's design uses only two privilege levels, that is, a kernel-mode and user-mode, then the privilege level `0` and `3` should be used and not for example `0` and `1` ^[According to my knowledge, no reason has been presented for this restriction.]. In addition to protecting the kernel's code from being called without its consent and protecting kernel's data from being accessed by user processes (as required by first point above), the privilege levels also prevent user processes ^[That is, the processes which runs on privilege level greater than `0`] from executing *privileged instructions* (as required by second point above), only the code which runs in the privilege level `0`, that is, the kernel, will be able to execute these instructions since they could manipulate sensitive parts of the processor's environment ^[For example, loading GDT register by using the instruction `lgdt` as we will see later in this chapter.] that only the kernel should maintain.
 
 ## The Basic View of Memory
 
@@ -200,12 +196,10 @@ When the segment is a code segment, the second most significant bit (tenth bit) 
 
 The conforming flag is related to the privilege levels that we had an overview about them previously in this chapter.
 
-<!-- [MQH] 23 Oct 2020. WE ARE HERE. Go to "x86 Operating Modes" section and write an overview about privilege levels (Big Picture) to be able to explain the purpose of "conforming flag". Note: use high-level terms in here such as "less-privileged" and "more-privileged" instead of the technical ones such as "CPL" and "DPL", there will be a section below for those stuff. -->
+<!-- __HERE__: 20 Dec 2020 -->
 
 ###### Data Segment Flags
 When the segment is data segment, the second most significant bit (tenth bit) called `E` flag while the third most significant bit (ninth bit) called `W` flag.
-
-
 
 
 <!--
@@ -231,7 +225,7 @@ When the segment is data segment, the second most significant bit (tenth bit) ca
 -->
 
 <!--
-#### The Technical Details of Privilege Levels
+#### Privilege Levels
 #### The Special Register `GDTR`
 #### Local Descriptor Table
 -->
