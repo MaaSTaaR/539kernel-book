@@ -196,11 +196,12 @@ When the segment is a code segment, the second most significant bit (tenth bit) 
 
 The conforming flag is related to the privilege levels that we had an overview about them previously in this chapter. When a segment is conforming ^[Which means the value of conforming flag is `1`] that means a code which runs in a less-privileged level can call this segment which runs in a more privileged level while keeping the current privilege level of the environment same as the one of the caller instead of the callee, for example, let's assume for some reason a kernel's designer decided to provide simple arithmetic operations (such as addition and subtraction) for user applications through kernel code, that is, there is no other way to perform these operations in that system but this code which is provided by the kernel. As we know, kernel's code should run in privilege level `0` which is the most-privileged level, and let's assume a user application which runs in privilege level `3`, a less-privileged level, needs to perform an addition operation, in this case a kernel code, which should be protected by default from being called by less-privileged code, should be called to perform the task, this can only realized if the code of addition operation is provided as a conforming segment, otherwise the processor is going to stop this action where a less-privileged code calls a more-privileged code. But also you should note the code of addition operating, although it is a part of the kernel which runs in privilege level `0`, is going to run in privilege level `3` because the original caller ran in this privilege level. Furthermore, although conforming segment can be called by a less-privilege code (e.g. user application calls the kernel), the opposite cannot be done (e.g. the kernel calls a user application's code) and the processor is going to stop the operation.
 
+###### Data Segment Flags
+When the segment is data segment, the second most significant bit (tenth bit) called expansion-direction flag (also called `E` flag) while the third most significant bit (ninth bit) called write-enabled flag (also called `W` flag). The latter one gives us the ability to make some data segment a read-only, which means the value of write-enabled flag should be `0`, or we can make a data segment both **writable** and readable by setting the value of write-enabled flag to `1`.
+
 <!-- __HERE__: 23 Dec 2020 -->
 
-###### Data Segment Flags
-When the segment is data segment, the second most significant bit (tenth bit) called `E` flag while the third most significant bit (ninth bit) called `W` flag.
-
+A last note about data segments that all of them are **non-conforming**, that is, a less-privileged code cannot access a data segment in a more-privileged level. Furthermore, all data segments can be accessed by a more-privileged code.
 
 <!--
 * Byte `5` is divided into several components: 
