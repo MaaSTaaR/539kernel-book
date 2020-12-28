@@ -199,7 +199,7 @@ The conforming flag is related to the privilege levels that we had an overview a
 ###### Data Segment Flags
 When the segment is data segment, the second most significant bit (tenth bit) called expansion-direction flag (also called `E` flag) while the third most significant bit (ninth bit) called write-enabled flag (also called `W` flag). The latter one gives us the ability to make some data segment a read-only, which means the value of write-enabled flag should be `0`, or we can make a data segment both **writable** and readable by setting the value of write-enabled flag to `1`.
 
-<!-- __HERE__: 23 Dec 2020 -->
+While the expansion-direction flag and its need will be examined in details when we discuss x86 stack in this chapter, what we need to know right now is that when the value of this flag is `0`, the data segment is going to expand **up**, but when the value of this flag is `1`, the data segment is going to expand **down**.
 
 A last note about data segments that all of them are **non-conforming**, that is, a less-privileged code cannot access a data segment in a more-privileged level. Furthermore, all data segments can be accessed by a more-privileged code.
 
@@ -239,3 +239,5 @@ TODO [10 July 2020]: Final word about segmentation: after all of these complex d
 <!--
 ## x86 Interrupts
 -->
+## x86 Stack
+A user application starts its life as a file stored in user's hard disk, right at this stage is does nothing, it is just a bunch binary numbers that represent the machine code of this application, when the user decides to use this application and opens it the operating systems loads this application into the memory and in this stage this user application becomes a process. Typically, the memory of an application is divided into multiple parts which each one of them stores a different kind of application's data, one of those parts stores the machine code of the application in the memory, there are also two important parts of application's memory, the first one is known as *heap* which provides an area for dynamically allocated objects (e.g. variables), the second one is known as *stack* ^[Please note that both stack and heap are also names for **data structures**, which describe a way of storing data, while in our current context these two terms are use to represent **memory regions** of a running process although the stack (as memory region) uses stack data structure to store the data.] which is used to store the values of local variables and function parameters, we can say that the stack is a way to implement function's invocation, that is, how function `A` can call function `B`, pass to it some parameters and then return back to the same point of code where function `A` called function `B` and finally get the returned value from function `B`, the implementation details of these steps is known as *calling convention* and the stack is one way of realizing these steps.
