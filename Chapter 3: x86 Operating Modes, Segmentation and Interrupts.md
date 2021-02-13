@@ -244,6 +244,8 @@ A user application starts its life as a file stored in user's hard disk, right a
 
 The x86 stack (as a memory region) uses a data structure with the same name to store the data inside it and to manipulate the data. A stack data structure stores data in first-in-last-out (FILO) ^[On contrary, *queue data structure* stores data in first-in-**first**-out (FIFO) manner.] manner. Furthermore, two operations are used upon a stack, *push* and *pop*, the first one put some value on the *top of the stack*, which means that the top of stack always contains the last value that have been inserted into a stack. The latter operation (pop) removes the value which resides on the top of the stack and returns it to the user, that means the most recent value that has been *push*ed to the stack will be return when we *pop* the stack. Let's assume that we have the string `ABCD` and we would like to push each character into the stack.
 
+<!-- (1) Example of pushing and popping `ABCD`. (2) We can mention stack's application as palindrome problem and matching braces in the footnotes. (3) Figures are needed -->
+
 <!-- [MQH] HERE 13 Feb 2021 -->
 
 <!-- Let's move back to x86 stack which implements stack data structure. First, the registers ESP and EBP represent .... -->
