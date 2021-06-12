@@ -1,5 +1,7 @@
 # x86 Operating Modes, Segmentation and Interrupts
 
+<!-- TODO: I think we need to reduce the footnotes. I mean those that we can put in the original text. -->
+
 ## Introduction
 
 In our situation, and by using modern terminology, we can view the processor as a *library* and *framework*. A library because it provides us with a bunch of instructions to perform whatever we want, and a framework because it has general rules that organize the overall environment of execution, that is, it forces us to work in a specific way. We have seen some aspects of the first part when we have written the bootloader, that is, we have seen the processor as a library. In this chapter, we are going to see how the processor works as a framework by examining some important and basic concepts of x86. We need to understand these concepts to start the real work of writing 539kernel.
