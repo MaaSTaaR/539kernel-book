@@ -207,6 +207,9 @@ While the expansion-direction flag and its need will be examined in details when
 
 A last note about data segments that all of them are **non-conforming**, that is, a less-privileged code cannot access a data segment in a more-privileged level. Furthermore, all data segments can be accessed by a more-privileged code.
 
+##### Other Fields and Flags
+In our previous discussions, we have stated that a specific segment may belong to a specific privilege level and that provides the necessary protection for the segment from begin accessed by less-privileged code.
+
 <!-- [MQH] HERE 12 June 2021 -->
 
 <!--
@@ -217,17 +220,9 @@ A last note about data segments that all of them are **non-conforming**, that is
 	* The following bit is known as *AVL* and has no functionality, it is available for the operating system to use it however it wants.
 	* The following bit is known as *L* and its value should always be `0` in 32-bit environment.
 	* The following bit is known as *default operation size flag*.
-	* The last bit is known as *granularity flag*.
 -->
 
 <!--
-##### Granularity Flag 
-
-##### Other Fields and Flags
--->
-
-<!--
-#### Privilege Levels [MQH] Do we need it here anymore? I don't think so 12 June 2021
 #### The Special Register `GDTR`
 #### Local Descriptor Table
 -->
