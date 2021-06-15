@@ -222,7 +222,8 @@ The second flag left is known as *64-bit code segment flag* (L flag) which is th
 
 The final flag is the fourth most significant bit in the byte `6`, the value of this flag has no meaning for the processor, hence, it will not use it to make any decisions upon the segment in the question as we have seen on all other flags and fields. On the other hand, this flag is available for the operating system to use it in whatever way it needs it, or just ignores it by set it to any of possible values ^[`0` or `1` since it is one bit.] without any semantic.
 
-<!-- #### The Special Register `GDTR` -->
+#### The Special Register `GDTR`
+The special register `GDTR` stores the base physical address ^[More accurately, the linear address. Refer to discussion of memory translation process in this chapter<!-- [REF] -->.] of the global descriptor table, that is, the starting point of `GDT` table. Also, the same register stores the limit (or size) of the table. To load a value into the register `GDTR` the x86 instruction `lgdt` ^[Which stands for *load* global descriptor table] should be used, this instruction takes one operand which is the whole value that should be loaded into `GDTR`, this value, should be similar to the structure of `GDTR` itself which has the size of `48` bits.
 
 <!-- [MQH] HERE 15 June 2021 -->
 
