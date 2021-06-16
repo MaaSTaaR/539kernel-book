@@ -223,13 +223,11 @@ The second flag left is known as *64-bit code segment flag* (L flag) which is th
 The final flag is the fourth most significant bit in the byte `6`, the value of this flag has no meaning for the processor, hence, it will not use it to make any decisions upon the segment in the question as we have seen on all other flags and fields. On the other hand, this flag is available for the operating system to use it in whatever way it needs it, or just ignores it by set it to any of possible values ^[`0` or `1` since it is one bit.] without any semantic.
 
 #### The Special Register `GDTR`
-The special register `GDTR` stores the base physical address ^[More accurately, the linear address. Refer to discussion of memory translation process in this chapter<!-- [REF] -->.] of the global descriptor table, that is, the starting point of `GDT` table. Also, the same register stores the limit (or size) of the table. To load a value into the register `GDTR` the x86 instruction `lgdt` ^[Which stands for *load* global descriptor table] should be used, this instruction takes one operand which is the whole value that should be loaded into `GDTR`, this value, should be similar to the structure of `GDTR` itself which has the size of `48` bits.
+The special register `GDTR` stores the base physical address ^[More accurately, the linear address. Refer to discussion of memory translation process in this chapter<!-- [REF] -->.] of the global descriptor table, that is, the starting point of `GDT` table. Also, the same register stores the limit (or size) of the table. To load a value into the register `GDTR` the x86 instruction `lgdt` ^[Which stands for *load* global descriptor table] should be used, this instruction takes one operand which is the whole value that should be loaded into `GDTR`, the structure of this value should be similar to the structure of `GDTR` itself which is shown in figure <!-- TODO: Fig16062021_0 --> which shows that the total size of `GDTR` is `48` bits divided into two parts. The first part starts from bit `0` (the least significant bit) to bit `15`, this part contains the limit of `GDT` table that we would like to load. The size of limit part of `GDTR` register is `16` bits which can represents that value `65,536` at maximum, that means the maximum size of `GDT` table can be `64KB = 65,536 Bytes / 1024`, and as we know, the size of each of descriptor is `8` bytes, that means the `GDT` table can hold `8,192` descriptors maximum. The second part of `GDTR` starts from bit `16` to bit `47` (the most significant bit) and stores the base memory address of `GDT` table that we would like to load.
 
-<!-- [MQH] HERE 15 June 2021 -->
-
-<!--
 #### Local Descriptor Table
--->
+
+<!-- [MQH] HERE 16 June 2021 -->
 
 <!--
 TODO [10 July 2020]: Final word about segmentation: after all of these complex details, you should not forget the simple purpose of it. [Review the concept for the reader]
