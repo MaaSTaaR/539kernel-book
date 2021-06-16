@@ -129,7 +129,7 @@ Once this instruction is executed, the value of `CS` will be changed from the va
 
 ### Segmentation in Protected Mode
 
-The fundamentals of segmentation in protected mode is exactly same as the ones explained in real mode, but it has been extended to provide more features such as *memory protection*. In protected mode, a table named *global descriptor table* (GDT) is presented, this table is stored in the main memory and its starting memory address is stored in the special purpose register `GDTR`, each entry in this table called a *segment descriptor* which has the size `8 bytes` and they can be referred to by an index number called *segment selector* which is the offset of the entry from the starting memory address of GDT, that is, the content of the register `GDTR`, the first entry of GDT, which is entry #0, should not be used. An entry of GDT, that is, a segment descriptor, defines a segment (of any type) and has the information that is required by the processor to deal with that segment, the starting memory address of the segment is stored in its descriptor ^[In real mode, the starting address of the segment is stored directly on the corresponding segment register (eg, `CS` for code segment).], also, the size (or limit) of the segment. The segment selector of the currently active segment should be stored in the corresponding segment register.
+The fundamentals of segmentation in protected mode is exactly same as the ones explained in real mode, but it has been extended to provide more features such as *memory protection*. In protected mode, a table named *global descriptor table* (GDT) is presented, this table is stored in the main memory and its starting memory address is stored in the special purpose register `GDTR`, each entry in this table called a *segment descriptor* which has the size `8 bytes` and they can be referred to by an index number called *segment selector* ^[This is a **relaxed** definition of segment selector, a more accurate one will be presented later.] which is the offset of the entry from the starting memory address of GDT, that is, the content of the register `GDTR`, the first entry of GDT, which is entry #0, should not be used. An entry of GDT, that is, a segment descriptor, defines a segment (of any type) and has the information that is required by the processor to deal with that segment, the starting memory address of the segment is stored in its descriptor ^[In real mode, the starting address of the segment is stored directly on the corresponding segment register (eg, `CS` for code segment).], also, the size (or limit) of the segment. The segment selector of the currently active segment should be stored in the corresponding segment register.
 
 <!-- TODO: Comparison between C array terms and GDT terms to make it clearer and more memorable for the reader. -->
 
@@ -228,6 +228,8 @@ The special register `GDTR` stores the base physical address ^[More accurately, 
 #### Local Descriptor Table
 
 <!-- [MQH] HERE 16 June 2021 -->
+
+<!-- #### Segment Selectors -->
 
 <!--
 TODO [10 July 2020]: Final word about segmentation: after all of these complex details, you should not forget the simple purpose of it. [Review the concept for the reader]
