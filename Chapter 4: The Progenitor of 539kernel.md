@@ -6,7 +6,9 @@
 ## Debugging the Kernel with Bochs
 ## Entering Protected-Mode
 ### Loading GDT
-## Introduction at Graphics with VGA
+### Give the C kernel the control
+## Loading More Sectors in Bootloader
+## A Glance at Graphics with VGA
 ### VGA Text Mode
 ### VGA Graphics Mode
 ## Setting Up Interrupts
