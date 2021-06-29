@@ -337,7 +337,7 @@ start:
 
 First, we define a label named `start`, there is no practical reason to define this label ^[Such as jump to it for example.], the only reason of defining it is the readability of the code, when someone else tries to read the code, it should be obvious for her that `start` is the starting point of executing the bootloader.
 
-The function of next two lines is obvious, we are moving the hexdecimal number `07C0` to the register `ax` to be able to move it to the register `ds`, note that we can't store the value `07C0` directly in `ds` by using `mov` as the following: `mov ds, 07C0h`, due to that, we have put the value on `ax` and then moved it to `ds`, so, our goal was to set the value `07C0` in the register `ds`. Now, you may ask why we want the value `07C0` in the register `ds`, this is story for another chapter, just take these two lines on faith, and you will know later the purpose of them. Let's continue.
+The job of next two lines is obvious, we are moving the hexadecimal number `07C0` to the register `ax` to be able to move it to the register `ds`, note that we can't store the value `07C0` directly in `ds` by using `mov` as the following: `mov ds, 07C0h`, due to that, we have put the value on `ax` and then moved it to `ds`, so, our goal was to set the value `07C0` in the register `ds`. Now, you may ask why we want the value `07C0` in the register `ds`, this is story for another chapter, just take these two lines on faith, and you will know later the purpose of them. Let's continue.
 
 ```{.asm}
 	mov si, title_string
@@ -347,13 +347,21 @@ The function of next two lines is obvious, we are moving the hexdecimal number `
 	call print_string
 ```
 
-This block of code prints the two messages, both of them are represented by separate label `title_string` and `message_string`, you can see that we are calling the code of the label (or the function) `print_string`, its name indicates that it prints a *string* of character, and you can infer that the function `print_string` receives the address of the string that we would like to print as a parameter in the register `si`, the implementation of `print_string` will be examined in a minute. 
+This block of code prints the two messages, both of them are represented by a separate label `title_string` and `message_string`, you can see that we are calling the code of the label (or the function) `print_string`, its name indicates that it prints a *string* of character, and you can infer that the function `print_string` receives the address of the string that we would like to print as a parameter in the register `si`, the implementation of `print_string` will be examined in a minute.
 
 ```{.asm}
-	mov ax, 1000h
+    call load_kernel_from_disk
+	jmp 0900h:0000
+```
+
+These two lines represent the most important part of any bootloader, first a function named `load_kernel_from_disk` is called, we are going to define this function in a moment, as you can see from its name, it is going to load the code of the kernel from disk into the main memory and this is the first step that make the kernel able to take the control over the system. When this function finishes its job and returns, a jump is performed to the memory address `0900h:000`, but before discussing the purpose of this line let's define the function `load_kernel_from_disk`.
+
+```{.asm}
+load_kernel_from_disk:
+	mov ax, 0900h
 	mov es, ax
 ```
-These couple of lines, also, should be taken on faith. You can see, we are setting the value `1000h` on the register `es`. Now, we move to the most important part of any bootloader.
+These couple of lines, also, should be taken on faith. You can see, we are setting the value `0900h` on the register `es`. Now, we move to the most important part of this function.
 
 ```{.asm}
 	mov ah, 02h
@@ -367,16 +375,21 @@ These couple of lines, also, should be taken on faith. You can see, we are setti
 	
 	jc kernel_load_error
 
-    jmp 1000h:0000
+    ret
 ```
 
-This block of code performs two things, first, it *loads* the kernel from the disk into the memory, then it gives the control to the kernel by jumping to its starting point. To load the kernel from the disk, we are using the BIOS Service `13h` which provides services that perform operations of the disks such as reading and writing. The service number which is `02h` is specified on the register `ah`, this service read sectors from disks and loads them into the memory, the following registers should be set when we use the service `02h` in `13h`: 
+<!--
 
-The value of register `al` is the number of sectors that we would like to read, in our case, we read only `1` sector, the size of our temporary kernel `simple_kernel.asm` doesn't exceed `512` bytes. Please keep in mind that we are going to store our kernel right after the bootloader in the disk, knowing that, you can make sense of the registers' values `ch`, `cl` and `dh` that we will explain next. The value of register `ch` is the track number we would like to read from, in our case, it is the track `0`. The values of the register `cl` is the sector number that we would like to read its content, in our case, it is the second sector. The value of the register `dh` is the number of head. The values of of `dl` specifies which disk we would like to read from, the value `0h` in this register means that we would like to read the sector from a floppy disk, while the value `80h` means we would like to read from the hard disk #0 and `81h` for hard disk #1, in our case, the kernel is stored in the hard disk #0, se, the value of `dl` should be `80h`. Finally, the value of the register `bx` is the memory address that the content will be loaded to, in our case, we are reading one sector, and its content will be stored on the memory address `0h` ^[Not exactly the memory address 0h. We will see why in the next chapter.].
+This block of code performs two things, first, it *loads* the kernel from the disk into the memory, then it gives the control to the kernel by jumping to its starting point. To load the kernel from the disk, we are using the BIOS Service `13h` which provides services that perform operations of the disks such as reading and writing. The service number which is `02h` is specified on the register `ah`, this service read sectors from disks and loads them into the memory, the following registers should be set when we use the service `02h` in `13h`: 
+-->
+
+This block of code *loads* the kernel from the disk into the memory and to do that it uses the BIOS Service `13h` which provides services that perform operations of the disks such as reading and writing. The service number which is `02h` is specified on the register `ah`, this service read sectors from disks and loads them into the memory, the following registers should be set when we use the service `02h` in `13h`: 
+
+The value of register `al` is the number of sectors that we would like to read, in our case, we read only `1` sector, the size of our temporary kernel `simple_kernel.asm` doesn't exceed `512` bytes. Please keep in mind that we are going to store our kernel right after the bootloader in the disk, knowing that, you can make sense of the registers' values `ch`, `cl` and `dh` that we will be explained next. The value of register `ch` is the track number we would like to read from, in our case, it is the track `0`. The values of the register `cl` is the sector number that we would like to read its content, in our case, it is the second sector. The value of the register `dh` is the number of head. The values of of `dl` specifies which disk we would like to read from, the value `0h` in this register means that we would like to read the sector from a floppy disk, while the value `80h` means we would like to read from the hard disk `#0` and `81h` for hard disk `#1`, in our case, the kernel is stored in the hard disk `#0`, so, the value of `dl` should be `80h`. Finally, the value of the register `bx` is the memory address that the content will be loaded to, in our case, we are reading one sector, and its content will be stored on the memory address `0h` ^[Not exactly the memory address 0h. We will see why in the next chapter.].
 
 When the content is loaded successfully, the BIOS Service `13h:02h` is going to set the carry flag to `0`, otherwise, it sets the carry flag to `1` and stores the error code in register `ax`, the instruction `jc` is a conditional jump instruction that jumps when `CF = 1`, that is, when the value of the carry flag is `1`. That means our bootloader is going to jump to the label `kernel_load_error` when the kernel isn't loaded correctly. 
 
-If the kernel is loaded correctly, the last instruction `jmp 1000h:0000` will be executed instead. This time, the operand of `jmp` is an *explicit* memory address `1000h:0000`, it has two parts, the first part is the one before the colon, it will be explained later, you can see that it is the same value that we have loaded in the register `es` previously. The second part of the memory address is the one after the colon, it is `0h` ^[Here, `0h` is equivalent to `0000`.] which is the memory address that we loaded our kernel to by setting the value of `bx` to `0h` before calling `02h:13h`.
+If the kernel is loaded correctly, the function `load_kernel_from_disk` returns by using the instruction `ret` which makes the processor to resume the main code of our bootloader and executes that instruction which is after `call load_kernel_from_disk`, this instruction is instruction `jmp 0900h:0000` which gives the control to the kernel by jumping to its starting point, that is, the memory location where we loaded our kernel in. This time, the operand of `jmp` is an *explicit* memory address `0900h:0000`, it has two parts, the first part is the one before the colon, you can see that it is the same value that we have loaded in the register `es` in the beginning of `load_kernel_from_disk` function. The second part of the memory address is the one after the colon, it is `0h` ^[Here, `0h` is equivalent to `0000`.] which is the *offset* that we have specified in the register `bx` in `load_kernel_from_disk` before calling `02h:13h`, the both parts combined represent the memory address that we have loaded our kernel into and the details of the two parts of this memory address will be discussed in chapter <!-- TODO: [REF] -->.
 
 Now we have finished the basic code of the bootloader, we can start defining that labels that we have used before in its code. We start with the label `kernel_load_error` which simply prints an error message that is stored on another label, as we have done previously, the label `kernel_load_error` prints the error message by using the function `print_string`, after printing the message, nothing can be done, so, `kernel_load_error` enters an infinite loop.
 
@@ -388,7 +401,7 @@ kernel_load_error:
 	jmp $
 ```
 
-In our previous samples of using the BIOS Service `0Eh:10h` were printing only one character, in real world, we need to print a *string* of characters and that's what the function `print_string` exactly does, it takes the memory address which is stored in the register `si` and prints the character which is stored in it, then it goes to the next memory address and prints the character which is stored in it and so on, that is, `print_string` prints a string character by character by using loop. So, you may ask, how `print_string` can know when should it stop? There should be a stop condition in any loop, otherwise, it is an infinite loop.
+Our previous samples of using the BIOS Service `0Eh:10h` were printing only one character, in real world, we need to print a *string* of characters and that's what the function `print_string` exactly does, it takes the memory address which is stored in the register `si` and prints the character which is stored in it, then it goes to the next memory address and prints the character which is stored in it and so on, that is, `print_string` prints a string character by character by using loop. So, you may ask, how `print_string` can know when should it stop? There should be a stop condition in any loop, otherwise, it is an infinite loop.
 
 A string in C programming language, as in our situation, is an *array of characters*, and the same problem of "where does a string end" is encountered in C programming language, to solve the problem, each string in C programming language ends with a special character named *null character* and represented by the symbol `\0` in C ^[This type of strings named *null-terminated strings*.], so, you can handle any string in C character by character and once you encounter the null character `\0` that means you have reached the end of the string. We are going to use the same mechanism in our bootloader to recognize the end of a string by putting the value `0` as a marker in the end of the string. By using this way, we can now use the service `0Eh:10h` to print any string character by character through a loop and once we encounter the value `0` we can stop the printing.
 
@@ -409,13 +422,23 @@ print_char:
 printing_finished:
     mov al, 10d ; Print new line
     int 10h
+    
+    ; Reading current cursor position
+    mov ah, 03h
+	mov bh, 0
+	int 10h
+	
+    ; Move the cursor to the beginning
+	mov ah, 02h
+	mov dl, 0
+	int 10h
 
 	ret
 ```
 
 When `print_string` starts, the BIOS services number `0Eh` is loaded in `ah`, this operation need to take a place just one time for each call for `print_string`, so it is not a part of the next label `print_char` which is a part of `print_string` and it will be executed after moving `0Eh` to `ah`.
 
-As you can remember, that parameter of `print_string` is the memory address which contains the string that we would like to print, this parameter is passed to `print_string` via the register `si`, so, the first thing `print_char` does is using the instruction `lodsb` which is going to transfer the first character of the string to the register `al` and increase the value of `si` by `1` byte, after that, we check the character that has been transferred from the memory, if it is `0`, that means we have reached to the end of the string and the code jumps to the label `printing_finished`, otherwise, the interrupt `10h` of BIOS is called to print the content of the register `al` on the screen, then we jump to `print_char` again to repeat this operation until we read the end of the string. When printing a string finishes, the label `printing_finished` starts by printing a new line after the string, the new line is represented by the number `10` in ASCII then it returns to the caller by using the instruction `ret`.
+As you can remember, that parameter of `print_string` is the memory address which contains the string that we would like to print, this parameter is passed to `print_string` via the register `si`, so, the first thing `print_char` does is using the instruction `lodsb` which is going to transfer the first character of the string to the register `al` and increase the value of `si` by `1` byte, after that, we check the character that has been transferred from the memory, if it is `0`, that means we have reached to the end of the string and the code jumps to the label `printing_finished`, otherwise, the interrupt `10h` of BIOS is called to print the content of the register `al` on the screen, then we jump to `print_char` again to repeat this operation until we read the end of the string. When printing a string finishes, the label `printing_finished` starts by printing a new line after the string, the new line is represented by the number `10` in ASCII after that we are going to use the service `03h` to read the current position of the cursor, then we use the service `02h` to set the cursor to position `0` by passing it to the register `dl`, otherwise, the messages in the new lines will be printed in the position where the previous string finished, finally  the function returns to the caller by using the instruction `ret`.
 
 ```{.asm}
 title_string        db  'The Bootloader of 539kernel.', 0
