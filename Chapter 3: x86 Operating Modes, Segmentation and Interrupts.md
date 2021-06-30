@@ -107,7 +107,7 @@ In the previous chapter, when we wrote the bootloader, we have dealt with the se
 Here, we told the processor that the data segment of our program (the bootloader) starts in the memory address `07C0h` ^[Yes, all segments can be on the same memory location, that is, there is a `64KB` segment of memory which is considered as the currently active code segment, data segment and stack segment. This type of design is known as *flat-memory model* and we will discuss it later on.], so, if we refer to the memory to read or write and *data*, start with the memory address `07C0h` and then append the offset that we are referring to. The second use of the segments in the bootloader is when we tried to load the kernel from the disk by using the BIOS service `02h:13h` in the following code.
 
 ```{.asm}
-	mov ax, 1000h
+	mov ax, 0900h
 	mov es, ax
 	
 	mov ah, 02h
@@ -120,13 +120,13 @@ Here, we told the processor that the data segment of our program (the bootloader
 	int 13h
 ```
 
-You can see here, we have used the other data segment `ES` here and defined a new segment that starts from the memory address `1000h`, we did that because the BIOS service `02h:13h` loads the desired content (in our case the kernel) to the memory address `ES:BX`, for that, we have defined the new data segment and set the value of `bx` to `0h`. That means the code of the kernel will be loaded on `1000:0000h` by `02h:13h` and because of that, after loading the kernel successfully we have performed a far jump.
+You can see here, we have used the other data segment `ES` here and defined a new segment that starts from the memory address `0900h`, we did that because the BIOS service `02h:13h` loads the desired content (in our case the kernel) to the memory address `ES:BX`, for that, we have defined the new data segment and set the value of `bx` to `0h`. That means the code of the kernel will be loaded on `0900:0000h` by `02h:13h` and because of that, after loading the kernel successfully we have performed a far jump.
 
 ```{.asm}
-jmp 1000h:0000
+jmp 0900h:0000
 ```
 
-Once this instruction is executed, the value of `CS` will be changed from the value `07C0h` where the bootloader reside to the value `1000h` where the kernel is reside and the execution of the kernel is going to start.
+Once this instruction is executed, the value of `CS` will be changed from the value `07C0h` where the bootloader reside to the value `0900h` where the kernel is reside and the execution of the kernel is going to start.
 
 ### Segmentation in Protected Mode
 
