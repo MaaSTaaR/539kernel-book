@@ -22,15 +22,22 @@ load_kernel_from_disk:
 
 These two lines will be executed before calling BIOS service `13,2` that loads sectors from disk, and they are going to tell BIOS to load the sector starting from the physical memory address `0900h`, in other words, these lines are saying that the sector will be loaded in a segment that starts from the physical memory address `0900h`, and the exact offset inside this segment that the sector will be loaded into is decided by the value of register `bx` before calling the service of BIOS, in our bootloader we have set `bx` to `0`, which means the sector of the kernel will be loaded in the memory address `0900h:0000` and due to that when our bootloader finishes its job and decides to jump to the kernel code the operand of `jmp` instruction was `0900h:0000` which means that the value of `cs` register will be `0900h` and the value of `ip` register will be `0000` when the bootloader jumps to the loaded kernel.
 
+## Writing the Starter
+
 <!--
-## Debugging the Kernel with Bochs
-## Entering Protected-Mode
-### Loading GDT
-### Give the C kernel the control
+### Entering Protected-Mode
+#### Loading GDT
+#### Give the C kernel the control
+
+## Writing the C Kernel
+### A Glance at Graphics with VGA
+#### VGA Text Mode
+#### VGA Graphics Mode
+
 ## Loading More Sectors in Bootloader
-## A Glance at Graphics with VGA
-### VGA Text Mode
-### VGA Graphics Mode
 ## Setting Up Interrupts
+## Debugging the Kernel with Bochs
+## The Makefile
+
 ## An Implementer or a Kernelist?
 -->
