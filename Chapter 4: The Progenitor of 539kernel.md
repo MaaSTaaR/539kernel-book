@@ -52,12 +52,25 @@ The first line uses the directive <!-- TODO: have we explained the meaning of "d
 The second line uses the directive `extern` which tells `NASM` that there is a symbol ^[A symbol is a term that means a function name or a variable name. In our current situation `kernel_main` is a function name.] which is external and not defined in any place in the code (e.g. as a label) that you are currently assembling, so, whenever you the code uses this symbol, don't panic, and continue you job, and the address of this symbol will be figured out latter by the linker. In our situation, the symbol `kernel_main` is the name of a function that will be defined as a C code in the main kernel code and it is the starting point of the main kernel.
 
 ### Entering Protected-Mode
+The code of `load_gdt` routine is the following.
+
+```{.asm}
+load_gdt:
+	cli
+	lgdt [gdtr - start]
+	
+	ret
+```
+
+According to Intel's x86 manual, it is recommended to disable the interrupts before starting the process of switching to protected-mode, so, the first step of `load_gdt` routine is to disable the interrupts by using the instruction `cli` ^[In fact, `cli` disables only maskable interrupts but I use the general term interrupts here for the sake for simplicity.].
+
+The second step of `load_gdt` is to set the value of `GDTR` register.
+
+<!-- Explaining load_gdt and enter_protected_mode -->
 
 <!--
-#### Loading GDT
-#### Give the C kernel the control
-
 ### Setting Video Mode
+### Giving the Main Kernel Code the Control
 
 ## Writing the C Kernel
 ### A Glance at Graphics with VGA
