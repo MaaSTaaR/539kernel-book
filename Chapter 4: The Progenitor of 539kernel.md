@@ -37,7 +37,7 @@ start:
 	call init_video_mode
 	call enter_protected_mode
 	
-	call 08h:( 0x09000 + ( start_kernel - start ) )
+	call 08h:start_kernel
 ```
 
 The code of the starter begins from the label `start`, from now on I'm going to use the term *routine* for any callable assembly label ^[The term routine is more general than the terms function or procedure, if you haven't encounter programming languages that make distinctions between the two terms (e.g. Pascal) then you can consider the term *routine* as a synonym to the term *function* in our discussion.]. You should be familiar with the most of this code, as you can see, the routine `start` begins by setting the proper memory address of data segment depending on the value of the code segment register `cs` ^[As you know from our previous examination, the value of `cs` will be changed by the processor once a far jump is performed.] which is going to be same as the beginning of the starter's code. After that, the three steps that we have described are divided into three routines that we are going to write during this chapter, these routines are going to be called sequentially. Finally, the starter preforms a far jump to the code of the main kernel. But before examining the details of those steps let's stop on first two line of this code that could be new to you.
@@ -64,7 +64,11 @@ load_gdt:
 
 According to Intel's x86 manual, it is recommended to disable the interrupts before starting the process of switching to protected-mode, so, the first step of `load_gdt` routine is to disable the interrupts by using the instruction `cli` ^[In fact, `cli` disables only maskable interrupts but I use the general term interrupts here for the sake for simplicity.].
 
-The second step of `load_gdt` is to set the value of `GDTR` register.
+The second step of `load_gdt` is to set the value of `GDTR` register. First, you should note that both `gdtr` and `start` are labels in the starter code, we have already used `start` as a label for the main routine of the starter, but the label `gdtr` is a one that we are going to define later, what you need to know right now about this label is that is contains the value that we would like to load into the register `GDTR`, that is, it contains the memory address of the 539kernel's `GDT` table and the size of the table.
+
+From our previous discussions, you know that when we mention any label through the assembly code it will be substituted with the memory address of this label, so, what is going on with the operand `[gdtr - start]` of `lgdt`? and why do we need to subtract the memory address of the label `start` from the memory address of label `gdtr`? First we need to understand the meaning of the brackets `[]` in NASM. Those brackets are used to refer to the content of a memory location inside the brackets, for example, assume we have a label named `foo` and we store the value `bar` in this label ^[In the same way of the labels `title_string` and `message_string` in the bootloader.], then, `[foo]` in NASM means take the memory address of `foo` then get the content of the memory inside this memory location, the value `bar`. In other words, `mov eax, foo` means put the memory address of the label `foo` inside the register `eax` while `mov eax, [foo]`  means put the value `bar` inside the register. In C, this concept is same as the pointers, assume `foo` is a pointer in C, then `*foo` expression is an equivalent to `mov eax, [foo]` while `foo` expression is equivalent to `mov eax, foo`.
+
+After this explanation we now know that `[gdtr - start]` means subtract the memory address of `start` from the memory address of `gdtr` and use the result as a memory address and take the content inside this new address and load it to the register `GDTR`, but the current question is why do we need to perform the subtraction? isn't it enough to just get the memory address of the label `gdtr` and get its content and load it into the `GDTR`?
 
 <!-- Explaining load_gdt and enter_protected_mode -->
 
