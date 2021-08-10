@@ -70,9 +70,37 @@ From our previous discussions, you know that when we mention any label through t
 
 After this explanation we now know that `[gdtr - start]` means subtract the memory address of `start` from the memory address of `gdtr` and use the result as a memory address and take the content inside this new address and load it to the register `GDTR`, but the current question is why do we need to perform the subtraction? isn't it enough to just get the memory address of the label `gdtr` and get its content and load it into the `GDTR`? The problem is when we refer to any label, this label will be substituted with the **full memory address** of that label, and if we tell NASM to get the content of the label `gdtr` through the brackets `[gdtr]` it will be considered as a refer to the memory (because it is) to get some data and as we have said earlier, with any refer to the memory the processor, in real-mode, is going to consult the corresponding segment register, in our case `ds`, and consider the referred memory address in the code as an offset inside the segment which starts from the memory address which is stored in the segment register. So, when we refer to the location of the label `gdtr` we need to make sure that we are referring to the offset of `gdtr` and not the full physical address, otherwise, the referred address will not be correct. To get the offset of `gdtr` instead of its full memory address we simply subtract the start memory address of the data segment from the memory address of `gdtr`, and we can get this value of that memory address in many ways, one of them is by referring to the `start` label. Let's take an example to make the matter of getting the offset of a label more clear, assume that the memory address of `start` is `1000d` while the memory address of `gdtr` is `1050d`, based on the beginning code of `start` routine, the value of `ds` will be `1000d`, then `gdtr - start = 1050d - 1000d = 50d`, when the processor refers to the memory location by using the starting address of the data segment which is in `ds` the final generated address will be `ds:(gdtr - start) = 1000d:50d = 1050d` which is exactly the same as the memory address of `gdtr`.
 
-Now, let's take a look to the value of the label `gdtr`, for the sake of organizing the code, I've dedicated a separated file for the values of `gdtr` and `gdt` labels under the name `gdt.asm`.
+Now, let's take a look to the value of the label `gdtr`, for the sake of organizing the code, I've dedicated a separated file for the values of `gdtr` and `gdt` under the name `gdt.asm`. To make the starter able to reach the labels `gdtr` and `gdt` which reside in a different assembly file than `starter.asm` we can use NASM's directive `%include` which will be substituted with the content of the file which is passed to this directive, so, in the end of `starter.asm` we need to add the line `%include "gdt.asm"` so the starter can reach `gdtr`. Now let's see content of `gdt.asm`.
 
-<!-- Explaining load_gdt and enter_protected_mode -->
+```{.asm}
+gdt:
+	null_descriptor				: 	dw 0, 0, 0, 0
+	kernel_code_descriptor		: 	dw 0xffff, 0x0000, 9a00h, 0x00cf
+	kernel_data_descriptor		: 	dw 0xffff, 0x0000, 0x9200, 0x00cf
+	userspace_code_descriptor	: 	dw 0xffff, 0x0000, 0xfa00, 0x00cf
+	userspace_data_descriptor	: 	dw 0xffff, 0x0000, 0xf200, 0x00cf
+
+gdtr:
+	gdt_size			: 	dw ( 5 * 8 )
+	gdt_base_address	: 	dd gdt
+
+```
+As we have said before <!-- TODO: did we? -->, the label `gdt` is the GDT table of 539kernel, while the label `gdtr` is the content of the special register `GDTR` that should be loaded by the stater to make the processor use 539kernel's GDT, the structures of both GDT table and GDTR register have been examined in details in the previous chapter <!-- [REF] -->. As you can see, the GDT table of 539kernel contains `5` entries, the first one is known as *null entry* which is a requisite in x86 architecture, in any GDT table, the first entry should be the null entry that contains zeros. The second and third entries represent the code segment and data segment of the kernel, while the fourth and the fifth entries represent the code segment and data segment of the user-space applications. The properties of each entries is shown in the table <!-- TODO --> and as you can see, based on the base address and limit of each segment, 539kernel employs the flat memory model. Because the values of GDT entries are set by bits level we need to combine these bits at least as a set of bytes (or larger as in our current code), by combining them into units that are larger than a bit the values will be unreadable for the human, as you can see, a mere look at the values of each entry cannot tells us directly what is the properties of each of these entries. I've written a simple script by using Python 3 that generates the proper values as double words by taking the required entries in GDT as JSON input. The following is the code of the script if you would like to generate a different GDT table than the one which is presented here. <!-- TODO --> And the JSON input of 539kernel's GDT table is <!-- TODO -->.
+
+The second label `gdtr` has the same structure of x86's register GDTR since we want to load the content of this label to the register directly. As you can see, the first part of `gdtr` is the size of the GDT table, we know that we have `5` entries in our GDT table and we already know from previous chapter <!-- [REF] --> that each entry in the GDT table has the size of `8` bytes. That means the total size of our GDT table is `5 * 8 = 40 bytes`. The second part of `gdtr` is the full memory address of the label `gdt`, which is, once again, 539kernel's GDT table. As you can see here, we didn't subtract the memory address of `start` from `gdt` memory address here, and that's because we need to load the full physical memory address of `gdt` into the GDTR table and not just its offset inside a given data segment, as we know, when the processor tries to reach the GDT table it doesn't consult any segment register ^[Otherwise it is going to be a paradox! to reach the GDT table you need to reach the GDT table first!], it assumes that the full physical memory address of GDT is stored in the register GDTR, and to get the full memory address of a label in NASM we need to just mention the name of that label.
+
+Till this point, we have examined the routine `load_gdt`, let's know examine the routine `enter_protected_mode` which does the real job of switching the operating mode of the processor from real-mode to protected-mode. Its code is the following.
+
+```{.asm}
+enter_protected_mode:
+	mov eax, cr0
+	or al, 1
+	mov cr0, eax
+	
+	ret
+```
+
+To understand what this code does we need first to know what is a *control register*.
 
 <!--
 ### Setting Video Mode
