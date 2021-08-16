@@ -148,9 +148,43 @@ As you recall, the far jump which is required after switching to protected-mode 
 
 
 ## Writing the C Kernel
-<!--
+Till this point, we are ready to write the C code of 539kernel, as mentioned earlier, the current C code is going to print some text on the screen after it gets the control from the starter. Before writing the code that prints text on the screen, we need to examine VGA standard.
+
 ### A Glance at Graphics with VGA
+Video Graphics Array (VGA) is a graphics standard that has been introduced with IBM PS/2 in 1987, and because our modern computers are compatible with the old IBM PC we still can use this standard. For our purpose, VGA is easy to use, at any point of time the screen can be in a specific *video mode* and each video mode has its own properties such as its resolution and the number of available colors. Basically, we can divide the available video modes into two groups, the first one consists of the modes that just support texts, that is, when the screen is on one of these modes then the only output on the screen will be texts we call this group *text mode*, while the second consists of the modes that can be used to draw pixels on the screen and we call this group *graphics mode*, we know that everything on computer's screen is drawn by using pixels, including texts and even the components of graphical user interface (GUI) which they usually called widgets, usually, some basic low-level graphics library is used by GUI toolkit and this library provides functions to draw some primitive shapes pixel by pixel, for instance, a function to draw a line can be provided and another function to draw a rectangle and so on. This basic library can be used by GUI toolkit to draw more advanced shapes known as widgets, a simple example is the button widget, which is basically drawn on the screen as a rectangle, and the GUI toolkit should maintain some basic properties that associated to this rectangle to convert it from a soulless shape on the screen to a button that can be clicked, fires an event and has some label upon it. When we have written the starter's routine `init_video_mode` we told BIOS to set the video mode to a text mode, and as we mentioned we can tell BIOS to set the video mode to graphics mode by changing the value `03h` to `13h`.
+
+Whether the screen is in a text or graphics mode, to print some character on the screen or to draw some pixels on it. The values that you would like to the screen can be written to *video memory* which is just a part of the main memory that has a known starting memory address, for example, in text mode, the starting memory address of the video memory `b8000h` as we will see in a moment, note that this memory address is a physical memory address, not logical and not linear. Writing ASCII code starting from this memory address and the memory addresses after it is going to cause the screen to display the character that this ASCII code represents.
+
 #### VGA Text Mode
+When the screen it is in the text mode `03h` to print a character it should be represented in two bytes that are stored contiguously in video memory, the first byte is the ASCII code of the character that we would like to print, while the second bytes contains the information of the background and foreground colors that will be used to print this character. Before getting started in implementing `print` function of 539kernel, let's take a simple example of how to print a character, `A` for example, on the screen  by using the video memory. From starter's code you known that the function `kernel_main` is the entry point of the main kernel code.
+
+```{.c}
+volatile unsigned char *video = 0xB8000;
+
+void kernel_main()
+{
+	video[ 0 ] = 'A';
+    
+    while( 1 );
+}
+```
+
+Don't focus on the last line `while ( 1 );` right now, it is an infinite loop and it is not related to our current discussion. As you can see, we have defined a pointer of `char` (`1` byte) called `video` which points to the beginning of video memory in color text mode ^[A monochrome text mode is also available and its video memory starts from `b0000h` instead.]. And now, by using C's feature that considers arrays accessing syntax as a syntactic sugar to pointer arithmetic ^[Thanks God!] we write the ASCII code of `A` to the memory location `b0000h + 0` to make the screen shows the character `A` on the screen. Now, let's assume we would like to print `B` right after `A`, then we should add the line `video[ 2 ] = 'B';` to the code, note that the index that we write `B` on is `2` and not `1`, why? Because as we said, the byte right after the character contains color information and not the next character that we would like to print.
+
+Now, knowing what we know about text mode, let's write some functions for 539kernel that deal with printing stuff on the screen. The first function is `print`, which takes a string of character as a parameter and prints the whole string on the screen, the second function is `println` which prints a new line and the last function is `printi` which prints integers on the screen. Let's begin by defining some global variables that we will use later and writing the declarations of the three functions.
+
+```{.c}
+int textCurrPos = 0;
+int lastStrSize = 0;
+
+void print( char * );
+void println();
+void printi( int );
+```
+
+For now, these declarations should be on the top of `main.c` <!-- TODO: did we mention main.c earlier? -->, that is before the code of `kernel_main`, and the code of those functions should be on the bottom of `kernel_main` ^[Can you tell why?].
+
+<!--
 #### VGA Graphics Mode
 
 ## Loading More Sectors in Bootloader
