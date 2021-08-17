@@ -171,18 +171,48 @@ void kernel_main()
 
 Don't focus on the last line `while ( 1 );` right now, it is an infinite loop and it is not related to our current discussion. As you can see, we have defined a pointer of `char` (`1` byte) called `video` which points to the beginning of video memory in color text mode ^[A monochrome text mode is also available and its video memory starts from `b0000h` instead.]. And now, by using C's feature that considers arrays accessing syntax as a syntactic sugar to pointer arithmetic ^[Thanks God!] we write the ASCII code of `A` to the memory location `b0000h + 0` to make the screen shows the character `A` on the screen. Now, let's assume we would like to print `B` right after `A`, then we should add the line `video[ 2 ] = 'B';` to the code, note that the index that we write `B` on is `2` and not `1`, why? Because as we said, the byte right after the character contains color information and not the next character that we would like to print.
 
-Now, knowing what we know about text mode, let's write some functions for 539kernel that deal with printing stuff on the screen. The first function is `print`, which takes a string of character as a parameter and prints the whole string on the screen, the second function is `println` which prints a new line and the last function is `printi` which prints integers on the screen. Let's begin by defining some global variables that we will use later and writing the declarations of the three functions.
+For sure, each character that we print has a specific position on the screen. Usually, in computer graphics a coordinate system <!-- TODO: which one? --> is used to indicate the position of the entity in question (e.g. a pixel, or in our current case a character). The limit of `x` axis, that is, the last number in `x` axis and the limit of `y` axis is determined by the resolution of the screen. For example, in `03h` text mode the resolution of the screen is `80` of the width and `25` for the height. That means that the last available number on `x` axis is `80` and on `y` axis is `25` which means that the last point that we can use to print a character on is `(80, 25)` and its position will be on the bottom of the screen at the right side while the position of the point `(0, 0)` which is also known as *origin point* is on the top at the left side. In the previous example, when we wrote the character `A` on the location `0` of the video memory we actually put it on the origin point, while we have put `B` on the point `(1, 0)`, that is, on the second row and first column of the screen and as you can see, each even location ^[As you know, in even locations of the video memory the character are stored, while in odd locations the color information of those characters are stored.] of the video memory can be translated to a point on the coordinate system and vice versa.
+
+Now, knowing what we know about text mode, let's write some functions for 539kernel that deal with printing stuff on the screen. The first function is `print`, which takes a string of character as a parameter and prints the whole string on the screen, the second function is `println` which prints a new line and the last function is `printi` which prints integers on the screen. Let's begin by defining some global variables that we will use later and writing the declarations of the three functions. These declarations should be on the top of `main.c` <!-- TODO: did we mention main.c earlier? -->, that is before the code of `kernel_main`, and the code of those functions should be on the bottom of `kernel_main` ^[Can you tell why?].
 
 ```{.c}
-int textCurrPos = 0;
-int lastStrSize = 0;
+int nextTextPos = 0;
+int currLine = 0;
 
 void print( char * );
 void println();
 void printi( int );
 ```
+The global variable `nextTextPos` is used to maintain the value of `x` in the coordinate system which will be used to print the next character while `currLine` maintains the current value of `y` in coordinate system, in other words, the current line of the screen that the characters will be printed on. The following is the code of `print`.
 
-For now, these declarations should be on the top of `main.c` <!-- TODO: did we mention main.c earlier? -->, that is before the code of `kernel_main`, and the code of those functions should be on the bottom of `kernel_main` ^[Can you tell why?].
+```{.c}
+void print( char *str )
+{
+	int currCharLocationInVidMem, currColorLocationInVidMem;
+	
+	while ( *str != '\0' )
+	{
+        currCharLocationInVidMem = nextTextPos * 2;
+		currColorLocationInVidMem = currCharLocationInVidMem + 1;
+		
+		video[ currCharLocationInVidMem ] = *str;
+		video[ currColorLocationInVidMem ] = 15;
+		
+		nextTextPos++;
+		
+		str++;
+	}
+}
+```
+
+Beside putting the characters in the correct location in the video memory, the function `print` has two other jobs to do. The first is iterating through each character in the string that has been passed through the parameter `str` and the second one is translating the value of `x` into the corresponding memory location ^[Please note that the way of writing this code and any other code in 539kernel is focuses on the readability of the code instead of efficiency in term of anything<!-- TODO: Maybe move this note to the introduction of the book? -->. Therefore, there is absolutely better ways of writing this code and any other code in term of performance or space efficiency]. For the first job, we use the normal way of C programming language which as we mentioned earlier, considers the type string as an array of characters the ends with the null character `\0`. For the second job, the two local variables `currCharLocationInVidMem` and `currColorLocationInVidMem` which, as I think, have a pretty clear names, are used to store the calculated video memory location that we are going to put the character on based on the value of `nextTextPos`. As we have said before, the characters should be stored in an even position, therefore, we multiply the current value `nextTextPos` with `2` to get the next even location in the video memory, and since we are starting from `0` in `nextTextPos`, we can ensure that we are going to use all available locations in the video memory and because the color information is stored in the byte exactly next to the character byte, then calculating `currColorLocationInVidMem` is too easy, we just need to add `1` to the location of the character. Finally, we increase the value `nextTextPos` by `1` since we have used the `x` position that `nextTextPos` is pointing to for printing the current character ^[What if the length of the text printed on a specific line exceeds the limit of `x` which is `80`? Yes, there is a bug in this current implementation, as an exercise try to solve it <!-- TODO: present the code of the fix, no need for explanation, just the code. -->.]. The last point to discuss is the code line which put the color information `video[ currColorLocationInVidMem ] = 15;`, as you can see, we have used the value `15` which means white color as foreground, you can manipulate this value to change the background and foreground color of the characters ^[But you need to wait until you can compile the code! Sorry for that!]. Next, is the code of `println`.
+
+```{.c}
+void println()
+{
+	nextTextPos = ++currLine * 80;
+}
+```
 
 <!--
 #### VGA Graphics Mode
