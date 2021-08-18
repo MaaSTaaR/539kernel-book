@@ -1,7 +1,5 @@
 # The Progenitor of 539kernel
 
-<!-- TODO: Put the kernel main code -->
-
 ## Introduction
 Till the point, we have created a bootloader for 539kernel that loads a simple assembly kernel from the disk and gives it the control. Furthermore, we have gained enough knowledge of x86 architecture basics to write the progenitor of 539kernel which is, as we have said, a 32-bit x86 kernel that runs in protected-mode. In x86, to be able to switch from real-mode to protected-mode, the global descriptor table should be initialized and loaded first. After entering the protected mode, the processor will be able to run 32-bit code <!-- TODO: CHECK, can real-mode somehow runs 32-bit code? --> which gives us the chance to write the rest of kernel's code in C and use some well-known C compiler ^[We are going to use GNU GCC in this book.] to compile the kernel's code to 32-bit binary file. When our code runs in protected-mode, the ability of reaching BIOS services will be lost which means that printing text on the screen by using BIOS service will not be available for us, although the part of printing to the screen is not an essential part of a kernel, but we need it to check if the C code is really running by printing some text once the C code gains the control of the system. Instead of using BIOS to print texts, we need to use the *video memory* to achieve this goal in protected mode which introduces us to a graphics standard known as *video graphics array* (VGA). The final output of this chapter will be the progenitor of 539kernel which has a bootloader that loads the kernel which contains two parts, the first part is called *starter* which is written in assembly, this part initializes and loads the GDT table, then it is going to change the operating mode of the processor from real-mode to protected-mode and finally it is going to prepare the environment for the C code of the kernel which is the second part (which we are going to call the *main kernel code* or *main kernel* in short) and it is going to gain the control from the starter after the latter finishes its work. In this early stage, the C code will only contains an implementation for a `print` function and it is going to print some text on the screen, in the later stages, this part will contain the main code of 539kernel.
 
@@ -24,8 +22,35 @@ load_kernel_from_disk:
 
 These two lines will be executed before calling BIOS service `13,2` that loads sectors from disk, and they are going to tell BIOS to load the sector starting from the physical memory address `0900h`, in other words, these lines are saying that the sector will be loaded in a segment that starts from the physical memory address `0900h`, and the exact offset inside this segment that the sector will be loaded into is decided by the value of register `bx` before calling the service of BIOS, in our bootloader we have set `bx` to `0`, which means the sector of the kernel will be loaded in the memory address `0900h:0000` and due to that when our bootloader finishes its job and decides to jump to the kernel code the operand of `jmp` instruction was `0900h:0000` which means that the value of `cs` register will be `0900h` and the value of `ip` register will be `0000` when the bootloader jumps to the loaded kernel.
 
-## Writing the Starter
-The starter is the first part of 539kernel which runs after the bootloader which means that the starter runs in 16-bit real-mode environment, exactly same as the bootloader, and due to that we are going to write the starter by using assembly language instead of C. The main job of the starter is to prepare the environment for the main kernel to run in. To prepare the proper environment for the main kernel the starter switches the current operating mode from the real-mode to protected-mode which, as we have said earlier, gives us the chance to run 32-bit code. Before switching to protected-mode, the starter is going to initialize and load the GDT table, furthermore, to be able to use the video memory correctly in protected-mode a proper video mode should be set ^[We are going to discuss the matter of video in more details later in this chapter <!-- [REF] -->]. Finally, the starter will be able to switch to protected-mode and gives the control to the main kernel. Let's start with the prologue of the starter's code which reflects the steps that we have just described.
+## The Basic Code of The Progenitor
+In this section we are going to start writing the most of 539kernel's progenitor code but one part which is related to the interrupts which will be examined in another section <!-- [REF] --> of this chapter. To be able to compile and run the code that we write in this section you need to update the `Makefile` of 539kernel, the changes of `Makefile` also will be examined in another section of this chapter. The following is the `Makefile` which presume that both `starter.asm` and `main.c` are available.
+
+```{.makefile}
+ASM = nasm
+CC = gcc
+BOOTSTRAP_FILE = bootstrap.asm 
+INIT_KERNEL_FILES = starter.asm
+KERNEL_FILES = main.c
+KERNEL_FLAGS = -Wall -m32 -c -ffreestanding -fno-asynchronous-unwind-tables -fno-pie
+KERNEL_OBJECT = -o kernel.elf
+
+build: $(BOOTSTRAP_FILE) $(KERNEL_FILE)
+	$(ASM) -f bin $(BOOTSTRAP_FILE) -o bootstrap.o
+	$(ASM) -f elf32 $(INIT_KERNEL_FILES) -o starter.o 
+	$(CC) $(KERNEL_FLAGS) $(KERNEL_FILES) $(KERNEL_OBJECT)
+	ld -melf_i386 -Tlinker.ld starter.o kernel.elf -o 539kernel.elf
+	objcopy -O binary 539kernel.elf 539kernel.bin
+	dd if=bootstrap.o of=kernel.img
+	dd seek=1 conv=sync if=539kernel.bin of=kernel.img bs=512 count=2
+	dd seek=3 conv=sync if=/dev/zero of=kernel.img bs=512 count=2046
+	qemu-system-x86_64 -s kernel.img
+```
+
+<!-- HERE -->
+<!-- Topic: Loading More Sectors in Bootloader -->
+
+### Writing the Starter
+The starter is the first part of 539kernel which runs after the bootloader which means that the starter runs in 16-bit real-mode environment, exactly same as the bootloader, and due to that we are going to write the starter by using assembly language instead of C. The main job of the starter is to prepare the environment for the main kernel to run in. To prepare the proper environment for the main kernel the starter switches the current operating mode from the real-mode to protected-mode which, as we have said earlier, gives us the chance to run 32-bit code. Before switching to protected-mode, the starter is going to initialize and load the GDT table and the interrupts via IDT table, furthermore, to be able to use the video memory correctly in protected-mode a proper video mode should be set ^[We are going to discuss the matter of video in more details later in this chapter <!-- [REF] -->]. Finally, the starter will be able to switch to protected-mode and gives the control to the main kernel. Let's start with the prologue of the starter's code which reflects the steps that we have just described.
 
 ```{.asm}
 bits 16
@@ -36,13 +61,14 @@ start:
 	mov ds, ax
 		
 	call load_gdt
+	call load_idt
 	call init_video_mode
 	call enter_protected_mode
 	
 	call 08h:start_kernel
 ```
 
-The code of the starter begins from the label `start`, from now on I'm going to use the term *routine* for any callable assembly label ^[The term routine is more general than the terms function or procedure, if you haven't encounter programming languages that make distinctions between the two terms (e.g. Pascal) then you can consider the term *routine* as a synonym to the term *function* in our discussion.]. You should be familiar with the most of this code, as you can see, the routine `start` begins by setting the proper memory address of data segment depending on the value of the code segment register `cs` ^[As you know from our previous examination, the value of `cs` will be changed by the processor once a far jump is performed.] which is going to be same as the beginning of the starter's code. After that, the three steps that we have described are divided into three routines that we are going to write during this chapter, these routines are going to be called sequentially. Finally, the starter preforms a far jump to the code of the main kernel. But before examining the details of those steps let's stop on first two line of this code that could be new to you.
+The code of the starter begins from the label `start`, from now on I'm going to use the term *routine* for any callable assembly label ^[The term routine is more general than the terms function or procedure, if you haven't encounter programming languages that make distinctions between the two terms (e.g. Pascal) then you can consider the term *routine* as a synonym to the term *function* in our discussion.]. You should be familiar with the most of this code, as you can see, the routine `start` begins by setting the proper memory address of data segment depending on the value of the code segment register `cs` ^[As you know from our previous examination, the value of `cs` will be changed by the processor once a far jump is performed.] which is going to be same as the beginning of the starter's code. After that, the four steps that we have described are divided into four routines that we are going to write during this chapter, these routines are going to be called sequentially. Finally, the starter preforms a far jump to the code of the main kernel. But before examining the details of those steps let's stop on first two line of this code that could be new to you.
 
 ```{.asm}
 bits 16
@@ -53,7 +79,14 @@ The first line uses the directive <!-- TODO: have we explained the meaning of "d
 
 The second line uses the directive `extern` which tells `NASM` that there is a symbol ^[A symbol is a term that means a function name or a variable name. In our current situation `kernel_main` is a function name.] which is external and not defined in any place in the code (e.g. as a label) that you are currently assembling, so, whenever you the code uses this symbol, don't panic, and continue you job, and the address of this symbol will be figured out latter by the linker. In our situation, the symbol `kernel_main` is the name of a function that will be defined as a C code in the main kernel code and it is the starting point of the main kernel.
 
-### Entering Protected-Mode
+As I've said earlier, the stuff that are related to interrupts will be examined in another section <!-- [REF] --> of this chapter. To get a working progenitor we are going to define the routine `load_idt` as an empty routine temporarily until we reach the interrupts section. Its code will be the following.
+
+```{.asm}
+load_idt:
+	ret
+```
+
+#### Entering Protected-Mode
 The code of `load_gdt` routine is the following.
 
 ```{.asm}
@@ -104,9 +137,7 @@ enter_protected_mode:
 
 To understand what this code does we need first to know what is a *control register*. In x86 there is a bunch of control registers, and one of them has the name `cr0` ^[The others are `cr1` till `cr7`.]. The control registers contain values that determine the behavior of the processor, for example, the last bit of `cr0`, that is, bit `31` indicates that paging is currently enabled when its value is `1`, while the value `0` means paging is enabled. The bit of our concern in this memory if the first bit (bit `0`) in `cr0`, when the value of this bit is `1` that means protected-mode is enabled, while the value `0` means protected-mode is disabled. To switch the operating mode to protected-mode we need to change the value of this bit to `1` and that's exactly what we do in the routine `enter_protected_mode`. Because we can't manipulate the value of a control register directly, we copy the value of `cr0` to `eax` in the first line, note that we are using `eax` here instead of `ax` and that's because the size of `cr0` is `32-bit`. We need to keep all values of other bits in `cr0` but bit `0` which we need to change to `1`, to perform that we use the Boolean operator `OR` that works on the bit level, what we do in the second line of the routine `enter_protected_mode` is a bit-wise operation, that is, an operation in bits level, the value of `eax`, which is at this point is the same value of `cr0`, will be *ORred* with the value `1`, the binary representation of the value `1` in this instruction will be the following `0000 0000 0000 0000 0000 0000 0000 0001`, a binary sequence of size `32-bit` with `31` leading zeros and one in the end. Now, what does the Boolean operator `OR` do? It takes to parameters and each parameter has two possible values `0` or `1` ^[Also, can be considered as **true** for `1` and **false** for `0`.], there are only four possible inputs and outputs in this case, `1 OR 1 = 1`, `1 OR 0 = 1`, `0 OR 1 = 1` and `0 OR 0 = 0`. In other words, we are saying, if one of the inputs is `1` then the output should be `1`, also, we can notice that when one of the inputs is `0` then the output will always be same as the other input ^[Boolean operators are well-known in programming languages and they are used mainly with `if` statement.]. By employing these two observations we can keep the all values from bit `1` to bit `31` of `cr0` by ORring their values with `0` and we can change the value of bit `0` to `1` by ORring its current value with `1` and that's exactly what we do in the second line of the routine. As I've said, the operation that we have just explained is known as a *bit-wise operation*, if you are not familiar with this kind of operations that work on bit level, please refer to Appendix<!-- [REF] -->. Finally, we move the new value to `cr0` in the last line, and after executing this line the operating mode of the processor with be protected-mode.
 
-### Setting Up Interrupts
-<!-- [MQH] HERE -->
-### Setting Video Mode
+#### Setting Video Mode
 As I mentioned before, in protected-mode, the services of BIOS will not be available. Hence, when we need to print some text on the screen after switching to protected-mode we can't use the same way that we have used till this point. Instead, the video memory which is a part of VGA standard <!-- TODO: CHECK, IS IT A PART OF VGA? --> should be used to write text on the screen or even drawing something on it. To be able to use the video memory, a correct *video mode* should be set, and there is a BIOS service that we can use to set the correct video mode. That means, before switching to protected-mode the correct video mode should be set first because we are going to use BIOS service to perform that and that's why the routine `init_video_mode` is being called before the routine `enter_protected_mode`. Now let's take a look at the code of `init_video_mode`.
 
 ```{.asm}
@@ -127,7 +158,7 @@ This routine consists of two parts, the first part calls the service `0h` of BIO
 The second part of this routine uses the service `01` of BIOS's `10h`, the purpose of this part is to disable the text cursor, since the user of 539kernel will not be able to write text as input, as in command line interface for example, we will not the cursor to be shown. The service `01` is used to set the type of the cursor, and the value `2000h` in `cx` means disable the cursor.
 
 
-### Giving the Main Kernel Code the Control
+#### Giving the Main Kernel Code the Control
 According to Intel's manual, after switching to protected-mode a far jump should be performed, and the protected-mode of dealing with segments (via segment selectors) should be used. Let's begin with the routine `start_kernel` which is the last routine to be called from `start` routine.
 
 ```{.asm}
@@ -153,15 +184,15 @@ As you recall, the far jump which is required after switching to protected-mode 
 
 
 
-## Writing the C Kernel
+### Writing the C Kernel
 Till this point, we are ready to write the C code of 539kernel, as mentioned earlier, the current C code is going to print some text on the screen after it gets the control from the starter. Before writing the code that prints text on the screen, we need to examine VGA standard.
 
-### A Glance at Graphics with VGA
+#### A Glance at Graphics with VGA
 Video Graphics Array (VGA) is a graphics standard that has been introduced with IBM PS/2 in 1987, and because our modern computers are compatible with the old IBM PC we still can use this standard. For our purpose, VGA is easy to use, at any point of time the screen can be in a specific *video mode* and each video mode has its own properties such as its resolution and the number of available colors. Basically, we can divide the available video modes into two groups, the first one consists of the modes that just support texts, that is, when the screen is on one of these modes then the only output on the screen will be texts we call this group *text mode*, while the second consists of the modes that can be used to draw pixels on the screen and we call this group *graphics mode*, we know that everything on computer's screen is drawn by using pixels, including texts and even the components of graphical user interface (GUI) which they usually called widgets, usually, some basic low-level graphics library is used by GUI toolkit and this library provides functions to draw some primitive shapes pixel by pixel, for instance, a function to draw a line can be provided and another function to draw a rectangle and so on. This basic library can be used by GUI toolkit to draw more advanced shapes known as widgets, a simple example is the button widget, which is basically drawn on the screen as a rectangle, and the GUI toolkit should maintain some basic properties that associated to this rectangle to convert it from a soulless shape on the screen to a button that can be clicked, fires an event and has some label upon it. When we have written the starter's routine `init_video_mode` we told BIOS to set the video mode to a text mode, and as we mentioned we can tell BIOS to set the video mode to graphics mode by changing the value `03h` to `13h`.
 
 Whether the screen is in a text or graphics mode, to print some character on the screen or to draw some pixels on it. The values that you would like to the screen can be written to *video memory* which is just a part of the main memory that has a known starting memory address, for example, in text mode, the starting memory address of the video memory `b8000h` as we will see in a moment, note that this memory address is a physical memory address, not logical and not linear. Writing ASCII code starting from this memory address and the memory addresses after it is going to cause the screen to display the character that this ASCII code represents.
 
-#### VGA Text Mode
+##### VGA Text Mode
 When the screen it is in the text mode `03h` to print a character it should be represented in two bytes that are stored contiguously in video memory, the first byte is the ASCII code of the character that we would like to print, while the second bytes contains the information of the background and foreground colors that will be used to print this character. Before getting started in implementing `print` function of 539kernel, let's take a simple example of how to print a character, `A` for example, on the screen  by using the video memory. From starter's code you known that the function `kernel_main` is the entry point of the main kernel code.
 
 ```{.c}
@@ -211,7 +242,7 @@ void print( char *str )
 }
 ```
 
-Beside putting the characters in the correct location in the video memory, the function `print` has two other jobs to do. The first is iterating through each character in the string that has been passed through the parameter `str` and the second one is translating the value of `x` into the corresponding memory location ^[Please note that the way of writing this code and any other code in 539kernel is focuses on the readability of the code instead of efficiency in term of anything<!-- TODO: Maybe move this note to the introduction of the book? -->. Therefore, there is absolutely better ways of writing this code and any other code in term of performance or space efficiency]. For the first job, we use the normal way of C programming language which as we mentioned earlier, considers the type string as an array of characters the ends with the null character `\0`. For the second job, the two local variables `currCharLocationInVidMem` and `currColorLocationInVidMem` which, as I think, have a pretty clear names, are used to store the calculated video memory location that we are going to put the character on based on the value of `nextTextPos`. As we have said before, the characters should be stored in an even position, therefore, we multiply the current value `nextTextPos` with `2` to get the next even location in the video memory, and since we are starting from `0` in `nextTextPos`, we can ensure that we are going to use all available locations in the video memory and because the color information is stored in the byte exactly next to the character byte, then calculating `currColorLocationInVidMem` is too easy, we just need to add `1` to the location of the character. Finally, we increase the value `nextTextPos` by `1` since we have used the `x` position that `nextTextPos` is pointing to for printing the current character. The last point to discuss is the code line which put the color information `video[ currColorLocationInVidMem ] = 15;`, as you can see, we have used the value `15` which means white color as foreground, you can manipulate this value to change the background and foreground color of the characters ^[But you need to wait until you can compile the code! Sorry for that!]. Next, is the code of `println`.
+Beside putting the characters in the correct location in the video memory, the function `print` has two other jobs to do. The first is iterating through each character in the string that has been passed through the parameter `str` and the second one is translating the value of `x` into the corresponding memory location ^[Please note that the way of writing this code and any other code in 539kernel is focuses on the readability of the code instead of efficiency in term of anything<!-- TODO: Maybe move this note to the introduction of the book? -->. Therefore, there is absolutely better ways of writing this code and any other code in term of performance or space efficiency]. For the first job, we use the normal way of C programming language which as we mentioned earlier, considers the type string as an array of characters the ends with the null character `\0`. For the second job, the two local variables `currCharLocationInVidMem` and `currColorLocationInVidMem` which, as I think, have a pretty clear names, are used to store the calculated video memory location that we are going to put the character on based on the value of `nextTextPos`. As we have said before, the characters should be stored in an even position, therefore, we multiply the current value `nextTextPos` with `2` to get the next even location in the video memory, and since we are starting from `0` in `nextTextPos`, we can ensure that we are going to use all available locations in the video memory and because the color information is stored in the byte exactly next to the character byte, then calculating `currColorLocationInVidMem` is too easy, we just need to add `1` to the location of the character. Finally, we increase the value `nextTextPos` by `1` since we have used the `x` position that `nextTextPos` is pointing to for printing the current character. The last point to discuss is the code line which put the color information `video[ currColorLocationInVidMem ] = 15;`, as you can see, we have used the value `15` which means white color as foreground, you can manipulate this value to change the background and foreground color of the characters. Next, is the code of `println`.
 
 ```{.c}
 void println()
@@ -244,7 +275,7 @@ void printi( int number )
 ```
 The first problem with implementing `printi` is that it receives an integer as a parameter, and the ASCII code of this integer cannot be known until we convert it to the corresponding character, this will be easy with the numbers from `0` to `9` as you can see on the first part of this function, but it becomes tricky when the passed integer is greater than `9`. I'm not going to explain the details of converting an integer to a list of characters since that these problems aren't our focus now, but the algorithm here is obvious, and the following example shows how it does work. Let's assume the value of the parameter is `539`, it is a fact that `539 % 10 = 9` ^[The operation which is represented by `%` is known as modulus, in other words, the remaining value of a division.] which is the digit at the right of `539`, also, it is a fact that `539 / 10 = 53.9` and if we get the integer of the result we get `53`, so, by using these simple arithmetic operations, we managed to get a digit from the number and remove this digit from the number. This algorithm is going to split the digits in the reverse order, and due to that I have used recursion and a simple solution to print the number in the correct order. However, on its basis, `printi` depends on the first function `print` to print one digit on the screen and before that this digit is being converted to a character by using the array `digitToStr`.
 
-#### VGA Graphics Mode
+##### VGA Graphics Mode
 Although 539kernel is text-based, it is useful to take a glance on how graphics mode works on VGA. First, to use graphics mode instead of text mode, the value `03h`, which is passed to the register `al` in the routine `init_video_mode` of the starter of 539kernel, it should be changed to `13h` which gives us a graphics mode with `320x200` resolution and `256` colors. Also, the starting memory location of the graphics mode is different and it is `a0000h`.
 
 As explained in the section of text mode <!-- [REF] -->, the coordinate system is used to specify the position of an entity on the screen, in the text mode this entity is a character, while in the graphics mode this entity is a pixel which is a small dot on the screen that has a color. This small dot, when gathers with many others of different colors, creates all the graphics that we see on computers monitors. So, according to the provided resolution (`320x200`) and that the graphical entity <!-- TODO: use this term instead of just "entity" in this section and the one before --> is a pixel, we should know that we are going to have `200` lines (the height or `y`) on the screen and each line can have up to `320` (the width or `x`) of our graphical entity which is the pixel. The structure of video memory is even simpler in graphics mode, each byte represents a pixel on a specific position of the screen and numeric value which represents a color is stored in  byte to be shown in the screen. By using this simple mechanism and a review for the basics of geometry you can draw the primitive shapes on the screen (e.g. lines, rectangles and circles) and by using these basic shapes you can draw even more complex shapes ^[If you are interested on the topic of drawing shapes by using the pixels you can read about the basics of computer graphics and geometry. I recommend a tutorial named "256-Color VGA Programming in C" by David Brackeen as a good starter that combines the basics of both.]. While we are not going any further with this topic since it is out of our scope ^[Sorry for that! I, myself, think this is an interesting topic, but this book is about operating systems kernel!] the following example is intended to give you a feel of how to draw pixels on the screen. It is going to draw blue pixels on all available positions on the screen which is going to perceived as a blue background on the screen.
@@ -261,7 +292,7 @@ void kernel_main()
 	while( 1 );
 }
 ```
-### The Code of `kernel_main`
+#### The Code of `kernel_main`
 Now, everything is ready to write the function `kernel_main`, it does nothing but printing some text by using the functions that we have defined earlier.
 
 ```{.c}
@@ -278,8 +309,13 @@ void kernel_main()
 }
 ```
 
+
+
 <!--
-## Loading More Sectors in Bootloader
+## Interrupts in Practice
+### Communicating with I/O Devices
+### The Programmable Interrupt Controller (PIC)
+
 ## Debugging the Kernel with Bochs
 ## The Makefile
 

@@ -1,4 +1,4 @@
-d# Let's Start with the Bootloader
+# Let's Start with the Bootloader
 
 ## Introduction
 
