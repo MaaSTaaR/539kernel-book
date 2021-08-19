@@ -46,8 +46,50 @@ build: $(BOOTSTRAP_FILE) $(KERNEL_FILE)
 	qemu-system-x86_64 -s kernel.img
 ```
 
-<!-- HERE -->
-<!-- Topic: Loading More Sectors in Bootloader -->
+Beside the `Makefile`, the bootloader also need a modification to make the progenitor code works. In the previous version of the bootloader, we were loading only one sector from the disk ^[Remember, the size of a sector is `512` bytes.] to memory, and that was more than enough for simple code such as `simple_kernel.asm` of chapter 2 <!-- [REF] -->. In most practical cases, the size of the kernel will be more than one sector and the 539kernel's progenitor is not an exception, therefore, the bootloader should load more than one sector in order to load the whole code of the kernel. First we need to add two new data labels in the bootloader, say below the definition of the label `load_error_string`, as the following.
+
+```{.asm}
+number_of_sectors_to_load 	db 	3d
+curr_sector_to_load 		db 	2d
+```
+
+The first one, as it is obvious from its name, indicates the number of sectors that we would like our bootloader to load from the disk, the current value is `3`, which means `1.5 KB` from the disk will be loaded to the memory, if you kernel's size is larger than `1.5 KB` we can simply modify the value of this label and increase the number of sectors to load.
+
+The second label indicates the sector's number that we are going to load now, as you know, sector `1` of the disk contains the bootloader, and based on our arrangement ^[On `Makefile` of 539kernel.] the code of the kernel will be there starting from sector `2` of the disk, therefore, the initial value of this label is `curr_sector_to_load`. The modified version of `load_kernel_from_disk` which loads more than one sector is the following.
+
+```{.asm}
+load_kernel_from_disk:
+	mov ax, [curr_sector_to_load]
+	sub ax, 2
+	mov bx, 512d
+	mul bx
+	mov bx, ax
+	
+	mov ax, 0900h
+	mov es, ax
+	
+	mov ah, 02h
+	mov al, 1h
+	mov ch, 0h
+	mov cl, [curr_sector_to_load]
+	mov dh, 0h
+	mov dl, 80h
+	int 13h
+		
+	jc kernel_load_error
+	
+	sub byte [number_of_sectors_to_load], 1
+	add byte [curr_sector_to_load], 1
+	cmp byte [number_of_sectors_to_load], 0
+	
+	jne load_kernel_from_disk
+	
+	ret
+```
+
+The first difference in this new version of `load_kernel_from_disk` is the first `5` lines of this routine. As you may recall, the BIOS service `10,03` <!-- TODO: use this format everywhere else instead of the old one and tell the reader about it instead of the one that we told the reader about --> loads the required sector into the memory address `es:bx` and due to that we set the value `0900h` to `es` because it is the starting memory address that we chose of kernel's segment. In the previous version of the bootloader it was enough the set `0` to `bx` since we were loading only one sector, that means the code will reside from offset `0` to offset `511` of the segment. Now we are loading more than one sector by executing `load_kernel_from_disk` multiple times (`number_of_sectors_to_load` times) with different `curr_sector_to_load` each time, so, if we keep the value of `bx` fixed to `0`, each sector will overwrite the previously loaded sector and only the last sector of the kernel will be there in memory, which is, of course, not what we want. The first five lines of `load_kernel_from_disk` ensures that each sector is loaded in the correct memory location, the first sector is loaded starting from offset `0` (`(2 - 2) * 512 = 0`), the second sector is loaded starting from offset `512` (`(3 - 2) * 512 = 512`) and the third sector is loaded starting offset `1024` (`(4 - 2) * 512 = 1024`).
+
+The second change of the routine is the value that we set to the register `cl`, for BIOS's `10,03` the value of this register is the sector number that we would like to load. Now, this value depends on `curr_sector_to_load` which starts with `2` and increases by `1` after each sector being loaded. The last `4` lines before `ret` ensures that the value of `curr_sector_to_load` is increased to load the next sector from disk in the next iteration of the routine, the value of `number_of_sectors_to_load` is decreased by `1` after loading each sector and finally the new value of `number_of_sectors_to_load` is compared with `0`, when it is the case then the routine `load_kernel_from_disk` will return, otherwise, the routine will be called again with the new values for both `curr_sector_to_load`, `number_of_sectors_to_load` to load a new sector and so on.
 
 ### Writing the Starter
 The starter is the first part of 539kernel which runs after the bootloader which means that the starter runs in 16-bit real-mode environment, exactly same as the bootloader, and due to that we are going to write the starter by using assembly language instead of C. The main job of the starter is to prepare the environment for the main kernel to run in. To prepare the proper environment for the main kernel the starter switches the current operating mode from the real-mode to protected-mode which, as we have said earlier, gives us the chance to run 32-bit code. Before switching to protected-mode, the starter is going to initialize and load the GDT table and the interrupts via IDT table, furthermore, to be able to use the video memory correctly in protected-mode a proper video mode should be set ^[We are going to discuss the matter of video in more details later in this chapter <!-- [REF] -->]. Finally, the starter will be able to switch to protected-mode and gives the control to the main kernel. Let's start with the prologue of the starter's code which reflects the steps that we have just described.
