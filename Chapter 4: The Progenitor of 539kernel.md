@@ -92,7 +92,7 @@ The first difference in this new version of `load_kernel_from_disk` is the first
 The second change of the routine is the value that we set to the register `cl`, for BIOS's `10,03` the value of this register is the sector number that we would like to load. Now, this value depends on `curr_sector_to_load` which starts with `2` and increases by `1` after each sector being loaded. The last `4` lines before `ret` ensures that the value of `curr_sector_to_load` is increased to load the next sector from disk in the next iteration of the routine, the value of `number_of_sectors_to_load` is decreased by `1` after loading each sector and finally the new value of `number_of_sectors_to_load` is compared with `0`, when it is the case then the routine `load_kernel_from_disk` will return, otherwise, the routine will be called again with the new values for both `curr_sector_to_load`, `number_of_sectors_to_load` to load a new sector and so on.
 
 ### Writing the Starter
-The starter is the first part of 539kernel which runs after the bootloader which means that the starter runs in 16-bit real-mode environment, exactly same as the bootloader, and due to that we are going to write the starter by using assembly language instead of C. The main job of the starter is to prepare the environment for the main kernel to run in. To prepare the proper environment for the main kernel the starter switches the current operating mode from the real-mode to protected-mode which, as we have said earlier, gives us the chance to run 32-bit code. Before switching to protected-mode, the starter is going to initialize and load the GDT table and the interrupts via IDT table, furthermore, to be able to use the video memory correctly in protected-mode a proper video mode should be set ^[We are going to discuss the matter of video in more details later in this chapter <!-- [REF] -->]. Finally, the starter will be able to switch to protected-mode and gives the control to the main kernel. Let's start with the prologue of the starter's code which reflects the steps that we have just described.
+The starter is the first part of 539kernel which runs after the bootloader which means that the starter runs in 16-bit real-mode environment, exactly same as the bootloader, and due to that we are going to write the starter by using assembly language instead of C. The main job of the starter is to prepare the environment for the main kernel to run in. To prepare the proper environment for the main kernel the starter switches the current operating mode from the real-mode to protected-mode which, as we have said earlier, gives us the chance to run 32-bit code. Before switching to protected-mode, the starter is going to initialize and load the GDT table and setting the interrupts up, furthermore, to be able to use the video memory correctly in protected-mode a proper video mode should be set ^[We are going to discuss the matter of video in more details later in this chapter <!-- [REF] -->]. Finally, the starter will be able to switch to protected-mode and gives the control to the main kernel. Let's start with the prologue of the starter's code which reflects the steps that we have just described.
 
 ```{.asm}
 bits 16
@@ -103,7 +103,7 @@ start:
 	mov ds, ax
 		
 	call load_gdt
-	call load_idt
+	call setup_interrupts
 	call init_video_mode
 	call enter_protected_mode
 	
@@ -121,10 +121,10 @@ The first line uses the directive <!-- TODO: have we explained the meaning of "d
 
 The second line uses the directive `extern` which tells `NASM` that there is a symbol ^[A symbol is a term that means a function name or a variable name. In our current situation `kernel_main` is a function name.] which is external and not defined in any place in the code (e.g. as a label) that you are currently assembling, so, whenever you the code uses this symbol, don't panic, and continue you job, and the address of this symbol will be figured out latter by the linker. In our situation, the symbol `kernel_main` is the name of a function that will be defined as a C code in the main kernel code and it is the starting point of the main kernel.
 
-As I've said earlier, the stuff that are related to interrupts will be examined in another section <!-- [REF] --> of this chapter. To get a working progenitor we are going to define the routine `load_idt` as an empty routine temporarily until we reach the interrupts section. Its code will be the following.
+As I've said earlier, the stuff that are related to interrupts will be examined in another section <!-- [REF] --> of this chapter. To get a working progenitor we are going to define the routine `setup_interrupts` as an empty routine temporarily until we reach the interrupts section. Its code will be the following.
 
 ```{.asm}
-load_idt:
+setup_interrupts:
 	ret
 ```
 
@@ -158,7 +158,7 @@ gdt:
 	userspace_data_descriptor	: 	dw 0xffff, 0x0000, 0xf200, 0x00cf
 
 gdtr:
-	gdt_size			: 	dw ( 5 * 8 )
+	gdt_size_in_bytes	: 	dw ( 5 * 8 )
 	gdt_base_address	: 	dd gdt
 
 ```
@@ -353,8 +353,9 @@ void kernel_main()
 
 
 
-<!--
+
 ## Interrupts in Practice
+<!--
 ### Communicating with I/O Devices
 ### The Programmable Interrupt Controller (PIC)
 
