@@ -355,10 +355,29 @@ void kernel_main()
 
 
 ## Interrupts in Practice
-<!--
-### Communicating with I/O Devices
-### The Programmable Interrupt Controller (PIC)
+In the previous chapter <!-- [REF] --> we knew that there are two sources of interrupts, the first source is software, while the second source is hardware. The send hardware interrupts, there is a device which is connected to the processor and is known as *programmable interrupt controller* (PIC)^[The newer technology is known as *advanced programmable interrupt controller* (APIC)], the job of this device is to send the interrupts of other devices (e.g. hard disk) to the processor. In other words, PIC is a mediator between the machines I/O devices and the processor, when a device needs to interrupts the processor to handle some event (e.g. the disk has finished from copying some data to the main memory) it is going to send this interrupt to PIC which is going to send it to the processor, this type of interrupts is known as *interrupt request* (IRQ).
 
+Only `8` devices can be attached to one PIC devices, therefore, `IRQ0` is the name of the interrupt which is emitted by the device which is attached to the first slot of PIC, `IRQ1` for the second and so on. Because `8` slots are not enough to attach all external devices to the processor, another PIC has been attached to the first one which is now known as *master PIC* which the second is known as *slave PIC*. Figure <!-- Fig21082021_0 --> shows this arrangement, as you can see now, there are `15` slots in the whole system instead of only `8` slots. In the master PIC, the third slot (`IRQ2`) is connected to the slave PIC, that is, whatever interrupt received by slave PIC from the devices that attached to it, will be sent to the master PIC through `IRQ2`. All other slots in both master (`IRQ0` to `IRQ7` but `IRQ2`) and slave PICs (`IRQ8` to `IRQ15`) are connected to external devices. There is a standard which tells us each `IRQ` is dedicated for what types of devices exactly, for example, `IRQ0` is the interrupt which is received by a device known as *system timer*^[The system timer is a device which sends an interrupt in each unit of time which makes it extremely useful for multitasking environment as we shall see later when we start discussing process management.], table <!-- TODO --> shows the use of each `IRQ`.
+
+After receiving the `IRQ` from a device, PIC should send this request to the processor, in this stage each `IRQ` number is mapped (or translated, if you prefer) to an interrupt number for the processor, for example, `IRQ0` will be sent to the processor as interrupt number `8`, `IRQ1` will be mapped to interrupt number `9` and so on until `IRQ7` which will be mapped to interrupt number `15d` (`0Fh`). While `IRQ8` till `IRQ15` are mapped to interrupts number from `112d` (`70h`) to `119d` (`77h`). In the real-mode, this mapping will be fine, but in protected-mode it is going to cause conflicts between software and hardware interrupts, that is, one interrupt number will be used by both software and hardware which may causes some difficulties later in distincting the source of this interrupt, is it from the software or hardware? For example, in protected mode, interrupt number `8` which is used for system timer interrupt by PIC is also used by the processor when a software error known as *double fault* happens. The good thing is PIC is **programmable**, that is, we can send commands to PIC and tells it to change the default mapping (from `IRQs` to processor's interrupts number) to another mapping of our choice.
+
+There are two well-known types of communicating with external devices by the processor, we have encountered one of them when we worked with video memory which causes the processor to communicate with the screen to write characters or draw pixels, this type of communication from the processor to a devices is known as *memory-mapped I/O* communication, that is, the main memory is used to perform the communication. There is another type which is used by PIC and this type is known as *port-mapped I/O* communication, in this method, each device (that uses this way) has *ports* that are dedicated for it and each port has its own distinct number and job and the size of each port is `1 byte` <!-- TODO: CHECK -->, for example, master PIC has two ports, the number of this first port is `20h` while the number of the second one is `21h`, the first port is used to send commands ^[Each device has its own set of commands.] to master PIC while the second port is used two write data on it so the master PIC can read it. The same is applicable to slave PIC with different port numbers, `a0h` and `a1h` respectively. PIC has no explicit command to remap `IRQs`, instead, there is a command to initialize PIC and one step of initializing it is to set the required mapping. Now, we can present the skeleton of `setup_interrupts` as following.
+
+```
+setup_interrupts:
+	call remap_pic
+	call load_idt
+	
+	ret
+```
+
+First, we are going to remap `IRQs` to different interrupt numbers by sending initializing command to both master and slave PICs, then we are going to initialize and load `IDT` and writing the necessary interrupts handlers which are also known as *interrupt service routines* (ISRs).
+
+### Remapping PICs
+
+<!-- ### Writing ISRs and Loading IDT -->
+
+<!--
 ## Debugging the Kernel with Bochs
 ## The Makefile
 
