@@ -41,19 +41,19 @@ build: $(BOOTSTRAP_FILE) $(KERNEL_FILE)
 	ld -melf_i386 -Tlinker.ld starter.o kernel.elf -o 539kernel.elf
 	objcopy -O binary 539kernel.elf 539kernel.bin
 	dd if=bootstrap.o of=kernel.img
-	dd seek=1 conv=sync if=539kernel.bin of=kernel.img bs=512 count=2
-	dd seek=3 conv=sync if=/dev/zero of=kernel.img bs=512 count=2046
+	dd seek=1 conv=sync if=539kernel.bin of=kernel.img bs=512 count=5
+	dd seek=6 conv=sync if=/dev/zero of=kernel.img bs=512 count=2046
 	qemu-system-x86_64 -s kernel.img
 ```
 
 Beside the `Makefile`, the bootloader also need a modification to make the progenitor code works. In the previous version of the bootloader, we were loading only one sector from the disk ^[Remember, the size of a sector is `512` bytes.] to memory, and that was more than enough for simple code such as `simple_kernel.asm` of chapter 2 <!-- [REF] -->. In most practical cases, the size of the kernel will be more than one sector and the 539kernel's progenitor is not an exception, therefore, the bootloader should load more than one sector in order to load the whole code of the kernel. First we need to add two new data labels in the bootloader, say below the definition of the label `load_error_string`, as the following.
 
 ```{.asm}
-number_of_sectors_to_load 	db 	3d
+number_of_sectors_to_load 	db 	10d
 curr_sector_to_load 		db 	2d
 ```
 
-The first one, as it is obvious from its name, indicates the number of sectors that we would like our bootloader to load from the disk, the current value is `3`, which means `1.5 KB` from the disk will be loaded to the memory, if you kernel's size is larger than `1.5 KB` we can simply modify the value of this label and increase the number of sectors to load.
+The first one, as it is obvious from its name, indicates the number of sectors that we would like our bootloader to load from the disk, the current value is `10`, which means `5KB` from the disk will be loaded to the memory, if you kernel's size becomes larger than `5KB` we can simply modify the value of this label and increase the number of sectors to load.
 
 The second label indicates the sector's number that we are going to load now, as you know, sector `1` of the disk contains the bootloader, and based on our arrangement ^[On `Makefile` of 539kernel.] the code of the kernel will be there starting from sector `2` of the disk, therefore, the initial value of this label is `curr_sector_to_load`. The modified version of `load_kernel_from_disk` which loads more than one sector is the following.
 
@@ -374,7 +374,7 @@ setup_interrupts:
 First, we are going to remap `IRQs` to different interrupt numbers by sending initializing command to both master and slave PICs, then we are going to initialize and load `IDT` and writing the necessary interrupts handlers which are also known as *interrupt service routines* (ISRs).
 
 ### Remapping PICs
-As we have said, we need to change the default mapping between `IRQs` and interrupt number of the processor to make sure that there are no more than one source can emit this interrupt number, this process is known as *PIC remapping* which simple to perform. As we knew, PIC is a port-mapped I/O, and by using `out` instruction of x86 we can write something on a given port number. There is a command in PIC known as *initialization command*, and this command is represented by the number `11h`, which means writing this value on the command port of PIC by using `out` instruction is going to tell the PIC device that we are going to initialize it. When we send this command to the PIC through its own command port (`20h` for master PIC and `a0h` for slave PIC), it is going to wait from us to write four parameters on its data port (`21h` for master PIC and `a1h` for slave PIC), the values of these parameters are represented by numbers as we shall see in a moment. The first parameter that should be provided to initialization command is the new starting offset of `IRQs`, for example, if the value of this parameter is `32d` for master PIC, that means `IRQ0` will be sent to the processor as interrupt number `32d` instead of `8d`  (as in default mapping), `IRQ1` will be sent to the processor as interrupt number `33d` and so on. The second parameter tells the PIC that we are sending our command to, in which of its slot the other PIC is connected. The third parameter tells the PIC which mode we would like it to run on, there are multiple modes for PIC devices, but the mode that we care about and need to use is x86 mode. The fourth parameter tells the PIC which `IRQs` to enable and which to disable. Now, let's see the code of `remap_pic` routine which implements what we have described earlier by setting the correct parameters to the initialization command of both master and slave PICs.
+As we have said, we need to change the default mapping between `IRQs` and interrupt number of the processor to make sure that there are no more than one source can emit this interrupt number, this process is known as *PIC remapping* which simple to perform. As we knew, PIC is a port-mapped I/O, and by using `out` instruction of x86 we can write something on a given port number. There is a command in PIC known as *initialization command*, and this command is represented by the number `11h`, which means writing this value on the command port of PIC by using `out` instruction is going to tell the PIC device that we are going to initialize it. When we send this command to the PIC through its own command port (`20h` for master PIC and `a0h` for slave PIC), it is going to wait from us to write four parameters <!-- TODO: I think the fourth parameter is not a part of init command. Recheck with the resource "8259A Programmable Interrupt Controller" --> on its data port (`21h` for master PIC and `a1h` for slave PIC), the values of these parameters are represented by numbers as we shall see in a moment. The first parameter that should be provided to initialization command is the new starting offset of `IRQs`, for example, if the value of this parameter is `32d` for master PIC, that means `IRQ0` will be sent to the processor as interrupt number `32d` instead of `8d`  (as in default mapping), `IRQ1` will be sent to the processor as interrupt number `33d` and so on. The second parameter tells the PIC that we are sending our command to, in which of its slot the other PIC is connected. The third parameter tells the PIC which mode we would like it to run on, there are multiple modes for PIC devices, but the mode that we care about and need to use is x86 mode. The fourth parameter tells the PIC which `IRQs` to enable and which to disable. Now, let's see the code of `remap_pic` routine which implements what we have described earlier by setting the correct parameters to the initialization command of both master and slave PICs.
 
 ```{.asm}
 remap_pic:
@@ -433,11 +433,20 @@ remap_pic:
 
 Note that the labels here are optional, I've added them for the sake of readability, you can get rid of them if you want. As you can see, the command and data port for both master and slave PICs are used to send initialize command and the parameters. The instruction `out` can only take the register `ax` as second operand <!-- TODO: check --> and due to that the number that represent the command or the data that we would like to send are always set to `al` first which is used later as the second operand of `out`. Also, it should be obvious that the first operand of `out` is the port number, while the second operand is the value that we would like to send.
 
-You may ask, why the values is `4` in the label `tell_pic_master_where_pic_slave_is_connected` ^[I just realized that this is a really long name! Sorry, sometime I become a readability freak!] instead of `2` since we said earlier that the salve PIC is connected to master PIC through `IRQ2`. 
+You may ask, why the value is `4` is used in the label `tell_pic_master_where_pic_slave_is_connected` ^[I just realized that this is a really long name! Sorry, sometime I become a readability freak!] instead of `2` since we said earlier that the salve PIC is connected to master PIC through `IRQ2`. The reason of that is the format of the data that should be sent to master PIC in order to tell it the place where slave PIC is attached to, this format is shown in figure <!-- Fig27082021_0 -->, as may noticed, the size of the data is `1` byte and as we can see in the figure, each `IRQ` is represented by one bit, that is, each bit is used as a flag to indicate which `IRQ` we would like to use. In our case, slave PIC is connected to master PIC through `IRQ2` which is represented by bit `2`, which means the value of this bit should be `1` and all other bits should be `0`, this gives us the binary sequence `0000 0100` which is `4d`. Assume that the slave PIC is connect to master PIC through `IRQ7`, then the binary sequence will be `1000 0000` instead, which is `128d`. For the slave PIC, the format is shown if figure <!-- Fig27082021_1 --> and as you can see, only bits `0` to `2` can be used while the others should be `0`. By using these three bits we can represent the number `8` at maximum, the normal way of representing the numbers can be used here and for that the value `2` is passed to slave PIC to tell it that it is connected to master PIC through `IRQ2` in the label `tell_pic_slave_where_pic_master_is_connected`.
 
 <!-- TODO: also, the format of make_pic_master_enables_all_irqs -->
 
-<!-- ### Writing ISRs and Loading IDT -->
+### Writing ISRs and Loading IDT
+Right now, everything is ready to write the code of loading IDT and ISRs. The first one is too simple and similar of loading the GDT table, the following is the code of `load_idt` routine.
+
+```{.asm}
+load_idt:
+	lidt [idtr - start]
+	ret
+```
+
+As you can see, nothing is new here. The instruction `lidt` is used to load the content of the register `idtr` by using the same way that we have already used in the previous routine `load_gdt`. Now, for the sake of organizing, I'm going to dedicate a new file for the related stuff of IDT and ISRs and this file will be called `idt.asm`. In the end of `starter.asm` the following line should be added `%include "idt.asm"`, exactly as we did with `gdt.asm`.
 
 <!--
 ## Debugging the Kernel with Bochs
