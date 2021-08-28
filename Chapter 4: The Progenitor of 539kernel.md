@@ -541,9 +541,12 @@ void interrupt_handler( int interrupt_number )
 
 It simply receives the interrupt number as a parameter, as you have expected, and prints this number in an appealing way. And now we have got the progenitor of 539kernel! Compiling and running this code is going to print the messages `Welcome to 539kernel!` then `We are now in Protected-mode` then `539` and finally, our first interrupt will be received and the message `Interrupt Received 32` will be printed on the screen, this interrupt will not be received just once, because it is the interrupt of the system timer the kernel will keep receiving it and prints the same message every given unit of time. We will use the system timer later when we start discussing the scheduling of processes.
 
-<!--
-## Debugging the Kernel with Bochs
+<!-- TODO? Maybe an appendix? ## Debugging the Kernel with Bochs -->
+
 ## The Makefile
 
+<!-- TODO: I think we don't need to use the variables in the makefile? Our project is simpler than the need of them. -->
+
+<!--
 ## An Implementer or a Kernelist?
 -->
