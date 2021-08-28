@@ -448,6 +448,99 @@ load_idt:
 
 As you can see, nothing is new here. The instruction `lidt` is used to load the content of the register `idtr` by using the same way that we have already used in the previous routine `load_gdt`. Now, for the sake of organizing, I'm going to dedicate a new file for the related stuff of IDT and ISRs and this file will be called `idt.asm`. In the end of `starter.asm` the following line should be added `%include "idt.asm"`, exactly as we did with `gdt.asm`.
 
+At minimum, we need to define `49` ISRs since the interrupts from `0` until `31` are used by the processor to indicate that some error happened in the system. In fact, interrupts `22` until `31` are reserved and has no use for us, but we need to fill their entries in the IDT table to be able to use the interrupts starting from `32`. While the interrupts `32` to `48` are now used by PIC after the remapping for hardware interrupts (`IRQs`). Hence, we need to fill the entries of all of these interrupts in the IDT to make sure that our kernel runs correctly. Right now, we are going to use the same skeleton for the `ISRs` that we are going to define, let's start with `isr_0` which is the name of the routine that handles interrupt `0`. Starting from here, are presented code should be in the file `idt.asm` unless otherwise is mentioned explicitly.
+
+```{.asm}
+isr_0:
+	push 0
+	jmp isr_basic
+```
+
+The code here is too simple, we push to the stack the value `0` which is the number of the current interrupt, this pushed value can be used latter by a C function, that we are going to call, as a parameter ^[That's possible due to the calling convention as we have discussed earlier in the previous chapter <!-- [REF] -->. <!-- TODO: Recheck, did we really discussed that point? -->], in this way, we can have just one C function that works as an interrupt handler and a parameter that holds which interrupt should be handled is passed to it. After pushing the interrupt number, the routine is going to jump the label `isr_basic` which contains the basic code of all `ISRs` that we are going to define. Now, for all other `ISRs` that are related to the processor, that is, from interrupt `1` to `31` we are going to use the exact same code, only two things should be changed, the name of the routine should indicate the interrupt number, for example `isr_1` for interrupt `1`, `isr_2` for `2` and so on, the second change is the pushed value. I'm not going to show you all `31` ISRs in here since they need a lot of space, but you can always refer to 539kernel source code if the matter isn't clear for you and the following is an example of `ISRs` `1`, `2` and `3`. The label `isr_basic` will be defined later on.
+
+```{.asm}
+isr_1:
+	push 1
+	jmp isr_basic
+	
+isr_2:
+	push 2
+	jmp isr_basic
+	
+isr_3:
+	push 3
+	jmp isr_basic
+```
+
+The second set of ISRs is the one that handles the IRQs and the interrupts here, as we mentioned earlier, starts from `32` to `48`. The following is an example of one of them which is `isr_32`.
+
+```{.asm}
+isr_32:
+	push 32
+	jmp irq_basic
+```
+
+It's exactly the same code as the ISRs before `32`, the only difference is the label that will the routine jumps to. In this case it is `irq_basic`, which is the basic code for all interrupts that handles the `IRQs`, hence, `isr_33` till `isr_48` has the same code as `isr_32` but with changing the pushed value. The following is the code of `isr_basic`.
+
+```{.asm}
+isr_basic:
+	call interrupt_handler
+	
+	pop eax
+	iret
+```
+
+Simply, `isr_basic` calls a function known as `interrupt_handler` which is a C function which is going to be in the main kernel code, to make `NASM` able to know that, the line `extern interrupt_handler` should be added before `start` routine in `starter.asm`, exactly as we did with the function `kernel_main`. After the function `interrupt_handler` returns, the stack of the current ISR is cleaned by eliminating the value that we have pushed which represents the number of the current interrupt. This is performed by using `pop` instruction which requires an operand to stored the popped value on it and for no reason I've choose `eax`. This is a simplest way of cleaning the stack's frame, another well known way is `add esp, 4` where the second operand is the size of the data that we have pushed on the frame and we would like to eliminate before return, in our case, the size of the number that we have pushed is `4` bytes. As you can see, this method is more preferred since no place to store the popped value and most probably you are going to encounter this method in the real codes much more. For the sake of simplicity, I'm going to keep the earlier method in the current case. Finally, the ISR finishes and returns by using the instruction `iret` instead of the normal `ret` that we have used before, the earlier one is the one that should be used by interrupt handlers to return. The following is the code of `irq_basic`.
+
+```{.asm}
+irq_basic:
+	call interrupt_handler
+	
+	mov al, 0x20
+	out 0x20, al
+	
+	cmp byte [esp], 40d
+	jnge irq_basic_end
+	
+	mov al, 0xa0
+	out 0x20, al
+	
+	irq_basic_end:
+		pop eax
+		iret
+```
+The fundamental functionality of `irq_basic` is same as `isr_basic`, it calls the C function `interrupt_handler` and in the end it cleans the stack frame and returns (in label `irq_basic_end`), the question now, what is this additional code between calling the C function and returning? As you know, `IRQs` come from one of the PICs of the system, and this device requires to tell them that the `IRQ` it sent has been handled by using a PIC command known as *end of interrupt* (EOI), and that's what the code does. For all `IRQs`, the command EOI should be sent to the master PIC, but for the slave PIC this command should be sent only when the `IRQs` of slave PIC are handled, that is, interrupt number `40` till `48`. So, after returning from the C function `interrupt_handler`, the command EOI is sent directly to the mater slave. As you can see, we write the value `20h` to the port `20h`, the first value represents that EOI command, while the second value represents the command port of master PIC as we learned earlier. After that, the interrupt number, that we have pushed on the stack in the beginning of the ISR, is used to check if the interrupt that we have handled is greater that or equal `40d`, if this is not the case, a jump is performed to `irq_basic_end`, otherwise, EOI command is sent to the slave PIC through its command port `a0h`. Now, we are ready to define the IDT table, to not take too much space I will show only the first three entries, but the full table should have `49` entries, all of them with the same exact fields and the only difference is the label name of the ISR.
+
+```{.asm}
+idt:
+	dw isr_0, 8, 0x8e00, 0x0000
+	dw isr_1, 8, 0x8e00, 0x0000
+	dw isr_2, 8, 0x8e00, 0x0000
+```
+
+The meaning of the values of the fields are summarized in the table <!-- TODO --> and as in GDT table, I've written a Python script that constructs these values by getting a human readable input, the code of the script is the following <!-- TODO -->.
+
+After that, we can define the label `idtr` which will be the value that we will load in the special register `idtr`.
+
+```{.asm}	
+idtr:
+	idt_size_in_bytes	: 	dw idtr - idt
+	idt_base_address	: 	dd idt
+```
+
+It should be easy to you now to know why `idtr - idt` gives us the size of IDT in bytes. Also, you should know that if the label `idtr` is not right below the label `idt` this will not work. I've used this method instead of hardcoding the size of the table `8 * 49 = 392` in the code to make sure that I don't forget the change the size field when I add a new entry in IDT, you are free to hardcode the size as we did in `gdtr` if you like. Finally, the C function `interrupt_handler` can be defined in the end of `main.c` as following.
+
+```{.c}
+void interrupt_handler( int interrupt_number )
+{
+	println();
+	print( "Interrupt Received " );
+	printi( interrupt_number );
+}
+```
+
+It simply receives the interrupt number as a parameter, as you have expected, and prints this number in an appealing way. And now we have got the progenitor of 539kernel! Compiling and running this code is going to print the messages `Welcome to 539kernel!` then `We are now in Protected-mode` then `539` and finally, our first interrupt will be received and the message `Interrupt Received 32` will be printed on the screen, this interrupt will not be received just once, because it is the interrupt of the system timer the kernel will keep receiving it and prints the same message every given unit of time. We will use the system timer later when we start discussing the scheduling of processes.
+
 <!--
 ## Debugging the Kernel with Bochs
 ## The Makefile
