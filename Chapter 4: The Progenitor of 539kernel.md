@@ -452,22 +452,26 @@ At minimum, we need to define `49` ISRs since the interrupts from `0` until `31`
 
 ```{.asm}
 isr_0:
+    cli
 	push 0
 	jmp isr_basic
 ```
 
-The code here is too simple, we push to the stack the value `0` which is the number of the current interrupt, this pushed value can be used latter by a C function, that we are going to call, as a parameter ^[That's possible due to the calling convention as we have discussed earlier in the previous chapter <!-- [REF] -->. <!-- TODO: Recheck, did we really discussed that point? -->], in this way, we can have just one C function that works as an interrupt handler and a parameter that holds which interrupt should be handled is passed to it. After pushing the interrupt number, the routine is going to jump the label `isr_basic` which contains the basic code of all `ISRs` that we are going to define. Now, for all other `ISRs` that are related to the processor, that is, from interrupt `1` to `31` we are going to use the exact same code, only two things should be changed, the name of the routine should indicate the interrupt number, for example `isr_1` for interrupt `1`, `isr_2` for `2` and so on, the second change is the pushed value. I'm not going to show you all `31` ISRs in here since they need a lot of space, but you can always refer to 539kernel source code if the matter isn't clear for you and the following is an example of `ISRs` `1`, `2` and `3`. The label `isr_basic` will be defined later on.
+The code here is too simple, we first make sure that interrupts are disabled by using the instruction `cli`, in the time that we are handling an interrupt, we don't want another interrupt to occur, it will be more obvious why this is important when we start to implement process management in 539kernel. After disabling the interrupts, we push to the stack the value `0` which is the number of the current interrupt, this pushed value can be used latter by a C function, that we are going to call, as a parameter ^[That's possible due to the calling convention as we have discussed earlier in the previous chapter <!-- [REF] -->. <!-- TODO: Recheck, did we really discussed that point? -->], in this way, we can have just one C function that works as an interrupt handler and a parameter that holds which interrupt should be handled is passed to it. After pushing the interrupt number, the routine is going to jump the label `isr_basic` which contains the basic code of all `ISRs` that we are going to define. Now, for all other `ISRs` that are related to the processor, that is, from interrupt `1` to `31` we are going to use the exact same code, only two things should be changed, the name of the routine should indicate the interrupt number, for example `isr_1` for interrupt `1`, `isr_2` for `2` and so on, the second change is the pushed value. I'm not going to show you all `31` ISRs in here since they need a lot of space, but you can always refer to 539kernel source code if the matter isn't clear for you and the following is an example of `ISRs` `1`, `2` and `3`. The label `isr_basic` will be defined later on.
 
 ```{.asm}
 isr_1:
+    cli
 	push 1
 	jmp isr_basic
 	
 isr_2:
+    cli
 	push 2
 	jmp isr_basic
 	
 isr_3:
+    cli
 	push 3
 	jmp isr_basic
 ```
@@ -476,6 +480,7 @@ The second set of ISRs is the one that handles the IRQs and the interrupts here,
 
 ```{.asm}
 isr_32:
+    cli
 	push 32
 	jmp irq_basic
 ```
@@ -487,10 +492,12 @@ isr_basic:
 	call interrupt_handler
 	
 	pop eax
+    
+    sti
 	iret
 ```
 
-Simply, `isr_basic` calls a function known as `interrupt_handler` which is a C function which is going to be in the main kernel code, to make `NASM` able to know that, the line `extern interrupt_handler` should be added before `start` routine in `starter.asm`, exactly as we did with the function `kernel_main`. After the function `interrupt_handler` returns, the stack of the current ISR is cleaned by eliminating the value that we have pushed which represents the number of the current interrupt. This is performed by using `pop` instruction which requires an operand to stored the popped value on it and for no reason I've choose `eax`. This is a simplest way of cleaning the stack's frame, another well known way is `add esp, 4` where the second operand is the size of the data that we have pushed on the frame and we would like to eliminate before return, in our case, the size of the number that we have pushed is `4` bytes. As you can see, this method is more preferred since no place to store the popped value and most probably you are going to encounter this method in the real codes much more. For the sake of simplicity, I'm going to keep the earlier method in the current case. Finally, the ISR finishes and returns by using the instruction `iret` instead of the normal `ret` that we have used before, the earlier one is the one that should be used by interrupt handlers to return. The following is the code of `irq_basic`.
+Simply, `isr_basic` calls a function known as `interrupt_handler` which is a C function which is going to be in the main kernel code, to make `NASM` able to know that, the line `extern interrupt_handler` should be added before `start` routine in `starter.asm`, exactly as we did with the function `kernel_main`. After the function `interrupt_handler` returns, the stack of the current ISR is cleaned by eliminating the value that we have pushed which represents the number of the current interrupt. This is performed by using `pop` instruction which requires an operand to stored the popped value on it and for no reason I've choose `eax`. This is a simplest way of cleaning the stack's frame, another well known way is `add esp, 4` where the second operand is the size of the data that we have pushed on the frame and we would like to eliminate before return, in our case, the size of the number that we have pushed is `4` bytes. As you can see, this method is more preferred since no place to store the popped value is needed and most probably you are going to encounter this method in the real codes much more. For the sake of simplicity, I'm going to keep the earlier method in the current case unless the other is needed. Finally, the ISR re-enables the interrupts with the instruction `sti` and returns by using the instruction `iret` instead of the normal `ret` that we have used before, the earlier one is the one that should be used by interrupt handlers to return. The following is the code of `irq_basic`.
 
 ```{.asm}
 irq_basic:
@@ -507,6 +514,8 @@ irq_basic:
 	
 	irq_basic_end:
 		pop eax
+        
+        sti
 		iret
 ```
 The fundamental functionality of `irq_basic` is same as `isr_basic`, it calls the C function `interrupt_handler` and in the end it cleans the stack frame and returns (in label `irq_basic_end`), the question now, what is this additional code between calling the C function and returning? As you know, `IRQs` come from one of the PICs of the system, and this device requires to tell them that the `IRQ` it sent has been handled by using a PIC command known as *end of interrupt* (EOI), and that's what the code does. For all `IRQs`, the command EOI should be sent to the master PIC, but for the slave PIC this command should be sent only when the `IRQs` of slave PIC are handled, that is, interrupt number `40` till `48`. So, after returning from the C function `interrupt_handler`, the command EOI is sent directly to the mater slave. As you can see, we write the value `20h` to the port `20h`, the first value represents that EOI command, while the second value represents the command port of master PIC as we learned earlier. After that, the interrupt number, that we have pushed on the stack in the beginning of the ISR, is used to check if the interrupt that we have handled is greater that or equal `40d`, if this is not the case, a jump is performed to `irq_basic_end`, otherwise, EOI command is sent to the slave PIC through its command port `a0h`. Now, we are ready to define the IDT table, to not take too much space I will show only the first three entries, but the full table should have `49` entries, all of them with the same exact fields and the only difference is the label name of the ISR.
