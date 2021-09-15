@@ -1,6 +1,8 @@
 # Chapter 6: Process Management in 539kernel
 
 <!-- TODO: Explain asm? -->
+<!-- TODO: Don't forget to stop interrupts until the end of kernel initialization -->
+
 ## Introduction
 The final result of this chapter is what I call version `T` of 539kernel which has a basic multitasking capability. The multitasking style that we are going to implement is time-sharing multitasking. Also, instead of depending on x86 features to implement multitasking in 539kernel, a software multitasking will be implemented. Our first step of this implementation is to setup a valid task-state segment, while 539kernel implements a software multitasking, a valid TSS is needed. As we have said earlier, it will not be needed in our current stage, but we will set it up anyway. Its need will show up when the kernel lets user-space software to run. After that, basic data structures for process table and process control block are implemented. These data structures and their usage will be as simple as possible since we don't have any mean for dynamic memory allocation, yet! After that, the scheduler can be implemented and system timer's interrupt can be used to enforce preemptive multitasking by calling the scheduler every period of time. The scheduler uses round-robin algorithm to choose the next process that will use the CPU time, and the context switch is performed after that. Finally, we are going to create a number of processes to make sure that everything works fine. But before that, we need to organize our code a little bit since it's going to be larger starting from this point. New two files should be created, `screen.c` and its header file `screen.h`. We move the printing functions that we have defined in the progenitor and their related global variables to `screen.c` and their prototypes should be in `screen.h`, so, we can `include` the latter in other C files when we need to use the printing functions. The following is the content of `screen.h`.
 
@@ -100,7 +102,54 @@ process_t *processes[ 15 ];
 ```
 
 ## Process Creation
-Now, we are ready to write the function that creates a new process in 539kernel.
+Now, we are ready to write the function that creates a new process in 539kernel. Before getting started in implementing the required functions, we need to define their prototypes and some auxiliary global variables in `process.h`.
+
+```{.c}
+int processes_count, curr_pid;
+
+void process_init();
+void process_create( int *, process_t * );
+```
+
+The first global variable `processes_count` represents that current number of processes in the environment, this value will become handy when we write that code of the scheduler which uses round-robin algorithm, simply, whenever a process is created in 539kernel, the value of this variable is increased. The global variable `curr_pid`, contains the next available process identifier that can be used for the next process that will be created. The current value of this variable is used for when creating a new process and its value is increased by one after that.
+
+The function `process_init` is called when the kernel starts, and it initializes the process management subsystem, currently, by just initializing the two global variables that we mentioned. The function `process_create` is the one that create a new process in 539kernel, that is, it is equivalent to `fork` in Unix systems. As you can see, it takes two parameters, the first one is a pointer to the base address of the process, that is, the starting point of the process' code. The second parameter is a pointer to the process control block, as we have said, currently, we use static memory allocation, therefore, each new PCB will be either stored in the as a local or global variables, so, for now, the caller is responsible for allocating a static memory for the PCB and passing its memory address in the second parameter. In the normal situation, the memory of a PCB is allocated dynamically by the creation function itself, but that's a story for another chapter. The following is the content of `process.c` as we have described.
+
+```{.c}
+#include "process.h"
+
+void process_init()
+{
+	processes_count = 0;
+	curr_pid = 0;
+}
+
+void process_create( int *base_address, process_t *process )
+{	
+	process->pid = curr_pid++;
+	
+	process->context.eax = 0;
+	process->context.ecx = 0;
+	process->context.edx = 0;
+	process->context.ebx = 0;
+	process->context.esp = 0;
+	process->context.ebp = 0;
+	process->context.esi = 0;
+	process->context.edi = 0;
+	process->context.eip = base_address;
+	
+	process->state = READY;
+	process->base_address = base_address;
+	
+	processes[ process->pid ] = process;
+	
+	processes_count++;
+}
+```
+
+As you can see, `process_init` just set the initial values to the global variables. In `process_create`, a new process identifier is assigned to the new process. Then the context is initialized, this structure will be used later in context switching, either by copying the values from the processor to the structure of vice versa. Since the new process has not been run yet, hence, it didn't set any value to the registers, then we initialize all general purpose registers with `0`, later on, when this process runs and the scheduler decides to suspend it, the values that this process wrote on the real registers will be copied in here. The structure field of program counter `EIP` is initialized with the starting point of the process' code, in this way we can make sure that when the scheduler decides to run this process, it loads the correct value to the register `EIP` via context switching process. After that, the state of process is set as `READY` to run, the base address is stored, to PCB is added to the processes list, which is a simple array and finally the number of processes in the system is increased by one. That' all we need for now to implement multitasking, in real cases, there will be usually more process states such as *waiting*, the data structures are allocated dynamically to make it possible to create virtually any number of processes, the PCB may contains more fields and more functions to manipulate processes table (e.g. delete process) are implemented. However, our current implementation, tough too simple, is enough as a working foundation. Now, in `main.c`, the header file `process.h` is needed to be included, and the function `process_init` should be called in the beginning of the kernel, after the line `screen_init();`.
+
+<!-- TODO: Do we need base_address in the structure? -->
 
 <!--
 ## The Scheduler
