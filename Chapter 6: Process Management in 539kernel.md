@@ -151,8 +151,52 @@ As you can see, `process_init` just set the initial values to the global variabl
 
 <!-- TODO: Do we need base_address in the structure? -->
 
-<!--
 ## The Scheduler
+Right now, we have all needed components to implement the core of multitasking, that is, the scheduler. As mentioned multiple times before, round-robin algorithm is used for 539kernel's scheduler. Let's present two definitions to make our next discussion more clear. The term *current process* means that process that is using the processor now, at some point of time, the system timer emits an interrupt which suspend the current process and calls the kernel to handle the interrupt ^[In this case the kernel is going to call the scheduler.], at this point of time, we keep the same name for the suspended process, we sill call it the current process. By using some algorithm, the scheduler chooses the *next process*, that is, the process that will run after the scheduler finishes its work and the kernel returns the processor to the processes. After making this choices of the next process by the scheduler, performing the context switching and jumping to the process code, this chosen process will be the current process instead of the suspended one, and it will be the current process until the next run of the scheduler and so on. Now, we are ready to implement the scheduler, let's create a new file `scheduler.c` and its header file `scheduler.h` for the new code. The following is the content of the header file.
+
+```{.c}
+#include "process.h"
+
+int next_sch_pid, curr_sch_pid;
+
+process_t *next_process;
+
+void scheduler_init();
+process_t *get_next_process();
+void scheduler( int, int, int, int, int, int, int, int, int );
+void run_next_process();
+```
+
+First, `process.h` is included since we need to use the structure `process_t` in the code of the scheduler. Then two global variables are defined, the global variable `next_sch_pid` stores the PID of the next process that will run after next system timer interrupt, while `curr_sch_pid` stores the PID of the current process. The global variable `next_process` stores a reference to the PCB of the next process, this variable will be useful when we want to move the control of the processor from the kernel to the next process which is the job of the function `run_next_process`. The function `scheduler_init` sets the initial values of the global variables, and similar to `process_init`, it will be called when the kernel starts. The core function is `scheduler` which represents 539kernel's scheduler, this function will be called when the system timer emits its interrupt. It chooses the next process to run with the help of the function `get_next_process`, performs context switching by copying the context of the current process from the registers to the memory and copying the context of the next process from the memory to the registers. Finally, it returns to give `run_next_process` to be called and jump the the next process' code. In `scheduler.c`, the file `scheduler.h` should be included to make sure that everything works fine. The following is the implementation of `scheduler_init`.
+
+```{.c}
+void scheduler_init()
+{
+	next_sch_pid = 0;
+	curr_sch_pid = 0;
+}
+```
+
+It's too simple function that initializes the values of the global variables by setting the PID `0` to both of them, so the first process that will be scheduled by 539kernel is the process with PID `0`. Next, is the definition of `get_next_process` which implements round robin algorithm, it selects which process to run next and returns a pointer to the PCB of this process.
+
+```{.c}
+process_t *get_next_process()
+{
+	process_t *next_process = processes[ next_sch_pid ];
+	
+	curr_sch_pid = next_sch_pid;
+	next_sch_pid++;
+	next_sch_pid = next_sch_pid % processes_count;
+	
+	return next_process;
+}
+```
+
+Too simple, right! ^[Could be simpler, but the readability is more important here.]
+
+<!-- TODO: Don't forget, when we include scheduler.h in main.c, include process.h should be removed from main.c -->
+
+<!--
 ## Running Processes
 ## Setting the System Timer Up
 ## The Makefile
