@@ -192,7 +192,59 @@ process_t *get_next_process()
 }
 ```
 
-Too simple, right! ^[Could be simpler, but the readability is more important here.]
+Too simple, right! ^[Could be simpler, but the readability is more important here.] If you haven't encountered the symbol `%` previously, it represents an operation called *modulo* which gives the remainder of division operation, for example, `4 % 2 = 0` because the reminder of dividing `4` on `2` is `0`, but `5 % 2 = 1` because `5 / 2 = 2` and remainder is `1`, so, `2 * 2 = 4 + 1 (the remainder) = 5`, in modulo operation, any value `n` that has the same position of `2` in the previous two examples is known as *modulus*. For instance, the modulus in `5 % 3` is `3` and the modulus in `9 % 10` is `10` and so on. In some other places, the symbol `mod` is used to represent modulo operation instead of `%`. The interesting thing about modulo that its result value is always between the range `0` and `n - 1` given that `n` is the modulus. For example, let the modulus is `2`, and we perform the following modulo operation `x % 2` where `x` can be any number, the possible result values of this operation are `0` or `1`. Using this example with different values of `x` gives us the following results, `0 % 2 = 0`, `1 % 2 = 1`, `2 % 2 = 0`, `3 % 2 = 1`, `4 % 2 = 0`, `5 % 2 = 1`, `6 % 2 = 0` and do on to infinity! As you can see, this operation gives as a cycle that starts from `0` and ends at some value that is related to the modulus and starts all over again with the same cycle given an ordered sequence of values for `x`, sometimes a clock is used as metaphor to describe the modulo operation. However, in mathematics a topic known as *modular arithmetic* is dedicated to the modulo operation. You may noticed that modulo operation can be handy to implement round-robin algorithm.
+
+Let's go back to the function `get_next_process` which chooses the next process to run in a round-robin fashion. As you can see, it assumes that the PID of the next process can be found directly in `next_sch_pid`. By using this assumption it fetches the PCB of this process to return it later to the caller. After that, the value of `curr_sch_pid` is updated to indicate that, right now, the current process is the one that we just selected to run next. The next two lines are the core of the operation of choosing the next process to run, it prepares which process will run when next system timer interrupt occurs, assume that the total number of processes in the system is `4`, that is, the value of `processes_count` is `4`, and assume that the process that will run in this system timer interrupt has the PID `3`, that is `next_sch_pid = 3`, PIDs in 539kernel start from `0`, that means there is no process with PID `4` and process `3` is the last one. In line `next_sch_pid++` the value of the variable will be `4`, and as we mentioned, the last process is `3` and there is no such process `4`, that means we should start over the list of processes and runs process `0` in the next cycle, we can do that simply by using modulo on the new value of `next_sch_pid` with the modulus `4` which is the number of processes in the system `process_count`, so, `next_sch_pid = 4 % 4 = 0`. In the next cycle, process `0` will be chosen to run, the value of `next_sch_pid` will be updated to `1` and since it is lesser than `process_count` it will be kept for the next cycle. After that, process `1` will run and the next to run will be `2`. Then process `2` will run and next to run is `3`. Finally, the same situation that we started our explanation with occurs again and process `0` is chosen to run next. The following is the code of the function `scheduler`.
+
+```{.c}
+void scheduler( int eip, int edi, int esi, int ebp, int esp, int ebx, int edx, int ecx, int eax )
+{
+	process_t *curr_process;
+    
+    // ... //
+    
+    // PART 1
+    
+	curr_process = processes[ curr_sch_pid ];
+	next_process = get_next_process();
+	
+    // ... //
+    
+    // PART 2
+
+    if ( curr_process->state == RUNNING )
+	{
+		curr_process->context.eax = eax;
+		curr_process->context.ecx = ecx;
+		curr_process->context.edx = edx;
+		curr_process->context.ebx = ebx;
+		curr_process->context.esp = esp;
+		curr_process->context.ebp = ebp;
+		curr_process->context.esi = esi;
+		curr_process->context.edi = edi;
+		curr_process->context.eip = eip;
+	}
+	
+	curr_process->state = READY;
+	
+	// ... //
+	
+	// PART 3
+    
+	asm( "	mov %0, %%eax;	\
+			mov %0, %%ecx;	\
+			mov %0, %%edx;	\
+			mov %0, %%ebx;	\
+			mov %0, %%esi;	\
+			mov %0, %%edi;" 
+			: : "r" ( next_process->context.eax ), "r" ( next_process->context.ecx ), "r" ( next_process->context.edx ), "r" ( next_process->context.ebx ),
+				"r" ( next_process->context.esi ), "r" ( next_process->context.edi ) );
+	
+	next_process->state = RUNNING;
+}
+```
+
+I've commented the code to divided into three parts for the sake of simplicity in our discussion. The first part is too simple, 
 
 <!-- TODO: Don't forget, when we include scheduler.h in main.c, include process.h should be removed from main.c -->
 
