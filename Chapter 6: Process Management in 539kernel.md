@@ -244,9 +244,35 @@ void scheduler( int eip, int edi, int esi, int ebp, int esp, int ebx, int edx, i
 }
 ```
 
-I've commented the code to divided into three parts for the sake of simplicity in our discussion. The first part is too simple, 
+I've commented the code to divided into three parts for the sake of simplicity in our discussion. The first part is too simple, the variable `curr_process` is assigned to a reference to the current process which has been suspended due to the system timer interrupt, this will become handy in part `2` of scheduler's code, we get the reference to the current process before calling the function `get_next_process` because, as you know, this function changes the variable of current process' PID (`curr_sch_pid`) from the suspended one to the next one. After that, the function `get_next_process` is called to the PCB of the process that will be run this time, that is, the next process.
 
-<!-- TODO: Don't forget, when we include scheduler.h in main.c, include process.h should be removed from main.c -->
+As you can see, `scheduler` receives nine parameters, each one of them has a name same as one of the processors registers. We can tell from these parameters that the function `scheduler` receives the context of the current process before being suspended due to system timer's interrupt. For example, assume that process `0` was running, after the quantum finished the scheduler has been called, which decides that process `1` should run next. In this case, the parameters that has been passed to the scheduler represent the context of process `0`, that is, the value of the parameter `eax` will be same as the value of the register `eax` that process `0` set at some point of time before being suspended. <!-- TODO: How we retained the context. By using interrupt gate instead of task gate -->
+
+In part `2` of scheduler's code, the context of the suspended process, which `curr_process` represents it right now, is copied from the processor into its own PCB, as we mentioned, the values of the parameters represent the context of the suspended process as it was in the processor before suspending the process. How did we get these values and passed them as parameters to `scheduler`? This will be discussed later. Storing current process' context into its PCB is simple as you can see, we just store the passed values in the fields of the current process structure. These values will be used later when we decide to run the same process. Also, we need to make sure that the current process is really running by checking its `state` before copying the context from the processor to the PCB. At the end, the `state` of the current process is switched from `RUNNING` to `READY`.
+
+Part `3` performs the opposite of part `2`, it uses the PCB of the next process to retrieve its context before the last suspension if this process, then this context will be copied to the registers of the processor. Of course, not all of them are being copied to the processor, for example, the program counter `EIP` cannot be written to directly, so we will see later how to deal with it. Also, the registers that are related to the stack, `ESP` and `EBP` were skipped in purpose. They will be handled later on we we start discussing memory management. As a last step, the `state` of the next process is changed from `READY` to `RUNNING`. The following is the code of `run_next_process` which is last function remain in `scheduler.c`.
+
+```{.c}
+void run_next_process()
+{
+	asm( "	sti;			\
+	 		jmp *%0" : : "r" ( next_process->context.eip ) );
+}
+```
+
+It is a simple function that executes two assembly instructions. First it enables the interrupts via the instruction `sti`, then it jumps to the memory address which is stored in the `EIP` of next process' PCB. The purpose of this function will be discussed after a short time.
+
+To make everything runs properly, `scheduler.h` need to be included in `main.c`, note that, when we include `scheduler.h`, the line which includes `process.h` should be remove since `scheduler.h` includes its by itself. After that, the function `scheduler_init` should be called when initializing the kernel, say after the line which calls `process_init`.
+
+### Calling the Scheduler
+So, "how the scheduler is being called" you may ask. The answer to this question has been mentioned multiple times before. In 539kernel, when the system timer decides that it is the time to interrupt the processor, the interrupt `32` is being fired. This is where the scheduler being called, in each period of time it will be called to schedule another process and gives it CPU time. In this part, we are going to write a special interrupt handler for interrupt `32` that calls 539kernel's scheduler. First we need to add the following lines in the beginning of `starter.asm` ^[I'm about to regret that I called this part of the kernel the starter! obviously it's more than that!] after `extern interrupt_handler`.
+
+```{.asm}
+extern scheduler
+extern run_next_process
+```
+
+As you may guessed, the purpose of these two lines is to make the functions `scheduler` and `run_next_process` usable by the assembly code of `starter.asm`.
 
 <!--
 ## Running Processes
