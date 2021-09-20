@@ -265,14 +265,47 @@ It is a simple function that executes two assembly instructions. First it enable
 To make everything runs properly, `scheduler.h` need to be included in `main.c`, note that, when we include `scheduler.h`, the line which includes `process.h` should be remove since `scheduler.h` includes its by itself. After that, the function `scheduler_init` should be called when initializing the kernel, say after the line which calls `process_init`.
 
 ### Calling the Scheduler
-So, "how the scheduler is being called" you may ask. The answer to this question has been mentioned multiple times before. In 539kernel, when the system timer decides that it is the time to interrupt the processor, the interrupt `32` is being fired. This is where the scheduler being called, in each period of time it will be called to schedule another process and gives it CPU time. In this part, we are going to write a special interrupt handler for interrupt `32` that calls 539kernel's scheduler. First we need to add the following lines in the beginning of `starter.asm` ^[I'm about to regret that I called this part of the kernel the starter! obviously it's more than that!] after `extern interrupt_handler`.
+"So, how the scheduler is being called" you may ask. The answer to this question has been mentioned multiple times before. In 539kernel, when the system timer decides that it is the time to interrupt the processor, the interrupt `32` is being fired. This is where the scheduler being called, in each period of time it will be called to schedule another process and gives it CPU time. In this part, we are going to write a special interrupt handler for interrupt `32` that calls 539kernel's scheduler. First we need to add the following lines in the beginning of `starter.asm` ^[I'm about to regret that I called this part of the kernel the starter! obviously it's more than that!] after `extern interrupt_handler`.
 
 ```{.asm}
 extern scheduler
 extern run_next_process
 ```
 
-As you may guessed, the purpose of these two lines is to make the functions `scheduler` and `run_next_process` usable by the assembly code of `starter.asm`.
+As you may guessed, the purpose of these two lines is to make the functions `scheduler` and `run_next_process` usable by the assembly code of `starter.asm`. Now, we can start to implement the code of interrupt `32`'s handler which calls the scheduler with the needed parameters. In the file `idt.asm` the old code of the routine `isr_32` should be changed to the following.
+
+```{.asm}
+isr_32:
+    ; Part 1
+    
+	cli ; Step 1
+	
+	pusha ; Step 2
+	
+    ; Step 3
+	mov eax, [esp + 32]
+	push eax  
+	
+	call scheduler ; Step 4
+	
+    ; ... ;
+    
+    ; Part 2
+    
+    ; Step 5
+	mov al, 0x20
+	out 0x20, al
+	
+    ; Step 6
+	add esp, 40d
+	push run_next_process
+    
+	iret ; Step 7
+```
+
+There are two major parts in this code, the first one is the code which is executed before calling the scheduler, that is, the one before the line `call scheduler`. The second one is the code which is executed after the scheduler returns. The first step of part one is to disable the interrupts via the instruction `cli`, when we are handling an interrupt, it is better to not receive any other interrupt. If we don't disable interrupts here, while handling a system timer interrupt, another system timer interrupt can occur even before calling the scheduler in the first time, you may imagine the mess that can be as a result of that. Before explaining steps two and three of this routine, we need to answer a vital question: When this interrupt handler is called, what is the context of the processor? In other words, the context of which code of the system is loaded into memory? The answer is, the suspended process, that is, the process that was running before the system timer emitted the interrupt. That means all values that were stored by the suspended process on the general purpose registers will be there when `isr_32` starts executing and we can be sure that the processor will not change any of these values during suspending the process and calling the handler of the interrupt. What assures us that the context of suspended process will be there on the processor when `isr_32` starts is the fact that we have defined all ISRs gate descriptors as interrupt gates in the IDT table, if we have defined them as task gates, the context of the suspended process will not be available directly on processor's registers.
+
+By knowing that the context of suspended process is reachable via the registers (e.g `eax`) we can store a copy of them in the stack in order to be used later by the scheduler to copy the context of the suspended process to the memory as we have seen, also, pushing them into stack gives as two more benefits. First we can start to use the registers as we like without the fear of losing the suspended process context, it is stored in the stack and we can refer to it anytime we need it. Second, according to C calling convention <!-- TODO: Check the name --> that we have discussed in chapter <!-- [REF] 3 --> these pushed values can be considered as parameters for a function that will be called and that's exactly how we pass the context of suspended process to the function `scheduler` as parameters, simply by pushing the values of general purpose registers into the stack. Now, instead of writing `8` push instructions to push these values into the stack, for example `push eax`, there is an x86 instruction named `pusha` which pushes the current values of all general purpose registers into the stack, that exactly what happens in the second step of `isr_32` in order to send them as parameters to the function `scheduler`. The reverse operation of `pusha` can be performed by the instruction `popa`, that is, the values on the stack will be loaded into the registers. The instruction pushes the values of the registers in the following order: `eax`, `ecx`, `edx`, `ebx`, `esp`, `ebp`, `esi`, and `edi`. Based on C calling convention <!-- TODO: Check the name --> they will be received as parameters in the reversed order ^[That is, the first pushed values will be the last to receive.], so, the parameter that contains the value of `edi` will be before `esi` and so on, you can see that in an obvious way in the parameters of the function `scheduler`. The only missing piece now is the value of the instruction pointer `eip`, which is handled by the third step of `isr_32`, as you know, it is too important to store the last `eip` of the suspended process, we need to know here did the execution of the suspended process code stop so we can resume its work later from the same point, and this information can be known through `eip`. Not like the general purpose registers, the value of `eip` will not be pushed into the stack by the instruction `pusha`, furthermore, the current `eip` is by no means a pointer to where the suspended process stopped, as you know, the current value of `eip` is a pointer to the current instruction which is being executed, that is, one of `isr_32` instructions. So, the question is, where can we find the value of `eip` just before the suspended process has been suspended? The answer again can be found in the calling convention. Let's assume that a process named `A` was running and a system timer interrupt occured which caused process `A` to be suspended and `isr_32` to start. Figure <!-- TODO --> shows the stack at that time.
 
 <!--
 ## Running Processes
