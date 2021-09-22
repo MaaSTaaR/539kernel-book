@@ -311,8 +311,70 @@ Let's assume that a process named `A` was running and a system timer interrupt o
 
 The fourth and fifth steps are simple, in the fourth step we call the function `scheduler` which we have already discussed, after the function `scheduler` returns, we need to tell PIC that we finished the handling of and IRQ by sending end of interrupt command to the PIC and that's we is performed in the fifth step, we have already discussed the of send end of interrupt command to PIC in chapter <!-- [REF] -->.
 
-<!--
+The final thing to do after choosing the next process and performing the context switch is to gives a CPU time for the code of the next process. This is usually performed by jumping to the memory address in which the selected process where suspended. There are multiple ways to do that, the way which we have used in 539kernel is to exploit the calling convention, again. As we have mentioned before, the return address to the caller is stored in the stack, in our previous example, the return address to process `A` was stored in the stack right before the values of process `A` context which have been pushed by the instruction `pusha`. When a routine returns by using the instruction `ret` or `iret`, this address will be jumped to by the processor, we exploit this fact to make the next process runs after `isr_32` finishes instead of process `A`, this is too simple to be done, the return address of process `A` should be removed from the stack and the resume point of the next process is pushed in its position, and that's what we do in the sixth step of `isr_32`, we remove all values that we have pushed on the stack while running `isr_32`, this is performed by just adding `40` to the current value of `esp`, we have already discussed this method of removing values from the stack <!-- TODO: did we? -->, why adding `40`? You may ask. The number of values that have been pushed by the instruction `pusha` is `8` values, each one of them of size `4` bytes (`32-bit`), that means the total size of them is `4 * 8 = 32`. Also, we have pushed the value of `eip` which also has the size of `4` bytes, so, until now the total size of pushed items in `isr_32` is `32 + 4 = 36` and these are all what we have pushed in purpose, we also need to remove the return address which has been pushed into the stack before calling `isr_32`, the size of memory addresses in `32-bit` architecture has the size `4` bytes (`32-bit`), that means `36 + 4 = 40` bytes should be removed from the stack to ensure that we remove all pushed values and the return address. After that, we simply push the memory address of the function `run_next_process`. In the seventh step, the routine `isr_32` returns indicating that handling an interrupt has been completed, but instead of returning to the suspended code before calling the interrupt handler, the code of the function `run_next_process` will be called, which is, as we have seen, enables the interrupts again and jumps to the resume point of the next process. In this way, we have got a basic multitasking!
+
 ## Running Processes
+In our current environment, we will not be able to test our process management by using the normal ways, I mean, we can't run a user-space software to check if its process has been created and being scheduled or not. Instead, we are going to create a number of processes by creating their PCBs via `process_create` function, and their code will be defined as functions in our kernel, the memory address of these functions will be considered as the starting point of the process. Our goal of doing that is just to test that our code of process management is running well. All code of this section will be in `main.c` unless otherwise is mentioned. First, we define prototypes for four functions, each one of them represents a separate process, imaging them as a normal use-space software. These prototypes should be defined before `kernel_main`.
+
+```{.c}
+void processA();
+void processB();
+void processC();
+void processD();
+```
+
+Inside `kernel_main`, we define four local variables. Each of them represents the PCB of one process.
+
+```{.c}
+	process_t p1, p2, p3, p4;
+```
+
+Before the infinite loop of `kernel_main` we create the four processes in the system by using the function `process_create` as the following.
+
+```{.c}
+	process_create( &processA, &p1 );
+	process_create( &processB, &p2 );
+	process_create( &processC, &p3 );
+	process_create( &processD, &p4 );
+```
+
+The code of the processes is the following.
+
+```{.c}
+void processA()
+{
+	print( "Process A," );
+
+	while ( 1 )
+		asm( "mov $5390, %eax" );
+}
+
+void processB()
+{
+	print( "Process B," );
+
+	while ( 1 )
+		asm( "mov $5391, %eax" );
+}
+
+void processC()
+{
+	print( "Process C," );
+
+	while ( 1 )
+		asm( "mov $5392, %eax" );
+}
+
+void processD()
+{
+	print( "Process D," );
+
+	while ( 1 )
+		asm( "mov $5393, %eax" );
+}
+```
+
+<!--
 ## Setting the System Timer Up
 ## The Makefile
 -->
