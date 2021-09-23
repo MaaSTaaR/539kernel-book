@@ -374,8 +374,43 @@ void processD()
 }
 ```
 
-<!--
-## Setting the System Timer Up
-## The Makefile
--->
+Each process starts by printing its name, then, an infinite loop starts which keeps setting a specific value in the register `eax`. To check whether multitasking is working fine, we can add the following lines the beginning of the function `scheduler` in `scheduler.c`.
+
+```{.c}
+	print( " EAX = " );
+	printi( eax );
+```
+
+Each time the scheduler starts, it prints the value of `eax` of the suspended process. When we run the kernel, each process is going to start by printing its name, and before a process starts executing the value of `eax` of the previous process will be shown. Therefore, you will see a bunch of `EAX = 5390`, `EAX = 5391`, `EAX = 5392` and `EAX = 5393` keep showing on the screen which indicates that the process, `A` for example in case `EAX = 5390` is printed, was running and it has been suspended now to run the next one and so on.
+
+<!-- TODO: Maybe? ## Setting the System Timer Up -->
 <!-- The concept of Hertz and the maybe the basics of commanding system's timer? -->
+
+## Finishing up Version `T`
+And we have got version `T` of 539kernel which provides us a basic process management subsystem. The last piece to be presented is the makefile to compile the whole code.
+
+```{.makefile}
+ASM = nasm
+CC = gcc
+BOOTSTRAP_FILE = bootstrap.asm 
+INIT_KERNEL_FILES = starter.asm
+KERNEL_FILES = main.c
+KERNEL_FLAGS = -Wall -m32 -c -ffreestanding -fno-asynchronous-unwind-tables -fno-pie
+KERNEL_OBJECT = -o kernel.elf
+
+build: $(BOOTSTRAP_FILE) $(KERNEL_FILE)
+	$(ASM) -f bin $(BOOTSTRAP_FILE) -o bootstrap.o
+	$(ASM) -f elf32 $(INIT_KERNEL_FILES) -o starter.o 
+	$(CC) $(KERNEL_FLAGS) $(KERNEL_FILES) $(KERNEL_OBJECT)
+	$(CC) $(KERNEL_FLAGS) screen.c -o screen.elf
+	$(CC) $(KERNEL_FLAGS) process.c -o process.elf
+	$(CC) $(KERNEL_FLAGS) scheduler.c -o scheduler.elf
+	ld -melf_i386 -Tlinker.ld starter.o kernel.elf screen.elf process.elf scheduler.elf -o 539kernel.elf
+	objcopy -O binary 539kernel.elf 539kernel.bin
+	dd if=bootstrap.o of=kernel.img
+	dd seek=1 conv=sync if=539kernel.bin of=kernel.img bs=512 count=8
+	dd seek=9 conv=sync if=/dev/zero of=kernel.img bs=512 count=2046
+	qemu-system-x86_64 -s kernel.img
+```
+
+Nothing new in here but compiling the new C files that we have added to 539kernel.
