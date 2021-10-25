@@ -73,4 +73,44 @@ process_create( &processD );
 ```
 
 ## Paging
+In this section we are going to implement a basic paging for 539kernel. To do that, a number of steps should be performed. A valid page directory should be initialized and its address should be loaded in the register `CR3`. Also, paging should be enabled by modifying the value of `CR0` to tell the processor to start using paging and translate linear memory addresses by using the page tables instead of consider those linear addresses as physical addresses. We have mentioned earlier, for each process we should define a page table, however, in this section we are going to define the page table of the kernel itself since this is the minimum requirement to enable paging. The page size in 539kernel will be `4KB`, that means we need a page directory that can point to any number of page tables up to `1024` page table. The mapping itself will be *one-to-one mapping*, that is, each linear address will be translated to a physical address and both are identical. For example, in one-to-one mapping the linear address `0xA000` refers to the physical address `0xA000`. This choice has been made to make things simple, more advanced designs can be used instead. We already know the concept of page frame, when the page size is `4KB` that means page frame `0` is the memory region that starts from the memory address `0` to `4096d` (`1000h`). One-to-one mapping is possible, we can simply define the first entry of the first page table ^[The first page table is the one which is pointed to by the first entry in the page directory.] to point to page frame `0` and so on. Also, the memory allocator will be used when initializing the kernel's page directory and page tables, we can allocate them statically as we have done with `GDT` for example, but that can increase the size of kernel's file. Before getting started with the details two new files are needed to be created: `paging.h` and `paging.c` which will contain the stuff that are related to paging. The content of `paging.h` is the following.
+
+```{.c}
+#define PDE_NUM 3
+#define PTE_NUM 1024
+
+extern void load_page_directory();
+extern void enable_paging();
+
+unsigned int *page_directory;
+
+void paging_init();
+int create_page_entry( int, char, char, char, char, char, char, char, char );
+```
+
+The part `PDE` of the name of the macro `PDE_NUM` means page directory entries, so this macro represents the number of the entries that will be defined in the kernel's page directory. As mentioned earlier, any page directory may hold `1024` entries. In our case, not all of these entries needed to be defined, only `3` will be defined instead, that means only three page tables will be defined for the kernel, how many entries will be defined in those page tables is decided by the macro `PTE_NUM` which `PTE` in its name means page table entries, its value is `1024` which means there will be `3` entries in the kernel's page directory and each one of them points to a page table which has `1024` entries. That means the total entries will be `3 * 1024 = 3072` and we know that each of these entries map a page frame of the size `4KB` then `12MB` of the physical memory will be mapped in the page table that we are going to define, and since our mapping will be one-to-one, that means the reachable physical memory addresses start at `0` and ends at `12582912`, any region beyond this range, based on our setting, will not be reachable at least by the kernel. It is your choice to set the value of `PDE_NUM` to the maximum (`1024`), this will make a `4GB` of memory addressable.
+
+Back to the details of `paging.h`, both `load_page_directory` and `enable_paging` are external functions that will be defined in assembly and will be used in `paging.c`. The first function loads the address of the kernel's page directory in the register `CR3`, this address can be found in the global variable `page_directory` but of course after allocating the needed space by `kalloc`. The second function is the one that modifies the register `CR0` to enable paging in x86, this should be called after finishing the initialization of kernel's page directory and loading it.
+
+### Initializing Kernel's Page Directory and Tables
+From our previous encounter of the structure of page directory/table entry, we know that the size of this entry is `4` bytes and has a specific arrangement of the bits to indicate the properties of the entry being pointed to. The function `create_page_entry` helps in building a value to be stored in a page directory/table entry based on the properties that should be enabled and disabled. As you can see from `paging.h`, it returns an integer and that makes sense, as we know, the size of integer in 32-bit architecture C the size of integer is `4` bytes, exactly same as the size of an entry. The following is the code of `create_page_entry` that should be defined in `paging.c`.
+
+```{.c}
+int create_page_entry( int base_address, char present, char writable, char privilege_level, char cache_enabled, char write_through_cache, char accessed, char page_size, char dirty )
+{
+	int entry = 0;
+	
+	entry |= present;
+	entry |= writable << 1;
+	entry |= privilege_level << 2;
+	entry |= write_through_cache << 3;
+	entry |= cache_enabled << 4;
+	entry |= accessed << 5;
+	entry |= dirty << 6;
+	entry |= page_size << 7;
+	
+	return base_address | entry;
+}
+```
+
 <!-- Data-alignment -->
