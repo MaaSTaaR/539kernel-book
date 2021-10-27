@@ -143,7 +143,7 @@ void paging_init()
 }
 ```
 
-For the sake of simpler discussion, I have divided the code of the function into two parts and each part is indicated by a heading comment. The job of the first part is to create the page directory and the page tables, based on the default values of `PDE_NUM` and `PTE_NUM`, three entries will be defined in the page directory, each one of them points to a page table that contains `1024` entries. First, we allocate `4 * 1024` from the kernel's heap for the page directory, that's because the size of each entry is `4` bytes, but as you can see, while we need only three entries for the page directory, we are allocating memory for `1024` entries instead, the reason of that is the following: the base memory address of a page table should be page-aligned, also, the base memory address of a page frame should be page-aligned. The details of page-aligned memory address will be discussed later, but the least that you need to know right know is that, since the page size is `4KB`, then a memory address that we can describe as page-aligned memory address is the one that is the multiple of `4KB`, that is, a multiple of `4096`. In other words, it should be dividable by `4096` with no remainder. So, the first six multiples of `4KB` are `0 = 4096 * 0`, `4096 = 4096 * 1`, `8192 = 4096 * 2` (`8KB`), `12288 = 4096 * 3` (`12KB`), `16384 = 4096 * 4` (`16KB`), `20480 = 4096 * 5` (`20KB`) and so on. Each one of those value can be considered as a page-aligned memory address when the page size is `4KB`. Let's go back to the reason of allocating `4 * 1024` bytes for the page directory instead of `4 * 3` bytes. We know that memory allocator sets the base of the heap from the memory address `0x100000` which is `1048576` in decimal, also, we know, based on the code order of the kernel that `paging_init` will be the first code ever that calls `kalloc` which will be called the first time in 539kernel when we allocate a region for kernel's page directory in the line `page_directory = kalloc( 4 * 1024 );` which means that the memory address of kernel's page directory will be `0x100000` (`1048576`) which is a page-aligned memory address since `1048576 / 4096 = 256` ^[In hexadecimal: 0x100000 / 0x1000 = 0x100] with no remainders. When we allocate `4 * 1024` bytes for the page directory, the next memory address that will be used by the memory allocator for the next allocation will be `1048576 + ( 4 * 1024 ) = 1052672` (`0x101000`) which is also a page-aligned memory address, let's call this the first case. The second case is when we allocate `4 * 3` bytes for the page directory instead, the next memory address that the memory allocator will use for the next allocation will be `1048576 + ( 4 * 3 ) = 1048588` (`0x10000C`) which is not a page-aligned memory address. If you continue reading the function `paging_init` you will see that the next thing that will be allocated via `kalloc` after that page directory will be the first page table which should be in a page-aligned memory address, due to that, we have used the first case which ensures that the next call of `kalloc` is going to return a page-aligned memory address instead of the second case which will not.
+For the sake of simpler discussion, I have divided the code of the function into two parts and each part is indicated by a heading comment. The job of the first part is to create the page directory and the page tables, based on the default values of `PDE_NUM` and `PTE_NUM`, three entries will be defined in the page directory, each one of them points to a page table that contains `1024` entries. First, we allocate `4 * 1024` from the kernel's heap for the page directory, that's because the size of each entry is `4` bytes, but as you can see, while we need only three entries for the page directory, we are allocating memory for `1024` entries instead, the reason of that is the following: the base memory address of a page table should be page-aligned, also, the base memory address of a page frame should be page-aligned. When the page size is `4KB`, then a memory address that we can describe as a *page-aligned memory address* is the one that is a multiple of `4KB`, that is, a multiple of `4096`. In other words, it should be dividable by `4096` with no remainder. The first six multiples of `4KB` are `0 = 4096 * 0`, `4096 = 4096 * 1`, `8192 = 4096 * 2` (`8KB`), `12288 = 4096 * 3` (`12KB`), `16384 = 4096 * 4` (`16KB`), `20480 = 4096 * 5` (`20KB`) and so on. Each one of those value can be considered as a page-aligned memory address when the page size is `4KB`. Let's go back to the reason of allocating `4 * 1024` bytes for the page directory instead of `4 * 3` bytes. We know that memory allocator sets the base of the heap from the memory address `0x100000` which is `1048576` in decimal, also, we know, based on the code order of the kernel that `paging_init` will be the first code ever that calls `kalloc` which will be called the first time in 539kernel when we allocate a region for kernel's page directory in the line `page_directory = kalloc( 4 * 1024 );` which means that the memory address of kernel's page directory will be `0x100000` (`1048576`) which is a page-aligned memory address since `1048576 / 4096 = 256` ^[In hexadecimal: 0x100000 / 0x1000 = 0x100] with no remainders. When we allocate `4 * 1024` bytes for the page directory, the next memory address that will be used by the memory allocator for the next allocation will be `1048576 + ( 4 * 1024 ) = 1052672` (`0x101000`) which is also a page-aligned memory address, let's call this the first case. The second case is when we allocate `4 * 3` bytes for the page directory instead, the next memory address that the memory allocator will use for the next allocation will be `1048576 + ( 4 * 3 ) = 1048588` (`0x10000C`) which is not a page-aligned memory address. If you continue reading the function `paging_init` you will see that the next thing that will be allocated via `kalloc` after that page directory will be the first page table which should be in a page-aligned memory address, due to that, we have used the first case which ensures that the next call of `kalloc` is going to return a page-aligned memory address instead of the second case which will not.
 
 Going back to the first part of `paging_init`, as you can see, it is too simple, it allocates regions from the kernel's heap for the page directory and the entries of the three page tables. Then each entry in both page table and page directory is being filled by using the function `create_page_entry`. Let's start with the line which defines entries in a page table.
 
@@ -151,4 +151,75 @@ Going back to the first part of `paging_init`, as you can see, it is too simple,
 create_page_entry( curr_page_frame * 4096, 1, 0, 0, 1, 1, 0, 0, 0 )
 ```
 
-<!-- Data-alignment -->
+Given that the size of a page is `4KB`, then, page frame number `0`, that is, the first page frame, starts at the physical memory address `0` and ends at physical memory address `4095`, in the same way, page frame `1` starts at the physical memory address `4096` and ends at the physical memory address `8191` and so on, in general, given `n` is the number of a page frame, then `n * 4096` is the physical memory address that this page frame starts at. We use this equation in the first parameter that we pass to `create_page_entry` when we create the entries that point to the page frames, that is, page tables entries. The local variable `curr_page_frame` denotes the current page frame that we are defining an entry for, and this variable is increased by `1` with each new page table entry. In this way we can ensure that the page tables that we are defining use a one-to-one map. As you can see from the rest of the parameters, for each entry in the page table, we set that the page frame is present, its cache is enabled and write-through policy is used. Also, the page frame belongs to supervisor privilege level and the page size is `4KB`. The list which define a new entry in the page directory is similar to the one which define an entry in a page table, the main different is, of course, the base address which is the memory address of the page table the belongs to the current entry of the page directory. After allocating a memory region for the current page table that we are defining, the function `kalloc` returns the base memory address of this page table which is stored in the local variable `pagetable` which is used as the first parameter when we define an entry in the page directory.
+
+#### The Need of Page-aligned Memory Addresses
+In the previous section we have discussed the meaning of a page-aligned memory address, and we stated the fact that any base memory address that is defined in a page directory/table entry should be a page-aligned memory address. Why? You may ask. Recalling the structure of page directory/table entry, it is known that the number of bits that are dedicated for the base memory address are `20` bits (`2.5` bytes), also, we know that in `32-bit` architecture, the size of the largest memory address (`0xFFFFFFFF`, that is, `4GB`) is of size `32` bits. Now, assume that we want to define a page table entry the points to the last page frame which its address is `0xFFFFF000`, to store this full address `32` bits are needed ^[Remember, each hexadecimal digit represents a nibble. One byte is a two nibbles.] but only `20` bits are available for base memory address in the page table entry, so, how can we point to this page frame since we can't store its full address in the entry. The numbers that we have defined previously as page-aligned numbers, in other words, the multiples of `4096`, have an interesting property when they are represented in hexadecimal format, they always end with three zeros! ^[And that makes sense, the first one of them after zero is `0x1000` (`4096d`) and to get the next one you need to add `0x1000` on the previous one and so on.] In our current example of the last page frame, we need to store `0xFFFFF000` and a base memory address, you can see that it ends with three zeros which means that this number is a page-aligned number. Removing the last three zeros of the example memory address gives us `0xFFFFF` which exactly needs `20` bits to be stored, so, due to that the base address the is stored in page directory/table should be a page-aligned memory address, to be able to remove the last three zeros from it and make its size `20` bits at maximum, later on, to get the correct base address from the entry, simply three zeros can be appended to it.
+
+### Loading Kernel's Page Directory and Enabling Paging
+The second part of the function `paging_init` performs two operations, the first one is loading the content of the global variable `page_directory` in the register `CR3`, that is, loading the kernel's page directory so that the processor can use it when the second operation which enables the paging is performed. Because both of these functions need to access the registers directly, they will be written in assembly in the file `starter.asm`. Till now, it is the first time that we define a function in assembly and use it in C code, to do that we need to add the following lines in the beginning of `starter.asm`.
+
+```{.asm}
+extern page_directory
+
+global load_page_directory
+global enable_paging
+```
+
+There is nothing new in the first line. We are telling NASM that there is a symbol named `page_directory` that we will use it in the assembly code, but it isn't defined in it but a place that the linker is going to tell you about in the future. As you know, `page_directory` is the global variable that we have defined in `paging.h` that holds the memory address of the kernel's page directory and it will be used in the code of `load_page_directory`. The last two lines are new, what we are telling NASM here that there will be two labels named `load_page_directory` and `enable_paging`, both of them should be global, that is, they are reachable by places other than the current assembly code, in our case, it's the C code of the kernel. The following is the code of those functions, they should be in `starter.asm` below the line `bits 32` since they are going to run in `32-bit` environment.
+
+```{.asm}
+load_page_directory:
+	mov eax, [page_directory]
+	mov cr3, eax
+	
+	ret
+	
+enable_paging:
+	mov eax, cr0
+	or eax, 80000000h
+	mov cr0, eax
+	
+	ret
+```
+
+There is nothing new here. In the first function we load the content of `page_directory` into the register `CR3` and in the second function we use bitwise operation to modify bit `31` and sets its value to `1` which means enable paging. Finally, `paging_init` should be called by `kernel_main` right after `heap_init`, the full list of calls in the proper order is the following.
+
+```{.c}
+heap_init();
+paging_init();	
+screen_init();
+process_init();
+scheduler_init();
+```
+
+## Finishing up Version `G`
+And now version `G` of 539kernel is ready. It contains a basic memory allocator and a basic paging. The following is its `Makefile` which adds the new files to the compilation list.
+
+```{.makefile}
+ASM = nasm
+CC = gcc
+BOOTSTRAP_FILE = bootstrap.asm 
+SIMPLE_KERNEL = simple_kernel.asm
+INIT_KERNEL_FILES = starter.asm
+KERNEL_FILES = main.c
+KERNEL_FLAGS = -Wall -m32 -c -ffreestanding -fno-asynchronous-unwind-tables -fno-pie
+KERNEL_OBJECT = -o kernel.elf
+
+build: $(BOOTSTRAP_FILE) $(KERNEL_FILE)
+	$(ASM) -f bin $(BOOTSTRAP_FILE) -o bootstrap.o
+	$(ASM) -f elf32 $(INIT_KERNEL_FILES) -o starter.o 
+	$(CC) $(KERNEL_FLAGS) $(KERNEL_FILES) $(KERNEL_OBJECT)
+	$(CC) $(KERNEL_FLAGS) screen.c -o screen.elf
+	$(CC) $(KERNEL_FLAGS) process.c -o process.elf
+	$(CC) $(KERNEL_FLAGS) scheduler.c -o scheduler.elf
+	$(CC) $(KERNEL_FLAGS) heap.c -o heap.elf
+	$(CC) $(KERNEL_FLAGS) paging.c -o paging.elf
+	ld -melf_i386 -Tlinker.ld starter.o kernel.elf screen.elf process.elf scheduler.elf heap.elf paging.elf -o 539kernel.elf
+	objcopy -O binary 539kernel.elf 539kernel.bin
+	dd if=bootstrap.o of=kernel.img
+	dd seek=1 conv=sync if=539kernel.bin of=kernel.img bs=512 count=8
+	dd seek=9 conv=sync if=/dev/zero of=kernel.img bs=512 count=2046
+	#bochs -f bochs
+	qemu-system-x86_64 -s kernel.img
+```
