@@ -47,19 +47,22 @@ dev_read:
 	
 	mov dx, [esp + 8]
 	
-	in al, dx
+	in ax, dx
 	
 	pop edx
 	
 	ret
 ```
 
-For the same reason of restoring the previous environment when returning to the caller, the routine pushes the value of `edx` into the stack, then both of `edx` and `eax` are cleared since they will be used by the instruction `in`. After that, the value of the passed parameter which represents the port number that caller wishes to read from, is stored in `dx`. Finally, `in` is called, the result is stored in `al`, the previous value of `edx` is restored and the routine returns. You may ask, why did we only stored and restored the previous value of `edx` while the register `eax` is also used also, why didn't we store and restore the previous value of `eax`? The reason is that `dev_read` is a function that returns a value, and according to `cdecl` convention <!-- TODO: Check the name --> the returned values should be stored in the register in `eax`, so, the value of `eax` is intended to be changed when return to the caller, therefore, it will not be correct, logically, to restore the the previous value of `eax` when `dev_read` returns. The ultimate goal of defining both `dev_write` and `dev_read` is to make them available to be used in C code, so, the lines `global dev_write` and `global dev_read` should be written in the beginning of `starter.asm`.
+For the same reason of restoring the previous environment when returning to the caller, the routine pushes the value of `edx` into the stack, then both of `edx` and `eax` are cleared since they will be used by the instruction `in`. After that, the value of the passed parameter which represents the port number that caller wishes to read from, is stored in `dx`. Finally, `in` is called, the result is stored in `ax` ^[Since the first operand of `in` is `ax` and not `al` then a **word** will be read from the port and not a single byte. The decision on using `ax` instead of `al` was made here because of our needs as you will see later, if you need to read just one byte for some reason you can define another routine for that.], the previous value of `edx` is restored and the routine returns. You may ask, why did we only stored and restored the previous value of `edx` while the register `eax` is also used also, why didn't we store and restore the previous value of `eax`? The reason is that `dev_read` is a function that returns a value, and according to `cdecl` convention <!-- TODO: Check the name --> the returned values should be stored in the register in `eax`, so, the value of `eax` is intended to be changed when return to the caller, therefore, it will not be correct, logically, to restore the the previous value of `eax` when `dev_read` returns. The ultimate goal of defining both `dev_write` and `dev_read` is to make them available to be used in C code, so, the lines `global dev_write` and `global dev_read` should be written in the beginning of `starter.asm`.
 
 ### The Driver
-One ATA bus in the computer's motherboard makes it possible to attach two hard disks into the system, one of them is called master drive which is the main one that the computer boots from, the other disk is known as slave drive. Usually, a computer comes with two ATA buses instead of just one, which means up two four hard disks can be attached into the computer. The first one of those buses is known as the primary bus while the second one is known as the secondary bus. The port numbers that are used to communicate with the devices that are attached into the primary bus start from `0x1F0` and ends in `0x1F7` each one of them has its own functionality while the ports number from `0x170` to `0x177` are used to communicate with devices that are attached into the secondary bus, so, there are eight ports for each ATA bus. The terms that combine a bus name and a device name are used to specify exactly which device is being discussed, for example, primary master means the master hard disk that is connected to the primary bus while secondary slave means the slave hard disk which is connected to the secondary bus. For the sake of simplicity, our device driver is going to assume that there is only a primary master and all read and write requests should be oriented to this primary master, therefore, our device driver uses the port number `0x1F0` as the base port to send the commands via PIC. You may ask, why are we calling this port number a base port? As you know that all the following port numbers are valid to communicate with the primary ATA bus: `0x1F0`, `0x1F1`, `0x1F2`, `0x1F3`, `0x1F4`, `0x1F5`, `0x1F6`, `0x1F7`, we can add any numbers from `0` through `7` to the base port number of the primary bus `0x1F0` to get a correct port number to communicate with the primary bus, the same is correct with the secondary ATA bus which its base port number is `0x170`. So, we can define the base port as a macro ^[Or even variable.] as we will see in our device driver, and the we can use this macro by adding a specific value to it from `0` through `7` to get a specific port, the advantage of doing so is the easiness of changing the value of the base port to another port without the need of changing the code itself. Before starting in the implementation of the driver, let's create new two files: `ata.h` and `ata.c` which will contain the code of the device driver which communicates to ATA devices and provides an interface for the rest of the kernel to write and read data from the disk. The following is the content of `ata.h` and the details will be discussed in the next subsections.
+One ATA bus in the computer's motherboard makes it possible to attach two hard disks into the system, one of them is called master drive which is the main one that the computer boots from, the other disk is known as slave drive. Usually, a computer comes with two ATA buses instead of just one, which means up two four hard disks can be attached into the computer. The first one of those buses is known as the primary bus while the second one is known as the secondary bus. The port numbers that are used to communicate with the devices that are attached into the primary bus start from `0x1F0` and ends in `0x1F7` each one of them has its own functionality while the ports number from `0x170` to `0x177` are used to communicate with devices that are attached into the secondary bus, so, there are eight ports for each ATA bus. The terms that combine a bus name and a device name are used to specify exactly which device is being discussed, for example, primary master means the master hard disk that is connected to the primary bus while secondary slave means the slave hard disk which is connected to the secondary bus. For the sake of simplicity, our device driver is going to assume that there is only a primary master and all read and write requests should be oriented to this primary master, therefore, our device driver uses the port number `0x1F0` as the base port to send the commands via PIC. You may ask, why are we calling this port number a base port? As you know that all the following port numbers are valid to communicate with the primary ATA bus: `0x1F0`, `0x1F1`, `0x1F2`, `0x1F3`, `0x1F4`, `0x1F5`, `0x1F6`, `0x1F7`, we can add any numbers from `0` through `7` to the base port number of the primary bus `0x1F0` to get a correct port number to communicate with the primary bus, the same is correct with the secondary ATA bus which its base port number is `0x170`. So, we can define the base port as a macro ^[Or even variable.] as we will see in our device driver, and the we can use this macro by adding a specific value to it from `0` through `7` to get a specific port, the advantage of doing so is the easiness of changing the value of the base port to another port without the need of changing the code itself. Before starting in the implementation of the driver, let's create new two files: `ata.h` and `ata.c` which will contain the code of the device driver which communicates to ATA devices and provides an interface for the rest of the kernel to write and read data from the disk. The following is the content of `ata.h` and the details of the functions will be discussed in the next subsections.
 
 ```{.c}
+#define BASE_PORT 0x1F0
+#define SECTOR_SIZE 512
+
 void *read_disk( int );
 void write_disk( int, void * );
 
@@ -67,7 +70,49 @@ void *read_disk_chs( int );
 void write_disk_chs( int, void * );
 ```
 #### Addressing Mode
-<!--
+As in the main memory, the hard disks use addresses to read the data that are stored in a specific area of the disk, the same is applicable in write operation, the same address can be used to write on the same specific area. There are two schemes of hard disk addresses, the older one is known as *cylinder-head-sector* addressing (CHS) while the newer one which more dominant now is known as *logical block addressing* (LBA). In chapter <!-- [REF] 2 --> we have covered the physical structure of hard disks and we know from that discussion that the data are stored in small blocks known as sectors, also, there are tracks which each one of them consists of a number of sectors, and finally, there are heads that should be positioned on a specific sector to read from it or to write to it. The scheme CHS uses the same concepts of physical structure of hard disk, the address of given sector on the hard disk can be composed by combining three numbers together, the cylinder (track) that this sector reside on, the sector that we would like to access and the head that is able to access this sector, however, this scheme is obsolete now and LBA is used instead of it. In LBA, a logical view of a hard disk is used instead of the physical view. This logical view states that the hard disk is composed of a number of logical blocks with a fixed size, say, *n* bytes. These blocks are contagious in a similar way of the main memory, to reach any block you can use its own address and the addresses start from `0`, the block right after the first one has the address `1` and so on. As you can see, addressing in LBA is more like the addressing of the main memory, the main difference here is that in current computers each address of the main memory points to a byte in memory while an address in LBA points to a block which can be a sector (`512` bytes) or even bigger.
+
 #### Reading from Disk
+In this subsection we are going to implements both `read_disk_chs` and `read_disk` which send commands to an ATA hard disk via the available ports in order to read a sector/block from the disk. The first one of those functions uses CHS scheme while the second one uses LBA scheme. In the next discussions, I'm going to use the symbol `base_port` to indicate the base port of one of ATA ports, in our case, as we mentioned earlier, the base port is `0x1F0` since we are going to use the primary bus in our device driver, but what we are discussing is applicable to any ATA bus with any base port number.
+
+To issue a read command the command `0x20` should be sent to `base_port + 7`, but before doing that, a number of values should be set in the other ports in order to specify that address that we would like to read from, therefore, these values should be set before issuing the read command. In `base_port + 2` the number of sectors/blocks that we would like to read in this operation should be set. The value that should be written to `base_port + 6` specifies more than one thing, bit `6` of this value specifies whether we are using CHS or LBA in the current read request, when the bit's value is `0` then CHS is being used while the value `1` means that LBA is being used. The bits `5` and `7` of this value should always be `1`. The bit `4` is used to specify the drive that we would like to read from, the value `0` for the master drive while `1` for the slave drive. In the case that we are using CHS, then the first four bits (`0` to `3`) of this value is used to specify the head and in LBA the bits `24` to `27` of the address should be stored in these bits. When the current addressing mode is CHS, the sector number that we would like our read operation to start from should be sent to `base_port + 3`, the low part of the cylinder number should be sent to `base_port + 4` and the high part of the cylinder number should be sent to `base_port + 5`. Once the read command is issued with the right parameters passed to the correct ports, we can read the value of `base_port + 7` to check if the disk finished the reading operating or not by reading the eighth bit (bit `7`) of the value, when the value of this bit is `1` that means the drive is busy, once it becomes `0` that means that the operation completed. When the reading operation is completed successfully, the data are brought to `base_port` which means we need to read from it and put the required data in the main memory. The following is the code of `read_disk_chs` that should reside in `ata.c`^[Don't forget to include `ata.h` when you create `ata.c`].
+
+```{.c}
+void *read_disk_chs( int sector )
+{
+	// Part 1
+	
+	dev_write( BASE_PORT + 6, 0x0a0 );
+	dev_write( BASE_PORT + 2, 1 );
+	dev_write( BASE_PORT + 3, sector );
+	dev_write( BASE_PORT + 4, 0 );
+	dev_write( BASE_PORT + 5, 0 );
+	dev_write( BASE_PORT + 7, 0x20 );
+	
+    // ... //
+    
+    // Part 2
+    
+	int status = 0;
+	
+	do
+	{
+		status = dev_read( BASE_PORT + 7 );
+	} while ( ( status ^ 0x80 ) == 128 );
+	
+    // ... //
+    
+	// Part 3
+	
+    short *buffer = kalloc( SECTOR_SIZE );
+    
+	for ( int currByte = 0; currByte < ( SECTOR_SIZE / 2 ); currByte++ )
+		buffer[ currByte ] = dev_read( BASE_PORT );
+
+	return buffer;
+}
+```
+
+<!--
 #### Writing to Disk
 -->
