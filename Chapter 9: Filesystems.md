@@ -36,7 +36,28 @@ dev_write:
 	ret
 ```
 
-The core part of this routine is part four which contains the instruction `out` that send the value which is stored in `al` to the port number which is stored in `dx`. Because we are using these two registers ^[Which are as you know parts of the registers `eax` and `edx` respectively.], we push their previous values into the stack as we did in the first part of the routine, pushing the previous values of these registers lets us restore them easily after the routine finishes its work, this restoration is performed in the fifth part of the routine right before returning from the routine, this is an important step to make sure that when the routine returns, the environment of the caller is same as the one before calling the routine. After storing the previous values of `eax` and `edx` we can use them freely, so, the first step after that is to clear their previous values by setting the value `0` to the both of them, as you can see, we have used `xor` and the both operands of it are the same register that we wish to clear, this is a well-known way in assembly programming to clear the value of a register ^[To my best knowledge its more performant than the normal way of using `mov`.]. After that, we can move the values that have been passed to the routine as parameters to the correct registers to be used with `out` instruction, this is performed in the third part of the routine ^[The readers who have previous knowledge in x86 assembly programming may notice that I've omitted the epilogue of routines which creates a new stack frame, this decision has been made to make the matters simpler and you are absolutely free to use the calling convention.]. The following is the code of the routine `dev_read` which uses the instruction `in` to read the data from a given port and return them to the caller, its prototype can be imagined as  `char dev_read( int port )`.
+The core part of this routine is part four which contains the instruction `out` that send the value which is stored in `al` to the port number which is stored in `dx`. Because we are using these two registers ^[Which are as you know parts of the registers `eax` and `edx` respectively.], we push their previous values into the stack as we did in the first part of the routine, pushing the previous values of these registers lets us restore them easily after the routine finishes its work, this restoration is performed in the fifth part of the routine right before returning from the routine, this is an important step to make sure that when the routine returns, the environment of the caller is same as the one before calling the routine. After storing the previous values of `eax` and `edx` we can use them freely, so, the first step after that is to clear their previous values by setting the value `0` to the both of them, as you can see, we have used `xor` and the both operands of it are the same register that we wish to clear, this is a well-known way in assembly programming to clear the value of a register ^[To my best knowledge its more performant than the normal way of using `mov`.]. After that, we can move the values that have been passed to the routine as parameters to the correct registers to be used with `out` instruction, this is performed in the third part of the routine ^[The readers who have previous knowledge in x86 assembly programming may notice that I've omitted the epilogue of routines which creates a new stack frame, this decision has been made to make the matters simpler and you are absolutely free to use the calling convention.]. Also, we need to define another routine called `dev_write_word` which is exactly same as `dev_write` but write a word (`2` bytes) instead of one byte to a port. The following is the code of this routine.
+
+```{.asm}
+dev_write_word:
+	push edx
+	push eax	
+	
+    xor edx, edx
+	xor eax, eax
+    
+	mov dx, [esp + 12]
+	mov ax, [esp + 16]
+	
+	out dx, ax 
+	
+	pop eax
+	pop edx
+	
+	ret
+```
+
+As you can see, the only difference between `dev_write` and `dev_write_word` is that the first one uses the register `al` (`8` bit) as the second operand of `out` while the second one uses `ax` (`16` bit) instead, so, a word can be written to the port. The following is the code of the routine `dev_read` which uses the instruction `in` to read the data from a given port and return them to the caller, its prototype can be imagined as  `char dev_read( int port )`.
 
 ```{.asm}
 dev_read:
@@ -54,7 +75,7 @@ dev_read:
 	ret
 ```
 
-For the same reason of restoring the previous environment when returning to the caller, the routine pushes the value of `edx` into the stack, then both of `edx` and `eax` are cleared since they will be used by the instruction `in`. After that, the value of the passed parameter which represents the port number that caller wishes to read from, is stored in `dx`. Finally, `in` is called, the result is stored in `ax` ^[Since the first operand of `in` is `ax` and not `al` then a **word** will be read from the port and not a single byte. The decision on using `ax` instead of `al` was made here because of our needs as you will see later, if you need to read just one byte for some reason you can define another routine for that.], the previous value of `edx` is restored and the routine returns. You may ask, why did we only stored and restored the previous value of `edx` while the register `eax` is also used also, why didn't we store and restore the previous value of `eax`? The reason is that `dev_read` is a function that returns a value, and according to `cdecl` convention <!-- TODO: Check the name --> the returned values should be stored in the register in `eax`, so, the value of `eax` is intended to be changed when return to the caller, therefore, it will not be correct, logically, to restore the the previous value of `eax` when `dev_read` returns. The ultimate goal of defining both `dev_write` and `dev_read` is to make them available to be used in C code, so, the lines `global dev_write` and `global dev_read` should be written in the beginning of `starter.asm`.
+For the same reason of restoring the previous environment when returning to the caller, the routine pushes the value of `edx` into the stack, then both of `edx` and `eax` are cleared since they will be used by the instruction `in`. After that, the value of the passed parameter which represents the port number that caller wishes to read from, is stored in `dx`. Finally, `in` is called, the result is stored in `ax` ^[Since the first operand of `in` is `ax` and not `al` then a **word** will be read from the port and not a single byte. The decision on using `ax` instead of `al` was made here because of our needs as you will see later, if you need to read just one byte for some reason you can define another routine for that.], the previous value of `edx` is restored and the routine returns. You may ask, why did we only stored and restored the previous value of `edx` while the register `eax` is also used also, why didn't we store and restore the previous value of `eax`? The reason is that `dev_read` is a function that returns a value, and according to `cdecl` convention <!-- TODO: Check the name --> the returned values should be stored in the register in `eax`, so, the value of `eax` is intended to be changed when return to the caller, therefore, it will not be correct, logically, to restore the the previous value of `eax` when `dev_read` returns. The ultimate goal of defining both `dev_write` and `dev_read` is to make them available to be used in C code, so, the lines `global dev_write`, `global dev_write_word` and `global dev_read` should be written in the beginning of `starter.asm`.
 
 ### The Driver
 One ATA bus in the computer's motherboard makes it possible to attach two hard disks into the system, one of them is called master drive which is the main one that the computer boots from, the other disk is known as slave drive. Usually, a computer comes with two ATA buses instead of just one, which means up two four hard disks can be attached into the computer. The first one of those buses is known as the primary bus while the second one is known as the secondary bus. The port numbers that are used to communicate with the devices that are attached into the primary bus start from `0x1F0` and ends in `0x1F7` each one of them has its own functionality while the ports number from `0x170` to `0x177` are used to communicate with devices that are attached into the secondary bus, so, there are eight ports for each ATA bus. The terms that combine a bus name and a device name are used to specify exactly which device is being discussed, for example, primary master means the master hard disk that is connected to the primary bus while secondary slave means the slave hard disk which is connected to the secondary bus. For the sake of simplicity, our device driver is going to assume that there is only a primary master and all read and write requests should be oriented to this primary master, therefore, our device driver uses the port number `0x1F0` as the base port to send the commands via PIC. You may ask, why are we calling this port number a base port? As you know that all the following port numbers are valid to communicate with the primary ATA bus: `0x1F0`, `0x1F1`, `0x1F2`, `0x1F3`, `0x1F4`, `0x1F5`, `0x1F6`, `0x1F7`, we can add any numbers from `0` through `7` to the base port number of the primary bus `0x1F0` to get a correct port number to communicate with the primary bus, the same is correct with the secondary ATA bus which its base port number is `0x170`. So, we can define the base port as a macro ^[Or even variable.] as we will see in our device driver, and the we can use this macro by adding a specific value to it from `0` through `7` to get a specific port, the advantage of doing so is the easiness of changing the value of the base port to another port without the need of changing the code itself. Before starting in the implementation of the driver, let's create new two files: `ata.h` and `ata.c` which will contain the code of the device driver which communicates to ATA devices and provides an interface for the rest of the kernel to write and read data from the disk. The following is the content of `ata.h` and the details of the functions will be discussed in the next subsections.
@@ -64,10 +85,10 @@ One ATA bus in the computer's motherboard makes it possible to attach two hard d
 #define SECTOR_SIZE 512
 
 void *read_disk( int );
-void write_disk( int, void * );
+void write_disk( int, short * );
 
 void *read_disk_chs( int );
-void write_disk_chs( int, void * );
+void write_disk_chs( int, short * );
 ```
 #### Addressing Mode
 As in the main memory, the hard disks use addresses to read the data that are stored in a specific area of the disk, the same is applicable in write operation, the same address can be used to write on the same specific area. There are two schemes of hard disk addresses, the older one is known as *cylinder-head-sector* addressing (CHS) while the newer one which more dominant now is known as *logical block addressing* (LBA). In chapter <!-- [REF] 2 --> we have covered the physical structure of hard disks and we know from that discussion that the data are stored in small blocks known as sectors, also, there are tracks which each one of them consists of a number of sectors, and finally, there are heads that should be positioned on a specific sector to read from it or to write to it. The scheme CHS uses the same concepts of physical structure of hard disk, the address of given sector on the hard disk can be composed by combining three numbers together, the cylinder (track) that this sector reside on, the sector that we would like to access and the head that is able to access this sector, however, this scheme is obsolete now and LBA is used instead of it. In LBA, a logical view of a hard disk is used instead of the physical view. This logical view states that the hard disk is composed of a number of logical blocks with a fixed size, say, *n* bytes. These blocks are contagious in a similar way of the main memory, to reach any block you can use its own address and the addresses start from `0`, the block right after the first one has the address `1` and so on. As you can see, addressing in LBA is more like the addressing of the main memory, the main difference here is that in current computers each address of the main memory points to a byte in memory while an address in LBA points to a block which can be a sector (`512` bytes) or even bigger.
@@ -128,6 +149,47 @@ void *read_disk( int address )
 	dev_write( BASE_PORT + 7, 0x20 ); 
 ```
 
-<!--
 #### Writing to Disk
--->
+In both CHS and LBA, write operation is called via ports exactly in the same way of reading, though, there are two differences. First, the command number to issue a write request is `0x30` which should be written to `base_port + 7` after setting the correct values to the port. Second, after the drive becomes ready to write the required data, we should write a word after the other to `base_port` until we finish, this is performed by calling the routine `dev_write_word` which uses the instruction `out` to perform its job. Need no more discussion, the following two functions are `write_disk_chs` which uses CHS to write to the disk, and `write_disk` which uses LBA to write to the disk. Both of them receive a parameter called `buffer` which is a pointer to the data that we would like to write to the disk.
+
+```{.c}
+void write_disk_chs( int sector, short *buffer )
+{
+	dev_write( BASE_PORT + 6, 0x0a0 );
+	dev_write( BASE_PORT + 2, 1 );
+	dev_write( BASE_PORT + 3, sector );
+	dev_write( BASE_PORT + 4, 0 );
+	dev_write( BASE_PORT + 5, 0 );
+	dev_write( BASE_PORT + 7, 0x30 );
+	
+	int status = 0;
+	
+	do
+	{
+		status = dev_read( BASE_PORT + 7 ) ;
+	} while ( ( status ^ 0x80 ) == 128 );
+	
+	for ( int currByte = 0; currByte < ( SECTOR_SIZE / 2 ); currByte++ )
+		dev_write_word( BASE_PORT, buffer[ currByte ] );
+}
+
+void write_disk( int address, short *buffer )
+{
+	dev_write( BASE_PORT + 6, ( 0x0e0 | ( ( address & 0x0F000000 ) >> 24 ) ) );
+	dev_write( BASE_PORT + 2, 1 );
+	dev_write( BASE_PORT + 3, address & 0x000000FF );
+	dev_write( BASE_PORT + 4, ( address & 0x0000FF00 ) >> 8 );
+	dev_write( BASE_PORT + 5, ( address & 0x00FF0000 ) >> 16 );
+	dev_write( BASE_PORT + 7, 0x30 );
+	
+	int status = 0;
+	
+	do
+	{
+		status = dev_read( BASE_PORT + 7 ) ;
+	} while ( ( status ^ 0x80 ) == 128 );
+	
+	for ( int currByte = 0; currByte < ( SECTOR_SIZE / 2 ); currByte++ )
+		dev_write_word( BASE_PORT, buffer[ currByte ] );
+}
+```
