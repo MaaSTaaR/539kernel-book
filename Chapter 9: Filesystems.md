@@ -294,4 +294,70 @@ void create_file( char *filename, char *buffer )
 	metadata_t *metadata = kalloc( sizeof( metadata_t ) );
 	
 	metadata->next_file_address = 0;
+    
+    int currIdx;
+	
+	for ( currIdx = 0; *filename != '\0' && currIdx < FILENAME_LENGTH - 1; currIdx++, filename++ )
+		metadata->filename[ currIdx ] = *filename;
+	
+	metadata->filename[ currIdx ] = '\0';
+	
+	write_disk( metadata_lba, metadata );
+	write_disk( file_lba, buffer );
+```
+
+When the value of the head in the base block is `0`, that means there is no files at all in the run-time filesystem. When `create_file` is called in this situation, that means this file that the caller is requesting to create is the first file in the run-time filesystem, the metadata of this first file can be simply stored in the block right after the base block. In `create_file` this fact is used to decide the disk address for the metadata of the new file, this address is stored in the local variable `metadata_lba` which its name is a short for "metadata logical block address". In case that the run-time filesystem is not empty, that is, the value of `head` is not `0`, then the tail field of base block can be used to decide the metadata disk address of the new file. As we know, the tail field contains the metadata address of the last file that has been added to the run-time filesystem, and the content of that file is stored in the disk address `tail + 1`, which means `tail + 2` is a free block that can be used to store new data ^[This is ensured since 539filesystem stores the files in order, so, there will be no files after the tail unless it is a deleted file which can be overwritten and causes no data lose.], so we choose this address for the new metadata. After that, the disk address of the new content is decided by simply adding `1` to the disk address of the new metadata, the address of the content is stored in the local variable `file_lba`.
+
+After deciding the disk addresses of the new metadata and file content, we start in creating the metadata of the file to store them later on the disk. As you can see, we allocate a space in the kernel's heap for the new metadata by depending on the type `metadata_t`, after this allocation, we can use the local variable `metadata` to fill the fields of the new file metadata. First, we set the value of the next field to `0`, because, as we mentioned earlier, the new file will be the tail file which means there is no file after it. Then, we copy the filename which is passed as a parameter `filename` to the filename field of the metadata, in case the passed filename's length is less than the maximum length, then the whole filename is copied, otherwise, only the maximum number of characters of the passed filename is copied and the rest are simply omitted. The final step that is related to the new file is to write the metadata and the file content on the right addresses in the disk, and this is done in the last two lines which use the ATA device driver to write the data to the disk. The following is the next and last part of `create_file` which updates the base block depending on the current state of the run-time filesystem.
+
+```{.c}
+	if ( base_block->head == 0 )
+	{
+		update_base_block( metadata_lba, metadata_lba );
+	}
+	else
+	{	
+		metadata_t *tail_metadata = load_metadata( base_block->tail );
+		
+		tail_metadata->next_file_address = metadata_lba;
+		
+		write_disk( base_block->tail, tail_metadata );		
+		update_base_block( base_block->head, metadata_lba );
+	}
+} // End of "create_file"
+```
+
+When the run-time filesystem is empty, that is, the value of `head` in the base block is `0`, then the new file that we are creating will be both the head and the tail file. As you can see, in the block of `if` statement that checks whether `head` equals `0`, the not defined yet function `update_base_block` is used, the job of this function is updating the values of `head` and `tail` of the base block and write these changes on the permanent copy of the base block on the disk, the disk address of the new file's metadata is simply set as head and tail when `update_base_block` is called in this case. The second case is when the run-time filesystem isn't empty, that is, the value of `head` isn't `0`. In this case we need to update the disk address of the tail in the base block to consider the new file as the new tail, furthermore, the next field of the previous tail, which is not the tail anymore, should be updated to point to the metadata of the new file, you see in `else` block that this is exactly what is done. The function that isn't defined yet `load_metadata` is used to load the metadata of the previous tail by passing the disk address of the metadata that we desire to load as a parameter. The local variable `tail_metadata` points to that loaded metadata of the tail, and depending on the type `metadata_t` we can reach the values of the previous tail fields easily. You can see that we simply change the value of the next field to the metadata address of the new file, then we write this modification on the disk and of course on the same location, finally, the tail filed is updated in the base block by calling `update_base_block` which its code is presented next.
+
+```{.c}
+void update_base_block( int new_head, int new_tail )
+{
+	base_block->head = new_head;
+	base_block->tail = new_tail;
+	
+	write_disk( BASE_BLOCK_ADDRESS, base_block );
+}
+```
+
+It's too simple, it receives the value of head and tail that we would like to set on the base block, then, the copy of base block which is stored in the main memory is updated, then, this updated version is overwritten on the base block address on the disk. The following is code of `load_metadata` which has been used in `create_file` function.
+
+```{.c}
+metadata_t *load_metadata( int address )
+{
+	metadata_t *metadata = kalloc( sizeof( metadata_t ) );
+		
+	metadata = read_disk( address );
+	
+	return metadata;
+}
+```
+
+Simply, it receives a disk address and assumes that the block which is presented by this address is a metadata block. It simply loads this metadata to the main memory by allocating a space for this metadata in the kernel's heap then loading the content of the address from the disk. <!-- TODO: We don't need to allocate space in the code!! --> The following is a sample of using `create_file` to create a new file in the run-time filesystem.
+
+```{.c}
+char *data = kalloc( 512 );
+
+strcpy( data, "The content of the first file on 539filesystem" );
+	
+create_file( "first_file", data );
 ```
