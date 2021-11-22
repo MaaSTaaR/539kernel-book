@@ -1,3 +1,4 @@
+<!-- TODO: Don't forget to use the newer version of driver's functions that use wait function -->
 # Chapter 9: Filesystems
 
 ## Introduction
@@ -208,3 +209,89 @@ To make the implementation of 539filesystem as simple as possible, many restrict
 The data structure that will be used to maintain the run-time filesystem and store it to the disk is linked-list which is a simple data structure that is known for its slow search operation but fast insert operation, its simplicity is the reason of choosing it for 539filesystem, real modern filesystems use more complex data structures to make the performance of the filesystem better. The block that has the address `100` in the disk is known as the *base block* in 539filesystem, from this block we can reach the whole run-time filesystem. The base block is divided into two parts, the size of each one of them is `4` bytes, the first one if the address of the metadata of the first file that has been created in the run-time filesystem, that is, the *head file* ^[In linked-list data structure's term: the head] while the second part if the address of the metadata of the last file that has been created in the run-time filesystem, that is, the *tail file* ^[In linked-list data structure's term: the tail]. Each file has its own metadata that contains file's name and the *next field* which stores the metadata address of the next file that has been created. The length of the filename is `256` bytes and the size of the next field is `4` bytes. It should be obvious now how can we reach all files in a run-time filesystem that uses 539filesystem, starting from the base block we get the metadata address of the head file and by using the next field we can reach the metadata of the next file and the process continues until we reach the tail file. When there is no next file, the value `0` is stored in the next field of the last file's metadata, that is, the tail file. The metadata of each file is stored in the block right before the content of file which will be stored in one block only given that the size of a block is `512` bytes ^[In real-world situation, giving a whole block for a metadata of `260` bytes can be considered as a waste of space. One of real filesystems goals is to was as little space as possible to maintain the structure of the run-time filesystem.]. For example, if the metadata data of file `A` is stored in the address `103`, then the content of this file is stored in the address `104`. By using this design, the basic functionalities of filesystems can be provided.
 
 ### The Implementation of 539filesystem
+Before getting started in implementing the proposed design in the previous section <!-- [REF] -->, let's define two new files: `str.h` and `str.c` which contain string related function that can be handy when we write our filesystem. Two functions will be implemented in `str.c` and they are `strcpy` which copies a string from a location to another, and `strcmp` which compares two strings, if they are equals then `1` is returned, otherwise `0` is returned. There is no need to explain the details of the code of these two functions since they depend on the normal way which C uses with strings. The following is the content of `str.c` and to save some space here I haven't provide `str.h` which only contains the prototypes of the two functions that have mentioned above.
+
+```{.c}
+#include "str.h"
+
+void strcpy( char *dest, char *src )
+{
+	int idx = 0;
+	
+	while ( *src != '\0' )
+	{
+		dest[ idx ] = *src;
+		
+		src++;
+		idx++;
+	}
+}
+
+int strcmp( char *str1, char *str2 )
+{
+	while ( *str1 != '\0' )
+	{
+		if ( *str1 != *str2 )
+			return 0;
+		
+		str1++;
+		str2++;
+	}
+	
+	if ( *str2 != '\0' )
+		return 0;
+	
+	return 1;
+}
+```
+
+Now we can start implementing 539filesystem, the first step as usual is to create the files that hold the functions related to our filesystem: `filesystem.h` and `filesystem.c`. The following is the content of `filesystem.h`.
+
+```{.c}
+#define BASE_BLOCK_ADDRESS 100
+#define FILENAME_LENGTH 256
+
+typedef struct
+{
+	int head, tail;
+} base_block_t;
+
+typedef struct
+{
+	char filename[ FILENAME_LENGTH ];
+	int next_file_address;
+} metadata_t;
+
+base_block_t *base_block;
+
+void filesystem_init();
+int get_files_number();
+void create_file( char *, char * );
+char **list_files();
+char *read_file( char * );
+```
+
+First we define two macros, `BASE_BLOCK_ADDRESS` and `FILENAME_LENGTH`. The first one is the address of base block in the disk, as we have mentioned earlier, this address is `100`. The second one is the maximum length of a filename in 539filesystem, and we mentioned earlier that this length is `256`. Then we define two structures as types: `base_block_t` and `metadata_t`, based on our discussions on 539filesystem design, you may have noticed that `base_block_t` represents the base block, it has two fields, each one of them of size `4` bytes, the first one is `head` and the second one is `tail`. The type `metadata_t` represents the metadata of a file, it has two fields as we described before, the first one is the filename and the second one is the metadata address of the next file. These two structures are based on linked-list data structure, and we are going to use them to load the data that they represent from the disk, manipulate them while they are in the main memory, then write them back to the disk in order to make the run-time filesystem persistent. Then the global variable `base_block` is defined, which is the memory address that contains the base block after loading it from the disk, as we have said, this loaded copy is the one that we are going to implement when the user performs a transactional operation on the run-time filesystem such as creating a new file for example. The first function that we are going to implement is `filesystem_init` which is an initializer that will be called once the kernel starts. Its code is too simple, it is going to use the ATA device driver to read the base block from disk to the main memory and stores the memory address of this loaded data in the global variable `base_block`.
+
+```{.c}
+void filesystem_init()
+{
+	base_block = read_disk( BASE_BLOCK_ADDRESS );
+}
+```
+
+We need to call this function by putting the line `filesystem_init();` in `kernel_main` of `main.c` after the line `scheduler_init();`. The rest of functions will be discussed in the following sub sections.
+
+#### Creating a New File
+Let's begin with the function `create_file` which is the one that create a new file. We mentioned before that there is no write operation in 539filesystem, instead, the content of a new file is written in the same operation that creates a new file. Basically, `create_file` operation should decide the disk address that the new file and its metadata should be stored in, of course, in real-world situation, the filesystem should be sure that this disk address is free and doesn't contain a part of another file. After deciding the disk address of this new file, we know that in the first block, the metadata of the file should be stored, and in the next block the content of this file should be stored, therefore, the metadata of the new file should be initialized by using the type `metadata_t` and after that should be stored into the disk by using ATA device driver right before the content of the file which is received by the function `create_file`. Beside writing the metadata and the content of the file in the disk, creating a new file in 539filesystem is equivalent to inserting a new item in a linked-list, that is, the base block need to be modified to make sure that the new file is reachable later. To do that, the metadata address of the new file should now be the tail in the base block, that is, the metadata address that was the tail before creating the new file is not the tail anymore, it become a normal item in the list that was once the tail, now, this previous tail should point to the newly created file in its next filed, and the tail in base block should be updated in the base block to point to the newly created file. There are also more subtle cases in updating the base block that will be discussed while writing the code of `create_file`. Let's start with the first part of the function.
+
+```{.c}
+void create_file( char *filename, char *buffer )
+{
+	int metadata_lba = ( base_block->head == 0 ) ? BASE_BLOCK_ADDRESS + 1 : base_block->tail + 2;
+	int file_lba = metadata_lba + 1;
+	
+	metadata_t *metadata = kalloc( sizeof( metadata_t ) );
+	
+	metadata->next_file_address = 0;
+```
