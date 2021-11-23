@@ -361,3 +361,220 @@ strcpy( data, "The content of the first file on 539filesystem" );
 	
 create_file( "first_file", data );
 ```
+
+#### Listing All Files
+To list all files on 539filesystem, the normal traversal algorithm of linked-list can be used. In linked-list to traverse all list's item you need to start with the head of the list, then to reach the second item of the list, the next field of the head can be used, and so on for the rest of items in the linked-list. The next field is the component which links the items of the list with each other. You keep traversing the items until the tail of the list is reached and you can check whether the current item is the tail or not by checking its next field, in case its value is `0` ^[Or usually in higher-level implementations `NULL`.] then you know that the current item is the tail which means the list is over. Another way to check if the current item is the tail is by comparing its address with the one which is stored in the tail field of the linked-list. The following is the code of the function `list_files` which uses the algorithm we just described, it returns an array of strings, each item of this array is a filename.
+
+```{.c}
+char **list_files()
+{
+    // Part 1
+    
+	if ( base_block->head == 0 )
+		return -1;
+	
+    // Part 2
+    
+	char **list;
+	
+	list = kalloc( get_files_number() * sizeof( char * ) );
+	
+    // Part 3
+    
+	metadata_t *curr_file = load_metadata( base_block->head );
+	
+	int idx = 0;
+	
+	while ( 1 )
+	{
+		list[ idx ] = curr_file->filename;
+
+		if ( curr_file->next_file_address == 0 )
+			break;
+		
+		curr_file = load_metadata( curr_file->next_file_address );
+		
+		idx++;
+	}
+	
+	return list;
+}
+```
+
+The first part of `list_files` handles the case where the run-time filesystem is empty, so, it returns `-1` to indicate that there is no files to list. In case that the run-time filesystem isn't empty, the function in the second part allocates a space in kernel's heap for the list of the names of the files, as you can see, we have used a function named `get_files_number` to decide how many bytes we are going to allocate for this list, based on its name, this function returns the number of files in the run-time filesystem, its code will be presented in a moment. In the third part, the function is ready to traverse the list of files metadata which are stored in the disk and are reachable starting from the disk address which is stored in the head field in the base block. Initially, the metadata of the head file is loaded into memory and can be accessed through the local variable `curr_file`, then, the loop is started. In the body of the loop, the filename of the current file metadata is appended to the last result's variable `list`, in the first iteration of this loop the filename will be the one that belong to the head file. After appending the filename of the current file to `list`, the function checks if the current file is the tail file or not by checking the value of the next field `next_file_address`, if it is `0` then the current file is the tail, so, the loop should break and the result should be returned to the caller. In case that the current file isn't the tail file, then the metadata of the next file is loaded by using the disk address which is stored in the next field of the current file, the current value of `curr_file` which represents an address to the metadata of the current file is replaced with a memory address that points to the metadata of the next file which will be used in the next iteration of the loop, the same operation continues until the function reaches the tail which breaks the loop and returns the list to the caller. The following is the code of `get_files_number` that was used in `list_files` and, as mentioned earlier, returns the number of stored files.
+
+```{.c}
+int get_files_number()
+{
+	if ( base_block->head == 0 )
+		return 0;
+	
+	int files_number = 0;
+	
+	// ... //
+	
+	metadata_t *curr_file = load_metadata( base_block->head );
+	
+	while ( 1 )
+	{
+		files_number++;
+
+		if ( curr_file->next_file_address == 0 )
+			break;
+		
+		curr_file = load_metadata( curr_file->next_file_address );
+	}
+	
+	return files_number;
+}
+```
+
+As you can see, it works in a similar way as `list_files`, the main difference that `get_files_number` keep tracking the number of iterations to fetch the number of files instead of copying the filename of the current file to another list. The following is a sample of using `list_files`.
+
+```{.c}
+void print_fs()
+{
+	char **files = list_files();
+
+	for ( int currIdx = 0; currIdx < get_files_number(); currIdx++ )
+	{
+		print( "File: " );
+		print( files[ currIdx ] );
+		println();
+	}
+	
+	print( "==" );
+	println();
+}
+```
+
+#### Reading a File
+After knowing how to traverse the list of files in 539filesystem, we can easily use this algorithm to find the disk address of a file given its name. The function `read_file` reads the content of a file which its name is passed as a parameter, then, the address of the buffer that stores that content of the file is returned to the caller. Because the file size in 539filesystem is always `512` then `read_disk` of ATA device driver can be called just one time to load a file. The main thing to do is to find the disk address of the file that the caller passed its name as a parameter. The following is the code of `read_file`.
+
+```{.c}
+char *read_file( char *filename )
+{
+	int address = get_address_by_filename( filename );
+	
+	if ( address == 0 )
+		return 0;
+
+	char *buffer = read_disk( address + 1 );
+	
+	return buffer;
+}
+```
+
+The task of finding the disk address of the file's metadata is performed by the function `get_address_by_filename` which we will define in a moment. When the metadata of the file is not found, `read_file` returns `0`, otherwise, the file will be read by calling `read_disk`, as you can see, the parameter that is passed to this function is `address + 1` since the value of `address` is the disk address of the file's metadata and not its content. Finally, the address of the buffer is returned to the caller. The following is the code of `get_address_by_filename`.
+
+```{.c}
+int get_address_by_filename( char *filename )
+{
+	metadata_t *curr_file = load_metadata( base_block->head );
+	int curr_file_address = base_block->head;
+	
+	int idx = 0;
+	
+	while ( 1 )
+	{
+		if ( strcmp( curr_file->filename, filename ) == 1 )
+			return curr_file_address;
+			
+		if ( curr_file->next_file_address == 0 )
+			break;
+		
+		curr_file_address = curr_file->next_file_address;
+		curr_file = load_metadata( curr_file->next_file_address );		
+	}
+	
+	return 0;
+}
+```
+
+This function receives a filename as a parameter, then, it traverse the list of the files, with each iteration, the name of the current file is compared to the passed filename by using the function `strcmp` that we already defined, if the name of the current file doesn't match the passed filename, the function loads the metadata of the next file by using `load_metadata` and continues to the next iteration of the loop to check whether the next file is the required file or not, and so on, if the file isn't found, then the loop exits and `0` is returned. When a match is found, the disk address of the current file's metadata which is stored in the local variable `curr_file_address` is returned to the caller. The following is a sample of using `read_file`.
+
+```{.c}
+print( read_file( "first_file" ) );
+```
+
+#### Deleting a File
+As in creating a file, deleting a file may cause modifications on the base block or even on another file's metadata. Given a filename, the function `delete_file` deletes this file from the run-time filesystem, technically, the content of the file will not be overwritten with zeros for example, instead, only the reference to this file is removed from either the base block in case that file is the head or the tail, or from previous file's next field. This design decision of not overwriting the content of the file, that the user would like to delete, on the disk is taken in real-world filesystems to make the delete process faster and that's the reason of existence of software that recover deleted files since their contents are still on the disk but there is not reference to them in the run-time filesystem's data structure, however, the space of deleted files are considered as free space by the filesystem, and that's why the recovery software cannot ensure you that it could recover all deleted files because the space which was occupied by the deleted file ^[Or part of it.] that you would like to recover by be now used by another file. The following is the code of `delete_file`.
+
+```{.c}
+void delete_file( char *filename )
+{	
+    // Part 1
+    
+	int curr_file_address = get_address_by_filename( filename );
+	
+	if ( curr_file_address == 0 )
+		return;
+	
+	metadata_t *curr_file_metadata = read_disk( curr_file_address );
+	
+    // Part 2
+    
+    if ( get_files_number() == 1 )
+	{
+		update_base_block( 0, 0 );
+		
+		return;
+	}
+    
+    // Part 3
+	if ( curr_file_address == base_block->head )
+	{
+		update_base_block( curr_file_metadata->next_file_address, base_block->tail );
+	}
+    // Part 4
+	else
+	{
+		int prev_file_address = get_prev_file_address( curr_file_address );
+		
+		metadata_t *prev_file = load_metadata( prev_file_address );
+
+		prev_file->next_file_address = curr_file_metadata->next_file_address;
+		
+		write_disk( prev_file_address, prev_file );
+		
+		if ( curr_file_address == base_block->tail )
+			update_base_block( base_block->head, prev_file_address );
+	}
+}
+```
+
+The first part tries to find metadata address of the file in question by using the function `get_address_by_filename`, in case the file is not found, the function does nothing and returns. Otherwise, the metadata of the file in question is loaded and the local variable `curr_file_metadata` is used to point to that metadata in the main memory. In the second part, the most basic case of deleting a file is handled, when there is only one file in the run-time filesystem, nothing need to be done but updating the base block to indicate that the disk address of both head and tail is `0` which means, as mentioned earlier, that the run-time filesystem is empty. The function `update_base_block` is used to update the base block. The third part handles the case where the file to be deleted is the head file, in this case, to remove the reference of this file, we simply replace the current value of the `head` in base block with the disk address of the metadata of the file right next to the head, that is, the second file which becomes the head file after finishing the delete process. The fourth part of the function handles the case where the file to be deleted is not the head, in this case, the previous file's metadata needs to be found to modify its next field which will be replaced with the value of the next field of the file that we would like to delete, in this way, we will be sure that the reference of the file to be delete is removed from 539filesystem data structure, and that the previous file is linked with the next file. Also in this case, the file in question may be the tail, therefore, the tail on the base block should be replaced with the disk address of the previous file's metadata. As you can see in the first code line of this fourth part, a function named `get_prev_file_address` is used to get the disk address of previous file's metadata to be able to perform the described operation. By using this address, the metadata is loaded by using `load_metadata` in order to modify the next field of the previous file, the updated metadata is written on the same address in the disk. Finally, the function checks if the file to be deleted is the tail file or not, if this is the case, the tail in base block is updated to point to the previous file which ensures that there is no any reference to that file in the filesystem's data structure.
+
+## Finishing up Version `NE`
+And now version `NE` of 539kernel is ready. It contains a basic ATA device driver and 539filesystem. The following is its `Makefile` which adds the new files to the compilation list.
+
+```{.makefile}
+ASM = nasm
+CC = gcc
+BOOTSTRAP_FILE = bootstrap.asm 
+SIMPLE_KERNEL = simple_kernel.asm
+INIT_KERNEL_FILES = starter.asm
+KERNEL_FILES = main.c
+KERNEL_FLAGS = -Wall -m32 -c -ffreestanding -fno-asynchronous-unwind-tables -fno-pie
+KERNEL_OBJECT = -o kernel.elf
+
+build: $(BOOTSTRAP_FILE) $(KERNEL_FILE)
+	$(ASM) -f bin $(BOOTSTRAP_FILE) -o bootstrap.o
+	$(ASM) -f elf32 $(INIT_KERNEL_FILES) -o starter.o 
+	$(CC) $(KERNEL_FLAGS) $(KERNEL_FILES) $(KERNEL_OBJECT)
+	$(CC) $(KERNEL_FLAGS) screen.c -o screen.elf
+	$(CC) $(KERNEL_FLAGS) process.c -o process.elf
+	$(CC) $(KERNEL_FLAGS) scheduler.c -o scheduler.elf
+	$(CC) $(KERNEL_FLAGS) heap.c -o heap.elf
+	$(CC) $(KERNEL_FLAGS) paging.c -o paging.elf
+	$(CC) $(KERNEL_FLAGS) ata.c -o ata.elf
+	$(CC) $(KERNEL_FLAGS) str.c -o str.elf
+	$(CC) $(KERNEL_FLAGS) filesystem.c -o filesystem.elf
+	ld -melf_i386 -Tlinker.ld starter.o kernel.elf screen.elf process.elf scheduler.elf heap.elf paging.elf ata.elf str.elf filesystem.elf -o 539kernel.elf
+	objcopy -O binary 539kernel.elf 539kernel.bin
+	dd if=bootstrap.o of=kernel.img
+	dd seek=1 conv=sync if=539kernel.bin of=kernel.img bs=512 count=20
+	dd seek=21 conv=sync if=/dev/zero of=kernel.img bs=512 count=2046
+	#bochs -f bochs
+	qemu-system-x86_64 -s kernel.img
+```
