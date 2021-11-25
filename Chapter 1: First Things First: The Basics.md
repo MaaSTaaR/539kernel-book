@@ -2,29 +2,27 @@
 
 Before start creating 539kernel, we need to learn some basics, let's start with practical aspects and get our hands dirty!
 
+<!--
 ## Computer Architecture
 [MQH] CPU and Main Memory (The program should be here to be executed), the program counter
+-->
 
 ## x86 Assembly Language Overview
-To build a boot loader, we need to use assembly language. The program that takes a source code which is written in assembly language and transforms this code to the machine language is known as *assembler* [^4]. There are many assemblers available for x86 but the one that we are going to use is Netwide Assembler (NASM). However, the concepts of x86 assembly are the same, they are tight to the architecture itself, also the instructions are the same, so if you grasp the basics it will be easy to use any other assembler [^5]. Don't forget that the assembler is just a tool that helps us to generate an executable x86 machine code out of an assembly code.
+To build a boot loader, we need to use assembly language. The program that takes a source code which is written in assembly language and transforms this code to the machine language is known as *assembler* [^4]. There are many assemblers available for x86 but the one that we are going to use is Netwide Assembler (NASM). However, the concepts of x86 assembly are the same, they are tight to the architecture itself, also the instructions are the same, so if you grasp the basics it will be easy to use any other assembler [^5] even if it uses other syntax than NASM. Don't forget that the assembler is just a tool that helps us to generate an executable x86 machine code out of an assembly code.
 
-In this section I don't aim to examine the details of x86 and NASM, you can consider this section as a quick start on both x86 and NASM, the basics will be presented to make you familiar with x86 assembly language, more advanced concepts will be presented later when we need them. If you are interested in x86 assembly for its own sake, there are multiple online resources and books that explain it in details.
+In this section I don't aim to examine the details of x86 or NASM, you can consider this section as a quick start on both x86 and NASM, the basics will be presented to make you familiar with x86 assembly language, more advanced concepts will be presented later when we need them. If you are interested in x86 assembly for its own sake, there are multiple online resources and books that explain it in details.
 
 ### Registers
-In any CPU architecture, and x86 is not an exception, a register is a small memory inside the CPU chip. Like any other type of memories (e.g. RAM), we can store data inside a register and we can read data from it, it is too small and too fast. 
+In any CPU architecture, and x86 is not an exception, a register is a small memory inside the CPU chip. Like any other type of memories (e.g. RAM), we can store data inside a register and we can read data from it, the registers are too small and too fast. The CPU's architecture provides us with multiple registers. In x86 there are two types of registers: general purpose registers and special purpose registers. In general purpose registers we can store any kind of data we want, while the special purpose registers are provided by the architecture for some specific purposes, we will encounter the second type latter in our journey of creating 539kernel.
 
-The CPU's architecture provides us with a number of registers, and in x86 there are two types of registers: general purpose registers and special purpose registers. In general purpose registers we can store any kind of data we want, while the special purpose registers are provided by the architecture for some specific purposes, we will see the second type latter in our journey of creating 539kernel.
+x86 provides us with eight general purpose registers and to use them in order to read from or write to them we refer to them by their names in assembly code. The names of these registers are: `EAX`, `EBX`, `ECX`, `EDX`, `ESI`, `EDI`, `EBP`, and `ESP`. While the registers `ESI`, `EDI`, `EBP` and `ESP` are considered as general purpose registers in x86 architecture ^[According to Intel's manual], we will see latter that they store some important data in some cases and it's better to use them carefully if we are forced to. The size of each one of these general purpose registers is `32` bits (`4` bytes) and due to that, they are available only on x86 CPUs that supports `32-bit` architecture [^6] such as Pentium 4 for instance. These `32-bit` registers are not available on x86 CPUs that support only `16-bit` architecture or lower, so, for example, you can't use the register `EAX` in Intel 8086 because it is a `16-bit` x86 CPU and not `32-bit`.
 
-x86 provides us with eight general purpose registers and we refer to them by their names in assembly code. The names of these registers are: `EAX`, `EBX`, `ECX`, `EDX`, `ESI`, `EDI`, `EBP`, and `ESP`. The size of these registers is 32-bit (4 bytes) and due to that, they are available only on 32-bit x86 CPUs [^6] such as Pentium 4 for instance, that is, you can't use the register EAX (for example) in Intel 8086 because it is a 16-bit CPU and not 32-bit.
-
-The registers ESI, EDI, EBP and ESP are considered as general purpose in x86 architecture, but we will see latter that they store some important data in some cases and it's better to use them carefully if we are forced to.
-
-These registers are 32-bit registers as we have mentioned before, but we can use only the first 16-bit of them by referring to them by their old names which have been used in 16-bit x86 CPUs. These 16-bit names are AX, BX, CX and DX for respectively EAX, EBX, ECX, DX. In old days, when 16-bit x86 CPUs were dominant, assembly programmers used a register called AX (for instance) which has the size 16-bit, but when 32-bit x86 CPUs came, this register (and the others of course) has been *extended* to have the size 32-bit and its name changed to EAX, though, the old register name AX is also available (at least for compatibility reasons) in 32-bit CPUs with the same old size, but now, it is a part of the bigger register EAX. And that's holds for all other general purpose registers.
-
-Furthermore, the 16-bit registers can be divided into two 8-bit parts, the first 8 bits of the register are called the *low* bits, while the second 8 bits are called the *high* bits. For example, AX register is a 16-bit register, and it is a part of 32-bit EAX register. AX is divided into two more parts, A**L** for the **l**ow 8 bits and A**H** for the **h**igh 8 bits. And the same concept holds for BX, CX and DX.
+In old days, when `16-bit` x86 CPUs were dominant, assembly programmers used the registers `AX`, `BX`, `CX` and `DX` and each one of them is of size `16` bits (`2` bytes), but when `32-bit` x86 CPUs came, these registers have been extended to have the size `32-bit` and their names were changed to `EAX`, `EBX`, `ECX` and `EDX`. In fact, the first letter `E` of the new names means *extended*. However, the old names are still usable in `32-bit` x86 CPUs and they are used to access and manipulate the first `16` bits of the corresponding register, for instance, to access the first `16` bits of the register `EAX`, the name `AX` can be used. Furthermore, the first `16` bits of these registers can be divided into two parts and each one of them is of size`8` bits (`1` bytes) and has it's one name that can be referred to in the assembly code. The first `8` bits of the register are called the *low* bits, while the second `8` bits are called the *high* bits. Let's take one of these register as an example:`AX` register is a `16-bit` register which is a part of the bigger `32-bit` `EAX` register in `32-bit` architecture. `AX` ^[Or in other words for `32-bit` architecture: The first `16` bits of `EAX`.] is divided into two more parts, `AL` for the **l**ow `8` bits as the second letter indicates and `AH` for the **h**igh `8` bits as the second letter indicates. And the same holds for `BX`, `CX` and `DX`.
 
 ### Instruction Set
-The assembly language is really simple. There is a bunch of instructions provided by the CPU for the programmer, each instruction performs something, and it may takes operands which the instruction works on it somehow, depending on the instruction, the operands can be a static values (e.g. a number), a register or a memory location. An assembly code is simply a sequence of those instructions which executed sequentially. For example, the following is an assembly code, don't worry about the meaning now, you will understand what it does eventually:
+The processor's architecture provides the programmer with a bunch of *instructions* that can be used in assembly code. Processor's instructions resemble functions [^7] in a high-level languages which are provided by the libraries, in our case, we can consider the processor as the ultimate library for the assembly code. As with functions in high-level programming languages, each instruction has a name and performs a specific job, also, it can take parameters which are called *operands*. Depending on the instruction itself, the operands can be a static value (e.g. a number), a register name that the instruction is going to fetch the stored value of it to be used or even a memory location. 
+
+The assembly language is really simple. An assembly code is simply a sequence of instructions which will be executed sequentially. The following is an assembly code, don't worry about its functionality right now, you will understand what it does eventually.
 
 ```{.assembly}
 mov ah, 0Eh
@@ -32,32 +30,23 @@ mov al, 's'
 int 10h
 ```
 
-You can see that each line performs an instruction, and depending on the instruction there will be one or two operands.
-
-We can say an instruction is same as a function  [^7] in a high-level languages which is provided by some third-party library (in our case the CPU) and may takes some parameters (in our case the operands) to operate on. We know that each function does something useful, but we don't necessarily know how does it work inside.
-
-For example, x86 has an instruction called *add* which takes two operands and add the value of the first operand to the values of the second operand and stores the result in the first operand. That means, the first operand of *add* should be something that we can store values on it. Yes! you are right, the first operand in this case can be a register or a memory location and not a static value.
-
-To clarify the previous analogy, in high-level languages world, let's say in C programming language, *add* instruction will be a function which takes two parameters (operands), adds the two values and returns the result to the caller [^8].
+As you can see that each line starts with an instruction which is provided to us by x86 architecture, in the first two lines use an instruction named `mov` and as you can see, this instruction receives two operand. In the current usage of this instruction we can see that the first operand of it is a register name which the second operand is a static value. The third line uses another instruction named `int` which receives one operand. When this code is running, it will be executed by the processor sequentially, starting from the first line until it finishes in the last line.
 
 If you are interested on the available instructions on x86, there is a four-volumes manual named "Intel® 64 and IA-32 architectures software developer's manual" provided by Intel that explains each instruction in details [^9].
 
 #### Assigning Values with "mov"
-You can imagine a register same as a variable in high-level languages. We can assign values to a variable, we can change its old value and we can copy its value to another variable. In assembly language, these operations can be performed by the instruction *mov* which takes the value of the second operand and stores it in the first operand.
-
-You have seen in the previous examples the following two lines that use *mov* instruction:
+You can imagine a register as a variable in high-level languages. We can assign values to a variable, we can change its old value and we can copy its value to another variable. In assembly language, these operations can be performed by the instruction *mov* which takes the value of the second operand and stores it in the first operand. You have seen in the previous examples the following two lines that use *mov* instruction.
 
 ```{.assembly}
 mov ah, 0Eh
 mov al, 's'	
 ```
 
-Now you know that the first instruction copy the value *0Eh* to the register *ah*, and the second instruction copy the character *s* to the register *al*. Also you can see that the value *0Eh* ended with the character *h*, for NASM that means *0E* is a number in **h**exadecimal numbering system which is 14 in the decimal numbering system.
-
-The instruction *mov* is one of most important instructions that we will use in our work. Of course, we are going to use more instructions to accomplish our goal, but in this quick overview we will stop here. We have learned enough basics to proceed and the more advanced concepts will be examined in its right place.
+Now you can tell that the first line copies the value `0Eh` to the register `ah`, and the second line copies the character `s` to the register `al`. The single quotation is used in NASM to represent strings or characters and that's why we have used it in the second line, based on that, you may noticed that the value `0Eh` is not surrounded by a single quotation though it contains characters, in fact, this value isn't a string, it is a number that is represented by using hexadecimal numbering system and due to that the character `h` was put in the end of that value, to tell NASM to move a value `0E` which is a hexadecimal number to the register `al`, the equivalent number of `0E` in the decimal numbering system which, we human, are used to is `14`, that is `0E` and `14` are the exactly the same, but the are represented in two different numbering system^[Numbering systems will be discussed in more details later.].
 
 ## NASM
-Netwide Assembler (NASM) is an open-source source assembler for x86 architecture which uses Intel's synatx of assembly language. We can use it through command line to assemble x86 assembly code and generate the corresponding machine code. The basic use of NASM command is:
+<!-- [MQH] 25 Nov 2021. REVIEWING: WE ARE HERE -->
+Netwide Assembler (NASM) is an open-source source assembler for x86 architecture which uses Intel's syntax of assembly language. We can use it through command line to assemble x86 assembly code and generate the corresponding machine code. The basic usage of NASM command is the following.
 
 ```
 nasm -f <format> <filename> [-o <output>]
@@ -189,7 +178,6 @@ file2.o: $(file2_dependencies)
 [^5]: Another popular open-source assembler is GNU Assembler (GAS). One of main differences between NASM and GAS that the first uses Intel's syntax while the second uses AT&T syntax.
 [^6]: Also they are available in **64-bit** x86 CPUs such as Core i7 for instance.
 [^7]: Or a procedure for people who work with Algol-like programming languages.
-[^8]: More accurately, stores the result in the same location of the first parameter.
 [^9]: <https://software.intel.com/en-us/articles/intel-sdm>
 [^object_files]: An object file is a machine code of a source file and it is generated by the compiler. The object file is not an executable file and in our case at least it is used to be linked with other object files to generate the final executable file.
 [^mach-microkernel]: Mach is an operating system's kernel which is well-known for using *microkernel* design. It has been started as a research effort in Carnegie Mellon University in 1985. Current Apple's operating systems macOS and iOS are both based on an older operating system known as NeXTSTEP which uses Mach as its kernel, 
