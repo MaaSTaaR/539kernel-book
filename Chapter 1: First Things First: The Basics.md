@@ -26,7 +26,7 @@ The processor's architecture provides the programmer with a bunch of *instructio
 
 The assembly language is really simple. An assembly code is simply a sequence of instructions which will be executed sequentially. The following is an assembly code, don't worry about its functionality right now, you will understand what it does eventually.
 
-```{.assembly}
+```{.asm}
 mov ah, 0Eh
 mov al, 's'	
 int 10h
@@ -36,10 +36,10 @@ As you can see that each line starts with an instruction which is provided to us
 
 If you are interested on the available instructions on x86, there is a four-volumes manual named "Intel® 64 and IA-32 architectures software developer's manual" provided by Intel that explains each instruction in details [^9].
 
-#### Assigning Values with "mov"
-You can imagine a register as a variable in high-level languages. We can assign values to a variable, we can change its old value and we can copy its value to another variable. In assembly language, these operations can be performed by the instruction *mov* which takes the value of the second operand and stores it in the first operand. You have seen in the previous examples the following two lines that use *mov* instruction.
+#### Assigning Values with `mov`
+You can imagine a register as a variable in high-level languages. We can assign values to a variable, we can change its old value and we can copy its value to another variable. In assembly language, these operations can be performed by the instruction `mov` which takes the value of the second operand and stores it in the first operand. You have seen in the previous examples the following two lines that use `mov` instruction.
 
-```{.assembly}
+```{.asm}
 mov ah, 0Eh
 mov al, 's'	
 ```
@@ -60,39 +60,29 @@ A *binary format* is basically a specification which gives a blueprint of how a 
 
 Each operating system knows its own binary format well, and knows how a binary file that uses this format is structured, and how to seek the binary file to find the machine code that should be loaded into memory and executed by the processor. For example, when you run an ELF executable file in GNU/Linux system, the Linux kernel knows it is an ELF executable file and assumes that it is organized in a specific way, by using the specification of ELF, Linux kernel will be able to locate the machine code of the software inside the ELF file and load it into memory to be ready for execution.
 
-In any binary format, one major part of the binary file that uses this format is the machine code that has been produced by compiling or assembling some source code, the machine code is specific to a processor architecture, for example, the machine code that has been generated for x64 [^x64] cannot run on x86. Because of that the binary files are distributed according to the processor architecture which can run on, for example, GNU/Linux users see the names of software packages in the following format *nasm_2.14-1_i386.deb*, the part *i386* tells the users that the binary machine code of this package is generated for *i386* architecture, which is another name for x86 by the way, that means this package cannot be used in a machine that uses ARM processor such as Raspberry Pi for example. Due to that, to distribute a binary file of the same software for multiple processor's architectures, a separate binary file should be generated for each architecture, to solve this problem, a binary format named `FatELF` was presented. In this binary format, the software machine code of multiple processor architectures are gathered in one binary file and the suitable machine code will be loaded and run based on the type of the system's processor. Naturally, the size of the files that use such format will be bigger than the files that uses a binary format that is oriented for one processor architecture. Due to the bigger size, this type of binary formats is known as *fat binary*.
+In any binary format, one major part of the binary file that uses this format is the machine code that has been produced by compiling or assembling some source code, the machine code is specific to a processor architecture, for example, the machine code that has been generated for x64 [^x64] cannot run on x86. Because of that the binary files are distributed according to the processor architecture which can run on, for example, GNU/Linux users see the names of software packages in the following format `nasm_2.14-1_i386.deb`, the part `i386` tells the users that the binary machine code of this package is generated for `i386` architecture, which is another name for x86 by the way, that means this package cannot be used in a machine that uses ARM processor such as Raspberry Pi for example. Due to that, to distribute a binary file of the same software for multiple processor's architectures, a separate binary file should be generated for each architecture, to solve this problem, a binary format named `FatELF` was presented. In this binary format, the software machine code of multiple processor architectures are gathered in one binary file and the suitable machine code will be loaded and run based on the type of the system's processor. Naturally, the size of the files that use such format will be bigger than the files that uses a binary format that is oriented for one processor architecture. Due to the bigger size, this type of binary formats is known as *fat binary*.
 
-Getting back to the `format` argument of NASM, if our goal of using assembly language is to produce an executable file for Linux for example, we will use *elf* as a value for *format* argument. But we are working with low-level kernel development, so our binary files should be *flat* and the value of *format* should be *bin* to generate a *flat binary* file which doesn't use any specification, instead, in flat binary files, the output is stored as is with no additional information or organization, only the output machine language of our code. Using flat binary does make sense and that's because the code which is going to load ^[Which is BIOS as we will see latter.] our binary file doesn't understand any binary format to interpret it and fetch the machine code out of it, instead, the content of the binary file will be loaded to the memory as is.
+Getting back to the `format` argument of NASM, if our goal of using assembly language is to produce an executable file for Linux for example, we will use `elf` as a value for `format` argument. But we are working with low-level kernel development, so our binary files should be flat and the value of `format` should be `bin` to generate a *flat binary* file which doesn't use any specification, instead, in flat binary files, the output is stored as is with no additional information or organization, only the output machine language of our code. Using flat binary does make sense and that's because the code which is going to load ^[Which is BIOS as we will see latter.] our binary file doesn't understand any binary format to interpret it and fetch the machine code out of it, instead, the content of the binary file will be loaded to the memory as is.
 
 
 
 ## GNU Make
-GNU Make is a build automation tool. Well, don't let this fancy term make you panic! the concept behind it is too simple. When we create a kernel of an operating system ^[Or any software with any other compiled programming languages.] we are going to write some assembly code and C code and both of them need to be assembled and compiled (for the C code) to generate the machine code as binary files out of them.
-
-<!-- [MQH] REVIEWING HERE 26 Nov 2021 -->
-If you have worked previously with GNU GCC ^[Which is an open source compiler for C and may other programming languages] for example, you can recall that each time you need to generate the executable file, you have to write the same command in the terminal over and over again, and mention the list of all source files that you would like to compile, and sometimes you use a tool called the *linker* to link the generated object file and produce the final executable file. This process of compiling and linking is called *building* process.
-
-In our case of creating 539kernel, not only GNU GCC is used to *build* the final executable file of our kernel, also NASM should be used to generate the object file of the portion which is written by using assembly. Furthermore, a bootable image of the kernel should be generated. Well, you can see that the build process of our kernel is too tedious. To save our time (and ourselves from boredom of course) we don't want to write all these commands over and over again. Here where GNU Make comes to the rescue, it *automates* the *building* process.
-
-What we should do to use GNU Make is simply create the *makefile* for our kernel. The make file is a simple text file written in a way GNU Make can understand. It tells GNU Make what to do to produce the final bootable image of our kernel, that means by using make file we tell GNU Make to compile the assembly files by using NASM, and compile the C files by using GCC, use the linker to link the output of these two steps, then create the final bootable image of our kernel. After writing the make file, what we need to do to compile our kernel is simply run the command *make* in the terminal! That's it!
+GNU Make is a build automation tool. Well, don't let this fancy term make you panic! the concept behind it is too simple. When we create a kernel of an operating system ^[Or any software with any other compiled programming languages.] we are going to write some assembly code and C code and both of them need to be assembled and compiled (for the C code) to generate the machine code as binary files out of them. With each time a modification is made in the source code, you need to recompile (or reassemble) the code over and over again through writing the same commands in the terminal in order to generate the last binary output of your code. Beside the compiling and recompiling steps, an important step needs to take its place in order to generate the last output, this operation is known as *linking*, which links the different *object files* [^object_files] with each other to generate one binary file out of these multiple object files. These operations which are needed to generate the last binary file out of the source code is known as *building process*, which, as mentioned earlier, involves executing multiple commands such as compiling, assembling and linking. This makes the building process a tedious job and error-prone process. To save our time (and ourselves from boredom of course) we don't want to write all these commands over and over again in order to generate the last output, we need an alternative and here where GNU Make ^[And any other building automation tool.] comes to the rescue, it *automates* the *building* process by gathering all required commands in a text file known as `Makefile`, once the user runs this file through the command `make`, GNU Make is going to run these commands sequentially, furthermore, it checks whether a code file is modified since the last building process or not, if the case is that the file is not modified then it will not be compiled again and the generated object file from the last building process is used instead, which of course minimize the needed time to finish the building process.
 
 ### Makefile
-A makefile is a text file that tells GNU Make what to do, that is, in most cases, how to create an executable file from a source code. In makefile, we define a number of rules, that is, a makefile has a list of rules that defines how to create the executable file. Each rule has the following format:
+A `makefile` is a text file that tells GNU Make what are the needed steps to complete the building process of a specific source code. There is a specific syntax that we should obey when writing `makefile`. A number of *rules* may be defined, we can say that a `makefile` has a list of rules that define how to create the executable file. Each rule has the following format:
 
-```
+```{.makefile}
 target: prerequisites
     recipe
 ```
 
-When we run the command *make* without specifying a defined target name as an argument, GNU Make is going to start with the first rule in makefile, if the first rule's target name doesn't start with dot, otherwise, the next rule will be considered. The name of a target can be a general name or filename. Assume that we defined a rule with the target *foo* and it's not the first rule in makefile, we can tell GNU Make to execute this rule by running the command *make foo*. One of well-known convention in makefiles is to define a rule with target name *clean* that deletes all object files and binaries that have been created in the building process. We will see after a short time the case where the name of a target is a filename instead of general name.
+When we run the command `make` without specifying a defined target name as an argument, GNU Make is going to start with the first rule in the `makefile` only if the first rule's target name doesn't start with dot, otherwise, the next rule will be considered. The name of a target can be a general name or filename. Assume that we defined a rule with the target name `foo` and it's not the first rule in `makefile`, we can tell GNU Make to execute this rule by running the command `make foo`. One of well-known convention when writing a `makefile` is to define a rule with target name `clean` that deletes all object files and binaries that have been created in the last building process. We will see after a short time the case where the name of a target is a filename instead of general name.
 
-The *prerequisites* part of a rule is what we can call the dependencies, those dependencies can be either filenames (the C files of the source code for instance) or other rules in the same makefile. To run the a specific rule successfully, the dependencies of this rule should be ready, if there is another rule in the dependencies, it should be executed successfully first, if there is a filename in the dependencies and there is no rule which its target has the same name of the file, then this file will be checked and used in the recipe of the rule.
+The `prerequisites` part of a rule is what we can call the list of dependencies, those dependencies can be either filenames (the C files of the source code for instance) or other rules in the same `makefile`. For GNU Make, to run the a specific rule successfully, the dependencies of this rule should be fulfilled, if there is another rule in the dependencies, it should be executed successfully first, if there is a filename in the dependencies list and there is no rule that has the same filename as a target name, then this file will be checked and used in the recipe of the rule.
 
-Each line in the *recipe* part should start with a tab and it contains the commands that is going to run when the rule is executed. These commands are normal Linux commands, so in this part of a rule we are going to run the C compiler for example to compile a bunch of C source files. Any arbitrary command can be used in the recipe as we will see later when we create the makefile of 539kernel.
+Each line in the `recipe` part should start with a tab and it contains the commands that is going to run when the rule is being executed. These commands are normal Linux commands, so in this part of a rule we are going to write the compiling commands to compile the C source files, assembling commands for the assembly source files and linking command that links the generated object files. Any arbitrary command can be used in the recipe as we will see later when we create the `makefile` of 539kernel. Consider the following C source files, the first one is `file1.c`, the second one is `file2.h` and the third one is `file2.c`.
 
-Consider the following C source files:
-
-file1.c:
 ```{.c}
 #include "file2.h"
 
@@ -102,12 +92,10 @@ int main()
 }
 ```
 
-file2.h
 ```{.c}
 void func();
 ```
 
-file2.c
 ```{.c}
 #include <stdio.h>
 
@@ -117,20 +105,18 @@ void func()
 }
 ```
 
-By using these three files, let's take an example of a makefile with filenames that have no rules with same target's name:
+By using these three files, let's take an example of a `makefile` with filenames that have no rules with same target's name.
 
-Makefile
-```
+```{.makefile}
 build: file1.c file2.c
 	gcc -o ex_file file1.c file2.c
 ```
 
-The target name of this rule is *build*, and since it is the first and only rule in the makefile, that it can be executed either by the command *make* or *make build*. It depends on two C files, file1.c and file2.c, they should be available on the same directory. The the recipe tells GNU Make to compile and link these two files and generate the executable file under the name *ex_file*.
+The target name of this rule is `build`, and since it is the first and only rule in the `makefile` which its name doesn't start with a dot, then it will be executed directly once the command `make` is issued, another way to execute this rule is by mentioning its name explicitly as an argument to `make` command as the following: `make build`.
 
-The second example of makefile that has multiple rules:
+The rule `build` depends on two C files, `file1.c` and `file2.c`, they should be available on the same directory. The the recipe uses GNU GCC to compile and link these two files and generate an executable file named `ex_file`. The following is an example of a `makefile` that has multiple rules.
 
-Makefile
-```
+```{.makefile}
 build: file2.o file1.o
 	gcc -o ex_file file1.o file2.o
 
@@ -141,24 +127,11 @@ file2.o: file2.c file2.h
 	gcc -c file2.c file2.h
 ```
 
-Here, the first rule depends on the two *object files* [^object_files] file1.o and file2.o. We know these two files aren't available in the source code directory, therefore, we have defined a rule for each one of them. The rule *file1.o* is going to generate the object file *file1.o* and it depends on *file1.c*, the object file will be simple generated by compiling *file1.c*. The same happens with *file2.o* but this rule depends on two files instead of only one.
+In this example, the first rule `build` depends on the two object files `file1.o` and `file2.o`. Before running the first building process, these two files will not be available in the source code directory ^[Since they are a result of one step of the building process which is the compiling step which has not been performed yet.], therefore, we have defined a rule for each one of them. The rule `file1.o` is going to generate the object file `file1.o` and it depends on `file1.c`, the object file will be simple generated by compiling `file1.c`. The same happens with `file2.o` but this rule depends on two files instead of only one.
 
-GNU Make also supports variables which can simply be defined as the following:
+GNU Make also supports variables which can simply be defined as the following: `foo = bar` and they can be used in the rules as the following: `$(foo)`. Let's now redefine the second `makefile` by using the variables.
 
-```
-foo = bar
-```
-
-and they can be used in the rules as the following:
-
-```
-$(foo)
-```
-
-Let's now redefine the second makefile by using the variables which is a good practice for several reasons:
-
-Makefile
-```
+```{.makefile}
 c_compiler = gcc
 buid_dependencies = file1.o file2.o
 file1_dependencies = file1.c
@@ -174,6 +147,8 @@ file1.o: $(file1_dependencies)
 file2.o: $(file2_dependencies)
 	gcc -c $(file2_dependencies)
 ```
+
+<!-- TODO: 27 Nov 2021. A section for Emulators (Qemu and Bochs) and maybe GCC? -->
 
 [^4]: While the program that transforms the source code which is written in high-level language such as C to machine code is known as *compiler*.
 [^5]: Another popular open-source assembler is GNU Assembler (GAS). One of main differences between NASM and GAS that the first uses Intel's syntax while the second uses AT&T syntax.
