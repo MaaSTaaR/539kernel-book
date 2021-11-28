@@ -46,7 +46,7 @@ mov al, 's'
 
 Now you can tell that the first line copies the value `0Eh` to the register `ah`, and the second line copies the character `s` to the register `al`. The single quotation is used in NASM to represent strings or characters and that's why we have used it in the second line, based on that, you may noticed that the value `0Eh` is not surrounded by a single quotation though it contains characters, in fact, this value isn't a string, it is a number that is represented by using hexadecimal numbering system and due to that the character `h` was put in the end of that value, to tell NASM to move a value `0E` which is a hexadecimal number to the register `al`, the equivalent number of `0E` in the decimal numbering system which, we human, are used to is `14`, that is `0E` and `14` are the exactly the same, but the are represented in two different numbering system^[Numbering systems will be discussed in more details later.].
 
-## NASM
+### NASM
 Netwide Assembler (NASM) is an open-source source assembler for x86 architecture which uses Intel's syntax of assembly language, the other well-known syntax for assembly language is AT&T syntax and, of course, there are some differences between the two, the first syntax is used in the official manuals of Intel. NASM can be used through command line to assemble ^[The process of transforming an assembly source code to machine code is known as *assembling*.] x86 assembly code and generate the corresponding machine code. The basic usage of NASM command is the following.
 
 ```
