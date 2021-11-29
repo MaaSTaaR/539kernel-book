@@ -121,8 +121,8 @@ Here, the function `main` called a function named `sum`, this function reside in
 The function which call another is named *caller* while the function which is called by the caller named *callee*, in the above C code, the caller is the function `main` while the callee is the function `sum`.
 
 #### x86 Calling Convention
-<!-- [MQH] 28 Nov 2021. REVIEWING HERE. -->
-When a program is running, a copy of its machine code is loaded in the main memory, this machine code is a sequence of instructions which are understandable by the processor, these instructions are executed by the processor sequentially, that is, one after another in each cycle in the processor ^[This is known as *von Neumann architecture* where both code and data are stored in the same memory and the processor uses this memory to read the instructions that should be executed, and manipulate the data which is stored in the same memory. There is another well-known architecture called *Harvard architecture* where the code and data are stored in two different memories. x86 uses *von Neumann architecture*.]. So, when a processor starts a new *instruction cycle*, it fetches the next instruction that should be executed from the main memory and executes it ^[The instruction cycle is also called *fetch-decode-execute cycle*.]. Each *memory location* in the main memory is represented and referred to by a unique *memory address*, that means each instruction in the machine code of the program under execution has a unique memory address, consider the following hypothetical example of the memory addresses of each instruction in the previous C code, note that the memory addresses in this example are by no means accurate.
+<!-- TODO 29 Nov 2021. I we need a better title for the section? -->
+When a program is running, a copy of its machine code is loaded in the main memory, this machine code is a sequence of instructions which are understandable by the processor, these instructions are executed by the processor sequentially, that is, one after another in each cycle in the processor. This is known as *von Neumann architecture* where both code and data are stored in the same memory and the processor uses this memory to read the instructions that should be executed, and manipulate the data which is stored in the same memory. There is another well-known architecture called *Harvard architecture* where the code and data are stored in two different memories, x86 uses *von Neumann architecture*. However, When a processor starts a new *instruction cycle*, it fetches the next instruction that should be executed from the main memory and executes it ^[The instruction cycle is also called *fetch-decode-execute cycle*.]. Each *memory location* in the main memory is represented and referred to by a unique *memory address*, that means each instruction in the machine code of a loaded program has a unique memory address, consider the following hypothetical example of the memory addresses of each instruction in the previous C code, note that the memory addresses in this example are by no means accurate.
 
 ```{.c}
 100 main() {
@@ -135,19 +135,22 @@ When a program is running, a copy of its machine code is loaded in the main memo
 270 }
 ```
 
-So, the number on the left is the hypothetical memory address of the code line in the right, that means the function `main` starts from the memory address `100` and so on. Also, we can see that the callee `sum` resides in a far region of memory from the caller `main`.
+The number on the left is the hypothetical memory address of the code line in the right, that means the function `main` starts from the memory address `100` and so on. Also, we can see that the callee `sum` resides in a far region of memory from the caller `main`.
 
 *Program Counter* is a part of computer architecture which stores the *memory address* for the instruction that will be executed in the next instruction cycle of the processor. In x86, the program counter is a register known as *instruction pointer* and its name is `IP` in 16-bit and `EIP` in 32-bit.
 
-When the above C code runs for the first time, the value of the instruction pointer will be `100`, that is, the memory address of the starting point of `main` function. When the instruction cycle starts it reads the value of the instruction pointer register `IP`/`EIP` which is `100`, it fetches the instruction which is stored in the memory location `100` and executes it ^[For the simplicity of explanation, the details of *decoding* have been eliminated.], then the memory address of the next instruction `110` will be stored in the instruction pointer register for the next instruction cycle. When the processor starts to execute the instruction of the memory location `110`, this time, the value of `IP`/`EIP` will be `250` instead of `120` because, you know, we are calling the function `sum` which resides in the memory location `250`. Each running program has a *stack* which is a region of memory ^[The stack as a region of memory (x86 stack) is not same as the *data structure* stack, the former implements the later.], we will examine later the *stack* in details but what is important for us now the following, when another function is called, in our case `sum`, the memory address of the next instruction of the callee `main` is *pushed* ^[Push means store something in a stack, this term is applicable for both x86 stack and the data structure stack, as we have said previously, x86 stack is an implementation of the stack data structure.] into the stack, so the memory address `120` will be pushed into the stack before calling `sum`, this address is called *return address*. Now, assume that the processor is executing the instruction in the memory location *270*, that is, finishing the execution of the callee `sum`, after the execution, the processor will find the return address which is `120` in the stack, get it and put it in the register `IP`/`EIP` for the next instruction cycle ^[External Reading: The is the cause of buffer overflow bugs.]. So, this is the answer of our original question in the previous section "How does the CPU know where to return after completing the execution of `sum`?".
+When the above C code runs for the first time, the value of the instruction pointer will be `100`, that is, the memory address of the starting point of `main` function. When the instruction cycle starts, it reads the value of the instruction pointer register `IP`/`EIP` which is `100`, it fetches the instruction which is stored in the memory location `100` and executes it ^[For the simplicity of explanation, the details of *decoding* have been eliminated.], then the memory address of the next instruction `110` will be stored in the instruction pointer register for the next instruction cycle. When the processor finishes the execution of the instruction of the memory location `110`, this time, the value of `IP`/`EIP` will be `250` instead of `120` because, you know, we are calling the function `sum` which resides in the memory location `250`. 
+
+Each running program has a *stack* which is a region of the program's memory ^[The stack as a region of memory (x86 stack) is not same as the *data structure* stack, the former implements the latter.], that is, a place in the memory that belongs to the program and can store data, we will examine the details of stack later, but what is important for us now is the following, when another function is called, in our case `sum`, the memory address of the next instruction of the callee `main` is *pushed* ^[Push means store something in a stack, this term is applicable for both x86 stack and the data structure stack, as we have said previously, x86 stack is an implementation of the stack data structure.] into the stack, so the memory address `120` will be pushed into the stack before calling `sum`, this address is called *return address*. Now, assume that the processor is executing the instruction in the memory location `270`, that is, finishing the execution of the callee `sum`, after that the processor will find the return address which is `120` in the stack, get it and put it in the register `IP`/`EIP` for the next instruction cycle ^[By the way, this is, partially, the cause of buffer overflow bugs.]. So, this is the answer of our original question in the previous section "How does the processor know where to return after completing the execution of `sum`?".
 
 #### The Instructions `call` and `ret`
-
-The instruction `call` in assembly works exactly in the same way that we have explained in the previous section, it is used to call a code (or jump to a code) that resides in a given memory address. `call` pushes the return address into the stack, to return to the caller, the callee should use the instruction `ret` which gets ^[Actually it *pop*s the value since we are talking about stack here.] the return address from the stack and use it to resume the execution of the caller. Consider the following example.
+The instruction `call` in assembly works exactly in the same way that we have explained in the previous section, it is used to call a code that resides in a given memory address. The instruction `call` pushes the return address into the stack and to return to the caller, the callee should use the instruction `ret` when it finishes. The instruction `ret` gets the return address from the stack ^[Actually it *pop*s the value since we are talking about stack here.] and use it to resume the execution of the caller. Consider the following example.
 
 ```{.asm}
-call print_character_S_with_BIOS
-call print_character_S_with_BIOS
+print_two_times:
+    call print_character_S_with_BIOS
+    call print_character_S_with_BIOS
+    ret
 
 print_character_S_with_BIOS:
     mov ah, 0Eh
@@ -156,13 +159,12 @@ print_character_S_with_BIOS:
     ret
 ```
 
-You can see here that we have used the code sample `print_character_S_with_BIOS` to define something like C function by using the instructions `call` and `ret`. It should be obvious that this code prints the character `S` two times, as we have said previously, a label represents a memory address and `print_character_S_with_BIOS` is a label, the operand of `call` is the memory address of the code that we wish to call (or jump to), the instructions of `print_character_S_with_BIOS` will be executed sequentially until the processor reaches the instruction `ret`, at this point, the return address is obtained from the stack and the execution of the caller is resumed.
+You can see here that we have used the code sample `print_character_S_with_BIOS` to define something like C functions by using the instructions `call` and `ret`. It should be obvious that the code of `print_two_times` prints the character `S` two times, as we have said previously, a label represents a memory address and `print_character_S_with_BIOS` is a label, the operand of `call` is the memory address of the code that we wish to call, the instructions of `print_character_S_with_BIOS` will be executed sequentially until the processor reaches the instruction `ret`, at this point, the return address is obtained from the stack and the execution of the caller is resumed.
 
-`call` performs an *unconditional jump*, that means processor will always jump to the callee, without any condition, later in this chapter we will see the instruction while performs a *conditional jump*, which only jumps to the callee when some condition is satisfied, otherwise, the execution of the caller is resumed.
+`call` performs an *unconditional jump*, that means processor will always call to the callee, without any condition, later in this chapter we will see an instruction that performs a *conditional jump*, which only calls the callee when some condition is satisfied, otherwise, the execution of the caller continues sequentially with flow change.
 
-### The One-Way Unconditional Jump with The Instruction `jmp`
-
-Like `call`, the instruction `jmp` jumps to the specified memory address, but unlike `call`, it doesn't store the return address in the stack which means `ret` cannot be used in the `callee` which is called by using `jmp`. We use `jmp` when we want to jump the a code that we will not return from it, `jmp` has the same functionality of `goto` statement in C. Consider the following example.
+### The One-Way Unconditional Jump
+Like `call`, the instruction `jmp` jumps to the specified memory address, but unlike `call`, it doesn't store the return address in the stack which means `ret` cannot be used in the callee to resume the caller's execution. We use `jmp` when we want to jump to a code that we don't need to return from it, `jmp` has the same functionality of `goto` statement in C. Consider the following example.
 
 ```{.asm}
 print_character_S_with_BIOS:
@@ -178,7 +180,7 @@ call_video_service:
     int 10h
 ```
 
-Can you guess what is the output? it is `S` and the code of the label `print_character_A_with_BIOS` will never be executed because of the line `jmp call_video_service` which is mentioned in the code of the label `print_character_S_with_BIOS`. If we remove the line of `jmp` from this code sample, both `S` and `A` will be printed on the screen. Another example which causes infinite loop.
+Can you guess what is the output of this code? it is `S` and the code of the label `print_character_A_with_BIOS` will never be executed because of the line `jmp call_video_service`. If we remove the line of `jmp` from this code sample, `A` will be printed on the screen instead of `S`. Another example which causes infinite loop.
 
 ```{.asm}
 infinite_loop:
@@ -186,16 +188,11 @@ infinite_loop:
 ```
 
 ### Comparison and Conditional Jump
+In x86 there is a special register called *FLAGS* register ^[In 32-bit x86 processors its name is *EFLAGS* and in 64-bit its name is *RFLAGS*.]. It is the *status register* which holds the current status of the processor. Each usable bit of this register has its own purpose and name, for example, the first bit (bit `0`) of FLAGS register is known as *Carry Flag* (`CF`) and the seventh bit (bit `6`) is known as *Zero Flag* (`ZF`).
 
-In x86 there is a special register called *FLAGS* register ^[In 32-bit x86 processors its name is *EFLAGS* and in 64-bit its name is *RFLAGS*.]. It is the *status register* which holds the current status of the processor. Each usable bit of this register has its own purpose and name, and represents something different than any other bit on the same register, that is, each bit is a separate flag. For example, the first bit (bit 0) of FLAGS register is known as *Carry Flag* (CF) and the seventh bit (bit 6) is known as *Zero Flag* (ZF).
+Many x86 instructions use `FLAGS` register to store their result on, one of those instructions is `cmp` which can be used to compare two integers which are passed to it as operands, when the comparison finished the processor stores the its result in `FLAGS` register. The following line compares the value which reside in the register `al` with `5`: `cmp al, 5`.
 
-Many x86 instructions use FLAGS register to store their result on, one of those instruction is `cmp` which can be used to compare two integers, it takes to operands which are the two integers that we would like to compare then the processor stores the result in FLAGS register by using some mechanism that we will not mention here for the sake of simplicity. The following example compares the value which reside in the register `al` and `5`.
-
-```{.asm}
-cmp al, 5
-```
-
-Now, let's say that we would like to jump a piece of code only if the value of `al` equals `5`, otherwise, the code of the caller continues without jumping. There are multiple instructions that perform *conditional* jump based on the result of `cmp`. One of these instructions is `je` which means *jump if equal*, that is, if the two operands of the `cmp` instruction equals each other, them jump to a specific code, another conditional jump instruction is `jne` which means *jump if not equal*, there are other conditional jump instruction and all of them named `Jcc` when they are discussed in Intel's official manual of x86. We can see that the conditional jump instructions have the same functionality of `if` statement in C. Consider the following example.
+Now, let's say that we would like to jump to a piece of code only if the value of `al` equals `5`, otherwise, the code of the caller continues without jumping. There are multiple instructions that perform *conditional* jump based on the result of `cmp`. One of these instructions is `je` which means *jump if equal*, that is, if the two operands of the `cmp` instruction equals each other, then jump to the specified code. Another conditional jump instruction is `jne` which means *jump if not equal*, there are other conditional jump instructions to handle the other cases. We can see that the conditional jump instructions have the same functionality of `if` statement in C. Consider the following example.
 
 ```{.asm}
 main:
@@ -216,7 +213,7 @@ main()
 }
 ```
 
-Like `jmp`, but unlike `call`, conditional jump instructions don't push the return address into the stack, which means the callee can't use `ret` to return and resume caller's code, that is, the jump will be *one way jump*. We can also imitate `while` loop by using `Jcc` instructions and `cmp`, the following example prints `S` five times by looping over the same bunch of code.
+Like `jmp`, but unlike `call`, conditional jump instructions don't push the return address into the stack, which means the callee can't use `ret` to return and resume caller's code, that is, the jump will be *one way jump*. We can also imitate `while` loop by using conditional jump instructions and `cmp`, the following example prints `S` five times by looping over the same bunch of code.
 
 ```{.asm}
 mov bx, 5
@@ -234,7 +231,7 @@ loop_start:
 loop_end:
     ; The code after loop
 ```
-You should be familiar with the most of the code of this sample, first we assign the value `5` to the register `bx` ^[Can you tell why we used `bx` instead of `ax`? \[Hint: review the code of `print_character_S_with_BIOS`.\]], then we start the label `loop_start` which the first thing it does it comparing the value of `bx` with `0`, when `bx` equals `0` the code jumps to the label `loop_end` which contains the code after the loop. When `bx` doesn't equal `0` the label `print_character_S_with_BIOS` will be called to print `S` and return to the caller `loop_start`, after that the instruction `dec` is used to decrease `1` form its operand, that is `bx = bx - 1`, finally, the label `loop_start` will be called again and the code repeats until the value of `bx` reaches to `0`. The equivalent code in C is the following.
+You should be familiar with the most of the code of this sample, first we assign the value `5` to the register `bx` ^[Can you tell why we used `bx` instead of `ax`? \[Hint: review the code of `print_character_S_with_BIOS`.\]], then we start the label `loop_start` which the first thing it does is comparing the value of `bx` with `0`, when `bx` equals `0` the code jumps to the label `loop_end` which contains the code after the loop, that is, it means that the loop ended. When `bx` doesn't equal `0` the label `print_character_S_with_BIOS` will be called to print `S` and return to the caller `loop_start`, after that the instruction `dec` is used to decrease `1` form its operand, that is `bx = bx - 1`, finally, the label `loop_start` will be called again and the code repeats until the value of `bx` reaches to `0`. The equivalent code in C is the following.
 
 ```{.c}
 int bx = 5;
@@ -248,27 +245,24 @@ while ( bx != 0 )
 // The code after loop
 ```
 
-### Load String with The Instruction `lods`
+### Load String
+It is well-known that `1` byte equals `8` bits. Moreover, there are two size units in x86 other than a byte. The first one is known as a *word* which is `16` bits, that is, `2` bytes, and the second one is known as *doubleword* which is `32` bits, that is, `4` bytes. Some x86 instructions have multiple variants to deal with these different size units, while the functionality of an instruction is the same, the difference will be in the size of the data that a variant of instruction deals with. For example, the instruction `lods` has three variants `lodsb` which works a **b**yte, `lodsw` which works with a **w**ord and `loadsd` which works with a **d**oubleword.
 
-It is well-known that `1` byte equals `8` bits. Moreover, there are two other size units in x86, a *word* which is `16` bits, that is, `2` bytes, and *doubleword* which is `32` bits, that is, `4` bytes. Some x86 instructions have multiple variants to deal with these different size units, while the functionality of an instruction is the same, the difference will be in the size of the data that a variant of instruction deals with. For example, the instruction `lods` has three variants `lodsb` which works a **b**yte, `lodsw` which works with a **w**ord and `loadsd` which works with a **d**oubleword.
-
-To simplify the explanation let's consider `lodsb` which works with a single byte, its functionality is too simple, it reads the value of the register `si`, it deals with it as a memory address and transfers a byte from the content of memory address to the register `al`, finally, it increments the value of `si` by `1` byte. The same holds for the other variants of `lods`, only the size of the data, the used registers and the increment size are different, the register which is used in `lodsw` is `ax` ^[Because the size of `ax` is a **word**] and `si` is incremented by `2` bytes, while `lodsd` uses the register `eax` ^[Because the size of `eax` is a **doubleword**.] and `si` is incremented by `4` bytes. ^[As fun exercise, try to figure out why are we explaining the instruction `lodsb` in this chapter, what is the relation between this instruction and the bootloader that we are going to write? Hint: Review the code of `print_character_S_with_BIOS` and how to print a character by using BIOS services. If you can't figure the answer out don't worry, you will get it soon.]
+To simplify the explanation, let's consider `lodsb` which works with a single byte, its functionality is too simple, it reads the value of the register `si` which is interpreted as a memory address by the instruction, then it transfers a byte from the content of that memory address to the register `al`, finally, it increments the value of `si` by `1` byte. The same holds for the other variants of `lods`, only the size of the data, the used registers and the increment size are different, the register which is used by `lodsw` is `ax` ^[Because the size of `ax` is a **word**] and `si` is incremented by `2` bytes, while `lodsd` uses the register `eax` ^[Because the size of `eax` is a **doubleword**.] and `si` is incremented by `4` bytes. ^[As an exercise, try to figure out why are we explaining the instruction `lodsb` in this chapter, what is the relation between this instruction and the bootloader that we are going to write? Hint: Review the code of `print_character_S_with_BIOS` and how to print a character by using BIOS services. If you can't figure the answer out don't worry, you will get it soon.]
 
 ### NASM's Pseudoinstructions
-
-When you encounter the prefix ^[In linguistics, which is the science that studies languages, a prefix is a word (actually a morpheme) that is attached in the beginning of another word and changes its meaning, for example, in **un**do, **un** is a prefix.] *pseudo* before a word, you should know that describes something fake, false or not real ^[For example, in algorithm design which is a branch of computer science, the word **pseudo**code which means a code that is written in a fake programming language. Another example is the word **pseudo**science, a statement is a pseudoscience when it is claimed to be a scientific fact, but in reality it is not, that is, it doesn't follow the scientific method.]. NASM provides us a number of **Pseudo**instructions, that is, they are not real x86 instructions, the processor doesn't understand them and they can't be used in other assemblers ^[Unless, of course, they are provided in the other assembler as pseudoinstructions.], on the other hand, NASM understands those instructions and can translate them to something understandable by the processor. They are useful, and we are going to use them to the writing of the bootloader easier.
+When you encounter the prefix ^[In linguistics, which is the science that studies languages, a prefix is a word (actually a morpheme) that is attached in the beginning of another word and changes its meaning, for example, in **un**do, **un** is a prefix.] *pseudo* before a word, you should know that it describes something fake, false or not real ^[For example, in algorithm design which is a branch of computer science, the term **pseudo**code means a code that is written in a fake programming language. Another example is the word **pseudo**science: A statement is a pseudoscience when it is claimed to be a scientific fact, but in reality it is not, that is, it doesn't follow the scientific method.]. NASM provides us a number of **pseudo**instructions, that is, they are not real x86 instructions, the processor doesn't understand them and they can't be used in other assemblers ^[Unless, of course, they are provided in the other assembler as pseudoinstructions.], on the other hand, NASM understands those instructions and can translate them to something understandable by the processor. They are useful, and we are going to use them to make the writing of the bootloader easier.
 
 #### Declaring Initialized Data
+The concept of *declaring something* is well-known by the programmers, In C for example, when you *declare* a function, you are announcing that this function *exists*, it is there, it has a specific name and takes the declared number of parameters ^[It is important to note that *declaring* a function in C differs from *defining* a function, the following declares a function: `int foo();` You can see that the code block (the implementation) of `foo` is not a part of the declaration, once the code block of the function is presented, we say this is the *definition* of the function.]. The same concept holds when you declare a variable, you are letting the rest of the code know that there exists a variable with a specific name and type. When we declare a variable, without assigning any value to it, we say that this variable is *uninitialized*, that is, no initial value has been assigned to this variable when it is declared, later on, a value will be assigned to the variable, but not as early of its declaration. In contrast, a variable is *initialized* when a value is assigned to it when it's declared.
 
-The concept of *declaring something* is well-known by the programmers, In C for example, when you *declare* a function, you are announcing that this function *exists*, it is there, it has a specific name and takes the declared number of parameters ^[It is important to note that *declaring* a function in C differs from *defining* a function, the following declares a function: `int foo();` You can see that the code block (the source doe) of `foo` is not a part of the declaration, once the code block of the function is presented, we say this is the *definition* of the function.]. The same concept holds when you declare a variable, you are letting the rest of the code know that there exists a variable with a specific name. When we declare a variable, without assigning any value to it, we say that this variable is *uninitialized*, that is, no initial value has been assigned to this variable when it is declared, later on a value will be assigned to the variable, but not as early of its declaration. In contrast, a variable is *initialized* when a value is assigned to it when it's declared.
-
-The pseudoinstructions `db`, `dw`, `dd`, `dq`, `dt`, `ddq`, and `do` helps us to declare initialized *data*, and with using *labels* when can mimic the concept of *initialized variable* in C. Let's consider `db` as an example, the second letter of `db` means *b*ytes, that means `db` declare and initialize a byte of data.
+The pseudoinstructions `db`, `dw`, `dd`, `dq`, `dt`, `ddq`, and `do` helps us to initialize a memory location with some data, and with using labels when can mimic the concept of initialized variables in C. As an example, ;et's consider `db` which declares and initialize a byte of data, the second letter of `db` means *b*ytes.
 
 ```{.asm}
 db 'a'
 ```
 
-The above example reserve a byte in the memory, this is the declaration step, then the character `a` will be stored on this reserved byte of the memory, which is the initialization step.
+The above example reserves a byte in the memory, this is the declaration step, then the character `a` will be stored on this reserved byte of the memory, which is the initialization step.
 
 ```{.asm}
 db 'a', 'b', 'c'
@@ -293,7 +287,6 @@ our_variable db 'abc', 0
 ```
 
 #### Repeating with `times`
-
 To repeat some source line multiple times, we can use the pseudoinstruction `times` which takes the number of desired repetitions as first operand and the instruction that we would like to execute repeatedly as second operand. The following example prints `S` five times on the screen.
 
 ```{.asm}
@@ -306,18 +299,15 @@ Not only normal x86 instructions can be used with `times`, also NASM's pseudoins
 times 100 db 0
 ```
 
-### NASM's Special Expressions `$` and `$$`
+### NASM's Special Expressions
+In programming languages, an *expression* is a part in the code that evaluates a value, for example, `x + 1` is an expression, also, `x == 5` is an expression. On the other hand, a *statement* is a part of the code that performs some actions, for example, in C, `x = 15 * y;` is a statement that assigns the values of an expression to the variable `x`.
 
-In programming languages, an *expression* is a part in the code that evaluates a value, for example, `x + 1` is an expression, also, `x == 5` is an expression. On the other hands, a *statement* is a part of the code that performs some actions, for example, in C, `x = 15 * y;` is a statement that assigns the values of an expression to the variable `x`.
-
-NASM has two special expressions, the first one is `$` which points to the beginning of the *assembly position* of the current source line. So, one ways of implementing infinite loop is the following: `jmp $`. The second special expression is `$$` which points to the beginning of the current *section*.
+NASM has two special expressions, the first one is `$` which points to the beginning of the *assembly position* of the current source line. So, one way of implementing infinite loop is the following: `jmp $`. The second special expression is `$$` which points to the beginning of the current *section* of assembly code.
 
 ## The Bootloader
+As you have learned previously, the size of the bootloader should be `512` bytes, the firmware loads the bootloader in the memory address `07C0h`, also, the firmware can only recognize the data in the first sector as a bootloader when that data finishes with the magic code `AA55h`. When 539kernel's bootloader starts, it shows two messages for the user, the first one is `The Bootloader of 539kernel.` and the second one `The kernel is loading...`, after that, it is going to read the disk to find 539kernel and loads it to memory, after loading 539kernel to memory, the bootloader gives the control to the kernel by jumping to the start code of the kernel. Right now, 539kernel doesn't exist, we haven't write it yet, instead of loading 539kernel, the bootloader is going to load a code that prints `Hello World!, From Simple Assembly 539kernel!`. In this section, we are going to write two assembly files, the bootloader `bootstrap.asm` and `simple_kernel.asm` which is the temporary replacement of 539kernel, also, `Makefile` which complies the source code that will be presented in this section.
 
-As you have learned previously, the size of the bootloader should be `512` bytes, the firmware loads the bootloader in the memory address `07C0h`, also, the firmware can only recognize the data in the first sector as a bootloader when the data finishes with the magic code `AA55h`. When 539kernel's bootloader starts, it shows two messages for the user, the first one is "The Bootloader of 539kernel." and the second one "The kernel is loading...", after that, it is going to read the disk to find 539kernel and loads it to memory, after loading 539kernel to memory, the bootloader gives the control to the kernel by jumping to the start code of the kernel. Till this point, 539kernel doesn't exist, we haven't write it yet, instead of loading 539kernel, the bootloader is going to load a code that prints "Hello World!, From Simple Assembly 539kernel!". In this section, we are going to write two assembly files, the bootloader `bootstrap.asm` and `simple_kernel.asm` which is the temporary replacement of 539kernel, also, `Makefile` which complies the source code will be presented in this section.
-
-### Implementing the Bootloader in `bootstrap.asm`
-
+### Implementing the Bootloader
 Till now, you have learned enough to understand the most of the bootloader that we are going to implement, however, some details have not been explained in this chapter and have been delayed to be explained later. The first couple lines of the bootloader is an example of not explained concepts, our bootloader source code starts with the following.
 
 ```{.asm}
@@ -328,7 +318,7 @@ start:
 
 First, we define a label named `start`, there is no practical reason to define this label ^[Such as jump to it for example.], the only reason of defining it is the readability of the code, when someone else tries to read the code, it should be obvious for her that `start` is the starting point of executing the bootloader.
 
-The job of next two lines is obvious, we are moving the hexadecimal number `07C0` to the register `ax` to be able to move it to the register `ds`, note that we can't store the value `07C0` directly in `ds` by using `mov` as the following: `mov ds, 07C0h`, due to that, we have put the value on `ax` and then moved it to `ds`, so, our goal was to set the value `07C0` in the register `ds`. Now, you may ask why we want the value `07C0` in the register `ds`, this is story for another chapter, just take these two lines on faith, and you will know later the purpose of them. Let's continue.
+The job of next two lines is obvious, we are moving the hexadecimal number `07C0` to the register `ax` then we move the same value to the register `ds` through `ax`, note that we can't store the value `07C0` directly in `ds` by using `mov` as the following: `mov ds, 07C0h`, due to that, we have put the value on `ax` and then moved it to `ds`, so, our goal was to set the value `07C0` in the register `ds`, this restriction of not being able to store to `ds` directly is something that the processor architecture decides. Now, you may ask why we want the value `07C0` in the register `ds`, this is a story for another chapter, just take these two lines on faith, and you will learn later the purpose of them. Let's continue.
 
 ```{.asm}
 	mov si, title_string
@@ -338,20 +328,21 @@ The job of next two lines is obvious, we are moving the hexadecimal number `07C0
 	call print_string
 ```
 
-This block of code prints the two messages, both of them are represented by a separate label `title_string` and `message_string`, you can see that we are calling the code of the label (or the function) `print_string`, its name indicates that it prints a *string* of character, and you can infer that the function `print_string` receives the address of the string that we would like to print as a parameter in the register `si`, the implementation of `print_string` will be examined in a minute.
+This block of code prints the two messages that we mentioned earlier, both of them are represented by a separate label `title_string` and `message_string`, you can see that we are calling the code of a label `print_string` that we didn't define yet, its name indicates that it prints a *string* of characters, and you can infer that the function `print_string` receives the memory address of the string that we would like to print as a parameter in the register `si`, the implementation of `print_string` will be examined in a minute.
 
 ```{.asm}
     call load_kernel_from_disk
 	jmp 0900h:0000
 ```
 
-These two lines represent the most important part of any bootloader, first a function named `load_kernel_from_disk` is called, we are going to define this function in a moment, as you can see from its name, it is going to load the code of the kernel from disk into the main memory and this is the first step that make the kernel able to take the control over the system. When this function finishes its job and returns, a jump is performed to the memory address `0900h:000`, but before discussing the purpose of this line let's define the function `load_kernel_from_disk`.
+These two lines represent the most important part of any bootloader, first a function named `load_kernel_from_disk` is called, we are going to define this function in a moment, as you can see from its name, it is going to load the code of the kernel from disk into the main memory and this is the first step that make the kernel able to take the control over the system. When this function finishes its job and returns, a jump is performed to the memory address `0900h:000`, but before discussing the purpose of the second line let's define the function `load_kernel_from_disk`.
 
 ```{.asm}
 load_kernel_from_disk:
 	mov ax, 0900h
 	mov es, ax
 ```
+
 These couple of lines, also, should be taken on faith. You can see, we are setting the value `0900h` on the register `es`. Now, we move to the most important part of this function.
 
 ```{.asm}
@@ -368,6 +359,8 @@ These couple of lines, also, should be taken on faith. You can see, we are setti
 
     ret
 ```
+
+<!-- [MQH] 29 Nov 2021. REVIEWING HERE. -->
 
 <!--
 
