@@ -180,7 +180,9 @@ Now, what does the Boolean operator `OR` do? It takes two parameters and each pa
 
 #### Setting Video Mode
 <!-- [MQH] 14 Dec 2021. REVIEWING HERE. -->
-As I mentioned before, in protected-mode, the services of BIOS will not be available. Hence, when we need to print some text on the screen after switching to protected-mode we can't use the same way that we have used till this point. Instead, the video memory which is a part of VGA standard <!-- TODO: CHECK, IS IT A PART OF VGA? --> should be used to write text on the screen or even drawing something on it. To be able to use the video memory, a correct *video mode* should be set, and there is a BIOS service that we can use to set the correct video mode. That means, before switching to protected-mode the correct video mode should be set first because we are going to use BIOS service to perform that and that's why the routine `init_video_mode` is being called before the routine `enter_protected_mode`. Now let's take a look at the code of `init_video_mode`.
+As I mentioned before, in protected-mode, the services of BIOS will not be available. Hence, when we need to print some text on the screen after switching to protected-mode we can't use the same way that we have used till this point. Instead, the video memory which is a part of VGA standard <!-- TODO: CHECK, IS IT A PART OF VGA? --> should be used to write text on the screen or even drawing something on it. 
+
+To be able to use the video memory, a correct *video mode* should be set, and there is a BIOS service that we can use to set the correct video mode. That means, before switching to protected-mode the correct video mode should be set first because we are going to use BIOS service to perform that and that's why the routine `init_video_mode` is being called before the routine `enter_protected_mode`. Now let's take a look at the code of `init_video_mode`.
 
 ```{.asm}
 init_video_mode:
@@ -197,7 +199,7 @@ init_video_mode:
 
 This routine consists of two parts, the first part calls the service `0h` of BIOS's `10h` and this service is used to set the video mode which its number is passed in the register `al`. As you can see here, we are requesting from BIOS to set the video mode to `03h` which is a *text mode* with `16` colors. Another example of video modes is `13h` which is a *graphics mode* with `256` colors, that is, when using this video mode, we can draw whatever we want on the screen and it can be used to implement graphical user interface (GUI). However, for our case now, we are going to set the video mode to `03h` since we just need to print some text.
 
-The second part of this routine uses the service `01` of BIOS's `10h`, the purpose of this part is to disable the text cursor, since the user of 539kernel will not be able to write text as input, as in command line interface for example, we will not the cursor to be shown. The service `01` is used to set the type of the cursor, and the value `2000h` in `cx` means disable the cursor.
+The second part of this routine uses the service `01` of BIOS's `10h`, the purpose of this part is to disable the text cursor, since the user of 539kernel will not be able to write text as input, as in command line interface for example, we will not let the cursor to be shown. The service `01` is used to set the type of the cursor, and the value `2000h` in `cx` means disable the cursor.
 
 
 #### Giving the Main Kernel Code the Control
@@ -222,9 +224,6 @@ As you can see, the directive `bits` is used here to tell NASM that the followin
 
 As you recall, the far jump which is required after switching to protected-mode has been performed by the line ```call 08h:start_kernel``` in `start` routine. And you can see that we have used the segment selector `08h` to do that. While it may be obvious why we have selected the values `08h` for the far jump and `10h` as segment selector for the data segment, a clarification of the reason of choosing these value won't hurt anybody. To make sense of these two values you need to refer to table <!-- TODO: REF: Table15082021_0 -->, as you can see from the table, the segment selector ^[We use the relaxed definition of segment selector here that we have defined in the previous chapter <!-- [REF] -->] of kernel's code segment is `08`, that means any logical memory address that refer to kernel's code should refer to the segment selector `08`
  which is the index and the offset of kernel's code segment descriptor in GDT, in this case, the processor is going to get this descriptor from GDT and based on the segment starting memory address and the required offset the linear memory address will be computed as we have explained previously in chapter <!-- [REF] -->. So, when we perform a far jump to the kernel code we used the segment selector `08h` which will be loaded by the processor into the register `cs`. The same this happens for the data segment of the kernel, as you can see, its segment selector is `16d` (`10h`) and that's the value that we have loaded the data segment registers that we are going to use.
-
-
-
 
 ### Writing the C Kernel
 Till this point, we are ready to write the C code of 539kernel, as mentioned earlier, the current C code is going to print some text on the screen after it gets the control from the starter. Before writing the code that prints text on the screen, we need to examine VGA standard.
