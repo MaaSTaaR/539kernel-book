@@ -59,6 +59,7 @@ One way of switching from a process to another ^[In x86, context switch is known
 Another way of context switching in x86 hardware multitasking is to call or jump to a task gate. In chapter <!-- [REF] 3 -->, when we discussed the descriptors of IDT, we have said that one type of descriptor that can be defined is a task gate descriptor. This kind of descriptors is considered as a separated process by the process, when we jump or call a task gate, the previously explained mechanism of task switching will be performed. Task gates can also be defined in GDT and LDT. In the IDT table of 539kernel we have chosen to not define the interrupts as task gates, we don't want to perform a context switch with each interrupt.
 
 When a process is called instead of jumped to, eventually, it should return to the caller process by using the instruction `iret`, for the processor, to be able to decide which task is the caller, the previous task link field of the callee's TSS will be updated to contain the segment selector of the caller process. In this way, when `iret` instruction is executed, it will be easy to know to which process the processor should switch back.
+
 ## Process Management in 539kernel
 <!-- TODO: Explain asm? -->
 <!-- TODO: Don't forget to stop interrupts until the end of kernel initialization -->

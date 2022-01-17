@@ -1,5 +1,5 @@
 <!-- TODO: Don't forget to use the newer version of driver's functions that use wait function -->
-# Chapter 9: Filesystems
+# Chapter 6: Filesystems
 
 ## Introduction
 Given that both the processor and the main memory are resources in the system, till this point, we have seen how a kernel of an operating system works as a resource manager, 539kernel manages these resources ^[Incompletely of course, to keep 539kernel as simple as possible, only the basic parts of resources management were presented.] and provides them to the different processes in the system.
