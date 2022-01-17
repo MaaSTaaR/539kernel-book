@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="210mm"
+   height="297mm"
+   viewBox="0 0 210 297"
+   version="1.1"
+   id="svg8"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)"
+   sodipodi:docname="Fig16062021_0.svg"
+   inkscape:export-filename="/home/maastaar/Projects/Writings/Books/539kernel/book/Figures/x86-ch/Fig16062021_0.png"
+   inkscape:export-xdpi="96.199997"
+   inkscape:export-ydpi="96.199997">
+  <defs
+     id="defs2">
+    <inkscape:path-effect
+       effect="spiro"
+       id="path-effect823"
+       is_visible="true" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.98994949"
+     inkscape:cx="406.80646"
+     inkscape:cy="945.20588"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1920"
+     inkscape:window-height="974"
+     inkscape:window-x="0"
+     inkscape:window-y="40"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:10.58333302px;line-height:125%;font-family:Sans;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="20.788689"
+       y="14.651785"
+       id="text817"><tspan
+         sodipodi:role="line"
+         id="tspan815"
+         x="20.788689"
+         y="14.651785"
+         style="stroke-width:0.26458332px">The Structure of GDTR Register</tspan></text>
+    <g
+       id="g827"
+       transform="matrix(1.0521087,0,0,0.69481236,-6.7444063,7.5091466)">
+      <rect
+         y="27.46863"
+         x="28.5548"
+         height="15.94369"
+         width="152.53015"
+         id="rect819"
+         style="opacity:1;fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.35366106;stroke-linecap:butt;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+      <path
+         inkscape:original-d="m 113.61525,27.480049 c 2.7e-4,5.299038 2.7e-4,10.598346 0,15.897928"
+         inkscape:path-effect="#path-effect823"
+         inkscape:connector-curvature="0"
+         id="path821"
+         d="M 113.61525,27.480049 V 43.377977"
+         style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.26798382px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    </g>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:7.05555534px;line-height:125%;font-family:Sans;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="131.91368"
+       y="34.873508"
+       id="text831"><tspan
+         sodipodi:role="line"
+         id="tspan829"
+         x="131.91368"
+         y="34.873508"
+         style="font-size:7.05555534px;stroke-width:0.26458332px">GDT Limit</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:7.05555534px;line-height:125%;font-family:Sans;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="34.58482"
+       y="34.873508"
+       id="text835"><tspan
+         sodipodi:role="line"
+         id="tspan833"
+         x="34.58482"
+         y="34.873508"
+         style="font-size:7.05555534px;stroke-width:0.26458332px">GDT Base Address</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:3.52777767px;line-height:125%;font-family:Sans;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="181.05136"
+       y="41.507935"
+       id="text839"><tspan
+         sodipodi:role="line"
+         x="181.05136"
+         y="41.507935"
+         style="font-size:3.52777767px;stroke-width:0.26458332px"
+         id="tspan841">Bit</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:3.52777767px;line-height:125%;font-family:Sans;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="182.78189"
+       y="44.907108"
+       id="text839-3"><tspan
+         sodipodi:role="line"
+         x="182.78189"
+         y="44.907108"
+         style="font-size:3.17499995px;stroke-width:0.26458332px"
+         id="tspan841-6">0</tspan></text>
+    <g
+       id="g923">
+      <text
+         id="text839-5"
+         y="41.306362"
+         x="110.13316"
+         style="font-style:normal;font-weight:normal;font-size:3.52777767px;line-height:125%;font-family:Sans;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           id="tspan841-3"
+           style="font-size:3.52777767px;stroke-width:0.26458332px"
+           y="41.306362"
+           x="110.13316"
+           sodipodi:role="line">Bit</tspan></text>
+      <text
+         id="text839-3-5"
+         y="44.176369"
+         x="110.80537"
+         style="font-style:normal;font-weight:normal;font-size:2.82222223px;line-height:125%;font-family:Sans;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           id="tspan841-6-6"
+           style="font-size:2.82222223px;stroke-width:0.26458332px"
+           y="44.176369"
+           x="110.80537"
+           sodipodi:role="line">15</tspan></text>
+    </g>
+    <path
+       style="opacity:1;fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.374;stroke-linecap:butt;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="path8566"
+       sodipodi:type="arc"
+       sodipodi:cx="147.95"
+       sodipodi:cy="38.152073"
+       sodipodi:rx="31.650436"
+       sodipodi:ry="11.083076"
+       sodipodi:start="0"
+       sodipodi:end="3.0720199"
+       sodipodi:open="true"
+       d="M 179.60043,38.152073 A 31.650436,11.083076 0 0 1 149.05078,49.228443 31.650436,11.083076 0 0 1 116.37613,38.922531" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:3.17499995px;line-height:125%;font-family:Sans;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="137.64381"
+       y="53.51746"
+       id="text8570"><tspan
+         sodipodi:role="line"
+         id="tspan8568"
+         x="137.64381"
+         y="53.51746"
+         style="font-size:3.17499995px;stroke-width:0.26458332px">Size = 16 bits</tspan></text>
+    <path
+       style="opacity:1;fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.367;stroke-linecap:butt;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="path8566-2"
+       sodipodi:type="arc"
+       sodipodi:cx="66.874168"
+       sodipodi:cy="38.368191"
+       sodipodi:rx="42.67934"
+       sodipodi:ry="11.083076"
+       sodipodi:start="0"
+       sodipodi:end="3.0720199"
+       sodipodi:open="true"
+       d="M 109.55351,38.368191 A 42.67934,11.083076 0 0 1 68.358529,49.444561 42.67934,11.083076 0 0 1 24.298078,39.138649" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:3.17499995px;line-height:125%;font-family:Sans;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="53.83847"
+       y="53.733578"
+       id="text8570-9"><tspan
+         sodipodi:role="line"
+         id="tspan8568-1"
+         x="53.83847"
+         y="53.733578"
+         style="font-size:3.17499995px;stroke-width:0.26458332px">Size = 32 bits</tspan></text>
+  </g>
+</svg>
