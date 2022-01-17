@@ -1,4 +1,4 @@
-# x86 Operating Modes, Segmentation and Interrupts
+# Chapter 2: An Overview of x86 Architecture
 
 <!-- TODO: I think we need to reduce the footnotes. I mean those that we can put in the original text. -->
 <!-- TODO: 22 June 2021. We know mentioned "flat memory model" concept early in this chapter. There are some latter notes about this model, modify them if needed -->
