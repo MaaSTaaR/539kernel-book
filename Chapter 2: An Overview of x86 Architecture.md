@@ -84,6 +84,8 @@ The aforementioned view of memory, that is, the *addressable array of bytes* can
 
 In x86 segmentation the main memory is viewed as separated parts called *segments* and each segment stores a bunch of related data. To access data inside a segment, each byte can be referred to by its own *offset*. The running program can be separated into three possible types of segments in x86, these types are: *code segment* which stores the code of the program under execution, *data segments* which store the data of the program and the *stack segment* which stores the data of program's stack. Segmentation is the default view of memory in x86, however, most modern operating system choose to view the memory as the one described in flat memory model instead of viewing it as segmented areas, to be able to implement flat memory model in x86 which doesn't allow to disable segmentation, at least two segments (one for code and one for data) should be defined in the system, and the size of both segments should be same as memory's size and both of segments start from the first memory address `0` and ends in the last memory address (memory size - 1), that is, these both segments will overlap.
 
+![The Physical View of the Memory. The Size of it is `n` Bytes.](Figures/x86-ch/memory-physical-view.png){#fig:memory_physical_view width=35%}
+
 <!-- TODO[FIGURE]
 **[Figure shows the difference between segmentation view and the physical view .....]** -->
 
