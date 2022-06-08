@@ -1,0 +1,40 @@
+Normal Stuff: Virtual Memory, Userspace
+
+What are Scientific Papers and How to Find Them
+
+It's not necessary to write a kernel from scratch to implement these ideas. A ready kernel can be used and there are a bunch of them other than Linux. An example is HelenOS which is a microkernel. Google Fuchsia uses Zircon kernel to implements its ideas and of course there are many other examples that we can mention.
+
+=========
+
+Needed Concepts (General, that is, any concepts that are shared by multiple papers):
+	* Kernel Architecture: Monolithic and Microkernel.
+		* What if 539kernel was a microkernel (simple example from process management).
+	* SMP.
+	
+=========
+
+Papers:
+
+#1
+Lord of the x86 Rings: A Portable User Mode Privilege Separation Architecture on x86
+
+Authors: Hojoon Lee, Chihyun Song and Brent Byunghoon Kang
+
+Problem:
+	In userspace, there is no _privilege separation_ in a running process. So, the whole code of a process is able to read or modify anything that belong to process' memory. There is no distinction between a normal, not important string like "Hello World" and the sensitive information such as passwords and cryptographic keys. When an attacker gains the control of a process, she will be able to read anything without restrictions even if the part of the program that caused the security vulnerability is not related to the sensitive information.
+
+Needed Concepts:
+	* ABI
+	* Privilege Separation
+	* TLB Flushes (?)
+	* x86 Callgate (Did we mention it?)
+
+Real-world Problem:
+	* HeartBleed Vulnerability.
+	
+Proposed Solution:
+	* Overview: Named LOTRx86, it aims to provide a _portable(?)_ privilege separation in user space. A new region called "PrivUser" is introduced in every process which is inaccessable in user-mode, instead, x86 other privilege levels are used for this region. So, it can keep secrets and no direct user-mode access can be issued to this region without some interface called "privcall", also, it keeps sensitive application code. This region is protected from the normal user mode.
+	
+Notes:
+	* Quote: "The LOTRx86 architecture design leverages the x86 privilege structures in a unique way."
+		* We can see here an example of kernelist's job. By using an already exists feature in the processor that is usually used in another ways, the authors have build a unique and new solution for a real-world problem.
