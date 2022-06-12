@@ -10,6 +10,7 @@ Needed Concepts (General, that is, any concepts that are shared by multiple pape
 	* Kernel Architecture: Monolithic and Microkernel.
 		* What if 539kernel was a microkernel (simple example from process management).
 	* SMP.
+	* System Calls.
 	
 =========
 
@@ -28,12 +29,14 @@ Needed Concepts:
 	* Privilege Separation
 	* TLB Flushes (?)
 	* x86 Callgate (Did we mention it?)
+	* How System Calls in Linux work since the implementation in the paper using same methodology to implement "privcall".
 
 Real-world Problem:
 	* HeartBleed Vulnerability.
 	
 Proposed Solution:
-	* Overview: Named LOTRx86, it aims to provide a _portable(?)_ privilege separation in user space. A new region called "PrivUser" is introduced in every process which is inaccessable in user-mode, instead, x86 other privilege levels are used for this region. So, it can keep secrets and no direct user-mode access can be issued to this region without some interface called "privcall", also, it keeps sensitive application code. This region is protected from the normal user mode.
+	* Overview: Named LOTRx86, it aims to provide a _portable(?)_ privilege separation in user space. A new region called "PrivUser" is introduced in every process which is inaccessable in user-mode, instead, x86 other privilege levels are used for this region. So, it can keep secrets and no direct user-mode access can be issued to this region without some interface called "privcall", also, it keeps sensitive application code, the code which represents "privcall" interface are also stored in PrivUser, so, this region contains both sensitive data and the routines that access these data. PrivUser is protected from the normal user mode (this property is called M-SR1 in the paper), which most of the application's code run on, also, the kernel is protected from PrivUser mode (this property is called M-SR2 in the paper). So, with this design there will be three modes, kernel-mode, use-mode and PrivUser mode.
+	* In x86 paging, a page previlege can be either (U)ser page or (S)uper page and there is no other distinction which means PrivUser region cannot be realized by only using what x86 paging provides.
 	
 Notes:
 	* Quote: "The LOTRx86 architecture design leverages the x86 privilege structures in a unique way."
