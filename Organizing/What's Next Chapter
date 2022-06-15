@@ -41,3 +41,22 @@ Proposed Solution:
 Notes:
 	* Quote: "The LOTRx86 architecture design leverages the x86 privilege structures in a unique way."
 		* We can see here an example of kernelist's job. By using an already exists feature in the processor that is usually used in another ways, the authors have build a unique and new solution for a real-world problem.
+		
+------------
+
+#2:
+Nested Kernel: An Operating System Architecture for Intra-Kernel Privilege Separation
+
+Authors: Nathan Dautenhahn, Theodoros Kasampalis, Will Dietz, John Criswell and Vikram Adve
+
+Published: 2015
+
+Suggested Subsection Title:
+	* Single Point of Exploitation.
+	
+Needed Concepts:
+	* Trusted Computing Base (TCB).
+	* Security Design Principles?: Fail-safe defaults, complete mediation, least privilege and least common mechanism. (Maybe OpenBSD can be used as example).
+	
+Problem:
+	* Monolithic kernels are large trusted computing base. Any exploitable part in it (e.g. buggy device drivers) causes the ability to do anything with the kernel. One solution is using microkernel design but it needs extensive redesign and implementation of the operating system.
