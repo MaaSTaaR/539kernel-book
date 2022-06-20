@@ -57,6 +57,11 @@ Suggested Subsection Title:
 Needed Concepts:
 	* Trusted Computing Base (TCB).
 	* Security Design Principles?: Fail-safe defaults, complete mediation, least privilege and least common mechanism. (Maybe OpenBSD can be used as example).
+	* Kernel Call Hooking
 	
 Problem:
-	* Monolithic kernels are large trusted computing base. Any exploitable part in it (e.g. buggy device drivers) causes the ability to do anything with the kernel. One solution is using microkernel design but it needs extensive redesign and implementation of the operating system.
+	* Monolithic kernels are large trusted computing base. Any exploitable part in it (e.g. buggy device drivers) causes the ability to do anything with the kernel which means that the attacker is able to do whatever he wants on the system. Monolithic kernels store everything in one address spaces which is reachable by all kernel's components, for example, the code of access control policies, that means the attacker can modify them once the kernel is compromized, also, this design doesn't help in implementing protection design principles shuch as least privilege and so on. One solution is using microkernel design but it needs extensive redesign and implementation of the operating system.
+	
+Proposed Solution:
+	*
+	* Both trusted (nested kernel) and untrusted (outer kernel) code (components) of the kernel run on kernel-mode.
