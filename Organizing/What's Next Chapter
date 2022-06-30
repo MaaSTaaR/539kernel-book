@@ -69,3 +69,16 @@ Notes:
 Proposed Solution:
 	*
 	* Both trusted (nested kernel) and untrusted (outer kernel) code (components) of the kernel run on kernel-mode.
+	
+------------------------------
+
+#3:
+The Multikernel: A new OS architecture for scalable multicore systems
+
+Authors: Andrew Baumann, Paul Barham, Pierre-Evariste Dagand, Tim Harris, Rebecca Isaacs, Simon Peter, Timothy Roscoe, Adrian Schüpbach and Akhilesh Singhania.
+
+Published: 2009
+
+Needed Concepts:
+	* Scalability.
+	* Distributed Systems.
