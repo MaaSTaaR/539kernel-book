@@ -379,8 +379,35 @@ mov ebp, esp
 
 ![Run-time Stack After Jumping to Function `B` Code and Creating `B`'s Stack Frame](Figures/x86-ch/call-conv-2.png){#fig:call-conv-2 width=55%}
 
-Now, the currently running code is function `B` with its own stack frame which contains nothing. Depending on `B`'s code, new items can be pushed onto the stack, and as we have said before, the local variables of the function are pushed onto the stack by the function itself. Also, the function `B` should be able to access the parameters which have been passed by `A`, those parameters, as we know, are stored on the stack frame of `A` instead of `B`, so, to be able to reach to those values, `EBP` can be used. The memory location which is represented by the memory address that is stored in `EBP` contains the previous value of `EBP` and the entry before that is the old value of `EIP` which has been pushed by `call` instruction, and before this item the values of the parameters of `B` can be found. We can see here clearly that the operations of the stack `push` and `pop` cannot be used to obtain the parameters without losing the other value, as a solution, the memory addresses should be read directly.
+Now, the currently running code is function `B` with its own stack frame which contains nothing. Depending on `B`'s code, new items can be pushed onto the stack, and as we have said before, the local variables of the function are pushed onto the stack by the function itself, as you know, x86's protected mode is a `32-bit` environment, so, the values that are pushed onto the stack through the instruction `push` are of size `4` bytes (`32` bits).
 
+Pushing a new item will make the value of `ESP` to change, but `EBP` remains the same until the current function finishes its work, this will make `EBP` too useful when we need to reach the items that are stored in previous function's stack frame (in our case `A`), for example, the parameters or even the items that are in the current function's stack frame but are not in the top of the stack, as you know, in this case `pop` cannot be used without losing other values. Instead, `EBP` can be used as a reference to the other values. Let's take an example of that, given the run-time stack in figure @fig:call-conv-2 assume that function `B` needs to get the value of `p1`, that can be achieved by reading the memory location of the memory address `EBP + 8`. As you can see from the figure, memory address of `EBP` points to the previous value of `EBP` which its size is `4` bytes, so if we add `4` to the value in `EBP`, that is, `EBP + 4` we will get the memory address of the location which stores the resume point (`EIP` before calling `B`) which also has the size of `4` bytes, so, if we add another `4` bytes to `EBP` we will reach the item which is above the resume point, which will always (because the convention always work the same way with any function) be the first parameter if the current function receives parameters, and by adding another `4` to `EBP` we will get the second parameter and so on. The same is applicable if we would like to read values in current function's stack frame (e.g. local variables), but this time we need to subtract from `EBP` instead of adding to it. Whether we are adding to or subtracting from `EBP` the value will always be `4` and its multiples since each item in x86 protected-mode run-time stack is of `4` bytes. The following assembly example of `B` reads multiple values from the stack that cannot be read with normal `pop` without distorting the stack.
+
+```{.asm}
+B:
+; Creating new Stack Frame
+push ebp
+mov ebp, esp
+
+push 1 ; Pushing a local variable
+push 2 ; Pushing another local variable
+
+; Reading the content 
+; of memory address EBP + 4
+; which stores the value of
+; the parameters p1 and moving
+; it to eax.
+mov eax, [ebp + 8]
+
+; Reading the value of the
+; first local varaible and
+; moving it to ebx.
+mov ebx, [ebp - 4]
+
+; Rest of B's Code
+```
+
+<!-- [MQH] REVIEW. HERE 18 SEP 2022 -->
 When `B` finishes and needs to return a value, this value should be stored in the register `EAX`. After that, `B` should deallocates its own stack frame, this task can be accomplished easily by popping all values of `B`'s stack frame until we reach to first value pushed value by `B` which is, again, the starting memory address of the caller `A` stack frame then we set this value to the register `EBP` instead of the current value. In this stage, the top of the stack contains the returning memory address which should be loaded to `EIP` so we can resume the execution of the caller `A`, that's can be done by using the x86 instruction `ret` which pops the stack to get the returning address then loads `EIP` with this value. Finally, when `A` gains the control again it can deallocate the parameters of `B` to save some memory by just popping them. 
 
 The details of calling a function that we have just described are **implementation details** and we mentioned previously that these implementation details of function's invocation are known as calling conventions. The calling convention that we have described is known as `cdecl` which stands for *C declaration*, there are other conventions, which means the one which we have described is not an strict standard for x86 architecture, instead, the operating systems, compilers and low-level code writers can decide which calling convention that they would like to use or maybe make up a wholly new one according to their objective. However, the reason behind choosing `cdecl` to explain here is that it is a well-known and widely used calling convention, also, it serves our purpose of explaining the basics of x86 run-time stack.
