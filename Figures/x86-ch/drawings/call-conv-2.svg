@@ -1,0 +1,657 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="210mm"
+   height="297mm"
+   viewBox="0 0 210 297"
+   version="1.1"
+   id="svg13607"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)"
+   sodipodi:docname="call-conv-2.svg">
+  <defs
+     id="defs13601">
+    <marker
+       inkscape:stockid="Arrow1Mend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="marker22980"
+       style="overflow:visible"
+       inkscape:isstock="true">
+      <path
+         inkscape:connector-curvature="0"
+         id="path22978"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1.00000003pt;stroke-opacity:1"
+         transform="matrix(-0.4,0,0,-0.4,-4,0)" />
+    </marker>
+    <marker
+       inkscape:isstock="true"
+       style="overflow:visible"
+       id="marker22852"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="Arrow1Mstart">
+      <path
+         transform="matrix(0.4,0,0,0.4,4,0)"
+         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1.00000003pt;stroke-opacity:1"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         id="path22850"
+         inkscape:connector-curvature="0" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Mend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="marker18338"
+       style="overflow:visible"
+       inkscape:isstock="true">
+      <path
+         inkscape:connector-curvature="0"
+         id="path18336"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1.00000003pt;stroke-opacity:1"
+         transform="matrix(-0.4,0,0,-0.4,-4,0)" />
+    </marker>
+    <marker
+       inkscape:isstock="true"
+       style="overflow:visible"
+       id="marker18292"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="Arrow1Mstart">
+      <path
+         transform="matrix(0.4,0,0,0.4,4,0)"
+         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1.00000003pt;stroke-opacity:1"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         id="path18290"
+         inkscape:connector-curvature="0" />
+    </marker>
+    <inkscape:path-effect
+       effect="spiro"
+       id="path-effect9592-6-8"
+       is_visible="true" />
+    <marker
+       inkscape:stockid="Arrow1Mend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Mend"
+       style="overflow:visible"
+       inkscape:isstock="true"
+       inkscape:collect="always">
+      <path
+         inkscape:connector-curvature="0"
+         id="path9603"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1.00000003pt;stroke-opacity:1"
+         transform="matrix(-0.4,0,0,-0.4,-4,0)" />
+    </marker>
+    <inkscape:path-effect
+       effect="spiro"
+       id="path-effect16232"
+       is_visible="true" />
+    <marker
+       inkscape:isstock="true"
+       style="overflow:visible"
+       id="marker10385"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="Arrow2Mend">
+      <path
+         transform="scale(-0.6)"
+         d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
+         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.625;stroke-linejoin:round;stroke-opacity:1"
+         id="path10383"
+         inkscape:connector-curvature="0" />
+    </marker>
+    <inkscape:path-effect
+       is_visible="true"
+       id="path-effect10371"
+       effect="spiro" />
+    <marker
+       inkscape:stockid="Arrow1Mstart"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Mstart-9"
+       style="overflow:visible"
+       inkscape:isstock="true"
+       inkscape:collect="always">
+      <path
+         inkscape:connector-curvature="0"
+         id="path9600-9"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1.00000003pt;stroke-opacity:1"
+         transform="matrix(0.4,0,0,0.4,4,0)" />
+    </marker>
+    <marker
+       inkscape:isstock="true"
+       style="overflow:visible"
+       id="marker9731"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="Arrow1Mend"
+       inkscape:collect="always">
+      <path
+         transform="matrix(-0.4,0,0,-0.4,-4,0)"
+         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1.00000003pt;stroke-opacity:1"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         id="path9729"
+         inkscape:connector-curvature="0" />
+    </marker>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.161167"
+     inkscape:cx="486.08405"
+     inkscape:cy="827.48102"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1920"
+     inkscape:window-height="974"
+     inkscape:window-x="0"
+     inkscape:window-y="40"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata13604">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       style="opacity:1;fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.40772203;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:stroke fill markers"
+       id="rect9392-9"
+       width="38.09726"
+       height="10.796209"
+       x="106.84212"
+       y="61.509941"
+       inkscape:export-filename="/home/maastaar/Projects/Writings/Books/539kernel/book/Figures/x86-ch/call-conv-2.png"
+       inkscape:export-xdpi="96.199997"
+       inkscape:export-ydpi="96.199997" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:5.64444447px;line-height:125%;font-family:Sans;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="111.29477"
+       y="68.319199"
+       id="text9396-3"
+       inkscape:export-filename="/home/maastaar/Projects/Writings/Books/539kernel/book/Figures/x86-ch/call-conv-2.png"
+       inkscape:export-xdpi="96.199997"
+       inkscape:export-ydpi="96.199997"><tspan
+         sodipodi:role="line"
+         id="tspan9394-6"
+         x="111.29477"
+         y="68.319199"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93888903px;font-family:Lato;-inkscape-font-specification:Lato;stroke-width:0.26458332px">Value of &quot;p3&quot;</tspan></text>
+    <rect
+       style="opacity:1;fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.41100001;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:stroke fill markers"
+       id="rect9392-6"
+       width="38.05579"
+       height="39.434792"
+       x="106.85724"
+       y="21.98168"
+       inkscape:export-filename="/home/maastaar/Projects/Writings/Books/539kernel/book/Figures/x86-ch/call-conv-2.png"
+       inkscape:export-xdpi="96.199997"
+       inkscape:export-ydpi="96.199997" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:5.64444447px;line-height:125%;font-family:Sans;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="83.326172"
+       y="39.40609"
+       id="text9396-6"
+       inkscape:export-filename="/home/maastaar/Projects/Writings/Books/539kernel/book/Figures/x86-ch/call-conv-2.png"
+       inkscape:export-xdpi="96.199997"
+       inkscape:export-ydpi="96.199997"><tspan
+         sodipodi:role="line"
+         id="tspan9394-4"
+         x="83.326172"
+         y="39.40609"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93888903px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px">Values Pushed</tspan><tspan
+         sodipodi:role="line"
+         x="83.326172"
+         y="46.501774"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93888903px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px"
+         id="tspan10199">By &quot;A&quot; Previously</tspan><tspan
+         sodipodi:role="line"
+         x="83.326172"
+         y="53.597458"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93888903px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px"
+         id="tspan10223">(e.g. Local Variables)</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:4.58611107px;line-height:125%;font-family:Sans;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="64.646515"
+       y="136.4133"
+       id="text9878-2-4"
+       inkscape:export-filename="/home/maastaar/Projects/Writings/Books/539kernel/book/Figures/x86-ch/call-conv-2.png"
+       inkscape:export-xdpi="96.199997"
+       inkscape:export-ydpi="96.199997"><tspan
+         sodipodi:role="line"
+         id="tspan9876-88-4"
+         x="65.233215"
+         y="136.4133"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px">EBP: Starting Point of </tspan><tspan
+         sodipodi:role="line"
+         x="64.646515"
+         y="142.35339"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px"
+         id="tspan10265">A's Stack Frame</tspan></text>
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75674599;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow1Mend)"
+       d="M 35.157933,22.247024 V 132.61678"
+       id="path16230"
+       inkscape:connector-curvature="0"
+       inkscape:path-effect="#path-effect16232"
+       inkscape:original-d="m 35.157933,22.247024 c 2.6e-4,36.789226 2.6e-4,73.579163 0,110.369756"
+       inkscape:export-filename="/home/maastaar/Projects/Writings/Books/539kernel/book/Figures/x86-ch/call-conv-2.png"
+       inkscape:export-xdpi="96.199997"
+       inkscape:export-ydpi="96.199997" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:4.58611107px;line-height:125%;font-family:Sans;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="22.540478"
+       y="59.708672"
+       id="text16358"
+       inkscape:export-filename="/home/maastaar/Projects/Writings/Books/539kernel/book/Figures/x86-ch/call-conv-2.png"
+       inkscape:export-xdpi="96.199997"
+       inkscape:export-ydpi="96.199997"><tspan
+         sodipodi:role="line"
+         id="tspan16356"
+         x="22.540478"
+         y="59.708672"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px">Stack</tspan><tspan
+         sodipodi:role="line"
+         x="22.540478"
+         y="65.648758"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px"
+         id="tspan16360">Grows</tspan><tspan
+         sodipodi:role="line"
+         x="22.540478"
+         y="71.588852"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px"
+         id="tspan16362">Downward</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.10580826px;line-height:125%;font-family:'Go Medium';-inkscape-font-specification:'Go Medium, ';letter-spacing:-23.20125008px;word-spacing:-7.45205641px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.698412px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="114.7331"
+       y="104.17448"
+       id="text10137"
+       transform="scale(0.76177481,1.3127239)"
+       inkscape:export-filename="/home/maastaar/Projects/Writings/Books/539kernel/book/Figures/x86-ch/call-conv-2.png"
+       inkscape:export-xdpi="96.199997"
+       inkscape:export-ydpi="96.199997"><tspan
+         sodipodi:role="line"
+         id="tspan10135"
+         x="114.7331"
+         y="104.17448"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:0%;font-family:'Go Medium';-inkscape-font-specification:'Go Medium, ';stroke-width:0.698412px">}</tspan></text>
+    <g
+       id="g26983"
+       transform="translate(35.540785,-56.395786)"
+       inkscape:export-filename="/home/maastaar/Projects/Writings/Books/539kernel/book/Figures/x86-ch/call-conv-2.png"
+       inkscape:export-xdpi="96.199997"
+       inkscape:export-ydpi="96.199997">
+      <ellipse
+         ry="0.51558882"
+         rx="0.49706131"
+         cy="82.258591"
+         cx="89.529121"
+         id="ellipse26967"
+         style="opacity:1;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.06932824;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:stroke fill markers" />
+      <ellipse
+         style="opacity:1;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.06932824;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:stroke fill markers"
+         id="ellipse26969"
+         cx="89.529121"
+         cy="84.375259"
+         rx="0.49706131"
+         ry="0.51558882" />
+      <ellipse
+         ry="0.51558882"
+         rx="0.49706131"
+         cy="86.491928"
+         cx="89.529121"
+         id="ellipse26971"
+         style="opacity:1;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.06932824;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:stroke fill markers" />
+      <ellipse
+         ry="0.51558882"
+         rx="0.49706131"
+         cy="88.608597"
+         cx="89.529121"
+         id="ellipse26973"
+         style="opacity:1;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.06932824;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:stroke fill markers" />
+      <ellipse
+         style="opacity:1;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.06932824;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:stroke fill markers"
+         id="ellipse26975"
+         cx="89.529121"
+         cy="90.725266"
+         rx="0.49706131"
+         ry="0.51558882" />
+      <ellipse
+         ry="0.51558882"
+         rx="0.49706131"
+         cy="92.841934"
+         cx="89.529121"
+         id="ellipse26977"
+         style="opacity:1;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.06932824;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:stroke fill markers" />
+      <ellipse
+         style="opacity:1;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.06932824;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:stroke fill markers"
+         id="ellipse26979"
+         cx="89.529121"
+         cy="94.958603"
+         rx="0.49706131"
+         ry="0.51558882" />
+      <ellipse
+         ry="0.51558882"
+         rx="0.49706131"
+         cy="97.075272"
+         cx="89.529121"
+         id="ellipse26981"
+         style="opacity:1;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.06932824;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:stroke fill markers" />
+    </g>
+    <g
+       transform="translate(35.540785,-39.462436)"
+       id="g10241"
+       inkscape:export-filename="/home/maastaar/Projects/Writings/Books/539kernel/book/Figures/x86-ch/call-conv-2.png"
+       inkscape:export-xdpi="96.199997"
+       inkscape:export-ydpi="96.199997">
+      <ellipse
+         style="opacity:1;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.06932824;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:stroke fill markers"
+         id="ellipse10225"
+         cx="89.529121"
+         cy="82.258591"
+         rx="0.49706131"
+         ry="0.51558882" />
+      <ellipse
+         ry="0.51558882"
+         rx="0.49706131"
+         cy="84.375259"
+         cx="89.529121"
+         id="ellipse10227"
+         style="opacity:1;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.06932824;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:stroke fill markers" />
+      <ellipse
+         style="opacity:1;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.06932824;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:stroke fill markers"
+         id="ellipse10229"
+         cx="89.529121"
+         cy="86.491928"
+         rx="0.49706131"
+         ry="0.51558882" />
+      <ellipse
+         style="opacity:1;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.06932824;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:stroke fill markers"
+         id="ellipse10231"
+         cx="89.529121"
+         cy="88.608597"
+         rx="0.49706131"
+         ry="0.51558882" />
+      <ellipse
+         ry="0.51558882"
+         rx="0.49706131"
+         cy="90.725266"
+         cx="89.529121"
+         id="ellipse10233"
+         style="opacity:1;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.06932824;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:stroke fill markers" />
+      <ellipse
+         style="opacity:1;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.06932824;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:stroke fill markers"
+         id="ellipse10235"
+         cx="89.529121"
+         cy="92.841934"
+         rx="0.49706131"
+         ry="0.51558882" />
+      <ellipse
+         ry="0.51558882"
+         rx="0.49706131"
+         cy="94.958603"
+         cx="89.529121"
+         id="ellipse10237"
+         style="opacity:1;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.06932824;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:stroke fill markers" />
+      <ellipse
+         style="opacity:1;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.06932824;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:stroke fill markers"
+         id="ellipse10239"
+         cx="89.529121"
+         cy="97.075272"
+         rx="0.49706131"
+         ry="0.51558882" />
+    </g>
+    <rect
+       y="72.093277"
+       x="106.84212"
+       height="10.796209"
+       width="38.09726"
+       id="rect10243"
+       style="opacity:1;fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.40772203;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:stroke fill markers"
+       inkscape:export-filename="/home/maastaar/Projects/Writings/Books/539kernel/book/Figures/x86-ch/call-conv-2.png"
+       inkscape:export-xdpi="96.199997"
+       inkscape:export-ydpi="96.199997" />
+    <text
+       id="text10247"
+       y="78.902542"
+       x="111.29477"
+       style="font-style:normal;font-weight:normal;font-size:5.64444447px;line-height:125%;font-family:Sans;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       xml:space="preserve"
+       inkscape:export-filename="/home/maastaar/Projects/Writings/Books/539kernel/book/Figures/x86-ch/call-conv-2.png"
+       inkscape:export-xdpi="96.199997"
+       inkscape:export-ydpi="96.199997"><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93888903px;font-family:Lato;-inkscape-font-specification:Lato;stroke-width:0.26458332px"
+         y="78.902542"
+         x="111.29477"
+         id="tspan10245"
+         sodipodi:role="line">Value of &quot;p2&quot;</tspan></text>
+    <rect
+       style="opacity:1;fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.40772203;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:stroke fill markers"
+       id="rect10249"
+       width="38.09726"
+       height="10.796209"
+       x="106.84212"
+       y="82.67662"
+       inkscape:export-filename="/home/maastaar/Projects/Writings/Books/539kernel/book/Figures/x86-ch/call-conv-2.png"
+       inkscape:export-xdpi="96.199997"
+       inkscape:export-ydpi="96.199997" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:5.64444447px;line-height:125%;font-family:Sans;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="111.29477"
+       y="89.485886"
+       id="text10253"
+       inkscape:export-filename="/home/maastaar/Projects/Writings/Books/539kernel/book/Figures/x86-ch/call-conv-2.png"
+       inkscape:export-xdpi="96.199997"
+       inkscape:export-ydpi="96.199997"><tspan
+         sodipodi:role="line"
+         id="tspan10251"
+         x="111.29477"
+         y="89.485886"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93888903px;font-family:Lato;-inkscape-font-specification:Lato;stroke-width:0.26458332px">Value of &quot;p1&quot;</tspan></text>
+    <rect
+       y="93.353683"
+       x="106.84187"
+       height="23.08194"
+       width="38.098259"
+       id="rect10255"
+       style="opacity:1;fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.40900001;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:stroke fill markers"
+       inkscape:export-filename="/home/maastaar/Projects/Writings/Books/539kernel/book/Figures/x86-ch/call-conv-2.png"
+       inkscape:export-xdpi="96.199997"
+       inkscape:export-ydpi="96.199997" />
+    <text
+       id="text10259"
+       y="100.0692"
+       x="125.43641"
+       style="font-style:normal;font-weight:normal;font-size:5.64444447px;line-height:125%;font-family:Sans;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       xml:space="preserve"
+       inkscape:export-filename="/home/maastaar/Projects/Writings/Books/539kernel/book/Figures/x86-ch/call-conv-2.png"
+       inkscape:export-xdpi="96.199997"
+       inkscape:export-ydpi="96.199997"><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93888903px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px"
+         y="100.0692"
+         x="125.43641"
+         id="tspan10257"
+         sodipodi:role="line">Value of EIP</tspan><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93888903px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px"
+         y="107.16488"
+         x="126.06824"
+         sodipodi:role="line"
+         id="tspan10261">Before Jumping </tspan><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93888903px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px"
+         y="114.26057"
+         x="125.43641"
+         sodipodi:role="line"
+         id="tspan10263">to &quot;B&quot;</tspan></text>
+    <path
+       inkscape:original-d="m 91.162342,131.66168 c 4.66179,-2.6e-4 9.323268,-2.6e-4 13.984388,0"
+       inkscape:path-effect="#path-effect10371"
+       inkscape:connector-curvature="0"
+       id="path10369"
+       d="M 91.162342,131.66168 H 105.14673"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.41327682;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#marker10385)"
+       inkscape:export-filename="/home/maastaar/Projects/Writings/Books/539kernel/book/Figures/x86-ch/call-conv-2.png"
+       inkscape:export-xdpi="96.199997"
+       inkscape:export-ydpi="96.199997" />
+    <text
+       id="text10377"
+       y="126.35918"
+       x="65.704849"
+       style="font-style:normal;font-weight:normal;font-size:4.58611107px;line-height:125%;font-family:Sans;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       xml:space="preserve"
+       inkscape:export-filename="/home/maastaar/Projects/Writings/Books/539kernel/book/Figures/x86-ch/call-conv-2.png"
+       inkscape:export-xdpi="96.199997"
+       inkscape:export-ydpi="96.199997"><tspan
+         id="tspan10375"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px"
+         y="126.35918"
+         x="65.704849"
+         sodipodi:role="line">ESP: Top of the Stack</tspan></text>
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.60108626;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-start:url(#Arrow1Mstart-9);marker-end:url(#marker9731)"
+       d="m 148.14916,22.11177 h 7.04345 v 109.77905 h -6.85809"
+       id="path12083"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/maastaar/Projects/Writings/Books/539kernel/book/Figures/x86-ch/call-conv-2.png"
+       inkscape:export-xdpi="96.199997"
+       inkscape:export-ydpi="96.199997" />
+    <text
+       id="text12661"
+       y="91.264442"
+       x="178.57564"
+       style="font-style:normal;font-weight:normal;font-size:5.64444447px;line-height:125%;font-family:Sans;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       xml:space="preserve"
+       inkscape:export-filename="/home/maastaar/Projects/Writings/Books/539kernel/book/Figures/x86-ch/call-conv-2.png"
+       inkscape:export-xdpi="96.199997"
+       inkscape:export-ydpi="96.199997"><tspan
+         id="tspan12659"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93888903px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px"
+         y="91.264442"
+         x="178.57564"
+         sodipodi:role="line">Stack Frame of &quot;A&quot;</tspan></text>
+    <rect
+       inkscape:export-ydpi="96.199997"
+       inkscape:export-xdpi="96.199997"
+       inkscape:export-filename="/home/maastaar/Projects/Writings/Books/539kernel/book/Figures/x86-ch/call-conv-2.png"
+       style="opacity:1;fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.30899999;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:stroke fill markers"
+       id="rect18252"
+       width="38.013729"
+       height="15.707438"
+       x="106.88388"
+       y="116.58508" />
+    <text
+       inkscape:export-ydpi="96.199997"
+       inkscape:export-xdpi="96.199997"
+       inkscape:export-filename="/home/maastaar/Projects/Writings/Books/539kernel/book/Figures/x86-ch/call-conv-2.png"
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:5.64444447px;line-height:125%;font-family:Sans;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="125.84948"
+       y="123.35256"
+       id="text18256"><tspan
+         sodipodi:role="line"
+         id="tspan18254"
+         x="125.84948"
+         y="123.35256"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93888903px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px">Previous Value</tspan><tspan
+         sodipodi:role="line"
+         x="125.84948"
+         y="130.44824"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93888903px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px"
+         id="tspan18258">of EBP</tspan></text>
+    <rect
+       inkscape:export-ydpi="96.199997"
+       inkscape:export-xdpi="96.199997"
+       inkscape:export-filename="/home/maastaar/Projects/Writings/Books/539kernel/book/Figures/x86-ch/call-conv-2.png"
+       y="132.02919"
+       x="106.89136"
+       height="32.38382"
+       width="38.040859"
+       id="rect22787"
+       style="opacity:1;fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.40900001;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:stroke fill markers" />
+    <text
+       id="text22812"
+       y="143.46069"
+       x="125.84948"
+       style="font-style:normal;font-weight:normal;font-size:5.64444447px;line-height:125%;font-family:Sans;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       xml:space="preserve"
+       inkscape:export-filename="/home/maastaar/Projects/Writings/Books/539kernel/book/Figures/x86-ch/call-conv-2.png"
+       inkscape:export-xdpi="96.199997"
+       inkscape:export-ydpi="96.199997"><tspan
+         id="tspan22810"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93888903px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px"
+         y="143.46069"
+         x="125.84948"
+         sodipodi:role="line">Future Values</tspan><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93888903px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px"
+         y="150.55638"
+         x="125.84948"
+         sodipodi:role="line"
+         id="tspan22816">of B's Stack</tspan><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93888903px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px"
+         y="157.65205"
+         x="125.84948"
+         sodipodi:role="line"
+         id="tspan22818">Should be Here</tspan></text>
+    <path
+       inkscape:export-ydpi="96.199997"
+       inkscape:export-xdpi="96.199997"
+       inkscape:export-filename="/home/maastaar/Projects/Writings/Books/539kernel/book/Figures/x86-ch/call-conv-2.png"
+       inkscape:connector-curvature="0"
+       id="path22844"
+       d="m 148.14916,22.11177 h 7.04345 v 109.77905 h -6.85809"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.60108626;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-start:url(#marker22852);marker-end:url(#marker22980)" />
+    <text
+       inkscape:export-ydpi="96.199997"
+       inkscape:export-xdpi="96.199997"
+       inkscape:export-filename="/home/maastaar/Projects/Writings/Books/539kernel/book/Figures/x86-ch/call-conv-2.png"
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:5.64444447px;line-height:125%;font-family:Sans;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="178.57564"
+       y="91.264442"
+       id="text22848"><tspan
+         sodipodi:role="line"
+         x="178.57564"
+         y="91.264442"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93888903px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px"
+         id="tspan22846">Stack Frame of &quot;A&quot;</tspan></text>
+  </g>
+</svg>
