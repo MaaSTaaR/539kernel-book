@@ -145,7 +145,7 @@ Now, let's take a look at the value of the label `gdtr`. For the sake of organiz
 ```{.asm}
 gdt:
 	null_descriptor				: 	dw 0, 0, 0, 0
-	kernel_code_descriptor		: 	dw 0xffff, 0x0000, 9a00h, 0x00cf
+	kernel_code_descriptor		: 	dw 0xffff, 0x0000, 0x9a00, 0x00cf
 	kernel_data_descriptor		: 	dw 0xffff, 0x0000, 0x9200, 0x00cf
 	userspace_code_descriptor	: 	dw 0xffff, 0x0000, 0xfa00, 0x00cf
 	userspace_data_descriptor	: 	dw 0xffff, 0x0000, 0xf200, 0x00cf
@@ -160,6 +160,74 @@ The label `gdt` is the `GDT` table of 539kernel, while the label `gdtr` is the c
 As you can see, the `GDT` table of 539kernel contains `5` entries ^[The values of the descriptors here are used from Basekernel project (https://github.com/dthain/basekernel).], the first one is known as *null descriptor* which is a requisite in x86 architecture, in any `GDT` table, the first entry should be the null entry that contains zeros. The second and third entries represent the code segment and data segment of the kernel, while the fourth and the fifth entries represent the code segment and data segment of the user-space applications. The properties of each entry is shown in the table <!-- TODO: Table15082021_0 --> and as you can see, based on the base address and limit of each segment, 539kernel employs the flat memory model.
 
 Because the values of `GDT` entries are set in bits level then we need to combine these bits as bytes or a larger unit than a byte as in our current code, by combining the bits into a larger units, the last result will be unreadable for the human, as you can see, a mere look at the values of each entry in the above code cannot tell us directly what are the properties of each of these entries, due to that I've written a simple Python `3` script that generates the proper values as double words by taking the required entries in `GDT` and their properties as `JSON` input. The following is the code of the script if you would like to generate a different `GDT` table than the one which is presented here. <!-- TODO --> And the `JSON` input of 539kernel's `GDT` table is <!-- TODO -->.
+
+```{.python}
+def generateGDTAsWords( gdtAsJSON, nasmFormat = False ):
+	gdt = json.loads( gdtAsJSON );
+	gdtAsWords = '';
+	
+	for entry in gdt:
+		if nasmFormat:
+			gdtAsWords += entry[ 'name' ] + ': dw ';
+				
+		if entry[ 'type' ] == 'null':
+			gdtAsWords += '0, 0, 0, 0\n';
+		elif entry[ 'type' ] == 'code' or entry[ 'type' ] == 'data':
+			baseAddress = int( entry[ 'base_address' ], 16 );
+			limit = int( entry[ 'limit' ], 16 );
+			
+			baseAddressParts = [ baseAddress & 0xffff, ( baseAddress >> 16 ) & 0xff, ( baseAddress >> 24 ) & 0xff ]
+			limitParts = [ limit & 0xffff, ( limit >> 16 ) & 0xf ];
+			
+			# ... #
+			
+			typeFlag = ( 1 if entry[ 'type' ] == 'code' else 0 ) << 3;
+			accessed = 1 if entry[ 'accessed' ] else 0;
+			typeField = None;
+			dbFlag = None;
+			
+			if entry[ 'type' ] == 'code':
+				conforming = ( 1 if entry[ 'conforming' ] else 0 ) << 2;
+				readEnabled = ( 1 if entry[ 'read_enabled' ] else 0 ) << 1;
+				
+				typeField = typeFlag | conforming | readEnabled | accessed;
+				
+				dbFlag = ( 1 if entry[ 'operation_size' ] == '32bit' else 0 ) << 2
+			else:
+				expands = ( 1 if entry[ 'expands' ] == 'down' else 0 ) << 2;
+				writeEnabled = ( 1 if entry[ 'write_enabled' ] else 0 ) << 1;
+				
+				typeField = typeFlag | expands | writeEnabled | accessed;
+				
+				dbFlag = ( 1 if entry[ 'upper_bound' ] == '4gb' else 0 ) << 2
+				
+			# ... #
+			
+			present = ( 1 if entry[ 'present' ] else 0 ) << 3
+			privilegeLevel = entry[ 'privilege_level' ] << 1
+			systemSegment = 1 if not entry[ 'system_segment' ] else 0
+			
+			firstPropSet = present | privilegeLevel | systemSegment;
+			
+			# ... #
+			
+			granularity = ( 1 if entry[ 'granularity' ] == '4kb' else 0 ) << 3
+			longMode = ( 1 if entry[ '64bit' ] else 0 ) << 1
+			
+			secondPropSet = granularity | dbFlag | longMode | 0;
+			
+			words = [ limitParts[ 0 ], baseAddressParts[ 0 ],
+						( ( ( firstPropSet << 4 ) | typeField ) << 8 ) | baseAddressParts[ 1 ],
+						( ( ( baseAddressParts[ 2 ] << 4 ) | secondPropSet ) << 4 ) | limitParts[ 1 ] ];
+						
+			words = list( map( lambda word: '0x' + format( word, 'x' ).zfill( 4 ), words ) );
+			
+			gdtAsWords += words[ 0 ] + ', ' + words[ 1 ] + ', ' + words[ 2 ] + ', ' + words[ 3 ] + '\n';
+		else:
+			raise Exception( 'Unkown Segment Type: ' + str( entry ) );
+	
+	return gdtAsWords;
+```
 
 The second label `gdtr` has the same structure of x86's register `GDTR` since we want to load the content of this label to the register directly as is. As you can see, the first part of `gdtr` is the size of the `GDT` table, we know that we have `5` entries in our `GDT` table and we already know from previous chapter <!-- [REF] --> that each entry in the `GDT` table has the size of `8` bytes, that means the total size of our `GDT` table is `5 * 8 = 40 bytes`. The second part of `gdtr` is the full memory address of the label `gdt`. As you can see here, we didn't subtract the memory address of `start` from `gdt` memory address, and that's because we need to load the full physical memory address of `gdt` into `GDTR` register and not just its offset inside a given data segment, as we know, when the processor tries to reach the `GDT` table it doesn't consult any segment register ^[Otherwise it is going to be a paradox! to reach the `GDT` table you will need to reach the `GDT` table first!], it assumes that the full physical memory address of `GDT` is stored in the register `GDTR`, and to get the full memory address of a label in NASM we need to just mention the name of that label.
 

@@ -238,7 +238,7 @@ Also you should note that the code of addition operation is going to run in priv
 ###### Data Segment Flags
 When the segment is data segment, the second most significant bit (tenth bit) is called expansion-direction flag (also called `E` flag) while the third most significant bit (ninth bit) is called write-enabled flag (also called `W` flag). The latter one gives us the ability to make some data segment a read-only when its value is `0`, or we can make a data segment both **writable** and readable by setting the value of write-enabled flag to `1`.
 
-While the expansion-direction flag and its need will be examined in details when we discuss x86 run-time stack in this chapter, what we need to know right now is that when the value of this flag is `0`, the data segment is going to expand **up**, but when the value of this flag is `1`, the data segment is going to expand **down**.
+While the expansion-direction flag and its need will be examined in details when we discuss x86 run-time stack in this chapter, what we need to know right now is that when the value of this flag is `0`, the data segment is going to expand **up** (in Intel's terms), but when the value of this flag is `1`, the data segment is going to expand **down** (in Intel's terms).
 
 A last note about data segments is that all of them are **non-conforming**, that is, a less-privileged code cannot access a data segment in a more-privileged level. Furthermore, all data segments can be accessed by a more-privileged code.
 
