@@ -1,4 +1,3 @@
-<!-- TODO: Don't forget to use the newer version of driver's functions that use wait function -->
 # Chapter 6: Filesystems
 
 ## Introduction
@@ -113,12 +112,15 @@ Before starting in the implementation of the driver, let's create two new files:
 #define BASE_PORT 0x1F0
 #define SECTOR_SIZE 512
 
+void wait_drive_until_ready();
+
 void *read_disk( int );
 void write_disk( int, short * );
 
 void *read_disk_chs( int );
 void write_disk_chs( int, short * );
 ```
+
 #### Addressing Mode
 As in the main memory, the hard disks use addresses to read the data that are stored in a specific area of the disk, the same is applicable in write operation, the same address can be used to write on the same specific area. There are two schemes of hard disk addresses, the older one is known as *cylinder-head-sector* addressing (`CHS`) while the newer one which more dominant now is known as *logical block addressing* (`LBA`).
 
@@ -163,13 +165,7 @@ void *read_disk_chs( int sector )
     // ... //
     
     // Part 2
-    
-	int status = 0;
-	
-	do
-	{
-		status = dev_read( BASE_PORT + 7 );
-	} while ( ( status ^ 0x80 ) == 128 );
+    wait_drive_until_ready();
 	
     // ... //
     
@@ -186,7 +182,21 @@ void *read_disk_chs( int sector )
 
 In the first part of `read_disk_chs` we send the required values to the appropriate ports as we have described above. In the port `base_port + 6` we set that the drive is `0` and the head is `0`, also, we set that the addressing mode that we are currently using is `CHS`. In port `base + 2` we set that we would like to read one sector, that is, the function `read_disk_chs` reads `512` bytes from disk with each call. In port `base_port + 3` we set the sector number that we would like to read, as you can see, this number is passed through the parameter `sector`, so, the caller can specify the sector that it would like to read. In both `base_port + 4` and `base_port + 5` we specify the cylinder that we would like to read from, which is cylinder `0`. Finally, we issue a read request to the ATA bus by writing `0x20` to `base_port + 7`. For the sake of simplicity, we have used fixed values for a number of parameters here, in real situations, those fixed values should be more flexible. However, using `LBA` will provide us more flexibility with the simplicity that we are interested on.
 
-The second part of `read_disk_chs` reads the value of the port `base_port + 7` which is going to contain the status of the drive. As we mentioned earlier, the eighth bit (bit `7`) of this value indicates whether the drive is busy or not, with each iteration of the loop in part `2` the function reads this value and checks whether the value of the eighth bit is `1` by using bitwise operations, if this is the case, that means the drive is still busy in completing the reading operation, so, we need to wait for it until it finishes and we spend this time of waiting in reading the value of the port and check the eighth bits over and over again until the drive finishes, this technique of checking the device's status over and over again until it finishes an operation is known as *busy waiting*.
+The second part of `read_disk_chs` calls the function `wait_drive_until_ready` which makes sure that the code after calling it, will not be executed until the device finishes its work. The following is the code of this function.
+
+```{.c}
+void wait_drive_until_ready()
+{
+	int status = 0;
+	
+	do
+	{
+		status = dev_read( BASE_PORT + 7 );
+	} while ( ( status ^ 0x80 ) == 128 );
+}
+```
+
+The function `wait_drive_until_ready` reads the value of the port `base_port + 7` which is going to contain the status of the drive. As we mentioned earlier, the eighth bit (bit `7`) of this value indicates whether the drive is busy or not, with each iteration of the loop, the function reads this value and checks whether the value of the eighth bit is `1` by using bitwise operations, if this is the case, that means the drive is still busy in completing the requested operation (reading operation in our current case), so, we need to wait for it until it finishes and we spend this time of waiting in reading the value of the port and check the eighth bits over and over again until the drive finishes, this technique of checking the device's status over and over again until it finishes an operation is known as *busy waiting*.
 
 When the read operation finishes, we can read the target content word by word ^[The fact that we need to read a word here instead of a byte is the reason of using the register `AX` instead of `AL` as the first operand for `in` instruction in the function `dev_read`.] from the base port and that's the job of the third part of `read_disk_chs` which reads a word each time and stores it in a buffer that we dynamically allocate from the kernel's heap.
 
@@ -217,7 +227,7 @@ void *read_disk( int address )
 ```
 
 #### Writing to Disk
-In both `CHS` and `LBA`, write operation is called via ports exactly in the same way of reading, though, there are two differences. First, the command number to issue a write request is `0x30` which should be written to `base_port + 7` after setting the correct values to the ports. Second, after the drive becomes ready to write the required data, we should write a word after the other to `base_port` until we finish, this is performed by calling the routine `dev_write_word` which uses the instruction `out` to perform that job. Need no more discussion, the following two functions are `write_disk_chs` which uses `CHS` to write to the disk, and `write_disk` which uses `LBA` to write to the disk. Both of them receive a parameter called `buffer` which is a pointer to the data that we would like to write to the disk.
+In both `CHS` and `LBA`, write operation is called via ports exactly in the same way of reading, though, there are two differences. First, the command number to issue a write request is `0x30` which should be written to `base_port + 7` after setting the correct values to the ports. Second, after the drive becomes ready to write the required data, we should write a word after the other to `base_port` until we finish, this is performed by calling the routine `dev_write_word` which uses the instruction `out` to perform that job. Need no more discussion, the following two functions are `write_disk_chs` which uses `CHS` to write to the disk, and `write_disk` which uses `LBA` to write to the disk. Both of them receive a parameter called `buffer` which is a pointer to the data that we would like to write to the disk. You can see `wait_drive_until_ready` is called twice, the first one after setting the correct parameters and issuing write command, the second one after requesting to write the words of the buffer into the disk in order to make sure that the write function doesn't return before the disk finishes the write operation.
 
 ```{.c}
 void write_disk_chs( int sector, short *buffer )
@@ -229,15 +239,12 @@ void write_disk_chs( int sector, short *buffer )
 	dev_write( BASE_PORT + 5, 0 );
 	dev_write( BASE_PORT + 7, 0x30 );
 	
-	int status = 0;
-	
-	do
-	{
-		status = dev_read( BASE_PORT + 7 ) ;
-	} while ( ( status ^ 0x80 ) == 128 );
+	wait_drive_until_ready();
 	
 	for ( int currByte = 0; currByte < ( SECTOR_SIZE / 2 ); currByte++ )
 		dev_write_word( BASE_PORT, buffer[ currByte ] );
+    
+	wait_drive_until_ready();
 }
 
 void write_disk( int address, short *buffer )
@@ -249,15 +256,12 @@ void write_disk( int address, short *buffer )
 	dev_write( BASE_PORT + 5, ( address & 0x00FF0000 ) >> 16 );
 	dev_write( BASE_PORT + 7, 0x30 );
 	
-	int status = 0;
-	
-	do
-	{
-		status = dev_read( BASE_PORT + 7 ) ;
-	} while ( ( status ^ 0x80 ) == 128 );
+	wait_drive_until_ready();
 	
 	for ( int currByte = 0; currByte < ( SECTOR_SIZE / 2 ); currByte++ )
 		dev_write_word( BASE_PORT, buffer[ currByte ] );
+		
+	wait_drive_until_ready();
 }
 ```
 
@@ -441,15 +445,13 @@ It's too simple, it receives the value of head and tail that we would like to se
 ```{.c}
 metadata_t *load_metadata( int address )
 {
-	metadata_t *metadata = kalloc( sizeof( metadata_t ) );
-		
-	metadata = read_disk( address );
+	metadata_t *metadata = read_disk( address );
 	
 	return metadata;
 }
 ```
 
-Simply, it receives a disk address and assumes that the block which is presented by this address is a metadata block. It loads this metadata to the main memory by allocating a space for this metadata in the kernel's heap then loading the content of the address from the disk. <!-- TODO: We don't need to allocate space in the code!! --> The following is a sample of using `create_file` to create a new file in the run-time filesystem.
+Simply, it receives a disk address and assumes that the block which is presented by this address is a metadata block. It loads this metadata to the main memory by loading the content of the address from the disk through the device driver function `read_disk`. The following is a sample of using `create_file` to create a new file in the run-time filesystem.
 
 ```{.c}
 char *data = kalloc( 512 );
