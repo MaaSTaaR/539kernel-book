@@ -69,7 +69,7 @@ When a process is called instead of jumped to, eventually, it should return to t
 
 ## Process Management in 539kernel
 <!-- TODO: Don't forget to stop interrupts until the end of kernel initialization -->
-The final result of this section is what I call version `T` of 539kernel which has a basic multitasking capability. The multitasking style that we are going to implement is time-sharing multitasking. Also, instead of depending on x86 features to implement multitasking in 539kernel, a software multitasking will be implemented.
+The final result of this section is what I call version `T` of 539kernel which has a basic multitasking capability. The multitasking style that we are going to implement is time-sharing multitasking. Also, instead of depending on x86 features to implement multitasking in 539kernel, a software multitasking will be implemented. The final `Makefile` of version `T` is provided in the last subsection, however, if you wish to build and run the kernel incrementally after each change on the progenitor you can refer to that `Makefile` and add only the needed instructions to build the not ready yet version `T` that you are building. For example, as you will see in a moment new files `screen.c` and `screen.h` will be added in version `T` as a first increment, to run the kernel after adding them you need to add the command to compile this new file and link it with the previous files, you can find these commands in the last version of `Makefile` as we have said before.
 
 Our first step of this implementation is to setup a valid task-state segment, while 539kernel implements a software multitasking, a valid TSS is needed. As we have said earlier, it will not be needed in our current stage but we will set it up anyway. Its need will show up when the kernel lets user-space software to run. After that, basic data structures for process table and process control block are implemented. These data structures and their usage will be as simple as possible since we don't have any mean for dynamic memory allocation, yet! After that, the scheduler can be implemented and system timer's interrupt can be used to enforce preemptive multitasking by calling the scheduler every period of time. The scheduler uses round-robin algorithm to choose the next process that will use the CPU time, and the context switching is performed after that. Finally, we are going to create a number of processes to make sure that everything works fine.
 
@@ -101,7 +101,7 @@ void screen_init()
 Nothing new in here, just some organizing. Now, the prototypes and implementations of the functions `print`, `println` and `printi` should be removed from `main.c`. Furthermore, the global variables `video`, `nextTextPos` and `currLine` should also be removed from `main.c`. Now, the file `screen.h` should be included in `main.c` and in the beginning of the function `kernel_main` the function `screen_init` should be called.
 
 ### Initializing the Task-State Segment
-Setting TSS up is too simple. First we know that the TSS itself is a region in the memory (since it is a segment), so, let's allocate this region of memory. The following should be added at end of `starter.asm`. A label named `tss` is defined, and inside this region of memory, which its address is represented by the label `tss`, we put a doubleword of `0`, recall that a word is `2` bytes while a double-word is `4` bytes. So, our `TSS` contains nothing but a bunch of zeros.
+Setting TSS up is too simple. First we know that the TSS itself is a region in the memory (since it is a segment), so, let's allocate this region of memory. The following should be added at end of `starter.asm`, even after including the files `gdt.asm` and `idt.asm`. In the following a label named `tss` is defined, and inside this region of memory, which its address is represented by the label `tss`, we put a doubleword of `0`, recall that a word is `2` bytes while a double-word is `4` bytes. So, our `TSS` contains nothing but a bunch of zeros.
 
 ``` {.asm}
 tss:
@@ -116,7 +116,7 @@ tss_descriptor: dw tss + 3, tss, 0x8900, 0x0000
 
 <!-- TODO: The properties here should be explained -->
 Now, let's get back to `starter.asm` in order to load TSS' segment
-selector into the task register. In `start` routine and below the line `call setup_interrupts` we add the line `call load_task_register` which calls a new routine named `load_task_register` that loads the task register with the proper value. The following is the code of this routine.
+selector into the task register. In `start` routine and below the line `call setup_interrupts` we add the line `call load_task_register` which calls a new routine named `load_task_register` that loads the task register with the proper value. The following is the code of this routine that can be defined before the line `bits 32` in `starter.asm`.
 
 ``` {.asm}
 load_task_register:
@@ -527,18 +527,18 @@ KERNEL_FLAGS = -Wall -m32 -c -ffreestanding -fno-asynchronous-unwind-tables -fno
 KERNEL_OBJECT = -o kernel.elf
 
 build: $(BOOTSTRAP_FILE) $(KERNEL_FILE)
-    $(ASM) -f bin $(BOOTSTRAP_FILE) -o bootstrap.o
-    $(ASM) -f elf32 $(INIT_KERNEL_FILES) -o starter.o 
-    $(CC) $(KERNEL_FLAGS) $(KERNEL_FILES) $(KERNEL_OBJECT)
-    $(CC) $(KERNEL_FLAGS) screen.c -o screen.elf
-    $(CC) $(KERNEL_FLAGS) process.c -o process.elf
-    $(CC) $(KERNEL_FLAGS) scheduler.c -o scheduler.elf
-    ld -melf_i386 -Tlinker.ld starter.o kernel.elf screen.elf process.elf scheduler.elf -o 539kernel.elf
-    objcopy -O binary 539kernel.elf 539kernel.bin
-    dd if=bootstrap.o of=kernel.img
-    dd seek=1 conv=sync if=539kernel.bin of=kernel.img bs=512 count=8
-    dd seek=9 conv=sync if=/dev/zero of=kernel.img bs=512 count=2046
-    qemu-system-x86_64 -s kernel.img
+	$(ASM) -f bin $(BOOTSTRAP_FILE) -o bootstrap.o
+	$(ASM) -f elf32 $(INIT_KERNEL_FILES) -o starter.o 
+	$(CC) $(KERNEL_FLAGS) $(KERNEL_FILES) $(KERNEL_OBJECT)
+	$(CC) $(KERNEL_FLAGS) screen.c -o screen.elf
+	$(CC) $(KERNEL_FLAGS) process.c -o process.elf
+	$(CC) $(KERNEL_FLAGS) scheduler.c -o scheduler.elf
+	ld -melf_i386 -Tlinker.ld starter.o kernel.elf screen.elf process.elf scheduler.elf -o 539kernel.elf
+	objcopy -O binary 539kernel.elf 539kernel.bin
+	dd if=bootstrap.o of=kernel.img
+	dd seek=1 conv=sync if=539kernel.bin of=kernel.img bs=512 count=8
+	dd seek=9 conv=sync if=/dev/zero of=kernel.img bs=512 count=2046
+	qemu-system-x86_64 -s kernel.img
 ```
 
 Nothing new in here but compiling the new C files that we have added to 539kernel.
