@@ -93,7 +93,7 @@ For the same reason of restoring the previous environment when returning to the 
 
 You may ask, why did we only store and restore the previous value of `EDX` and not `EAX` which was also used in the code of the routine? The reason is that `dev_read` is a function that returns a value, and according to the calling convention the returned value from a function should be stored in the register in `EAX`, so, the value of `EAX` is intended to be changed when return to the caller, therefore, it will not be correct, logically, to restore the the previous value of `WAX` when `dev_read` returns.
 
-Because the ultimate goal of defining both `dev_write` and `dev_read` is to make them available to be used in C code, so, the lines `global dev_write`, `global dev_write_word` and `global dev_read` should be written in the beginning of `starter.asm`.
+Because the ultimate goal of defining both `dev_write` and `dev_read` is to make them available to be used in C code, so, the lines `global dev_write`, `global dev_write_word` and `global dev_read` should be written in the beginning of `starter.asm` after `global enable_paging`.
 
 ### The Driver
 One ATA bus in the computer's motherboard makes it possible to attach two hard disks into the system, one of them is called master drive which is the main one that the computer boots from, the other disk is known as slave drive. Usually, a computer comes with two ATA buses instead of just one, which means up to four hard disks can be attached into the computer. The first one of those buses is known as the primary bus while the second one is known as the secondary bus. 
@@ -292,7 +292,14 @@ It should be obvious now how can we reach all files in a run-time filesystem tha
 The metadata of each file is stored in the block right before the content of the file which will be stored in one block only given that the size of a block is `512` bytes ^[In real-world situation, giving a whole block for a metadata of `260` bytes can be considered as a waste of space. One of real filesystems goals is to use as little space as possible to maintain the structure of the run-time filesystem.]. For example, if the metadata of file `A` is stored in the address `103`, then the content of this file is stored in the address `104`. By using this design, the basic functionalities of filesystems can be provided. Figure @fig:539filesystem_overview shows an overview of 539filesystem design where four files stored in the system, `x`, `y`, `z` and `w`.
 
 ### The Implementation of 539filesystem
-Before getting started in implementing the proposed design in the previous section <!-- [REF] -->, let's define two new files: `str.h` and `str.c` which contain string related function that can be useful when we write our filesystem. Two functions will be implemented in `str.c` and they are `strcpy` which copies a string from a location to another, and `strcmp` which compares two strings, if they are equals then `1` is returned, otherwise `0` is returned. There is no need to explain the details of the code of these two functions since they depend on the normal way which C uses with strings. The following is the content of `str.c` and to save some space in the book I haven't provide `str.h` which only contains the prototypes of the two functions that have mentioned above.
+Before getting started in implementing the proposed design in the previous section <!-- [REF] -->, let's define two new files: `str.h` and `str.c` which contain string related function that can be useful when we write our filesystem. Two functions will be implemented in `str.c` and they are `strcpy` which copies a string from a location to another, and `strcmp` which compares two strings, if they are equals then `1` is returned, otherwise `0` is returned. There is no need to explain the details of the code of these two functions since they depend on the normal way which C uses with strings. The following is the content of `str.h`.
+
+```{.c}
+void strcpy( char *, char * );
+int strcmp( char *, char * );
+```
+
+The following is the content of `str.c`.
 
 ```{.c}
 #include "str.h"
@@ -348,10 +355,15 @@ typedef struct
 base_block_t *base_block;
 
 void filesystem_init();
-int get_files_number();
 void create_file( char *, char * );
 char **list_files();
 char *read_file( char * );
+
+// Auxiliary Functions
+metadata_t *load_metadata( int );
+int get_address_by_filename( char * );
+int get_prev_file_address( int );
+int get_files_number();
 ```
 
 First we define two macros, `BASE_BLOCK_ADDRESS` and `FILENAME_LENGTH`. The first one is the address of base block in the disk, as we have mentioned earlier, this address is `100`. The second one is the maximum length of a filename in 539filesystem, and we mentioned earlier that this length is `256`. 
@@ -360,7 +372,7 @@ Then we define two structures as types: `base_block_t` and `metadata_t`, based o
 
 Then the global variable `base_block` is defined, which is the memory address that contains the base block after loading it from the disk, as we have said, this loaded copy is the one that we are going to update when the user performs a transactional operation on the run-time filesystem such as creating a new file for example.
 
-The first function that we are going to implement is `filesystem_init` which is an initializer that will be called once the kernel starts. Its code is too simple, it is going to use the ATA device driver to read the base block from the disk to the main memory and stores the memory address of this loaded data in the global variable `base_block`.
+After including `filesystem.h` in `filesystem.c` the first function that we are going to implement is `filesystem_init` which is an initializer that will be called once the kernel starts. Its code is too simple, it is going to use the ATA device driver to read the base block from the disk to the main memory and stores the memory address of this loaded data in the global variable `base_block`.
 
 ```{.c}
 void filesystem_init()
@@ -369,7 +381,7 @@ void filesystem_init()
 }
 ```
 
-We need to call this function by putting the line `filesystem_init();` in `kernel_main` of `main.c` after the line `scheduler_init();`. The rest of functions will be discussed in the following sub-sections.
+We need to include `filesystem.h` in `main.c` and call function `filesystem_init` by putting the line `filesystem_init();` in `kernel_main` of `main.c` after the line `scheduler_init();`. The rest of functions will be discussed in the following sub-sections.
 
 #### Creating a New File
 Let's begin with the function `create_file`, we mentioned before that there is no write operation in 539filesystem, instead, the content of a new file is written in the same operation that creates a new file. Basically, `create_file` operation should decide the disk address that the new file and its metadata should be stored in, of course, in real-world situation, the filesystem should be sure that this disk address is free and doesn't contain a part of another file. After deciding the disk address of this new file, the metadata of the file should be stored in the block that this address points to, and in the next block the content of this file should be stored. The metadata of the new file can be initialized by using the type `metadata_t` and after that it can be stored into the disk by using ATA device driver. 
@@ -685,8 +697,8 @@ int get_prev_file_address( int address )
 }
 ```
 
-## Finishing up Version `NE`
-And now version `NE` of 539kernel is ready. It contains a basic ATA device driver and 539filesystem. The following is its `Makefile` which adds the new files to the compilation list.
+## Finishing up Version `NE` and Testing the Filesystem
+And now version `NE` of 539kernel is ready. It contains a basic ATA device driver and 539filesystem. The following is its `Makefile` which adds the new files to the compilation list, also, this time we are going to use Bochs instead of QEMU to test  539filesystem since `kernel.img` which represents the hardisk is tailored for the former.
 
 ```{.makefile}
 ASM = nasm
@@ -715,6 +727,59 @@ build: $(BOOTSTRAP_FILE) $(KERNEL_FILE)
 	dd if=bootstrap.o of=kernel.img
 	dd seek=1 conv=sync if=539kernel.bin of=kernel.img bs=512 count=20
 	dd seek=21 conv=sync if=/dev/zero of=kernel.img bs=512 count=2046
-	#bochs -f bochs
-	qemu-system-x86_64 -s kernel.img
+	bochs -f bochs
 ```
+
+To run Bochs, it should be configured properly. As you can see from the presented `Makefile`, a file named `bochs` is passed to Bochs to use it as a configuration file, so, by using it we don't need to configure Bochs everytime we use it to run 539kernel. The following is the content of `bochs` file which should reside in the same directory of 539kernel's code.
+
+```
+plugin_ctrl: unmapped=1, biosdev=1, speaker=1, extfpuirq=1, parallel=1, serial=1, gameport=1, iodebug=1
+config_interface: textconfig
+display_library: x, options="gui_debug"
+memory: host=32, guest=32
+romimage: file="/usr/share/bochs/BIOS-bochs-latest"
+vgaromimage: file="/usr/share/bochs/VGABIOS-lgpl-latest"
+boot: disk
+ata0: enabled=1, ioaddr1=0x1f0, ioaddr2=0x3f0, irq=14
+ata0-master: type=disk, mode=flat, translation=auto, path="kernel.img", cylinders=2, heads=16, spt=63, biosdetect=auto, model="Generic 1234"
+pci: enabled=1, chipset=i440fx
+vga: extension=vbe, update_freq=5
+cpu: count=1, ips=4000000, model=bx_generic, reset_on_triple_fault=1, cpuid_limit_winnt=0, ignore_bad_msrs=1, mwait_is_nop=0
+cpuid: family=6, model=0x03, stepping=3, mmx=1, apic=xapic, sse=sse2, sse4a=0, sep=1, aes=0, xsave=0, xsaveopt=0, movbe=0, adx=0, smep=0, avx=0, avx_f16c=0, avx_fma=0, bmi=0, xop=0, tbm=0, fma4=0, vmx=1, x86_64=1, 1g_pages=0, pcid=0, fsgsbase=0, mwait=1
+cpuid: vendor_string="GenuineIntel"
+cpuid: brand_string="              Intel(R) Pentium(R) 4 CPU        "
+```
+
+As you can see, it tells Bochs the specifications of the virtual machine we would like to run, also, the file which represents the hard disk `kernel.img` is passed to Bochs here. The following code can be used to test 539filesystem. It should be inside `kernel_main` after the initializations and processes creations.
+
+```{.c}
+	char *data = kalloc( 512 );
+	strcpy( data, "The content of the first file on 539filesystem" );	
+	create_file( "first_file", data );
+	
+	// ... //
+	
+	char *data2 = kalloc( 512 );
+	strcpy( data2, "SECOND FILE in 539filesystem" );
+	create_file( "second_file", data2 );
+	
+	// ... //
+	
+	char *data3 = kalloc( 512 );
+	strcpy( data3, "THIRD FILE in 539filesystem" );
+	create_file( "third_file", data3 );
+		
+	// ... //
+	
+	print( read_file( "first_file" ) ); println();
+	print( read_file( "second_file" ) ); println();
+	print( read_file( "third_file" ) ); println();
+	
+	// ... //
+	
+	print_fs();
+	delete_file( "first_file" );
+	print_fs();
+```
+
+This code creates three files, prints their contents, prints the run-time filesystem tree through the function `print_fs` and finally deletes the file `first_file` then prints the run-time filesystem tree again to show that the file has been deleted successfully. The function `print_fs` already defined in this chapter <!-- [REF] -->. To make everything works file, you need to keep the definition of `print_fs` below `kernel_main` and put the prototype `void print_fs();` above `kernel_main`. Also, to test the filesystem you need to make sure that the interrupts are disabled, the easiest way to do that is modifying `starter.asm` by commenting the line `sti` which is before `call kernel_main` in the routine `start_kernel`. After that you should see the result of the above testing code after the kernel boots up.
