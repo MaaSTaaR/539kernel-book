@@ -198,6 +198,8 @@ As you can see, the `GDT` table of 539kernel contains `5` entries ^[The values o
 Because the values of `GDT` entries are set in bits level then we need to combine these bits as bytes or a larger unit than a byte as in our current code, by combining the bits into a larger units, the last result will be unreadable for the human, as you can see, a mere look at the values of each entry in the above code cannot tell us directly what are the properties of each of these entries, due to that I've written a simple Python `3` script that generates the proper values as double words by taking the required entries in `GDT` and their properties as `JSON` input. The following is the code of the script if you would like to generate a different `GDT` table than the one which is presented here.
 
 ```{.python}
+import josn;
+
 def generateGDTAsWords( gdtAsJSON, nasmFormat = False ):
 	gdt = json.loads( gdtAsJSON );
 	gdtAsWords = '';
@@ -728,7 +730,7 @@ The fundamental functionality of `irq_basic` is same as `isr_basic`, it calls th
 
 The command `EOI` should be sent to the master PIC after handling all `IRQs` (the ones that belong to the master and also the slave), but for the slave `PIC` this command should be sent only after the `IRQs` of slave PIC are handled, that is, interrupt number `40` till `48`. So, after returning from the C function `interrupt_handler`, the command `EOI` is sent directly to the mater PIC. As you can see, we write the value `20h` to the port `20h`, the first value represents that `EOI` command, while the second value represents the command port of master PIC as we learned earlier. After that, the interrupt number, that we have pushed on the stack in the beginning of the `ISR`, is used to check if the interrupt that we have handled is greater than or equal `40d`, if this is not the case, a jump is performed to `irq_basic_end`, otherwise, `EOI` command is sent to the slave PIC through its command port `a0h`. 
 
-Now, we are ready to define the `IDT` table, to not take too much space I will show only the first three entries, but the full table should have `49` entries, all of them with the same exact fields and the only difference is the label name of the `ISR`.
+Now, we are ready to define the `IDT` table, to not take too much space I will show only the first three entries, but the full table should have `49` entries, all of them with the same exact fields and the only difference is the label name of the `ISR` ^[The values of the properties here are used from Basekernel project (https://github.com/dthain/basekernel).].
 
 ```{.asm}
 idt:
@@ -737,9 +739,58 @@ idt:
 	dw isr_2, 8, 0x8e00, 0x0000
 ```
 
-The meaning of the values of the fields are summarized in the table <!-- TODO --> and as in `GDT` table, I've written a Python script that constructs these values by getting a human readable input, the code of the script is the following <!-- TODO -->.
+The meaning of the values of the fields are summarized in the following table.
 
-After that, we can define the label `idtr` which will be the value that we will load in the special register `idtr`.
+| Handler's Name | Segment Selector  | Present | Privilege Level | Descriptor Size | Gate Type |
+|----------------|-------------------|---------|-----------------|-----------------|-----------|
+| isr_0          | 8 (Kernel's Code) | Yes     | 0               | 32-bit          | Interrupt |
+| isr_1          | 8 (Kernel's Code) | Yes     | 0               | 32-bit          | Interrupt |
+| isr_2          | 8 (Kernel's Code) | Yes     | 0               | 32-bit          | Interrupt |
+As in `GDT` table, I've written a Python script that let you manipulate the properties of descriptors by getting a human readable input, the code of the script is the following.
+
+```{.python}
+import json;
+
+def generateIDTAsWords( idtAsJSON, nasmFormat = False ):
+	idt = json.loads( idtAsJSON );
+	idtAsWords = '';
+	
+	for entry in idt:
+		if nasmFormat:
+			idtAsWords += 'dw ';
+		
+		# ... #
+		
+		present = ( 1 if entry[ 'present' ] else 0 ) << 7;
+		dpl = entry[ 'dpl' ] << 6;
+		size = ( 1 if entry[ 'gate_descriptor_size' ] == '32-bit' else 0 ) << 3;
+		gateType = ( 0 if entry[ 'interrupt_gate' ] else 1 );
+		
+		byteFive = present | dpl | ( 0 << 11 ) | size | ( 1 << 2 ) | ( 1 << 1 ) | gateType;
+		
+		wordThree = '0x' + format( byteFive, 'x' ).zfill( 2 ) + '00';
+		
+		# ... #
+		
+		idtAsWords += entry[ 'isr_routine_name' ] + ', ' + str( entry[ 'isr_segment_selector' ] ) + ', ' + wordThree + ', 0x0000'  + '\n';
+		
+	return idtAsWords;
+```
+
+The following is an example of using `generateIDTAsWords`.
+
+```{.python}
+idt = '''
+[
+	{ 	"isr_routine_name": "isr_0", "isr_segment_selector": 8, "present": true, "dpl": 0, "gate_descriptor_size": "32-bit", "interrupt_gate": true },
+	{ 	"isr_routine_name": "isr_1", "isr_segment_selector": 8, "present": true, "dpl": 0, "gate_descriptor_size": "32-bit", "interrupt_gate": true }
+]
+''';
+
+print( generateIDTAsWords( idt, True ) );
+```
+
+After defining the entries of `IDT`, we can define the label `idtr` which will be the value that we will load in the special register `idtr`.
 
 ```{.asm}	
 idtr:
