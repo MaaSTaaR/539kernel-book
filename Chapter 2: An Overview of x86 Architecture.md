@@ -113,7 +113,6 @@ This is also applicable on the internal work of the processor, do you remember t
 
 The same is exactly applicable to the other two types of segments and of course, the instructions deal with different segment types based on their functionality, for example, you have seen that `jmp` and `call` deal the code segment in `CS`, that's because of their functionality which is related to the code. Another example is the instruction `lodsb` which deals with the data segment `DS`, the instruction `push` deals with the stack segment `SS` and so on.
 
-<!-- TODO: REVIEW AGAIN? 11 Sep 2022 -->
 #### Segmentation Used in the Bootloader
 In the previous chapter, when we wrote the bootloader, we have dealt with the segments. Let's get back to the source code of the bootloader, you remember that the firmware loads the bootloader on the memory location `07C0h` and because of that we started our bootloader with the following lines.
 

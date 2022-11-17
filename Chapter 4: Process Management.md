@@ -68,7 +68,6 @@ Another way of context switching in x86 hardware multitasking is to call or jump
 When a process is called instead of jumped to, eventually, it should return to the caller process by using the instruction `iret`, for the processor, to be able to decide which task is the caller, the previous task link field of the callee's `TSS` will be updated to contain the segment selector of the caller process. In this way, when `iret` instruction is executed, it will be easy to know to which process the processor should switch back to.
 
 ## Process Management in 539kernel
-<!-- TODO: Don't forget to stop interrupts until the end of kernel initialization -->
 The final result of this section is what I call version `T` of 539kernel which has a basic multitasking capability. The multitasking style that we are going to implement is time-sharing multitasking. Also, instead of depending on x86 features to implement multitasking in 539kernel, a software multitasking will be implemented. The final `Makefile` of version `T` is provided in the last subsection, however, if you wish to build and run the kernel incrementally after each change on the progenitor you can refer to that `Makefile` and add only the needed instructions to build the not ready yet version `T` that you are building. For example, as you will see in a moment new files `screen.c` and `screen.h` will be added in version `T` as a first increment, to run the kernel after adding them you need to add the command to compile this new file and link it with the previous files, you can find these commands in the last version of `Makefile` as we have said before.
 
 Our first step of this implementation is to setup a valid task-state segment, while 539kernel implements a software multitasking, a valid TSS is needed. As we have said earlier, it will not be needed in our current stage but we will set it up anyway. Its need will show up when the kernel lets user-space software to run. After that, basic data structures for process table and process control block are implemented. These data structures and their usage will be as simple as possible since we don't have any mean for dynamic memory allocation, yet! After that, the scheduler can be implemented and system timer's interrupt can be used to enforce preemptive multitasking by calling the scheduler every period of time. The scheduler uses round-robin algorithm to choose the next process that will use the CPU time, and the context switching is performed after that. Finally, we are going to create a number of processes to make sure that everything works fine.
@@ -114,9 +113,7 @@ As you may recall, each `TSS` needs an entry in the `GDT` table, after defining 
 tss_descriptor: dw tss + 3, tss, 0x8900, 0x0000
 ```
 
-<!-- TODO: The properties here should be explained -->
-Now, let's get back to `starter.asm` in order to load TSS' segment
-selector into the task register. In `start` routine and below the line `call setup_interrupts` we add the line `call load_task_register` which calls a new routine named `load_task_register` that loads the task register with the proper value. The following is the code of this routine that can be defined before the line `bits 32` in `starter.asm`.
+Now, let's get back to `starter.asm` in order to load TSS' segment selector into the task register. In `start` routine and below the line `call setup_interrupts` we add the line `call load_task_register` which calls a new routine named `load_task_register` that loads the task register with the proper value. The following is the code of this routine that can be defined before the line `bits 32` in `starter.asm`.
 
 ``` {.asm}
 load_task_register:
@@ -512,8 +509,6 @@ Each process starts by printing its name, then, an infinite loop starts which ke
 
 Each time the scheduler starts, it prints the value of `EAX` of the suspended process. When we run the kernel, each process is going to start by printing its name and before a process starts executing the value of `EAX` of the previous process will be shown. Therefore, you will see a bunch of following texts `EAX = 5390`, `EAX = 5391`, `EAX = 5392` and `EAX = 5393` keep showing on the screen which indicates that the process, `A` for example in case `EAX = 5390` is shown, was running and it has been suspended now to run the next one and so on.
 
-<!-- TODO: Maybe? ## Setting the System Timer Up -->
-<!-- The concept of Hertz and the maybe the basics of commanding system's timer? -->
 ### Finishing up Version `T`
 And we have got version `T` of 539kernel which provides us a basic process management subsystem. The last piece to be presented is the `Makefile` to compile the whole code.
 
