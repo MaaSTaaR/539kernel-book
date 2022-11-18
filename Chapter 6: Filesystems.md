@@ -137,14 +137,21 @@ The value that should be written to `base_port + 6` specifies more than one thin
 
 When the current addressing mode is `CHS`, the sector number that we would like our read operation to start from should be sent to `base_port + 3`, the low part of the cylinder number should be sent to `base_port + 4` and the high part of the cylinder number should be sent to `base_port + 5`.  The following table summarizes the parameters to the read command when the addressing mode is `CHS`.
 
-| Port Number   | Purpose When Addressing Mode is CHS                                                                                              |
+| Port Number   | Purpose (in CHS)                                                                                              |
 |---------------|----------------------------------------------------------------------------------------------------------------------------------|
 | base_port + 2 | Number of Sectors to Read                                                                                                        |
 | base_port + 3 | The Sector Number to Read From                                                                                                   |
 | base_port + 4 | Lower Part of the Cylinder Number                                                                                                |
 | base_port + 5 | Higher Part of the Cylinder Number                                                                                               |
-| base_port + 6 | Bit 0-3: The Head Bit 4: Drive to Use (0 = Master, 1 = Slave) Bit 5: Always 1 Bit 6: Addressing Mode (0 for CHS) Bit 7: Always 1 |
 | base_port + 7 | Command Port. Read Command: 0x20                                                                                                 |
+
+| Port Number   | Bit(s) | Purpose (in CHS)                     |
+|---------------|--------|--------------------------------------|
+| base_port + 6 | 0-3    | The Head                             |
+|               | 4      | Drive to Use (0 = Master, 1 = Slave) |
+|               | 5      | Always 1                             |
+|               | 6      | Addressing Mode (0 for CHS)          |
+|               | 7      | Always 1                             |
 
 Once the read command is issued with the right parameters passed to the correct ports, we can read the value of `base_port + 7` to check if the disk finished the reading operating or not by reading the eighth bit (bit `7`) of that value, when the value of this bit is `1` that means the drive is busy, once it becomes `0` that means that the operation completed.
 
@@ -204,14 +211,21 @@ We have used the type `short` for the variable `buffer` because the size of this
 
 Now, we can turn to the other read function `read_disk` which uses `LBA` scheme instead of `CHS`. In fact, this new function will be almost similar to `read_disk_chs`, the main differences will be with some values that we are passing to the ports of ATA bus. In `LBA` scheme, `base_port + 6` should be changed to indicate that the scheme that we are using is `LBA` and we can do that as we mentioned before by setting the value `1` to bit `6`. The other difference in this port value is that the bits `0` to `3` should contain the bits `24` to `27` of the logical block address that we would like to read from, the other parts of the addresses are divided to the following ports: `base_port + 3` contains bits `0` to `7` of that address, `base_port + 4` contains bits `8` to `15`, `base_port + 5` contains bits `16` to `23`. Both ports `base_port + 2` and `base_port + 7` stay the same. The following table summarizes the parameters of read command when `LBA` is used.
 
-| Port Number   | Purpose When Addressing Mode is LBA                                                                                                                               |
+| Port Number   | Purpose (in LBA)                                                                                                                               |
 |---------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | base_port + 2 | Number of Blocks to Read                                                                                                                                          |
 | base_port + 3 | Bits 0-7 from the Logical Block Address                                                                                                                           |
 | base_port + 4 | Bits 8-15 from the Logical Block Address                                                                                                                          |
 | base_port + 5 | Bits 16-23 from the Logical Block Address                                                                                                                         |
-| base_port + 6 | Bit 0-3: Bits 24-27 from the Logical Block Address Bit 4: Drive to Use (0 = Master, 1 = Slave) Bit 5: Always 1 Bit 6: Addressing Mode (1 for LBA) Bit 7: Always 1 |
 | base_port + 7 | Command Port. Read Command: 0x20                                                                                                                                  |
+
+| Port Number   | Bit(s) | Purpose (in CHS)                          |
+|---------------|--------|-------------------------------------------|
+| base_port + 6 | 0-3    | Bits 24-27 from the Logical Block Address |
+|               | 4      | Drive to Use (0 = Master, 1 = Slave)      |
+|               | 5      | Always 1                                  |
+|               | 6      | Addressing Mode (1 for LBA)               |
+|               | 7      | Always 1                                  |
 
 The function `read_disk` receives a parameter named `address` instead of `sector`, that is, the logical block address that the caller would like to read the data from, by using bitwise operations the value of this parameter can be divided into the described parts to be filled in the appropriate ports. The rest of `read_disk` is exactly same as `read_disk_chs`. To not get a lot of space from the book, the following is the beginning of the new function and the only part that has differences with `read_disk_chs`.
 

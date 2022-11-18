@@ -1,0 +1,63 @@
+\documentclass[11pt,a4paper,footinclude=true,headinclude=true,oneside]{scrbook} % KOMA-Script book
+\usepackage[T1]{fontenc}                
+\usepackage{lipsum}
+\usepackage[linedheaders,manychapters,pdfspacing]{classicthesis} % ,manychapters
+%\usepackage[osf]{libertine}
+\usepackage{amsthm}
+
+% [MQH]
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{listings}
+% Source: https://tex.stackexchange.com/a/179956
+\usepackage{xcolor}
+\lstset{
+    basicstyle=\ttfamily,
+    numbers=left,
+    keywordstyle=\color[rgb]{0.13,0.29,0.53}\bfseries,
+    stringstyle=\color[rgb]{0.31,0.60,0.02},
+    commentstyle=\color[rgb]{0.56,0.35,0.01}\itshape,
+    numberstyle=\footnotesize,
+    stepnumber=1,
+    numbersep=5pt,
+    backgroundcolor=\color[RGB]{248,248,248},
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=2,
+    captionpos=b,
+    breaklines=true,
+    breakatwhitespace=true,
+    breakautoindent=true,
+    escapeinside={\%*}{*)},
+    linewidth=\textwidth,
+    basewidth=0.5em,
+}
+
+\begin{document}
+    \begin{titlepage}
+    
+    \begin{center}
+    \textsc{\LARGE The Implementation of Operating System Kernel with 539kernel}\\[1,5cm]
+    
+    
+    by\\[0,5cm]
+    Mohammed Q. Hussain\\[2,5cm]
+    
+    
+    \end{center}
+    
+    \vfill
+    
+    \end{titlepage}
+	\tableofcontents 
+	\include{generated_tex/Introduction}
+	\include{generated_tex/Chapter 1: Let's Start with the Bootloader}
+    \include{generated_tex/Chapter 2: An Overview of x86 Architecture}
+    \include{generated_tex/Chapter 3: The Progenitor of 539kernel}
+    \include{generated_tex/Chapter 4: Process Management}
+    \include{generated_tex/Chapter 5: Memory Management}
+    \include{generated_tex/Chapter 6: Filesystems}
+    \include{generated_tex/Chapter 7: What's Next?}
+    \include{generated_tex/References}
+\end{document}
