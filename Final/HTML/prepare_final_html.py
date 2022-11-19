@@ -8,25 +8,33 @@ def getFullPath( filename ):
 	return htmlDir + '/' + filename;
 
 def rename():
+	print( 'Rename Started' );
 	for currFilename in os.listdir( htmlDir ):
 		if currFilename.endswith( '.html' ):
-			os.rename( getFullPath( currFilename ), getFullPath( currFilename.replace( ' ', '_' ) ) );
+			os.rename( getFullPath( currFilename ), getFullPath( currFilename.replace( ' ', '_' ).replace( '?', '' ) ) );
+	print( 'Rename Done' );
 		
 def removeTexSetup( chapterText ):
+	print( '    removeTexSetup' );
+	
 	splittedText = chapterText.split( '<body>' );
-
+	
 	newHead = re.sub( r"(\s*)%texsetup%(\s|.)*%/texsetup%", '', splittedText[ 0 ], 0, re.MULTILINE );
-
+	
 	newText = newHead + '\n<body>' + splittedText[ 1 ];
 	
 	return newText;
 
 def setTitle( chapterText, filename ):
+	print( '    setTitle' );
+	
 	chapterTitle = filename.replace( '.html', '' ).replace( '_', ' ' );
 	
 	return chapterText.replace( '<title></title>', '<title>' + chapterTitle + '</title>' );
 
 def formatChapterHead( chapterText ):
+	print( '    formatChapterHead' );
+	
 	matches = re.search( r"<h1 id=\"ch-(.*)\">(.*)Chapter(.*):(.*)</h1>", chapterText );
 	
 	if matches:
@@ -43,18 +51,22 @@ def formatChapterHead( chapterText ):
 
 # ... #
 
+print( 'Generating HTML Files' );
 subprocess.call( [ 'sh', './generate_html.sh' ] );
 
 rename();
 
 for currFilename in os.listdir( htmlDir ):
-		if currFilename.endswith( '.html' ):
+		if currFilename.endswith( '.html' ) and currFilename != 'index.html':
+			print( 'Processing ' + currFilename );
+			
 			currFile = open( getFullPath( currFilename ), 'r' );
 			chapterText = currFile.read();
 			currFile.close();
 			
-			currFile = open( getFullPath( currFilename ), 'w' );
 			finalHTML = formatChapterHead( setTitle( removeTexSetup( chapterText ), currFilename ) );
+			
+			currFile = open( getFullPath( currFilename ), 'w' );
 			currFile.write( finalHTML );
 			currFile.close();
 			
