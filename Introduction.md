@@ -1,3 +1,8 @@
+---
+title:  'A Journey in Creating an Operating System Kernel: The 539kernel Book'
+author: 'Mohammed Q. Hussain'
+---
+
 # Introduction
 In about 17 years ago writing an operating system's kernel was kind of a dream for me. Before 2 years of that time I just started my journey with the wonderful world of computer science through learning programming for web which made me curios about the different aspects of computers and of course one of the most interesting of those aspects is operating systems. At that time I wasn't technically ready yet to write an operating system kernel, so, a number of experiments to achieve that goal failed. After these trials, many years passed, I learned a lot through these years and tackled a number of other system software (such as compilers, virtual machines and assemblers) to learn how they work and even implemented some too simple versions of them to make sure that I've understand their concepts. In 2017 I asked myself, why don't I implement a simple operating system kernel and achieve one of the oldest thing in my to-do list which was a kind of dream for me? "Fine, but how to make it a useful project for people?" that's what I told myself as a response. Going through this journey was interesting for me to learn more, but I also wanted to make something that's useful for someone other than me, and at that moment the idea of this book was born. At that time, I was working on my Master's degree, so I didn't have enough time to work on this project and that's made me to defer the work on it until the late of 2019 and after a lot of torture (sorry! dedication?) this book is finally here.
 

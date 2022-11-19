@@ -1,0 +1,895 @@
+<!-- The Template is Based on: https://github.com/ryangrose/easy-pandoc-templates -->
+<!doctype html>
+<html >
+<head>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <!--[if lt IE 9]>
+                <script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
+        <![endif]-->
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+
+    <link href="https://fonts.googleapis.com/css?family=Domine|Montserrat" rel="stylesheet"> 
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+    <!-- <link rel="stylesheet" type="text/css" href="template.css" /> -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/diversen/pandoc-bootstrap-adaptive-template@959c3622/template.css" />
+
+    <link href="https://vjs.zencdn.net/5.4.4/video-js.css" rel="stylesheet" />
+
+    <script src="https://code.jquery.com/jquery-2.2.1.min.js"></script>
+    <!-- <script type='text/javascript' src='menu/js/jquery.cookie.js'></script> -->
+    <!-- <script type='text/javascript' src='menu/js/jquery.hoverIntent.minified.js'></script> -->
+    <!-- <script type='text/javascript' src='menu/js/jquery.dcjqaccordion.2.7.min.js'></script> -->
+    <!-- <link href="menu/css/skins/blue.css" rel="stylesheet" type="text/css" /> -->
+    <!-- <link href="menu/css/skins/graphite.css" rel="stylesheet" type="text/css" /> -->
+    <!-- <link href="menu/css/skins/grey.css" rel="stylesheet" type="text/css" /> -->
+    <!-- <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script> -->
+    <!-- <script src="script.js"></script> -->
+    <!-- <script src="jquery.sticky-kit.js "></script> -->
+    <script type='text/javascript' src='https://cdn.jsdelivr.net/gh/diversen/pandoc-bootstrap-adaptive-template@959c3622/menu/js/jquery.cookie.js'></script>
+    <script type='text/javascript' src='https://cdn.jsdelivr.net/gh/diversen/pandoc-bootstrap-adaptive-template@959c3622/menu/js/jquery.hoverIntent.minified.js'></script>
+    <script type='text/javascript' src='https://cdn.jsdelivr.net/gh/diversen/pandoc-bootstrap-adaptive-template@959c3622/menu/js/jquery.dcjqaccordion.2.7.min.js'></script>
+
+    <link href="https://cdn.jsdelivr.net/gh/diversen/pandoc-bootstrap-adaptive-template@959c3622/menu/css/skins/blue.css" rel="stylesheet" type="text/css" />
+    <!--
+    <link href="https://cdn.jsdelivr.net/gh/diversen/pandoc-bootstrap-adaptive-template@959c3622/menu/css/skins/graphite.css" rel="stylesheet" type="text/css" />
+    <link href="https://cdn.jsdelivr.net/gh/diversen/pandoc-bootstrap-adaptive-template@959c3622/menu/css/skins/grey.css" rel="stylesheet" type="text/css" />
+    -->
+    <link href="https://cdn.jsdelivr.net/gh/ryangrose/easy-pandoc-templates@948e28e5/css/elegant_bootstrap.css" rel="stylesheet" type="text/css" />
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+    <script src="https://cdn.jsdelivr.net/gh/diversen/pandoc-bootstrap-adaptive-template@959c3622/script.js"></script>
+  
+    <script src="https://cdn.jsdelivr.net/gh/diversen/pandoc-bootstrap-adaptive-template@959c3622/jquery.sticky-kit.js"></script>
+    <meta name="generator" content="pandoc" />
+  	<meta name="author" content="Mohammed Q. Hussain" />
+  <title>Chapter 6: Filesystems</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">body { font-family: Domine, Georgia, Palatino, 'Palatino Linotype', Times, 'Times New Roman', serif} h1, h2, h3, h4, h5, h6 { font-family: Montserrat, sans }</style>
+  <style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+
+	/* [MQH] */
+	.toc a { color: #333 !important; }
+	h1 { margin-bottom: 5% }
+	body { font-size: 15pt; !important }
+  </style>
+</head>
+
+<body>
+
+    
+    <div class="navbar navbar-static-top navbar-expand-sm px-0 pt-0">
+    <div class="navbar-inner container-fluid">
+      <div class="container">
+        <span class="doc-title">A Journey in Creating an Operating System Kernel: The 539kernel Book</span>
+                <span class="doc-title"><small>Mohammed Q. Hussain</small></span>
+                <ul class="nav pull-right doc-info">
+          <li><p class="navbar-text"><a href="index.html" style="color: #777777; !important">Table of Content</a></li>
+                  </ul>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+      <div class="row">
+            <div class="col-12">
+
+      
+      <h1 id="ch-"filesystems">Chapter <span class="header-section-number">6</span>. Filesystems</h1>
+<h2 id="introduction"><span class="header-section-number">6.1</span> Introduction</h2>
+<p>Given that both the processor and the main memory are resources in the system, till this point, we have seen how a kernel of an operating system works as a resource manager, 539kernel manages these resources <a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a> and provides them to the different processes in the system.</p>
+<p>Another role of a kernel is to provide a way to communicate with external devices, such as the keyboard and hard disk. <em>Device drivers</em> are the way of realizing this role of the kernel. The details of the external devices and how to communicate with them are low-level and may be changed at any time. The goal of a device driver is to communicate with a given device by using the device's own language<a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a> in behalf of any component of the system (e.g. a process) that would like to use the device. Device drivers provide an interface so it can be called by the other system's components in order to tell the device something to do, we can consider this interface as a library that we use in normal software development. In this way, the low-level details of the device is hidden from the other components and whenever these details changed only the code of the device driver should be changed, the interface can be kept to not affect its users. Also, hiding the low-level details from driver's user can ensure the simplicity of using that driver.</p>
+<p>The matter of hiding the low-level details with something higher-level is too important and can be found, basically, everywhere in computing and the kernels are not an exception of that. Of course, there is virtually no limit of providing higher-level concepts based on a previous lower-level concept, also, upon something that we consider as a high-level concept we can build something even higher-level. Beside the previous example of device drivers, one of obvious examples where the kernels fulfill the role of hiding the low-level details and providing something higher-level, in other words, providing an <em>abstraction</em>, is a filesystem which provides the well-known abstraction, a file.</p>
+<p>In this chapter we are going to cover these two topics, device drivers and filesystem by using 539kernel. As you may recall, it turned out that accessing to the hard disk is an important aspect for virtual memory, so, to be able to implement virtual memory, the kernel itself needs to access the hard disk which makes it an important component in the kernel, so, we are going to implement a device driver that communicate with the hard disk in this chapter. After getting the ability of reading from the hard disk or writing to it, we can explore the idea of providing abstractions by the kernel through writing a filesystem that uses the hard disk device driver and provides a higher-level view of the hard disk that we all familiar with instead of the physical view of the hard disk which has been described previously in chapter . The final result of this chapter is version <code>NE</code> of 539kernel.</p>
+<h2 id="ata-device-driver"><span class="header-section-number">6.2</span> ATA Device Driver</h2>
+<p>No need to say the hard disks are too common devices that are used as secondary storage devices. There are a lot of manufacturers that manufacture hard disks and sell them, imagine for a moment that each hard disk from a different manufacturer use its own way for the communication between the software and the hard disk, that is, the method <code>X</code> should be used to be able to communicate with hard disks from manufacturer <code>A</code> while the method <code>Y</code> should be used with hard disks from manufacturer <code>B</code> and so on, given that there are too many manufacturers, this will be a nightmare. Each hard disk will need its own device driver which talks a different language from the other hard disk device drivers.</p>
+<p>Fortunately, this is not the case, at least for the hard disks, in these situations, standards are here to the rescue. A manufacturer may design the hard disk hardware in anyway, but when it comes to the part of the communication between the hard disk and the outside world, a standard can be used, so, any device driver that works with this given standard will be able to communicate with this new hard disk. There are many well-known standards that are related to the hard disks, <em>small computer system interface</em> (SCSI) is one of them, another one is <em>advanced technology attachment</em> (ATA), another well-known name for ATA is <em>Integrated Drive Electronics</em> (IDE). The older ATA standard is now known as Parallel ATA (PATA) while the newer version of ATA is known as Serial ATA (SATA). Because ATA is more common in personal computers we are going to focus on it here and write a device driver for it, SCSI is more common in servers.</p>
+<p>As in PIC which has been discussed in chapter , ATA hard disks can be communicated with by using port-mapped I/O communication through the instructions <code>in</code> and <code>out</code>. But before discussing the ATA commands that let us to issue a read or write request to the hard disk, let's write two routines in assembly that can be used used as C functions in C code and perform the same functionality of the instructions <code>in</code> and <code>out</code>.</p>
+<p>If you don't recall, the instruction <code>out</code> is used to write some bytes on a given port number, so, if we know the port number that a device (e.g. hard disk) receives commands from, we can use the instruction <code>out</code> to write a valid command to that port. On the other hand, the instruction <code>in</code> reads data from a given port, for example, sometimes after we send a command to a device, it responds by writing something on a specific port, the instruction <code>in</code> can be used to read this value.</p>
+<p>The assembly code of the both routines that we are going to define next should reside in <code>starter.asm</code> anywhere between <code>bits 32</code> and the beginning of <code>start_kernel</code> routine. The following is the code of <code>dev_write</code> which can be used by C kernel code to write to a given port. In C, we can see that it has this prototype: <code>dev_write( int port, int cmd )</code>.</p>
+<div class="sourceCode"><pre class="sourceCode asm"><code class="sourceCode fasm"><span class="fu">dev_write:</span>
+    <span class="co">; Part 1</span>
+    <span class="bu">push</span> <span class="kw">edx</span>
+    <span class="bu">push</span> <span class="kw">eax</span>
+    
+    <span class="co">; Part 2</span>
+    <span class="bu">xor</span> <span class="kw">edx</span>, <span class="kw">edx</span>
+    <span class="bu">xor</span> <span class="kw">eax</span>, <span class="kw">eax</span>
+    
+    <span class="co">; Part 3</span>
+    <span class="bu">mov</span> <span class="kw">dx</span>, [<span class="kw">esp</span> + <span class="dv">12</span>]
+    <span class="bu">mov</span> <span class="kw">al</span>, [<span class="kw">esp</span> + <span class="dv">16</span>]
+    
+    <span class="co">; Part 4</span>
+    <span class="bu">out</span> <span class="kw">dx</span>, <span class="kw">al</span> 
+    
+    <span class="co">; Part 5</span>
+    <span class="bu">pop</span> <span class="kw">eax</span>
+    <span class="bu">pop</span> <span class="kw">edx</span>
+    
+    <span class="bu">ret</span></code></pre></div>
+<p>The core part of this routine is part four which contains the instruction <code>out</code> that sends the value of <code>AL</code> to the port number which is stored in <code>DX</code>. Because we are using these two registers <a href="#fn3" class="footnoteRef" id="fnref3"><sup>3</sup></a>, we push their previous values into the stack and that's performed in the first part of the routine. Pushing the previous values of these registers lets us restore them easily after the routine finishes its work, this restoration is performed in the fifth part of the routine right before returning from it, this is an important step to make sure that when the routine returns, the environment of the caller will be same as the one before calling the routine.</p>
+<p>After storing the previous values of <code>EAX</code> and <code>EDX</code> we can use them freely, so, the first step after that is to clear their previous values by setting the value <code>0</code> to the both of them, as you can see, we have used <code>xor</code> and the both operands of it are the same register (hence, value) that we wish to clear, this is a well-known way in assembly programming to clear the value of a register <a href="#fn4" class="footnoteRef" id="fnref4"><sup>4</sup></a>. After that, we can move the values that have been passed to the routine as parameters to the correct registers to be used with <code>out</code> instruction, this is performed in the third part of the routine <a href="#fn5" class="footnoteRef" id="fnref5"><sup>5</sup></a>.</p>
+<p>Beside <code>dev_write</code>, we need to define another routine called <code>dev_write_word</code> which is exactly same as <code>dev_write</code> but write a word (<code>2</code> bytes) instead of one byte to a port. The following is the code of this routine.</p>
+<div class="sourceCode"><pre class="sourceCode asm"><code class="sourceCode fasm"><span class="fu">dev_write_word:</span>
+    <span class="bu">push</span> <span class="kw">edx</span>
+    <span class="bu">push</span> <span class="kw">eax</span>    
+    
+    <span class="bu">xor</span> <span class="kw">edx</span>, <span class="kw">edx</span>
+    <span class="bu">xor</span> <span class="kw">eax</span>, <span class="kw">eax</span>
+    
+    <span class="bu">mov</span> <span class="kw">dx</span>, [<span class="kw">esp</span> + <span class="dv">12</span>]
+    <span class="bu">mov</span> <span class="kw">ax</span>, [<span class="kw">esp</span> + <span class="dv">16</span>]
+    
+    <span class="bu">out</span> <span class="kw">dx</span>, <span class="kw">ax</span> 
+    
+    <span class="bu">pop</span> <span class="kw">eax</span>
+    <span class="bu">pop</span> <span class="kw">edx</span>
+    
+    <span class="bu">ret</span></code></pre></div>
+<p>As you can see, the only difference between <code>dev_write</code> and <code>dev_write_word</code> is that the first one uses the register <code>al</code> (<code>8</code> bit) as the second operand of <code>out</code> while the second one uses <code>ax</code> (<code>16</code> bit) instead, so, a word can be written to the port.</p>
+<p>The following is the code of the routine <code>dev_read</code> which uses the instruction <code>in</code> to read the data from a given port and returns them to the caller, its prototype can be imagined as <code>char dev_read( int port )</code>.</p>
+<div class="sourceCode"><pre class="sourceCode asm"><code class="sourceCode fasm"><span class="fu">dev_read:</span>
+    <span class="bu">push</span> <span class="kw">edx</span>
+    
+    <span class="bu">xor</span> <span class="kw">edx</span>, <span class="kw">edx</span>
+    <span class="bu">xor</span> <span class="kw">eax</span>, <span class="kw">eax</span>
+    
+    <span class="bu">mov</span> <span class="kw">dx</span>, [<span class="kw">esp</span> + <span class="dv">8</span>]
+    
+    <span class="bu">in</span> <span class="kw">ax</span>, <span class="kw">dx</span>
+    
+    <span class="bu">pop</span> <span class="kw">edx</span>
+    
+    <span class="bu">ret</span></code></pre></div>
+<p>For the same reason of restoring the previous environment when returning to the caller, the routine pushes the value of <code>edx</code> into the stack, then both of <code>EDX</code> and <code>EAX</code> are cleared since they will be used by the instruction <code>in</code>. After that, the value of the passed parameter which represents the port number that caller wishes to read from, is stored in <code>DX</code>. Finally, <code>in</code> is called, the result is stored in <code>AX</code>, since the first operand of <code>in</code> is <code>AX</code> and not <code>AL</code> then a <strong>word</strong> will be read from the port and not a single byte. The decision of using <code>AX</code> instead of <code>AL</code> was made here because of our needs as you will see later, if you need to read just one byte for some reason you can define another routine for that. Finally, the previous value of <code>EDX</code> is restored and the routine returns.</p>
+<p>You may ask, why did we only store and restore the previous value of <code>EDX</code> and not <code>EAX</code> which was also used in the code of the routine? The reason is that <code>dev_read</code> is a function that returns a value, and according to the calling convention the returned value from a function should be stored in the register in <code>EAX</code>, so, the value of <code>EAX</code> is intended to be changed when return to the caller, therefore, it will not be correct, logically, to restore the the previous value of <code>WAX</code> when <code>dev_read</code> returns.</p>
+<p>Because the ultimate goal of defining both <code>dev_write</code> and <code>dev_read</code> is to make them available to be used in C code, so, the lines <code>global dev_write</code>, <code>global dev_write_word</code> and <code>global dev_read</code> should be written in the beginning of <code>starter.asm</code> after <code>global enable_paging</code>.</p>
+<h3 id="the-driver"><span class="header-section-number">6.2.1</span> The Driver</h3>
+<p>One ATA bus in the computer's motherboard makes it possible to attach two hard disks into the system, one of them is called master drive which is the main one that the computer boots from, the other disk is known as slave drive. Usually, a computer comes with two ATA buses instead of just one, which means up to four hard disks can be attached into the computer. The first one of those buses is known as the primary bus while the second one is known as the secondary bus.</p>
+<p>Terms that combine a bus name with a device name are used to specify exactly which device is being discussed, for example, primary master means the master hard disk that is connected to the primary bus while secondary slave means the slave hard disk which is connected to the secondary bus.</p>
+<p>The port numbers that can be used to communicate with the devices that are attached into the primary bus start from <code>0x1F0</code> and ends in <code>0x1F7</code> each one of these ports has its own functionality. The port numbers from <code>0x170</code> to <code>0x177</code> are used to communicate with devices that are attached into the secondary bus, so, there are eight ports for each ATA bus.</p>
+<p>For the sake of simplicity, our device driver is going to assume that there is only a primary master and all read and write requests should be sent to this primary master, therefore, our device driver uses the port number <code>0x1F0</code> as the base port to send the commands via PIC.</p>
+<p>You may ask, why are we calling this port number a base port? As you know that all the following port numbers are valid to communicate with the primary ATA bus: <code>0x1F0</code>, <code>0x1F1</code>, <code>0x1F2</code>, <code>0x1F3</code>, <code>0x1F4</code>, <code>0x1F5</code>, <code>0x1F6</code>, <code>0x1F7</code>, so, we can add any number from <code>0</code> through <code>7</code> to the base port number of the primary bus <code>0x1F0</code> to get a correct port number, the same holds true with the secondary ATA bus which its base port number is <code>0x170</code>. So, we can define the base port as a macro (or even variable) as we will see in our device driver, then we can use this macro by adding a specific value to it from <code>0</code> through <code>7</code> to get a specific port, the advantage of doing so is the easiness of changing the value of the base port to another port without the need of changing the code itself.</p>
+<p>Before starting in the implementation of the driver, let's create two new files: <code>ata.h</code> and <code>ata.c</code> which will contain the code of the ATA device driver which provides an interface for the rest of the kernel to write to and read from the disk. The following is the content of <code>ata.h</code> and the details of the functions will be discussed in the next subsections.</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="pp">#define BASE_PORT 0x1F0</span>
+<span class="pp">#define SECTOR_SIZE 512</span>
+
+<span class="dt">void</span> wait_drive_until_ready();
+
+<span class="dt">void</span> *read_disk( <span class="dt">int</span> );
+<span class="dt">void</span> write_disk( <span class="dt">int</span>, <span class="dt">short</span> * );
+
+<span class="dt">void</span> *read_disk_chs( <span class="dt">int</span> );
+<span class="dt">void</span> write_disk_chs( <span class="dt">int</span>, <span class="dt">short</span> * );</code></pre></div>
+<h4 id="addressing-mode"><span class="header-section-number">6.2.1.1</span> Addressing Mode</h4>
+<p>As in the main memory, the hard disks use addresses to read the data that are stored in a specific area of the disk, the same is applicable in write operation, the same address can be used to write on the same specific area. There are two schemes of hard disk addresses, the older one is known as <em>cylinder-head-sector</em> addressing (<code>CHS</code>) while the newer one which more dominant now is known as <em>logical block addressing</em> (<code>LBA</code>).</p>
+<p>In chapter  we have covered the physical structure of hard disks and we know from that discussion that the data are stored in small blocks known as sectors, also, there are tracks which each one of them consists of a number of sectors, and finally, there are heads that should be positioned on a specific sector to read from it or to write to it. The scheme <code>CHS</code> uses the same concepts of physical structure of hard disk, the address of a given sector on the hard disk should be composed by combining three numbers together, the cylinder (track) that this sector reside on, the sector that we would like to access and the head that is able to access this sector. However, this scheme is obsolete now and <code>LBA</code> is used instead of it.</p>
+<p>In <code>LBA</code>, a logical view of a hard disk is used instead of the physical view. This logical view states that the hard disk is composed of a number of logical blocks with a fixed size, say, <em>n</em> bytes. These blocks are contagious in a similar way of the main memory and to reach any block you can use its own address, the addresses start from <code>0</code>, the block right after the first one has the address <code>1</code> and so on. As you can see, addressing in <code>LBA</code> is more like the addressing of the main memory, the main difference here is that in current computers each address of the main memory points to a byte in memory while an address in <code>LBA</code> points to a block which can be a sector (<code>512</code> bytes) or even bigger.</p>
+<h4 id="reading-from-disk"><span class="header-section-number">6.2.1.2</span> Reading from Disk</h4>
+<p>In this subsection we are going to implement both <code>read_disk_chs</code> and <code>read_disk</code> which send commands to an ATA hard disk via the available ports in order to read a sector/block from the disk. The first one of those functions uses <code>CHS</code> scheme while the second one uses <code>LBA</code> scheme. In the next discussions, I'm going to use the symbol <code>base_port</code> to indicate the base port of one of ATA ports, in our case, the base port is <code>0x1F0</code> since we are going to use the primary bus in our device driver, but what we are discussing is applicable to any ATA bus with any base port number.</p>
+<p>To issue a read command the value <code>0x20</code> should be sent to <code>base_port + 7</code>, but before doing that, a number of values should be set in the other ports in order to specify the address that we would like to read from. These ports are the following: In <code>base_port + 2</code> the number of sectors/blocks that we would like to read in this operation should be set.</p>
+<p>The value that should be written to <code>base_port + 6</code> specifies more than one thing, bit <code>6</code> of this value specifies whether we are using <code>CHS</code> or <code>LBA</code> in the current read request, when the bit's value is <code>0</code> then <code>CHS</code> is being used while the value <code>1</code> means that <code>LBA</code> is being used. The bits <code>5</code> and <code>7</code> of this value should always be <code>1</code>. The bit <code>4</code> is used to specify the drive that we would like to read from, the value <code>0</code> for the master drive while <code>1</code> for the slave drive. In the case that we are using <code>CHS</code>, then the first four bits (<code>0</code> to <code>3</code>) of this value is used to specify the head while in the case that we are using <code>LBA</code>, these bits store a part from the <code>LBA</code> address, this part starts from bit <code>24</code> to bit <code>27</code>.</p>
+<p>When the current addressing mode is <code>CHS</code>, the sector number that we would like our read operation to start from should be sent to <code>base_port + 3</code>, the low part of the cylinder number should be sent to <code>base_port + 4</code> and the high part of the cylinder number should be sent to <code>base_port + 5</code>. The following table summarizes the parameters to the read command when the addressing mode is <code>CHS</code>.</p>
+<table>
+<thead>
+<tr class="header">
+<th>Port Number</th>
+<th>Purpose (in CHS)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>base_port + 2</td>
+<td>Number of Sectors to Read</td>
+</tr>
+<tr class="even">
+<td>base_port + 3</td>
+<td>The Sector Number to Read From</td>
+</tr>
+<tr class="odd">
+<td>base_port + 4</td>
+<td>Lower Part of the Cylinder Number</td>
+</tr>
+<tr class="even">
+<td>base_port + 5</td>
+<td>Higher Part of the Cylinder Number</td>
+</tr>
+<tr class="odd">
+<td>base_port + 7</td>
+<td>Command Port. Read Command: 0x20</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr class="header">
+<th>Port Number</th>
+<th>Bit(s)</th>
+<th>Purpose (in CHS)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>base_port + 6</td>
+<td>0-3</td>
+<td>The Head</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>4</td>
+<td>Drive to Use (0 = Master, 1 = Slave)</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>5</td>
+<td>Always 1</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>6</td>
+<td>Addressing Mode (0 for CHS)</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>7</td>
+<td>Always 1</td>
+</tr>
+</tbody>
+</table>
+<p>Once the read command is issued with the right parameters passed to the correct ports, we can read the value of <code>base_port + 7</code> to check if the disk finished the reading operating or not by reading the eighth bit (bit <code>7</code>) of that value, when the value of this bit is <code>1</code> that means the drive is busy, once it becomes <code>0</code> that means that the operation completed.</p>
+<p>When the reading operation is completed successfully, the data are brought to <code>base_port</code> which means we need to read from it and put the required data in the main memory. The following is the code of <code>read_disk_chs</code> that should reside in <code>ata.c</code>. Don't forget to include <code>ata.h</code> when you create <code>ata.c</code>.</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">void</span> *read_disk_chs( <span class="dt">int</span> sector )
+{
+    <span class="co">// Part 1</span>
+    
+    dev_write( BASE_PORT + <span class="dv">6</span>, <span class="bn">0x0a0</span> );
+    dev_write( BASE_PORT + <span class="dv">2</span>, <span class="dv">1</span> );
+    dev_write( BASE_PORT + <span class="dv">3</span>, sector );
+    dev_write( BASE_PORT + <span class="dv">4</span>, <span class="dv">0</span> );
+    dev_write( BASE_PORT + <span class="dv">5</span>, <span class="dv">0</span> );
+    dev_write( BASE_PORT + <span class="dv">7</span>, <span class="bn">0x20</span> );
+    
+    <span class="co">// ... //</span>
+    
+    <span class="co">// Part 2</span>
+    wait_drive_until_ready();
+    
+    <span class="co">// ... //</span>
+    
+    <span class="co">// Part 3</span>
+    
+    <span class="dt">short</span> *buffer = kalloc( SECTOR_SIZE );
+    
+    <span class="cf">for</span> ( <span class="dt">int</span> currByte = <span class="dv">0</span>; currByte &lt; ( SECTOR_SIZE / <span class="dv">2</span> ); currByte++ )
+        buffer[ currByte ] = dev_read( BASE_PORT );
+
+    <span class="cf">return</span> buffer;
+}</code></pre></div>
+<p>In the first part of <code>read_disk_chs</code> we send the required values to the appropriate ports as we have described above. In the port <code>base_port + 6</code> we set that the drive is <code>0</code> and the head is <code>0</code>, also, we set that the addressing mode that we are currently using is <code>CHS</code>. In port <code>base + 2</code> we set that we would like to read one sector, that is, the function <code>read_disk_chs</code> reads <code>512</code> bytes from disk with each call. In port <code>base_port + 3</code> we set the sector number that we would like to read, as you can see, this number is passed through the parameter <code>sector</code>, so, the caller can specify the sector that it would like to read. In both <code>base_port + 4</code> and <code>base_port + 5</code> we specify the cylinder that we would like to read from, which is cylinder <code>0</code>. Finally, we issue a read request to the ATA bus by writing <code>0x20</code> to <code>base_port + 7</code>. For the sake of simplicity, we have used fixed values for a number of parameters here, in real situations, those fixed values should be more flexible. However, using <code>LBA</code> will provide us more flexibility with the simplicity that we are interested on.</p>
+<p>The second part of <code>read_disk_chs</code> calls the function <code>wait_drive_until_ready</code> which makes sure that the code after calling it, will not be executed until the device finishes its work. The following is the code of this function.</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">void</span> wait_drive_until_ready()
+{
+    <span class="dt">int</span> status = <span class="dv">0</span>;
+    
+    <span class="cf">do</span>
+    {
+        status = dev_read( BASE_PORT + <span class="dv">7</span> );
+    } <span class="cf">while</span> ( ( status ^ <span class="bn">0x80</span> ) == <span class="dv">128</span> );
+}</code></pre></div>
+<p>The function <code>wait_drive_until_ready</code> reads the value of the port <code>base_port + 7</code> which is going to contain the status of the drive. As we mentioned earlier, the eighth bit (bit <code>7</code>) of this value indicates whether the drive is busy or not, with each iteration of the loop, the function reads this value and checks whether the value of the eighth bit is <code>1</code> by using bitwise operations, if this is the case, that means the drive is still busy in completing the requested operation (reading operation in our current case), so, we need to wait for it until it finishes and we spend this time of waiting in reading the value of the port and check the eighth bits over and over again until the drive finishes, this technique of checking the device's status over and over again until it finishes an operation is known as <em>busy waiting</em>.</p>
+<p>When the read operation finishes, we can read the target content word by word <a href="#fn6" class="footnoteRef" id="fnref6"><sup>6</sup></a> from the base port and that's the job of the third part of <code>read_disk_chs</code> which reads a word each time and stores it in a buffer that we dynamically allocate from the kernel's heap.</p>
+<p>We have used the type <code>short</code> for the variable <code>buffer</code> because the size of this type in <code>32-bit</code> architecture is <code>2</code> bytes, that is, a word. In the condition of the <code>for</code> loop we used <code>currByte &lt; ( SECTOR_SIZE / 2 )</code> instead of <code>currByte &lt; SECTOR_SIZE</code> due to the fact that we are reading two bytes in each iteration instead of one byte. Finally, the memory address which <code>buffer</code> points to, is going to contain the sector that we have just read from the disk, this memory address will be returned to the caller.</p>
+<p>Now, we can turn to the other read function <code>read_disk</code> which uses <code>LBA</code> scheme instead of <code>CHS</code>. In fact, this new function will be almost similar to <code>read_disk_chs</code>, the main differences will be with some values that we are passing to the ports of ATA bus. In <code>LBA</code> scheme, <code>base_port + 6</code> should be changed to indicate that the scheme that we are using is <code>LBA</code> and we can do that as we mentioned before by setting the value <code>1</code> to bit <code>6</code>. The other difference in this port value is that the bits <code>0</code> to <code>3</code> should contain the bits <code>24</code> to <code>27</code> of the logical block address that we would like to read from, the other parts of the addresses are divided to the following ports: <code>base_port + 3</code> contains bits <code>0</code> to <code>7</code> of that address, <code>base_port + 4</code> contains bits <code>8</code> to <code>15</code>, <code>base_port + 5</code> contains bits <code>16</code> to <code>23</code>. Both ports <code>base_port + 2</code> and <code>base_port + 7</code> stay the same. The following table summarizes the parameters of read command when <code>LBA</code> is used.</p>
+<table>
+<thead>
+<tr class="header">
+<th>Port Number</th>
+<th>Purpose (in LBA)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>base_port + 2</td>
+<td>Number of Blocks to Read</td>
+</tr>
+<tr class="even">
+<td>base_port + 3</td>
+<td>Bits 0-7 from the Logical Block Address</td>
+</tr>
+<tr class="odd">
+<td>base_port + 4</td>
+<td>Bits 8-15 from the Logical Block Address</td>
+</tr>
+<tr class="even">
+<td>base_port + 5</td>
+<td>Bits 16-23 from the Logical Block Address</td>
+</tr>
+<tr class="odd">
+<td>base_port + 7</td>
+<td>Command Port. Read Command: 0x20</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr class="header">
+<th>Port Number</th>
+<th>Bit(s)</th>
+<th>Purpose (in CHS)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>base_port + 6</td>
+<td>0-3</td>
+<td>Bits 24-27 from the Logical Block Address</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>4</td>
+<td>Drive to Use (0 = Master, 1 = Slave)</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>5</td>
+<td>Always 1</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>6</td>
+<td>Addressing Mode (1 for LBA)</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>7</td>
+<td>Always 1</td>
+</tr>
+</tbody>
+</table>
+<p>The function <code>read_disk</code> receives a parameter named <code>address</code> instead of <code>sector</code>, that is, the logical block address that the caller would like to read the data from, by using bitwise operations the value of this parameter can be divided into the described parts to be filled in the appropriate ports. The rest of <code>read_disk</code> is exactly same as <code>read_disk_chs</code>. To not get a lot of space from the book, the following is the beginning of the new function and the only part that has differences with <code>read_disk_chs</code>.</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">void</span> *read_disk( <span class="dt">int</span> address )
+{
+    dev_write( BASE_PORT + <span class="dv">6</span>, ( <span class="bn">0x0e0</span> | ( ( address &amp; <span class="bn">0x0F000000</span> ) &gt;&gt; <span class="dv">24</span> ) ) );
+    dev_write( BASE_PORT + <span class="dv">2</span>, <span class="dv">1</span> );
+    dev_write( BASE_PORT + <span class="dv">3</span>, address &amp; <span class="bn">0x000000FF</span> );
+    dev_write( BASE_PORT + <span class="dv">4</span>, ( address &amp; <span class="bn">0x0000FF00</span> ) &gt;&gt; <span class="dv">8</span> );
+    dev_write( BASE_PORT + <span class="dv">5</span>, ( address &amp; <span class="bn">0x00FF0000</span> ) &gt;&gt; <span class="dv">16</span> );
+    dev_write( BASE_PORT + <span class="dv">7</span>, <span class="bn">0x20</span> ); </code></pre></div>
+<h4 id="writing-to-disk"><span class="header-section-number">6.2.1.3</span> Writing to Disk</h4>
+<p>In both <code>CHS</code> and <code>LBA</code>, write operation is called via ports exactly in the same way of reading, though, there are two differences. First, the command number to issue a write request is <code>0x30</code> which should be written to <code>base_port + 7</code> after setting the correct values to the ports. Second, after the drive becomes ready to write the required data, we should write a word after the other to <code>base_port</code> until we finish, this is performed by calling the routine <code>dev_write_word</code> which uses the instruction <code>out</code> to perform that job. Need no more discussion, the following two functions are <code>write_disk_chs</code> which uses <code>CHS</code> to write to the disk, and <code>write_disk</code> which uses <code>LBA</code> to write to the disk. Both of them receive a parameter called <code>buffer</code> which is a pointer to the data that we would like to write to the disk. You can see <code>wait_drive_until_ready</code> is called twice, the first one after setting the correct parameters and issuing write command, the second one after requesting to write the words of the buffer into the disk in order to make sure that the write function doesn't return before the disk finishes the write operation.</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">void</span> write_disk_chs( <span class="dt">int</span> sector, <span class="dt">short</span> *buffer )
+{
+    dev_write( BASE_PORT + <span class="dv">6</span>, <span class="bn">0x0a0</span> );
+    dev_write( BASE_PORT + <span class="dv">2</span>, <span class="dv">1</span> );
+    dev_write( BASE_PORT + <span class="dv">3</span>, sector );
+    dev_write( BASE_PORT + <span class="dv">4</span>, <span class="dv">0</span> );
+    dev_write( BASE_PORT + <span class="dv">5</span>, <span class="dv">0</span> );
+    dev_write( BASE_PORT + <span class="dv">7</span>, <span class="bn">0x30</span> );
+    
+    wait_drive_until_ready();
+    
+    <span class="cf">for</span> ( <span class="dt">int</span> currByte = <span class="dv">0</span>; currByte &lt; ( SECTOR_SIZE / <span class="dv">2</span> ); currByte++ )
+        dev_write_word( BASE_PORT, buffer[ currByte ] );
+    
+    wait_drive_until_ready();
+}
+
+<span class="dt">void</span> write_disk( <span class="dt">int</span> address, <span class="dt">short</span> *buffer )
+{
+    dev_write( BASE_PORT + <span class="dv">6</span>, ( <span class="bn">0x0e0</span> | ( ( address &amp; <span class="bn">0x0F000000</span> ) &gt;&gt; <span class="dv">24</span> ) ) );
+    dev_write( BASE_PORT + <span class="dv">2</span>, <span class="dv">1</span> );
+    dev_write( BASE_PORT + <span class="dv">3</span>, address &amp; <span class="bn">0x000000FF</span> );
+    dev_write( BASE_PORT + <span class="dv">4</span>, ( address &amp; <span class="bn">0x0000FF00</span> ) &gt;&gt; <span class="dv">8</span> );
+    dev_write( BASE_PORT + <span class="dv">5</span>, ( address &amp; <span class="bn">0x00FF0000</span> ) &gt;&gt; <span class="dv">16</span> );
+    dev_write( BASE_PORT + <span class="dv">7</span>, <span class="bn">0x30</span> );
+    
+    wait_drive_until_ready();
+    
+    <span class="cf">for</span> ( <span class="dt">int</span> currByte = <span class="dv">0</span>; currByte &lt; ( SECTOR_SIZE / <span class="dv">2</span> ); currByte++ )
+        dev_write_word( BASE_PORT, buffer[ currByte ] );
+        
+    wait_drive_until_ready();
+}</code></pre></div>
+<h2 id="filesystem"><span class="header-section-number">6.3</span> Filesystem</h2>
+<p>Until now, we have seen multiple examples of presenting a logical higher-level view of something that is low-level, another example of that is a filesystem. A filesystem is a higher-level view of a storage device, this higher-level view makes it easier for the human user (and also the code) to use storage devices. Take hard disks as an example and imagine that we use them based on their low-level view that we have discussed in this chapter, it will be really too hard for us humans to remember what is the logical block address of some data that we need to fetch right now, also, it will be really harder to remember which blocks of the hard disk are free and which of them are not in order to store new data. As an alternative, we can build a logical view based on this low-level method of hard disk's functionality to make it easier for the human user to use the hard disk and hide the low-level's complicated details of hard disks.</p>
+<p>Filesystems provide a well-known abstraction called <em>file</em> which is a sequence of bytes that has a name and is reachable by using this name. By providing this abstraction, it will be really easy for the human or even the applications to use the hard disk to store and retrieve data. Beside file abstraction, a filesystem may provide more features, for example, directories (or folders) are usually provided by filesystems in order to let the user to organize her files in a hierarchical way.</p>
+<p>To be able to implement the file abstraction we need a way to maintain the list of current files stored in the system and their locations in the disk, due to that, specific filesystems usually use some sort of data structures to maintain the information about the files in a given system, that is, the files' <em>metadata</em> <a href="#fn7" class="footnoteRef" id="fnref7"><sup>7</sup></a>. This data structure is stored in the disk for the future use and it is interpretable by the kernel that implements that filesystem, by loading this data structure from the disk and interpreting it correctly, you can reach the files and their organization as the user of the system created them.</p>
+<p>The meaning of the term filesystem may differ based on the context. The first meaning of this term which we meant above is a subsystem (component) of an operating system that works based on a specific design to manage the files and directories of a system's user. The other meaning that you may encounter more often in system administration context is the list of all files and directories that the users created in a specific system. In our next discussions I'm going to use the term <em>filesystem</em> to mean the first definition, while I'll use <em>run-time filesystem</em> to mean the second definition. Also, when the term <em>address</em> is used in the next discussions, it means a logical block address.</p>
+<p>As in programming languages, a filesystem may be divided into two parts: A design and an implementation. The design of a filesystem tells us how this filesystem stores the information about the run-time filesystem, how the metadata are organized, which data structure is used to fulfill the goal of the filesystem an so on <a href="#fn8" class="footnoteRef" id="fnref8"><sup>8</sup></a>. Of course, the design can be there, written on the papers as a brilliant theoretical piece of work but to realize this design, an implementation should be written that uses it <a href="#fn9" class="footnoteRef" id="fnref9"><sup>9</sup></a>. For example, a well-known filesystem is <em>FAT</em> (short for: file allocation table) which is an old filesystem that started on 1977 and still in use nowadays. Because its design is available, anyone can write an implementation of it and make her kernel able to read run-time filesystems that have been created by another operating system that uses FAT, Linux kernel is an example of the kernels that have a FAT implementation. As an example of filesystem, we are going to design and implement <em>539filesystem</em> in this section.</p>
+<h3 id="the-design-of-539filesystem"><span class="header-section-number">6.3.1</span> The Design of 539filesystem</h3>
+<p>To make the implementation of 539filesystem as simple as possible, many restrictions is presented in its design. First, there is only one directory in the run-time filesystem that uses 539filesystem which is the root directory, all the files that are created by the user are stored in this directory and there is no way to create new directories. Second, the maximum size of a file is <code>512</code> bytes and finally, when a file is created there is no way to modify it, its content is written when it's created and that's it! I know, you may think that these are too harsh restrictions, I agree, but these restrictions help in providing a too simple and elegant implementation of a real filesystem that can be extended easily to get rid of these restrictions.</p>
+<p>The data structure that will be used to maintain the metadata of the run-time filesystem is linked-list which is a simple data structure that is known for its slow search operation but fast insert operation, its simplicity is the reason of choosing it for 539filesystem, real modern filesystems use more complex data structures to make the performance of the filesystem better.</p>
+<div id="fig:539filesystem_overview" class="fignos">
+<div class="figure">
+<img src="Figures/filesystem-ch/539filesystem_overview.png" alt="Figure 1: An Overview of 539filesystem Design" style="width:75.0%" />
+<p class="caption"><span>Figure 1:</span> An Overview of 539filesystem Design</p>
+</div>
+</div>
+<p>In 539filesystem, the block that has the address <code>100</code> in the disk is known as the <em>base block</em>, from this block we can reach the whole run-time filesystem. The base block is divided into two parts, the size of each one of them is <code>4</code> bytes, the first part is the address of the metadata of the first file that has been created in the run-time filesystem, that is, the <em>head file</em> <a href="#fn10" class="footnoteRef" id="fnref10"><sup>10</sup></a> while the second part is the address of the metadata of the last file that has been created in the run-time filesystem, that is, the <em>tail file</em> <a href="#fn11" class="footnoteRef" id="fnref11"><sup>11</sup></a>.</p>
+<p>Each file has its own metadata that contains file's name and the <em>next field</em> which stores the metadata address of the next file that has been created. The length of the filename is <code>256</code> bytes and the size of &quot;next&quot; field is <code>4</code> bytes. When there is no next file, the value <code>0</code> is stored in the &quot;next&quot; field of the last file's metadata, that is, the tail file.</p>
+<p>It should be obvious now how can we reach all files in a run-time filesystem that uses 539filesystem, starting from the base block we get the metadata address of the head file and by using the &quot;next&quot; field from this metadata we can reach the metadata of the next file and the process continues until we reach the tail file.</p>
+<p>The metadata of each file is stored in the block right before the content of the file which will be stored in one block only given that the size of a block is <code>512</code> bytes <a href="#fn12" class="footnoteRef" id="fnref12"><sup>12</sup></a>. For example, if the metadata of file <code>A</code> is stored in the address <code>103</code>, then the content of this file is stored in the address <code>104</code>. By using this design, the basic functionalities of filesystems can be provided. Figure <a href="#fig:539filesystem_overview">1</a> shows an overview of 539filesystem design where four files stored in the system, <code>x</code>, <code>y</code>, <code>z</code> and <code>w</code>.</p>
+<h3 id="the-implementation-of-539filesystem"><span class="header-section-number">6.3.2</span> The Implementation of 539filesystem</h3>
+<p>Before getting started in implementing the proposed design in the previous section, let's define two new files: <code>str.h</code> and <code>str.c</code> which contain string related function that can be useful when we write our filesystem. Two functions will be implemented in <code>str.c</code> and they are <code>strcpy</code> which copies a string from a location to another, and <code>strcmp</code> which compares two strings, if they are equals then <code>1</code> is returned, otherwise <code>0</code> is returned. There is no need to explain the details of the code of these two functions since they depend on the normal way which C uses with strings. The following is the content of <code>str.h</code>.</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">void</span> strcpy( <span class="dt">char</span> *, <span class="dt">char</span> * );
+<span class="dt">int</span> strcmp( <span class="dt">char</span> *, <span class="dt">char</span> * );</code></pre></div>
+<p>The following is the content of <code>str.c</code>.</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="pp">#include </span><span class="im">&quot;str.h&quot;</span>
+
+<span class="dt">void</span> strcpy( <span class="dt">char</span> *dest, <span class="dt">char</span> *src )
+{
+    <span class="dt">int</span> idx = <span class="dv">0</span>;
+    
+    <span class="cf">while</span> ( *src != &#39;\<span class="dv">0</span>&#39; )
+    {
+        dest[ idx ] = *src;
+        
+        src++;
+        idx++;
+    }
+}
+
+<span class="dt">int</span> strcmp( <span class="dt">char</span> *str1, <span class="dt">char</span> *str2 )
+{
+    <span class="cf">while</span> ( *str1 != &#39;\<span class="dv">0</span>&#39; )
+    {
+        <span class="cf">if</span> ( *str1 != *str2 )
+            <span class="cf">return</span> <span class="dv">0</span>;
+        
+        str1++;
+        str2++;
+    }
+    
+    <span class="cf">if</span> ( *str2 != &#39;\<span class="dv">0</span>&#39; )
+        <span class="cf">return</span> <span class="dv">0</span>;
+    
+    <span class="cf">return</span> <span class="dv">1</span>;
+}</code></pre></div>
+<p>Now we can start implementing 539filesystem. The first step as usual is to create the files that hold the functions related to our filesystem: <code>filesystem.h</code> and <code>filesystem.c</code>. The following is the content of <code>filesystem.h</code>.</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="pp">#define BASE_BLOCK_ADDRESS 100</span>
+<span class="pp">#define FILENAME_LENGTH 256</span>
+
+<span class="kw">typedef</span> <span class="kw">struct</span>
+{
+    <span class="dt">int</span> head, tail;
+} base_block_t;
+
+<span class="kw">typedef</span> <span class="kw">struct</span>
+{
+    <span class="dt">char</span> filename[ FILENAME_LENGTH ];
+    <span class="dt">int</span> next_file_address;
+} metadata_t;
+
+base_block_t *base_block;
+
+<span class="dt">void</span> filesystem_init();
+<span class="dt">void</span> create_file( <span class="dt">char</span> *, <span class="dt">char</span> * );
+<span class="dt">char</span> **list_files();
+<span class="dt">char</span> *read_file( <span class="dt">char</span> * );
+
+<span class="co">// Auxiliary Functions</span>
+metadata_t *load_metadata( <span class="dt">int</span> );
+<span class="dt">int</span> get_address_by_filename( <span class="dt">char</span> * );
+<span class="dt">int</span> get_prev_file_address( <span class="dt">int</span> );
+<span class="dt">int</span> get_files_number();</code></pre></div>
+<p>First we define two macros, <code>BASE_BLOCK_ADDRESS</code> and <code>FILENAME_LENGTH</code>. The first one is the address of base block in the disk, as we have mentioned earlier, this address is <code>100</code>. The second one is the maximum length of a filename in 539filesystem, and we mentioned earlier that this length is <code>256</code>.</p>
+<p>Then we define two structures as types: <code>base_block_t</code> and <code>metadata_t</code>, based on our discussions on 539filesystem design, you may have noticed that <code>base_block_t</code> represents the base block, it has two fields, each one of them of size <code>4</code> bytes, the first one is <code>head</code> and the second one is <code>tail</code>. The type <code>metadata_t</code> represents the metadata of a file, it has two fields as we described before, the first one is the filename and the second one is the metadata address of the next file. These two structures are based on linked-list data structure, and we are going to use them to load the data that they represent from the disk, manipulate them while they are in the main memory, then write them back to the disk in order to make the run-time filesystem persistent.</p>
+<p>Then the global variable <code>base_block</code> is defined, which is the memory address that contains the base block after loading it from the disk, as we have said, this loaded copy is the one that we are going to update when the user performs a transactional operation on the run-time filesystem such as creating a new file for example.</p>
+<p>After including <code>filesystem.h</code> in <code>filesystem.c</code> the first function that we are going to implement is <code>filesystem_init</code> which is an initializer that will be called once the kernel starts. Its code is too simple, it is going to use the ATA device driver to read the base block from the disk to the main memory and stores the memory address of this loaded data in the global variable <code>base_block</code>.</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">void</span> filesystem_init()
+{
+    base_block = read_disk( BASE_BLOCK_ADDRESS );
+}</code></pre></div>
+<p>We need to include <code>filesystem.h</code> in <code>main.c</code> and call function <code>filesystem_init</code> by putting the line <code>filesystem_init();</code> in <code>kernel_main</code> of <code>main.c</code> after the line <code>scheduler_init();</code>. The rest of functions will be discussed in the following sub-sections.</p>
+<h4 id="creating-a-new-file"><span class="header-section-number">6.3.2.1</span> Creating a New File</h4>
+<p>Let's begin with the function <code>create_file</code>, we mentioned before that there is no write operation in 539filesystem, instead, the content of a new file is written in the same operation that creates a new file. Basically, <code>create_file</code> operation should decide the disk address that the new file and its metadata should be stored in, of course, in real-world situation, the filesystem should be sure that this disk address is free and doesn't contain a part of another file. After deciding the disk address of this new file, the metadata of the file should be stored in the block that this address points to, and in the next block the content of this file should be stored. The metadata of the new file can be initialized by using the type <code>metadata_t</code> and after that it can be stored into the disk by using ATA device driver.</p>
+<p>Beside writing the metadata and the content of the file on the disk, creating a new file in 539filesystem is equivalent to inserting a new item in a linked-list, so, the base block need to be modified to make sure that the new file is reachable later. To do that, the metadata address of the new file should replace the tail in the base block, that is, the metadata address that was the tail before creating the new file is not the tail anymore, it become a normal item in the list that was once the tail and it can be reached via the &quot;next&quot; field of the file before it. The &quot;next&quot; field of this previous tail should be updated to point to the newly created file, and the tail in base block should be updated in the base block to point to the newly created file. There are also more subtle cases in updating the base block that will be discussed while writing the code of <code>create_file</code>. Let's start with the first part of the function.</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">void</span> create_file( <span class="dt">char</span> *filename, <span class="dt">char</span> *buffer )
+{
+    <span class="dt">int</span> metadata_lba = ( base_block-&gt;head == <span class="dv">0</span> ) ? BASE_BLOCK_ADDRESS + <span class="dv">1</span> : base_block-&gt;tail + <span class="dv">2</span>;
+    <span class="dt">int</span> file_lba = metadata_lba + <span class="dv">1</span>;
+    
+    metadata_t *metadata = kalloc( <span class="kw">sizeof</span>( metadata_t ) );
+    
+    metadata-&gt;next_file_address = <span class="dv">0</span>;
+    
+    <span class="dt">int</span> currIdx;
+    
+    <span class="cf">for</span> ( currIdx = <span class="dv">0</span>; *filename != &#39;\<span class="dv">0</span>&#39; &amp;&amp; currIdx &lt; FILENAME_LENGTH - <span class="dv">1</span>; currIdx++, filename++ )
+        metadata-&gt;filename[ currIdx ] = *filename;
+    
+    metadata-&gt;filename[ currIdx ] = &#39;\<span class="dv">0</span>&#39;;
+    
+    write_disk( metadata_lba, metadata );
+    write_disk( file_lba, buffer );</code></pre></div>
+<p>When the value of the head in the base block is <code>0</code>, that means there is no files at all in the run-time filesystem. When <code>create_file</code> is called in this situation, that means this file that the caller is requesting to create is the first file in the run-time filesystem, the metadata of this first file can be simply stored in the block right after the base block. In <code>create_file</code> this fact is used to decide the disk address for the metadata of the new file, this address is stored in the local variable <code>metadata_lba</code> which its name is a short for &quot;metadata logical block address&quot;. Figure <a href="#fig:create_file_empty_case">2</a> shows the state of 539filesystem after creating the first file <code>A</code> in the run-time filesystem.</p>
+<div id="fig:create_file_empty_case" class="fignos">
+<div class="figure">
+<img src="Figures/filesystem-ch/create_file_empty_case.png" alt="Figure 2: The State 539filesystem After Creating the First File" style="width:65.0%" />
+<p class="caption"><span>Figure 2:</span> The State 539filesystem After Creating the First File</p>
+</div>
+</div>
+<p>In case that the run-time filesystem is not empty, that is, the value of <code>head</code> is not <code>0</code>, then the tail field of base block can be used to decide the metadata address of the new file. As we know, the tail field contains the metadata address of the last file that has been added to the run-time filesystem, and the content of that file is stored in the disk address <code>tail + 1</code>, which means <code>tail + 2</code> is a free block that can be used to store new data <a href="#fn13" class="footnoteRef" id="fnref13"><sup>13</sup></a>, so we choose this address for the new metadata in this case. After that, the disk address of the new content is decided by simply adding <code>1</code> to the disk address of the new metadata, the address of the content is stored in the local variable <code>file_lba</code>.</p>
+<p>After deciding the disk addresses of the new metadata and file content, we start in creating the metadata of the file to store them later on the disk. As you can see in the code, we allocate a space in the kernel's heap for the new metadata by depending on the type <code>metadata_t</code>, after this allocation, we can use the local variable <code>metadata</code> to fill the fields of the new file metadata. First, we set the value of the &quot;next&quot; field to <code>0</code>, because, as we mentioned earlier, this new file will be the tail file which means there is no file after it. Then, we copy the filename which is passed as a parameter <code>filename</code> to the filename field of the metadata, in case the passed filename's length is less than the maximum length, then the whole filename is copied, otherwise, only the maximum number of characters of the passed filename is copied and the rest are simply ignored. The final step that is related to the new file is to write the metadata and the file content in the right addresses on the disk, and this is done in the last two lines which use the ATA device driver. The following is the next and last part of <code>create_file</code> which updates the base block depending on the current state of the run-time filesystem.</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c">    <span class="cf">if</span> ( base_block-&gt;head == <span class="dv">0</span> )
+    {
+        update_base_block( metadata_lba, metadata_lba );
+    }
+    <span class="cf">else</span>
+    {   
+        metadata_t *tail_metadata = load_metadata( base_block-&gt;tail );
+        
+        tail_metadata-&gt;next_file_address = metadata_lba;
+        
+        write_disk( base_block-&gt;tail, tail_metadata );      
+        update_base_block( base_block-&gt;head, metadata_lba );
+    }
+} <span class="co">// End of &quot;create_file&quot;</span></code></pre></div>
+<p>When the run-time filesystem is empty, that is, the value of <code>head</code> in the base block is <code>0</code>, then the new file that we are creating will be both the head and the tail file. As you can see, in the block of <code>if</code> statement that checks whether <code>head</code> equals <code>0</code> or not, the not defined yet function <code>update_base_block</code> is used, this function updates the values of <code>head</code> and <code>tail</code> of the base block and write these changes on the permanent copy of the base block on the disk, the disk address of the new file's metadata is simply set as head and tail when <code>update_base_block</code> is called in this case.</p>
+<p>The second case is when the run-time filesystem isn't empty, that is, the value of <code>head</code> isn't <code>0</code>. In this case we need to update the disk address of the tail in the base block to consider the new file as the new tail, furthermore, the &quot;next&quot; field of the previous tail, which is not the tail anymore, should be updated to point to the metadata of the new file, you see in <code>else</code> block that this is exactly what is done.</p>
+<p>The function that isn't defined yet <code>load_metadata</code> is used to load the metadata of the previous tail by passing the its disk address a parameter. After that, the local variable <code>tail_metadata</code> will point to that loaded metadata of the tail, and depending on the type <code>metadata_t</code> we can reach the values of the previous tail fields easily. You can see that we simply changed the value of the &quot;next&quot; field to the metadata address of the new file, then we write this modification on the disk and of course on the same location, finally, the tail field is updated in the base block by calling <code>update_base_block</code> which its code is presented next. Figure <a href="#fig:create_file_not_empty_case">3</a> shows the steps needed to create a new file in 539filesystem as described and implemented in the function <code>create_file</code>.</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">void</span> update_base_block( <span class="dt">int</span> new_head, <span class="dt">int</span> new_tail )
+{
+    base_block-&gt;head = new_head;
+    base_block-&gt;tail = new_tail;
+    
+    write_disk( BASE_BLOCK_ADDRESS, base_block );
+}</code></pre></div>
+<p>It's too simple, it receives the value of head and tail that we would like to set on the base block, then, the copy of the base block which is stored in the main memory is updated, then, this updated version is overwritten on the base block address on the disk. The following is code of <code>load_metadata</code> which has been used in <code>create_file</code> function.</p>
+<div id="fig:create_file_not_empty_case" class="fignos">
+<div class="figure">
+<img src="Figures/filesystem-ch/create_file_not_empty_case.png" alt="Figure 3: Steps Needed to Create New File in 539filesystem When Run-time Filesystem isn&#39;t Empty" style="width:85.0%" />
+<p class="caption"><span>Figure 3:</span> Steps Needed to Create New File in 539filesystem When Run-time Filesystem isn't Empty</p>
+</div>
+</div>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c">metadata_t *load_metadata( <span class="dt">int</span> address )
+{
+    metadata_t *metadata = read_disk( address );
+    
+    <span class="cf">return</span> metadata;
+}</code></pre></div>
+<p>Simply, it receives a disk address and assumes that the block which is presented by this address is a metadata block. It loads this metadata to the main memory by loading the content of the address from the disk through the device driver function <code>read_disk</code>. The following is a sample of using <code>create_file</code> to create a new file in the run-time filesystem.</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">char</span> *data = kalloc( <span class="dv">512</span> );
+
+strcpy( data, <span class="st">&quot;The content of the first file on 539filesystem&quot;</span> );
+    
+create_file( <span class="st">&quot;first_file&quot;</span>, data );</code></pre></div>
+<h4 id="listing-all-files"><span class="header-section-number">6.3.2.2</span> Listing All Files</h4>
+<p>To list all files on 539filesystem, the normal traversal algorithm of linked-list can be used. In linked-list, to traverse all list's item you need to start with the head of the list, then to reach the second item of the list, the &quot;next&quot; field of the head can be used, and so on for the rest of items in the linked-list. The &quot;next&quot; field is the component which links the items of the list with each other. You keep traversing the items until the tail of the list is reached and you can check whether the current item is the tail or not by checking its &quot;next&quot; field, in case its value is <code>0</code> (or usually in higher-level implementations <code>NULL</code>) then you know that the current item is the tail which means the list is over. Another way to check if the current item is the tail is by comparing its address with the one which is stored in the tail field of the linked-list, in our case, the base block. The following is the code of the function <code>list_files</code> which uses the algorithm we just described, it returns an array of strings, each item of this array is a filename.</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">char</span> **list_files()
+{
+    <span class="co">// Part 1</span>
+    
+    <span class="cf">if</span> ( base_block-&gt;head == <span class="dv">0</span> )
+        <span class="cf">return</span> <span class="dv">-1</span>;
+    
+    <span class="co">// Part 2</span>
+    
+    <span class="dt">char</span> **list;
+    
+    list = kalloc( get_files_number() * <span class="kw">sizeof</span>( <span class="dt">char</span> * ) );
+    
+    <span class="co">// Part 3</span>
+    
+    metadata_t *curr_file = load_metadata( base_block-&gt;head );
+    
+    <span class="dt">int</span> idx = <span class="dv">0</span>;
+    
+    <span class="cf">while</span> ( <span class="dv">1</span> )
+    {
+        list[ idx ] = curr_file-&gt;filename;
+
+        <span class="cf">if</span> ( curr_file-&gt;next_file_address == <span class="dv">0</span> )
+            <span class="cf">break</span>;
+        
+        curr_file = load_metadata( curr_file-&gt;next_file_address );
+        
+        idx++;
+    }
+    
+    <span class="cf">return</span> list;
+}</code></pre></div>
+<p>The first part of <code>list_files</code> handles the case where the run-time filesystem is empty, so, it returns <code>-1</code> to indicate that there is no files to list. In case that the run-time filesystem isn't empty, the function in the second part allocates a space in kernel's heap for the list of the filenames, as you can see, we have used a function named <code>get_files_number</code> to decide how many bytes we are going to allocate for this list, based on its name, this function returns the number of files in the run-time filesystem, its code will be presented in a moment. In the third part, the function is ready to traverse the list of files metadata which are stored in the disk and are reachable starting from the disk address which is stored in the head field in the base block.</p>
+<p>Initially, the metadata of the head file is loaded into memory and can be accessed through the local variable <code>curr_file</code>, then, the loop is started. In the body of the loop, the filename of the current file metadata is appended to the result's variable <code>list</code>, in the first iteration of this loop the filename will be the one that belong to the head file. After appending the filename of the current file to <code>list</code>, the function checks if the current file is the tail file or not by checking the value of the &quot;next&quot; field <code>next_file_address</code>, if it is <code>0</code> then the current file is the tail, so, the loop should break and the result should be returned to the caller. In case that the current file isn't the tail file, then the metadata of the next file is loaded by using the disk address which is stored in the &quot;next&quot; field of the current file, the current value of <code>curr_file</code> is replaced with a memory address that points to the metadata of the next file which will be used in the next iteration of the loop, the same operation continues until the function reaches the tail which breaks the loop and returns the list to the caller. The following is the code of <code>get_files_number</code> that was used in <code>list_files</code> and, as mentioned earlier, returns the number of stored files.</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">int</span> get_files_number()
+{
+    <span class="cf">if</span> ( base_block-&gt;head == <span class="dv">0</span> )
+        <span class="cf">return</span> <span class="dv">0</span>;
+    
+    <span class="dt">int</span> files_number = <span class="dv">0</span>;
+    
+    <span class="co">// ... //</span>
+    
+    metadata_t *curr_file = load_metadata( base_block-&gt;head );
+    
+    <span class="cf">while</span> ( <span class="dv">1</span> )
+    {
+        files_number++;
+
+        <span class="cf">if</span> ( curr_file-&gt;next_file_address == <span class="dv">0</span> )
+            <span class="cf">break</span>;
+        
+        curr_file = load_metadata( curr_file-&gt;next_file_address );
+    }
+    
+    <span class="cf">return</span> files_number;
+}</code></pre></div>
+<p>As you can see, it works in a similar way as <code>list_files</code>, the main difference is that <code>get_files_number</code> keep tracking the number of iterations to fetch the number of files instead of copying the filename of the current file to another list. The following is a sample of using <code>list_files</code>.</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">void</span> print_fs()
+{
+    <span class="dt">char</span> **files = list_files();
+
+    <span class="cf">for</span> ( <span class="dt">int</span> currIdx = <span class="dv">0</span>; currIdx &lt; get_files_number(); currIdx++ )
+    {
+        print( <span class="st">&quot;File: &quot;</span> );
+        print( files[ currIdx ] );
+        println();
+    }
+    
+    print( <span class="st">&quot;==&quot;</span> );
+    println();
+}</code></pre></div>
+<h4 id="reading-a-file"><span class="header-section-number">6.3.2.3</span> Reading a File</h4>
+<p>The function <code>read_file</code> reads the content of a file which its name is passed as a parameter, then, the address of the buffer that stores that content of the file is returned to the caller. Because the file size in 539filesystem is always <code>512</code> bytes then <code>read_disk</code> of ATA device driver can be called just one time to load a file.</p>
+<p>To implement <code>read_file</code>, the main thing to do is to find the disk address of the file that the caller passed its name as a parameter, after knowing how to traverse the list of files in 539filesystem, we can easily use this algorithm to find the disk address of a file given its name. The following is the code of <code>read_file</code>.</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">char</span> *read_file( <span class="dt">char</span> *filename )
+{
+    <span class="dt">int</span> address = get_address_by_filename( filename );
+    
+    <span class="cf">if</span> ( address == <span class="dv">0</span> )
+        <span class="cf">return</span> <span class="dv">0</span>;
+
+    <span class="dt">char</span> *buffer = read_disk( address + <span class="dv">1</span> );
+    
+    <span class="cf">return</span> buffer;
+}</code></pre></div>
+<p>The task of finding the disk address of the file's metadata is performed by the function <code>get_address_by_filename</code> which we will define in a moment. When the metadata of the file is not found, <code>read_file</code> returns <code>0</code>, otherwise, the file will be read by calling <code>read_disk</code>, as you can see, the parameter that is passed to this function is <code>address + 1</code> since the value of <code>address</code> is the disk address of the file's metadata and not its content. Finally, the address of the buffer is returned to the caller. The following is the code of <code>get_address_by_filename</code>.</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">int</span> get_address_by_filename( <span class="dt">char</span> *filename )
+{
+    metadata_t *curr_file = load_metadata( base_block-&gt;head );
+    <span class="dt">int</span> curr_file_address = base_block-&gt;head;
+    
+    <span class="dt">int</span> idx = <span class="dv">0</span>;
+    
+    <span class="cf">while</span> ( <span class="dv">1</span> )
+    {
+        <span class="cf">if</span> ( strcmp( curr_file-&gt;filename, filename ) == <span class="dv">1</span> )
+            <span class="cf">return</span> curr_file_address;
+            
+        <span class="cf">if</span> ( curr_file-&gt;next_file_address == <span class="dv">0</span> )
+            <span class="cf">break</span>;
+        
+        curr_file_address = curr_file-&gt;next_file_address;
+        curr_file = load_metadata( curr_file-&gt;next_file_address );      
+    }
+    
+    <span class="cf">return</span> <span class="dv">0</span>;
+}</code></pre></div>
+<p>This function receives a filename as a parameter, then, it traverse the list of the files, with each iteration, the name of the current file is compared to the passed filename by using the function <code>strcmp</code> that we already defined, if the name of the current file doesn't match the passed filename, the function loads the metadata of the next file by using <code>load_metadata</code> and continues to the next iteration of the loop to check whether the next file is the required file or not, and so on, if the file isn't found, then the loop exits and <code>0</code> is returned. When a match is found, the disk address of the current file's metadata which is stored in the local variable <code>curr_file_address</code> is returned to the caller. The following is a sample of using <code>read_file</code>.</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c">print( read_file( <span class="st">&quot;first_file&quot;</span> ) );</code></pre></div>
+<h4 id="deleting-a-file"><span class="header-section-number">6.3.2.4</span> Deleting a File</h4>
+<p>As in creating a file, deleting a file may cause modifications on the base block or even on another file's metadata. Given a filename, the function <code>delete_file</code> deletes this file from the run-time filesystem, technically, the content of the file will not be overwritten with zeros for example, instead, only the reference to this file is removed from either the base block in case that file is the head, from another file's &quot;next&quot; field or both in case that is file is the tail.</p>
+<p>As mentioned earlier, this design decision of not overwriting the content of the file, that the user would like to delete, with zeros for example on the disk is taken in real-world filesystems to make the delete process faster and this decision made it possible for deleted files recovery software to exist, this type of software can recover deleted files since their contents are still on the disk but there is not reference to them in the run-time filesystem's data structure, however, the space of deleted files are considered as free space by the filesystem and it can be used anytime, that's why the recovery software cannot ensure you that it could recover all deleted files because the space which was occupied by the deleted file (or part of it) may be now used by another file. The following is the code of <code>delete_file</code>.</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">void</span> delete_file( <span class="dt">char</span> *filename )
+{   
+    <span class="co">// Part 1</span>
+    
+    <span class="dt">int</span> curr_file_address = get_address_by_filename( filename );
+    
+    <span class="cf">if</span> ( curr_file_address == <span class="dv">0</span> )
+        <span class="cf">return</span>;
+    
+    metadata_t *curr_file_metadata = read_disk( curr_file_address );
+    
+    <span class="co">// Part 2</span>
+    
+    <span class="cf">if</span> ( get_files_number() == <span class="dv">1</span> )
+    {
+        update_base_block( <span class="dv">0</span>, <span class="dv">0</span> );
+        
+        <span class="cf">return</span>;
+    }
+    
+    <span class="co">// Part 3</span>
+    <span class="cf">if</span> ( curr_file_address == base_block-&gt;head )
+    {
+        update_base_block( curr_file_metadata-&gt;next_file_address, base_block-&gt;tail );
+    }
+    <span class="co">// Part 4</span>
+    <span class="cf">else</span>
+    {
+        <span class="dt">int</span> prev_file_address = get_prev_file_address( curr_file_address );
+        
+        metadata_t *prev_file = load_metadata( prev_file_address );
+
+        prev_file-&gt;next_file_address = curr_file_metadata-&gt;next_file_address;
+        
+        write_disk( prev_file_address, prev_file );
+        
+        <span class="cf">if</span> ( curr_file_address == base_block-&gt;tail )
+            update_base_block( base_block-&gt;head, prev_file_address );
+    }
+}</code></pre></div>
+<p>The first part tries to find the metadata address of the file in question by using the function <code>get_address_by_filename</code>, in case the file is not found, the function does nothing and returns. Otherwise, the metadata of the file is loaded and the local variable <code>curr_file_metadata</code> is used to point to that metadata in the main memory.</p>
+<p>In the second part, the most basic case of deleting a file is handled, when there is only one file in the run-time filesystem, nothing need to be done but updating the base block to indicate that the disk address of both head and tail is <code>0</code> which means, as mentioned earlier, that the run-time filesystem is empty. The function <code>update_base_block</code> is used to update the base block. Figure <a href="#fig:delete_file_one_file_case">4</a> shows this case.</p>
+<div id="fig:delete_file_one_file_case" class="fignos">
+<div class="figure">
+<img src="Figures/filesystem-ch/delete_file_one_file_case.png" alt="Figure 4: The State 539filesystem After Removing the Only File" style="width:80.0%" />
+<p class="caption"><span>Figure 4:</span> The State 539filesystem After Removing the Only File</p>
+</div>
+</div>
+<p>The third part handles the case where the file to be deleted is the head file, in this case, to remove the reference of this file, we simply replace the current value of the <code>head</code> in base block with the metadata address of the file right next to the head which can be found in the &quot;next&quot; field of the current head, so, the second file will become the head file after finishing the delete process. Figure <a href="#fig:delete_file_head_case">5</a> shows this case.</p>
+<div id="fig:delete_file_head_case" class="fignos">
+<div class="figure">
+<img src="Figures/filesystem-ch/delete_file_head_case.png" alt="Figure 5: The Steps Needed to Delete the Head File in 539filesystem" style="width:100.0%" />
+<p class="caption"><span>Figure 5:</span> The Steps Needed to Delete the Head File in 539filesystem</p>
+</div>
+</div>
+<p>The fourth part of the function handles the case where the file to be deleted is not the head, in this case, the previous file's metadata needs to be found to modify its &quot;next&quot; field by replacing it with the value of the &quot;next&quot; field of the file that we would like to delete, in this way, we will be sure that the reference of the file to be deleted is removed from 539filesystem data structure, and that the previous file is linked with the next file. Figure <a href="#fig:delete_file_not_head_case">6</a> shows this case. Also, in this case, the file in question may be the tail, therefore, the tail on the base block should be replaced with the disk address of the previous file's metadata. Figure <a href="#fig:delete_file_not_head_but_tail_case">7</a> shows this case.</p>
+<div id="fig:delete_file_not_head_case" class="fignos">
+<div class="figure">
+<img src="Figures/filesystem-ch/delete_file_not_head_case.png" alt="Figure 6: The Steps Needed to Delete a File which is not the Head" style="width:100.0%" />
+<p class="caption"><span>Figure 6:</span> The Steps Needed to Delete a File which is not the Head</p>
+</div>
+</div>
+<div id="fig:delete_file_not_head_but_tail_case" class="fignos">
+<div class="figure">
+<img src="Figures/filesystem-ch/delete_file_not_head_but_tail_case.png" alt="Figure 7: The Steps Needed to Delete a File which is not the Head but it&#39;s a Tail in 539filesystem. The File to Delete Here is &quot;W&quot;." style="width:100.0%" />
+<p class="caption"><span>Figure 7:</span> The Steps Needed to Delete a File which is not the Head but it's a Tail in 539filesystem. The File to Delete Here is &quot;W&quot;.</p>
+</div>
+</div>
+<p>As you can see in the first code line of this fourth part, a function named <code>get_prev_file_address</code> is used to get the disk address of previous file's metadata to be able to perform the described operation. By using this address, the metadata is loaded by using <code>load_metadata</code> in order to modify the &quot;next&quot; field of the previous file, the updated metadata is written on the same address in the disk. Finally, the function checks if the file to be deleted is the tail file or not, if this is the case, the tail in base block is updated to point to the previous file which ensures that there is no any reference to that file in the filesystem's data structure. The following is the code of <code>get_prev_file_address</code> which needs no more explanation.</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">int</span> get_prev_file_address( <span class="dt">int</span> address )
+{
+    metadata_t *prev_file = load_metadata( base_block-&gt;head );
+    <span class="dt">int</span> prev_file_address = base_block-&gt;head;
+
+    <span class="cf">while</span> ( <span class="dv">1</span> )
+    {
+        <span class="cf">if</span> ( prev_file-&gt;next_file_address == address )
+            <span class="cf">return</span> prev_file_address;
+        
+        prev_file_address = prev_file-&gt;next_file_address;
+        prev_file = load_metadata( prev_file-&gt;next_file_address );
+    }
+        
+    <span class="cf">return</span> <span class="dv">-1</span>;
+}</code></pre></div>
+<h2 id="finishing-up-version-ne-and-testing-the-filesystem"><span class="header-section-number">6.4</span> Finishing up Version <code>NE</code> and Testing the Filesystem</h2>
+<p>And now version <code>NE</code> of 539kernel is ready. It contains a basic ATA device driver and 539filesystem. The following is its <code>Makefile</code> which adds the new files to the compilation list, also, this time we are going to use Bochs instead of QEMU to test 539filesystem since <code>kernel.img</code> which represents the hardisk is tailored for the former.</p>
+<div class="sourceCode"><pre class="sourceCode makefile"><code class="sourceCode makefile"><span class="dt">ASM </span><span class="ch">=</span><span class="st"> nasm</span>
+<span class="dt">CC </span><span class="ch">=</span><span class="st"> gcc</span>
+<span class="dt">BOOTSTRAP_FILE </span><span class="ch">=</span><span class="st"> bootstrap.asm </span>
+<span class="dt">SIMPLE_KERNEL </span><span class="ch">=</span><span class="st"> simple_kernel.asm</span>
+<span class="dt">INIT_KERNEL_FILES </span><span class="ch">=</span><span class="st"> starter.asm</span>
+<span class="dt">KERNEL_FILES </span><span class="ch">=</span><span class="st"> main.c</span>
+<span class="dt">KERNEL_FLAGS </span><span class="ch">=</span><span class="st"> -Wall -m32 -c -ffreestanding -fno-asynchronous-unwind-tables -fno-pie</span>
+<span class="dt">KERNEL_OBJECT </span><span class="ch">=</span><span class="st"> -o kernel.elf</span>
+
+<span class="dv">build:</span><span class="dt"> </span><span class="ch">$(</span><span class="dt">BOOTSTRAP_FILE</span><span class="ch">)</span><span class="dt"> </span><span class="ch">$(</span><span class="dt">KERNEL_FILE</span><span class="ch">)</span>
+    <span class="ch">$(</span><span class="dt">ASM</span><span class="ch">)</span> -f bin <span class="ch">$(</span><span class="dt">BOOTSTRAP_FILE</span><span class="ch">)</span> -o bootstrap.o
+    <span class="ch">$(</span><span class="dt">ASM</span><span class="ch">)</span> -f elf32 <span class="ch">$(</span><span class="dt">INIT_KERNEL_FILES</span><span class="ch">)</span> -o starter.o 
+    <span class="ch">$(</span><span class="dt">CC</span><span class="ch">)</span> <span class="ch">$(</span><span class="dt">KERNEL_FLAGS</span><span class="ch">)</span> <span class="ch">$(</span><span class="dt">KERNEL_FILES</span><span class="ch">)</span> <span class="ch">$(</span><span class="dt">KERNEL_OBJECT</span><span class="ch">)</span>
+    <span class="ch">$(</span><span class="dt">CC</span><span class="ch">)</span> <span class="ch">$(</span><span class="dt">KERNEL_FLAGS</span><span class="ch">)</span> screen.c -o screen.elf
+    <span class="ch">$(</span><span class="dt">CC</span><span class="ch">)</span> <span class="ch">$(</span><span class="dt">KERNEL_FLAGS</span><span class="ch">)</span> process.c -o process.elf
+    <span class="ch">$(</span><span class="dt">CC</span><span class="ch">)</span> <span class="ch">$(</span><span class="dt">KERNEL_FLAGS</span><span class="ch">)</span> scheduler.c -o scheduler.elf
+    <span class="ch">$(</span><span class="dt">CC</span><span class="ch">)</span> <span class="ch">$(</span><span class="dt">KERNEL_FLAGS</span><span class="ch">)</span> heap.c -o heap.elf
+    <span class="ch">$(</span><span class="dt">CC</span><span class="ch">)</span> <span class="ch">$(</span><span class="dt">KERNEL_FLAGS</span><span class="ch">)</span> paging.c -o paging.elf
+    <span class="ch">$(</span><span class="dt">CC</span><span class="ch">)</span> <span class="ch">$(</span><span class="dt">KERNEL_FLAGS</span><span class="ch">)</span> ata.c -o ata.elf
+    <span class="ch">$(</span><span class="dt">CC</span><span class="ch">)</span> <span class="ch">$(</span><span class="dt">KERNEL_FLAGS</span><span class="ch">)</span> str.c -o str.elf
+    <span class="ch">$(</span><span class="dt">CC</span><span class="ch">)</span> <span class="ch">$(</span><span class="dt">KERNEL_FLAGS</span><span class="ch">)</span> filesystem.c -o filesystem.elf
+    ld -melf_i386 -Tlinker.ld starter.o kernel.elf screen.elf process.elf scheduler.elf heap.elf paging.elf ata.elf str.elf filesystem.elf -o 539kernel.elf
+    objcopy -O binary 539kernel.elf 539kernel.bin
+    dd if=bootstrap.o of=kernel.img
+    dd seek=1 conv=sync if=539kernel.bin of=kernel.img bs=512 count=20
+    dd seek=21 conv=sync if=/dev/zero of=kernel.img bs=512 count=2046
+    bochs -f bochs</code></pre></div>
+<p>To run Bochs, it should be configured properly. As you can see from the presented <code>Makefile</code>, a file named <code>bochs</code> is passed to Bochs to use it as a configuration file, so, by using it we don't need to configure Bochs everytime we use it to run 539kernel. The following is the content of <code>bochs</code> file which should reside in the same directory of 539kernel's code.</p>
+<pre><code>plugin_ctrl: unmapped=1, biosdev=1, speaker=1, extfpuirq=1, parallel=1, serial=1, gameport=1, iodebug=1
+config_interface: textconfig
+display_library: x, options=&quot;gui_debug&quot;
+memory: host=32, guest=32
+romimage: file=&quot;/usr/share/bochs/BIOS-bochs-latest&quot;
+vgaromimage: file=&quot;/usr/share/bochs/VGABIOS-lgpl-latest&quot;
+boot: disk
+ata0: enabled=1, ioaddr1=0x1f0, ioaddr2=0x3f0, irq=14
+ata0-master: type=disk, mode=flat, translation=auto, path=&quot;kernel.img&quot;, cylinders=2, heads=16, spt=63, biosdetect=auto, model=&quot;Generic 1234&quot;
+pci: enabled=1, chipset=i440fx
+vga: extension=vbe, update_freq=5
+cpu: count=1, ips=4000000, model=bx_generic, reset_on_triple_fault=1, cpuid_limit_winnt=0, ignore_bad_msrs=1, mwait_is_nop=0
+cpuid: family=6, model=0x03, stepping=3, mmx=1, apic=xapic, sse=sse2, sse4a=0, sep=1, aes=0, xsave=0, xsaveopt=0, movbe=0, adx=0, smep=0, avx=0, avx_f16c=0, avx_fma=0, bmi=0, xop=0, tbm=0, fma4=0, vmx=1, x86_64=1, 1g_pages=0, pcid=0, fsgsbase=0, mwait=1
+cpuid: vendor_string=&quot;GenuineIntel&quot;
+cpuid: brand_string=&quot;              Intel(R) Pentium(R) 4 CPU        &quot;</code></pre>
+<p>As you can see, it tells Bochs the specifications of the virtual machine we would like to run, also, the file which represents the hard disk <code>kernel.img</code> is passed to Bochs here. The following code can be used to test 539filesystem. It should be inside <code>kernel_main</code> after the initializations and processes creations.</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c">    <span class="dt">char</span> *data = kalloc( <span class="dv">512</span> );
+    strcpy( data, <span class="st">&quot;The content of the first file on 539filesystem&quot;</span> );   
+    create_file( <span class="st">&quot;first_file&quot;</span>, data );
+    
+    <span class="co">// ... //</span>
+    
+    <span class="dt">char</span> *data2 = kalloc( <span class="dv">512</span> );
+    strcpy( data2, <span class="st">&quot;SECOND FILE in 539filesystem&quot;</span> );
+    create_file( <span class="st">&quot;second_file&quot;</span>, data2 );
+    
+    <span class="co">// ... //</span>
+    
+    <span class="dt">char</span> *data3 = kalloc( <span class="dv">512</span> );
+    strcpy( data3, <span class="st">&quot;THIRD FILE in 539filesystem&quot;</span> );
+    create_file( <span class="st">&quot;third_file&quot;</span>, data3 );
+        
+    <span class="co">// ... //</span>
+    
+    print( read_file( <span class="st">&quot;first_file&quot;</span> ) ); println();
+    print( read_file( <span class="st">&quot;second_file&quot;</span> ) ); println();
+    print( read_file( <span class="st">&quot;third_file&quot;</span> ) ); println();
+    
+    <span class="co">// ... //</span>
+    
+    print_fs();
+    delete_file( <span class="st">&quot;first_file&quot;</span> );
+    print_fs();</code></pre></div>
+<p>This code creates three files, prints their contents, prints the run-time filesystem tree through the function <code>print_fs</code> and finally deletes the file <code>first_file</code> then prints the run-time filesystem tree again to show that the file has been deleted successfully. The function <code>print_fs</code> already defined in this chapter. To make everything works file, you need to keep the definition of <code>print_fs</code> below <code>kernel_main</code> and put the prototype <code>void print_fs();</code> above <code>kernel_main</code>. Also, to test the filesystem you need to make sure that the interrupts are disabled, the easiest way to do that is modifying <code>starter.asm</code> by commenting the line <code>sti</code> which is before <code>call kernel_main</code> in the routine <code>start_kernel</code>. After that you should see the result of the above testing code after the kernel boots up.</p>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>Incompletely of course, to keep 539kernel as simple as possible, only the basic parts of resources management were presented.<a href="#fnref1">↩</a></p></li>
+<li id="fn2"><p>The word <em>language</em> here is a metaphor, it doesn't mean a programming language.<a href="#fnref2">↩</a></p></li>
+<li id="fn3"><p>Which are, as you know, parts of the registers <code>EAX</code> and <code>EDX</code> respectively.<a href="#fnref3">↩</a></p></li>
+<li id="fn4"><p>To my best knowledge its performance is better than the normal way of using <code>mov</code>.<a href="#fnref4">↩</a></p></li>
+<li id="fn5"><p>You may notice that I've omitted the epilogue of routines that creates a new stack frame, this decision has been made to make the matters simpler and shorter, you are absolutely free to use the calling convention and most probably using it is a better practice.<a href="#fnref5">↩</a></p></li>
+<li id="fn6"><p>The fact that we need to read a word here instead of a byte is the reason of using the register <code>AX</code> instead of <code>AL</code> as the first operand for <code>in</code> instruction in the function <code>dev_read</code>.<a href="#fnref6">↩</a></p></li>
+<li id="fn7"><p>The term metadata means data about data<a href="#fnref7">↩</a></p></li>
+<li id="fn8"><p>The design part of programming languages is the language specifications.<a href="#fnref8">↩</a></p></li>
+<li id="fn9"><p>The implementation part of programming languages is a compiler or interpreter.<a href="#fnref9">↩</a></p></li>
+<li id="fn10"><p>In linked-list data structure's term: the head<a href="#fnref10">↩</a></p></li>
+<li id="fn11"><p>In linked-list data structure's term: the tail<a href="#fnref11">↩</a></p></li>
+<li id="fn12"><p>In real-world situation, giving a whole block for a metadata of <code>260</code> bytes can be considered as a waste of space. One of real filesystems goals is to use as little space as possible to maintain the structure of the run-time filesystem.<a href="#fnref12">↩</a></p></li>
+<li id="fn13"><p>This is ensured since 539filesystem stores the files in order, so, there will be no files after the tail unless it is a deleted file which can be overwritten and causes no data lose.<a href="#fnref13">↩</a></p></li>
+</ol>
+</div>
+            </div>
+    </div>
+  </div>
+  
+  <script src="https://vjs.zencdn.net/5.4.4/video.js"></script>
+
+</body>
+</html>

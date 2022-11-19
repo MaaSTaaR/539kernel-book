@@ -1,0 +1,512 @@
+<!-- The Template is Based on: https://github.com/ryangrose/easy-pandoc-templates -->
+<!doctype html>
+<html >
+<head>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <!--[if lt IE 9]>
+                <script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
+        <![endif]-->
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+
+    <link href="https://fonts.googleapis.com/css?family=Domine|Montserrat" rel="stylesheet"> 
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+    <!-- <link rel="stylesheet" type="text/css" href="template.css" /> -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/diversen/pandoc-bootstrap-adaptive-template@959c3622/template.css" />
+
+    <link href="https://vjs.zencdn.net/5.4.4/video-js.css" rel="stylesheet" />
+
+    <script src="https://code.jquery.com/jquery-2.2.1.min.js"></script>
+    <!-- <script type='text/javascript' src='menu/js/jquery.cookie.js'></script> -->
+    <!-- <script type='text/javascript' src='menu/js/jquery.hoverIntent.minified.js'></script> -->
+    <!-- <script type='text/javascript' src='menu/js/jquery.dcjqaccordion.2.7.min.js'></script> -->
+    <!-- <link href="menu/css/skins/blue.css" rel="stylesheet" type="text/css" /> -->
+    <!-- <link href="menu/css/skins/graphite.css" rel="stylesheet" type="text/css" /> -->
+    <!-- <link href="menu/css/skins/grey.css" rel="stylesheet" type="text/css" /> -->
+    <!-- <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script> -->
+    <!-- <script src="script.js"></script> -->
+    <!-- <script src="jquery.sticky-kit.js "></script> -->
+    <script type='text/javascript' src='https://cdn.jsdelivr.net/gh/diversen/pandoc-bootstrap-adaptive-template@959c3622/menu/js/jquery.cookie.js'></script>
+    <script type='text/javascript' src='https://cdn.jsdelivr.net/gh/diversen/pandoc-bootstrap-adaptive-template@959c3622/menu/js/jquery.hoverIntent.minified.js'></script>
+    <script type='text/javascript' src='https://cdn.jsdelivr.net/gh/diversen/pandoc-bootstrap-adaptive-template@959c3622/menu/js/jquery.dcjqaccordion.2.7.min.js'></script>
+
+    <link href="https://cdn.jsdelivr.net/gh/diversen/pandoc-bootstrap-adaptive-template@959c3622/menu/css/skins/blue.css" rel="stylesheet" type="text/css" />
+    <!--
+    <link href="https://cdn.jsdelivr.net/gh/diversen/pandoc-bootstrap-adaptive-template@959c3622/menu/css/skins/graphite.css" rel="stylesheet" type="text/css" />
+    <link href="https://cdn.jsdelivr.net/gh/diversen/pandoc-bootstrap-adaptive-template@959c3622/menu/css/skins/grey.css" rel="stylesheet" type="text/css" />
+    -->
+    <link href="https://cdn.jsdelivr.net/gh/ryangrose/easy-pandoc-templates@948e28e5/css/elegant_bootstrap.css" rel="stylesheet" type="text/css" />
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+    <script src="https://cdn.jsdelivr.net/gh/diversen/pandoc-bootstrap-adaptive-template@959c3622/script.js"></script>
+  
+    <script src="https://cdn.jsdelivr.net/gh/diversen/pandoc-bootstrap-adaptive-template@959c3622/jquery.sticky-kit.js"></script>
+    <meta name="generator" content="pandoc" />
+  	<meta name="author" content="Mohammed Q. Hussain" />
+  <title>Chapter 4: Process Management</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">body { font-family: Domine, Georgia, Palatino, 'Palatino Linotype', Times, 'Times New Roman', serif} h1, h2, h3, h4, h5, h6 { font-family: Montserrat, sans }</style>
+  <style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+
+	/* [MQH] */
+	.toc a { color: #333 !important; }
+	h1 { margin-bottom: 5% }
+	body { font-size: 15pt; !important }
+  </style>
+</head>
+
+<body>
+
+    
+    <div class="navbar navbar-static-top navbar-expand-sm px-0 pt-0">
+    <div class="navbar-inner container-fluid">
+      <div class="container">
+        <span class="doc-title">A Journey in Creating an Operating System Kernel: The 539kernel Book</span>
+                <span class="doc-title"><small>Mohammed Q. Hussain</small></span>
+                <ul class="nav pull-right doc-info">
+          <li><p class="navbar-text"><a href="index.html" style="color: #777777; !important">Table of Content</a></li>
+                  </ul>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+      <div class="row">
+            <div class="col-12">
+
+      
+      <h1 id="ch-"process-management">Chapter <span class="header-section-number">4</span>. Process Management</h1>
+<h2 id="introduction"><span class="header-section-number">4.1</span> Introduction</h2>
+<p>In the previous chapters, we have discussed the topics that helped us to understand the basics that are needed to initialize the environment for a <code>32-bit</code> protected mode kernel running on x86. Starting from this chapter we are going to discuss the topics that belong to the kernel itself, that is, the responsibilities of the kernel. We will start with a quick look on the theories that are traditionally presented on academic textbooks, then we move to the practical part in order to implement these theories (or part of them) in 539kernel. A good place to start from is <em>process management</em>.</p>
+<p>A kernel has multiple responsibilities, one of these responsibilities is to manage the resources and make sure they are managed well. One important resource of the computers is the time of the processor (AKA: CPU time) which is the component that executes the code of software that we would like to run on our machines. Process management is the the part that studies how a kernel should manage and distribute CPU time among a bunch of <em>processes</em>.</p>
+<h2 id="the-most-basic-work-unit-a-process"><span class="header-section-number">4.2</span> The Most Basic Work Unit: A Process</h2>
+<p><em>Process</em> is the term which is used in operating systems literature to describe a running program. In the previous chapters of this book we have encountered the concept of the process multiple times and you may recall from these encounters that every user-space software that we use in our computers is a soulless sequence of bytes that are stored somewhere in the hard disk. When we decide to use a specific software, for example, the web browser, the first thing we do is to open it either through double clicking on its icon in graphical user interfaces or through writing its command in the shell. When we do that, the kernel is needed to be called through a <em>system call</em> and takes the responsibility of &quot;opening&quot; this software, we can consider system calls as functions which are provided by the kernel to expose its services for the user-space software, one way of implementing system calls is to use interrupts, exactly the same way that we have used with BIOS.</p>
+<p>However, there are multiple steps that are needed to be performed to open the software, for example, reading its data from disk, but our current focus is on process-related parts, eventually, the kernel creates a new process for the software that we requested to open. The kernel maintains a table of all system processes, each entry represents a process and contains the information which is needed by the kernel to manage the process, this data structure which stores a process information is known as <em>process control block</em> (PCB), so, the processes table will have a process control block as an entry for each process in the system.</p>
+<p>Of course, the most important part of the process is the code of the software that this process represents and its data, both data <a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a> and code should be loaded into memory, after that, its code can be executed by the processor. We need to note that a process is an instance of a software, in other words, one software can be opened more than one time with a separated process for each one, for example, opening multiple windows of the web browser on the same time, the software is one which is the web browser and it is represented by the binary file which is stored in the hard disk, but each opened window is a separated process and each process' content is stored in the main memory. While the described concept is well-known by the term &quot;process&quot;, specially in the literature, other terms can be used for the same concept, for example <em>task</em> and <em>job</em> are other words which are used to point to the same concept.</p>
+<p>Each process is known to have a <em>state</em>, when it is loaded to the memory its state will be indicated by the kernel as <em>ready</em> and can be run anytime, when the CPU time is given to a process its state will be <em>running</em>. Also, the state of the process can be <em>waiting</em>, an example of a situation where a process state is changed to waiting state is when it performs I/O request (e.g. read from the hard disk), its state will be <em>waiting</em> since it's waiting for the I/O device to fulfill the request. The state information about a process is stored in the process control block which is, as mentioned earlier, an entry in the processes table.</p>
+<p>Sometimes, a bunch of processes in a system need to communicate with each other to share some data or tell each other to perform a specific operation, this led to a broad topic known as <em>inter-process communication</em> (IPC) which provides mechanisms to make this type of communication possible. The applications of <code>IPC</code> is not restricted to operating system kernels, they are used in distributed computing for instance. One well known mechanism of <code>IPC</code> is <em>shared memory</em>, that is, a region of the memory is made accessible by more than one process, they can read and write to this region in order to share data. The ability to write to same place by more than one process can cause a problem known as <em>race condition</em>, given a shared variable, the situation which two or more processes try to change the value of this variable at the same moment is known as race condition. There are multiple solutions for this problem and this topic is studied in a branch known <em>concurrency control</em> which is a shared topic by many applications, one of them is database management systems (DBMS) which needs these mechanisms when two users try to update the same row at the same time.</p>
+<p>Processes are not the only entities that need to communicate, there is another unit of work which is known as <em>thread</em> and it can be described as lightweight process. A process can have more than one thread and when a software uses more than one thread to do its job, it is described as <em>multithreaded</em>. Threads are everywhere in our usage of computers, and a world without them is unimaginable. For example, when you use a text editor, the main thread of the software lets you write your text, but when you click on save icon a separated thread within the text editor's process is used to perform this operation. Furthermore, another thread can be used for the spell checker while you are typing. If all there functionalities were on one thread, you will need to wait each one of them to finish in order to let you to perform the other functionality, that is, the software without threads is going to run sequentially while threads provide us concurrency within one process. Threads and processes have many similarities, for example, both of them are there to be executed, hence, they need to use the processor and both of them need to be scheduled to give every one of them time from the processor. In contrast to processes, threads run as a part of same process and they share the same address space which makes the communication between them much easier since they can reach the same memory by default.</p>
+<h2 id="the-basics-of-multitasking"><span class="header-section-number">4.3</span> The Basics of Multitasking</h2>
+<p>When we write a kernel, multiple design questions should be answered <a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a> and the part of process management is not an exception of that. There are multiple well-known answers for some basic design questions, each one of those answers tries to solve a problem that faced the person who gave us this answer, for example, one of well-known features of the modern operating systems is <em>multitasking</em> which is the successor of <em>monotasking</em> and both of them can be considered as answers for a design question in operating systems. In multitasking environment, the system can run multiple processes at the same time even if there is only one processor available, while in monotasking environment, the system can run only one process at a time until this process finishes its work or the user closes it, only after that, another process can be run.</p>
+<h3 id="mutliprogramming-time-sharing"><span class="header-section-number">4.3.1</span> Mutliprogramming &amp; Time-Sharing</h3>
+<p>In the days of monotasking, we were facing a serious problem that led to the birth of multitasking. It has been noticed that the processes tend to have idle time, for example, when the process is waiting for the hard disk to fetch some stored data, the process will be idle while it is taking over the processor, that is, the processor is under the process' control which is currently doesn't use the CPU time for something useful, that means, in this case, we are wasting the valuable resource of CPU time in waiting for some action to finish, we need to utilize the processor as much as possible, and here came the solution of this problem by letting the kernel to have a list of processes that are <em>ready</em> to run.</p>
+<p>Assuming the machine has just one processor with one core, the CPU time will be given to, say process <code>A</code>, for some time and at some point of running time the process <code>A</code> requests from the disk some data and due to that it becomes idle waiting for disk to respond. Instead of keep the control of the processor under the process <code>A</code>, which is doing nothing but waiting right now, the kernel suspends process <code>A</code> and gives the CPU time to another ready process, say process <code>B</code>, this switching between two processes is known as <em>context switch</em>. The process <code>B</code> is going to use the processor while process <code>A</code> is waiting for the disk to respond. At some point, process <code>B</code> will perform some action that makes it idle which means that the kernel can switch to another ready process and so on. This solution is known as <em>multiprogramming</em>. To sum it up, we have a list of ready processes, choose one, give it the CPU time and wait for it until it becomes idle, since it's waiting for something switch to another process which is not idle an so on.</p>
+<p>Better yet, multiprogramming has been extended to utilize the processor more efficiently. Instead of waiting for the currently running process to perform something which makes it idle, why don't we suspend it after some period of running time whether it is idle or not and switch to another process? This solution is known as <em>time sharing</em> which is with multiprogramming represent the scheme that modern operating systems use for multitasking. In time sharing, a list of ready processes is available for the kernel, in each unit of time, say for example, every <code>1</code> second (in practice, it is shorter) the currently running process is suspended by the kernel and another process is given the CPU time and so on.</p>
+<h3 id="process-scheduling"><span class="header-section-number">4.3.2</span> Process Scheduling</h3>
+<p>You may recall from the previous chapter  the system timer which emits an interrupt every unit of time, this interrupt can be used to implement time sharing in order to switch between the processes of the system, of course the kernel needs an algorithm to choose which process to run next, this kind of algorithms are known as <em>scheduling algorithms</em> and in general this part of the topic is known as <em>scheduling</em> in which we try to find the best way of choosing the next process to run in order to satisfy our requirements.</p>
+<p>The <em>scheduler</em> is the part of the kernel that schedules the next process by using some specific scheduling algorithm, that is, it decides the next process to run based and performs the context switching. There are many scheduling algorithms to deal with different requirements and one of them is known as <em>round-robin</em>. In this algorithm, each process is given a fixed amount of CPU time known as <em>quantum</em>, when the running process finishes its quantum the scheduler will be called and the CPU time will be given to the next process in the list until its quantum finishes and so on until the schedule reaches to the end of the process list where it starts with the first process again. The value of the quantum is decided by the kernelist, for example <code>50</code> milliseconds, which means each process will run <code>50</code> milliseconds then suspended to run the next one on the list and so on.</p>
+<h3 id="process-context"><span class="header-section-number">4.3.3</span> Process Context</h3>
+<p>As you know, when a process is executing, it can use the registers of the processor (e.g. <code>EAX</code>) to store its own data. Also, it may change the values of segment registers in case it is running under a system that employs segmented-memory instead of flat memory model. Furthermore, the value of the instruction pointer <code>EIP</code> will contain an address which belong to the process' address space. All these values that are related to a process and stored inside the registers of the processor are known as <em>process context</em>, another term which is <em>process state</em> may also be used in some places to mean the same thing, but to not confuse this concept with the one that we have defined the term &quot;state&quot; with previously, it is better to use the term process context.</p>
+<p>When a scheduler decides to change the currently running process, let's call it <code>A</code>, through a context switch, a copy of the context of the process <code>A</code> should be taken and stored somewhere, that is, a snapshot of the last context of <code>A</code> is taken before switching to another process. By taking this snapshot, it will be easy later to resume process <code>A</code> by just loading its context to the processor's register and jump to the the value of <code>EIP</code> which has been just loaded.</p>
+<h3 id="preemptive-cooperative-multitasking"><span class="header-section-number">4.3.4</span> Preemptive &amp; Cooperative Multitasking</h3>
+<p>Both multiprogramming and time-sharing solutions give us a type of multitasking known as <em>preemptive multitasking</em>, the processes are forced by the kernel to give the CPU time to another process and no process can take over the processor for the whole time. Another type of multitasking is known as <em>cooperative multitasking</em> (or <em>non-preemptive multitasking</em>), in this type the context switching is not perform forcibly, instead, the currently running process should cooperate and voluntarily tells the kernel when it should be suspended and a context switch should be performed. One of the obvious problems of this way, at least for the well-known workloads (e.g. servers or desktops), that a process, which runs a code that has been written by someone we don't know, cannot be trusted. It simply may take over the CPU time and never cooperate and give it up due to an error in the code or even in purpose <a href="#fn3" class="footnoteRef" id="fnref3"><sup>3</sup></a>.</p>
+<h2 id="multitasking-in-x86"><span class="header-section-number">4.4</span> Multitasking in x86</h2>
+<p>With the assistance of system timer, multitasking can be realized fully by the kernel, that is, by the code. This type is known as <em>software multitasking</em>, the kernel itself is responsible for storing the list of processes and their related information, also, it's responsible for storing a snapshot of process context before performing context switching and resuming this snapshot when the process is resumed. On the other hand, In x86 some features are provided to handle these things with the assistance of the processor itself, this type is known as <em>hardware multitasking</em>.</p>
+<p>While hardware multitasking is available in x86, the modern operating system kernels don't use it, instead, multitasking is implemented by the kernel itself. One reason to take this decision is portability. Modern kernels tend to run on more than one architecture and not only x86, by using as little as possible of architecture's features it will be easier to port a kernel to other architectures.</p>
+<p>In this section, we are going to cover the basics of hardware multitasking in x86 which are needed to initialize the environment to make it work correctly, in the same way as <code>GDT</code> with flat memory model. Furthermore, I think knowing the other available options is important, especially for kernelists. In 539kernel we are going to to implement software multitasking as in modern kernels.</p>
+<h3 id="task-state-segments"><span class="header-section-number">4.4.1</span> Task-State Segments</h3>
+<p>The most basic component of hardware multitasking in x86 is known as <em>task-state segment</em> (TSS) <a href="#fn4" class="footnoteRef" id="fnref4"><sup>4</sup></a> which is a segment in the memory as any other code or data segment, it has what other segments have, a base address, a limit and properties. The difference from code and data segments is that <code>TSS</code> is a system segment <a href="#fn5" class="footnoteRef" id="fnref5"><sup>5</sup></a>, this segment stores the context of a specific process.</p>
+<p>In hardware multitasking, each process should has its own <code>TSS</code>, and each <code>TSS</code> should has an entry in the <code>GDT</code> table, that is, <em>TSS descriptor</em>. A special register known as <em>task register</em> should contain the segment selector of the currently running process's <code>TSS</code> descriptor, the instruction <code>ltr</code> is used to store a value in this register.</p>
+<div id="fig:tss" class="fignos">
+<div class="figure">
+<img src="Figures/process-ch/tss.png" alt="Figure 1: Figure 1: The Structure of Task-State Segment" style="width:45.0%" />
+<p class="caption"><span>Figure 1:</span> Figure 1: The Structure of Task-State Segment</p>
+</div>
+</div>
+<p>Figure <a href="#fig:tss">1</a> shows the structure of a task-state segment, as you can see, most of the fields are values of registers while the others are out of our topic's range except for previous task link which will be covered in a moment. You can see that stack segment register and stack pointer register have four entries instead of one, <code>SS</code>, <code>SS0</code>, <code>SS1</code> and <code>SS2</code> for stack segment register. <code>ESP</code>, <code>ESP0</code>, <code>ESP1</code> and <code>ESP2</code> for stack pointer register. These fields point to the stack that should be used when the process is in a specific privilege level, for example, <code>SS0:ESP0</code> will be used as the stack of the process when it switches to privilege level <code>0</code>, when it switches back to privilege level <code>3</code> the stack <code>SS:ESP</code> will be used instead, and the same is applicable to the other similar fields. If we intend to implement software multitasking, the sole reason of defining at least one <code>TSS</code> is due to these fields, when a switch between privilege levels occurs, the processor needs a <code>TSS</code> to use these fields from it in order to switch between stacks. This is needed only when the system runs user-space code, that is, privilege level <code>3</code> code.</p>
+<p>The structure of <code>TSS</code> descriptor in <code>GDT</code> table is same as the segment descriptor that we have already explained in chapter . The only difference is in the <em>type field</em> which has the static binary value <code>010B1</code> in <code>TSS</code> descriptor where <code>B</code> in this value is known as <code>B</code> flag, or <em>busy flag</em> which should be <code>1</code> when the process that this TSS descriptor represents is active and <code>0</code> when it is inactive.</p>
+<h3 id="context-switching-in-x86"><span class="header-section-number">4.4.2</span> Context Switching in x86</h3>
+<p>One way of switching from a process to another <a href="#fn6" class="footnoteRef" id="fnref6"><sup>6</sup></a> in x86 hardware multitasking is to call or jump to TSS descriptor in <code>GDT</code>, assume that the system timer caused the call of the scheduler which selects process <code>A</code> as the next process to run, the scheduler can cause context switch by using the instructions <code>call</code> or <code>jmp</code> and the operand should be the segment selector of <code>A</code>'s TSS descriptor. In this way, the processor is going to take a copy of currently running process (call it <code>B</code>) and store it in <code>B</code>'s own <code>TSS</code>, then the values in <code>A</code>'s TSS will be loaded into the processor registers and then execution of <code>A</code> begins.</p>
+<p>Another way of context switching in x86 hardware multitasking is to call or jump to a task gate. In chapter , when we discussed the descriptors of <code>IDT</code>, we have said that one type of descriptor that can be defined is a task gate descriptor. This kind of descriptors is considered as a separated process by the processor, when we jump or call a task gate, the previously explained mechanism of task switching will be performed. Task gates can also be defined in <code>GDT</code> and <code>LDT</code>. In the <code>IDT</code> table of 539kernel we have chosen to not define the interrupts as task gates, we don't want to perform a context switch with each interrupt.</p>
+<p>When a process is called instead of jumped to, eventually, it should return to the caller process by using the instruction <code>iret</code>, for the processor, to be able to decide which task is the caller, the previous task link field of the callee's <code>TSS</code> will be updated to contain the segment selector of the caller process. In this way, when <code>iret</code> instruction is executed, it will be easy to know to which process the processor should switch back to.</p>
+<h2 id="process-management-in-539kernel"><span class="header-section-number">4.5</span> Process Management in 539kernel</h2>
+<p>The final result of this section is what I call version <code>T</code> of 539kernel which has a basic multitasking capability. The multitasking style that we are going to implement is time-sharing multitasking. Also, instead of depending on x86 features to implement multitasking in 539kernel, a software multitasking will be implemented. The final <code>Makefile</code> of version <code>T</code> is provided in the last subsection, however, if you wish to build and run the kernel incrementally after each change on the progenitor you can refer to that <code>Makefile</code> and add only the needed instructions to build the not ready yet version <code>T</code> that you are building. For example, as you will see in a moment new files <code>screen.c</code> and <code>screen.h</code> will be added in version <code>T</code> as a first increment, to run the kernel after adding them you need to add the command to compile this new file and link it with the previous files, you can find these commands in the last version of <code>Makefile</code> as we have said before.</p>
+<p>Our first step of this implementation is to setup a valid task-state segment, while 539kernel implements a software multitasking, a valid TSS is needed. As we have said earlier, it will not be needed in our current stage but we will set it up anyway. Its need will show up when the kernel lets user-space software to run. After that, basic data structures for process table and process control block are implemented. These data structures and their usage will be as simple as possible since we don't have any mean for dynamic memory allocation, yet! After that, the scheduler can be implemented and system timer's interrupt can be used to enforce preemptive multitasking by calling the scheduler every period of time. The scheduler uses round-robin algorithm to choose the next process that will use the CPU time, and the context switching is performed after that. Finally, we are going to create a number of processes to make sure that everything works fine.</p>
+<p>Before getting started in the plan that has been just described, we need to organize our code a little bit since it's going to be larger starting from this point. New two files should be created, <code>screen.c</code> and its header file <code>screen.h</code>. We move the printing functions that we have defined in the progenitor and their related global variables to <code>screen.c</code> and their prototypes should be in <code>screen.h</code>, so, we can <code>include</code> the latter in other C files when we need to use the printing functions. The following is the content of <code>screen.h</code>.</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">volatile</span> <span class="dt">unsigned</span> <span class="dt">char</span> *video;
+
+<span class="dt">int</span> nextTextPos;
+<span class="dt">int</span> currLine;
+
+<span class="dt">void</span> screen_init();
+<span class="dt">void</span> print( <span class="dt">char</span> * );
+<span class="dt">void</span> println();
+<span class="dt">void</span> printi( <span class="dt">int</span> );</code></pre></div>
+<p>As you can see, a new function <code>screen_init</code> has been introduced while the others are same as the ones that we already wrote. The function <code>screen_init</code> will be called by the kernel once it starts running, the function initializes the values of the global variables <code>video</code>, <code>nextTextPos</code> and <code>currLine</code>. Its code is the following and it should be in <code>screen.c</code>, of course in the beginning of this file, <code>screen.h</code> should be included by using the line <code>#include &quot;screen.h&quot;</code>.</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">void</span> screen_init()
+{
+    video = <span class="bn">0xB8000</span>;
+    nextTextPos = <span class="dv">0</span>;
+    currLine = <span class="dv">0</span>;
+}</code></pre></div>
+<p>Nothing new in here, just some organizing. Now, the prototypes and implementations of the functions <code>print</code>, <code>println</code> and <code>printi</code> should be removed from <code>main.c</code>. Furthermore, the global variables <code>video</code>, <code>nextTextPos</code> and <code>currLine</code> should also be removed from <code>main.c</code>. Now, the file <code>screen.h</code> should be included in <code>main.c</code> and in the beginning of the function <code>kernel_main</code> the function <code>screen_init</code> should be called.</p>
+<h3 id="initializing-the-task-state-segment"><span class="header-section-number">4.5.1</span> Initializing the Task-State Segment</h3>
+<p>Setting TSS up is too simple. First we know that the TSS itself is a region in the memory (since it is a segment), so, let's allocate this region of memory. The following should be added at end of <code>starter.asm</code>, even after including the files <code>gdt.asm</code> and <code>idt.asm</code>. In the following a label named <code>tss</code> is defined, and inside this region of memory, which its address is represented by the label <code>tss</code>, we put a doubleword of <code>0</code>, recall that a word is <code>2</code> bytes while a double-word is <code>4</code> bytes. So, our <code>TSS</code> contains nothing but a bunch of zeros.</p>
+<div class="sourceCode"><pre class="sourceCode asm"><code class="sourceCode fasm"><span class="fu">tss:</span>
+    <span class="dt">dd</span> <span class="dv">0</span></code></pre></div>
+<p>As you may recall, each <code>TSS</code> needs an entry in the <code>GDT</code> table, after defining this entry, the TSS's segment selector can be loaded into the task register. Then the processor is going to think that there is one process (one <code>TSS</code> entry in <code>GDT</code>) in the environment and it is the current process (The segment selector of this <code>TSS</code> is loaded into task register). Now, let's define the TSS entry in our <code>GDT</code> table. In the file <code>gdt.asm</code> we add the following entry at the end of the label <code>gdt</code>. You should not forget to modify the size of <code>GDT</code> under the label <code>gdt_size_in_bytes</code> under <code>gdtr</code> since the sixth entry has been added to the table.</p>
+<div class="sourceCode"><pre class="sourceCode asm"><code class="sourceCode fasm"><span class="fu">tss_descriptor:</span> <span class="dt">dw</span> tss + <span class="dv">3</span>, tss<span class="bn">, 0x8900, 0x0000</span></code></pre></div>
+<p>Now, let's get back to <code>starter.asm</code> in order to load TSS' segment selector into the task register. In <code>start</code> routine and below the line <code>call setup_interrupts</code> we add the line <code>call load_task_register</code> which calls a new routine named <code>load_task_register</code> that loads the task register with the proper value. The following is the code of this routine that can be defined before the line <code>bits 32</code> in <code>starter.asm</code>.</p>
+<div class="sourceCode"><pre class="sourceCode asm"><code class="sourceCode fasm"><span class="fu">load_task_register:</span>
+    <span class="bu">mov</span> <span class="kw">ax</span>, 40d
+    <span class="bu">ltr</span> <span class="kw">ax</span>
+    
+    <span class="bu">ret</span></code></pre></div>
+<p>As you can see, it's too simple. The index of TSS descriptor in <code>GDT</code> is <code>40 = (entry 6 * 8 bytes) - 8 (since indexing starts from 0)</code>. So, the value <code>40</code> is moved to the register <code>AX</code> which will be used by the instruction <code>ltr</code> to load the value <code>40</code> into the task register.</p>
+<h3 id="the-data-structures-of-processes"><span class="header-section-number">4.5.2</span> The Data Structures of Processes</h3>
+<p>When we develop a user-space software and we don't know the size of the data that this software is going to store while it's running, we usually use dynamic memory allocation, that is, regions of memory are allocated at run-time in case we need to store more data that we didn't know that it will be needed to be stored. We have encountered the run-time stack previously, and you may recall that this region of memory is dedicated for local variables, parameters and some information that make function invocation possible.</p>
+<p>The other region of a process is known as run-time heap, which is dedicated for the data that we decided to store in memory while the software is running. In C, for instance, the function <code>malloc</code> is used to allocate bytes from the run-time heap and maintains information about free and used space of the heap so in the next use of this function the allocation algorithm can decide which region should be allocated based on the required bytes to allocate.</p>
+<p>This part that allocates memory dynamically (inside run-time heap) and manages the related stuff is known as <em>memory allocator</em> and one of well-known allocators is Doug Lea's memory allocator. For programming languages that run the program by using a virtual machine, like Java and C#, or by using interpreters like PHP and Python, they usually provide their users an automatic dynamic memory allocation instead of the manual memory allocation which is used by languages such as C, that is, the programmer of these languages don't need to explicitly call a function (such as <code>malloc</code>) to allocate memory in the heap at run-time, instead, the virtual machine or the interpreter allocates dynamic memory by itself and frees the region of the heap that are not used anymore through a mechanism known as <em>garbage collection</em>.</p>
+<p>For those who don't know, in static memory allocation, the size of data and where will it be stored in the memory are known in compiling time, global variables and local variables are examples of objects that we use static memory allocation for them. In dynamic memory allocation, we cannot decide in compiling time the size of the data or whether it will be stored in the first place, these important information will only be known while the software is running, that is, in run-time. Due to that, we need to use dynamic memory allocation for them since this type of allocation doesn't require these information in the compiling time.</p>
+<p>Processes table is an example of data structures (objects) that we can't know its size in compile-time and this information can be only decided while the kernel is running. Take your current operating system as an example, you can run any number of processes (to some limit of course) and all of them will have an entry in the processes table <a href="#fn7" class="footnoteRef" id="fnref7"><sup>7</sup></a>, maybe your system is running just two processes right now but you can run more and more without the need of recompiling the kernel in order to increase the size of processes table.</p>
+<p>That's possible due to using dynamic memory allocation when a new process is created during run-time and that's by dynamically allocating a space in the run-time heap through the memory allocator for this the entry of this new process. When this process finishes its job (e.g. the user closes the application), the memory region that is used to store its entry in processes table is marked as free space so it can be used to store something else in the future, for example, the entry of another process.</p>
+<p>In our current situation, we don't have any means of dynamic memory allocation in 539kernel, this topic will be covered when we start discussing memory management. Due to that, our current implementations of processes table and process control block are going to use static memory allocation through global variables. That of course, restricts us from creating a new process on-the-fly, that is, at run-time. But our current goal is to implement a basic multitasking that will be extended later. To start our implementation, we need to create new two files, <code>process.c</code> and its header file <code>process.h</code>. Any function or data structure that is related to processes should belong to these file.</p>
+<h4 id="process-control-block"><span class="header-section-number">4.5.2.1</span> Process Control Block</h4>
+<p>A process control block (PCB) is an entry in the processes table, it stores the information that are related to a specific process, the state and context of the process are examples of these information. In 539kernel, there are two possible states for a process, either a process is <em>running</em> or <em>ready</em>. When a context switch is needed to be performed, the context of the currently running process, which will be suspended, should be stored on its own PCB. Based on our previous discussions, the context of the process in 539kernel consists the values which were stored in the processor's registers before suspending the process.</p>
+<p>Each process in 539kernel, as in most modern kernels, has a unique identifier known as <em>process id</em> or PID for short, this identifier is also stored in the PCB of the process. Now, let's define the general structure of PCB and its components in 539kernel. These definitions should reside in <code>process.h</code>.</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="kw">typedef</span> <span class="kw">enum</span> process_state { READY, RUNNING } process_state_t;
+
+<span class="kw">typedef</span> <span class="kw">struct</span> process_context
+{
+    <span class="dt">int</span> eax, ecx, edx, ebx, esp, ebp, esi, edi, eip;
+} process_context_t;
+
+<span class="kw">typedef</span> <span class="kw">struct</span> process
+{
+    <span class="dt">int</span> pid;
+    process_context_t context;
+    process_state_t state;
+    <span class="dt">int</span> *base_address;
+} process_t;</code></pre></div>
+<p>As you can see, we start by a type known as <code>process_state_t</code>, any variable that has this type may have two possible values, <code>READY</code> or <code>RUNNING</code>, they are the two possible states of a process and this type will be used for the state field in PCB definition.</p>
+<p>Next, the type <code>process_context_t</code> is defined. It represents the context of a process in 539kernel and you can see it is a C structure that intended to store a snapshot of x86 registers that can be used by a process.</p>
+<p>Finally, the type <code>process_t</code> is defined which represents a process control block, that is, an entry in the processes table. A variable of type <code>process_t</code> represents one process in 539kernel environment. Each process has a <code>pid</code> which is its unique identifier. A <code>context</code> which is the snapshot of the environment before suspending the process. A <code>state</code> which indicates whether a process is <code>READY</code> to run or currently <code>RUNNING</code>. And finally, a <code>base_address</code> which is the memory address of the process' code starting point (think of <code>main()</code> in C), that is, when the kernel intend to run a process for the first time, it should jump to the <code>base_address</code>, in other words, set <code>EIP</code> to <code>base_address</code>.</p>
+<h4 id="processes-table"><span class="header-section-number">4.5.2.2</span> Processes Table</h4>
+<p>In the current case, as we mentioned earlier, we are going to depend on static memory allocation since we don't have any way to employ dynamic memory allocation. Due to that, our processes table will be too simple, it is an array of type <code>process_t</code>. Usually, more advanced data structure is used for the processes list based on the requirements which are decided by the kernelist, <em>linked list data structure</em> is a well-known choice. The following definition should reside in <code>process.h</code>. Currently, the maximum size of 539kernel processes table is <code>15</code> processes, feel free to increase it but don't forget, it will, still, be a static size.</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c">process_t *processes[ <span class="dv">15</span> ];</code></pre></div>
+<h3 id="process-creation"><span class="header-section-number">4.5.3</span> Process Creation</h3>
+<p>Now, we are ready to write the function that creates a new process in 539kernel. Before getting started in implementing the required functions, we need to define their prototypes and some auxiliary global variables in <code>process.h</code>.</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">int</span> processes_count, curr_pid;
+
+<span class="dt">void</span> process_init();
+<span class="dt">void</span> process_create( <span class="dt">int</span> *, process_t * );</code></pre></div>
+<p>The first global variable <code>processes_count</code> represents the current number of processes in the environment, this value will become handy when we write the code of the scheduler which uses round-robin algorithm, simply, whenever a process is created in 539kernel, the value of this variable is increased and since deleting a process will not be implemented for the sake of simplicity, the value of this variable will not be decreased anywhere in the current code of 539kernel.</p>
+<p>The global variable <code>curr_pid</code> contains the next available process identifier that can be used for the next process that will be created. The current value of this variable is used when creating a new process and its value is increased by one after completing the creation.</p>
+<p>The function <code>process_init</code> is called when the kernel starts, and it initializes the process management subsystem by just initializing the two global variables that we mentioned.</p>
+<p>The function <code>process_create</code> is the one that creates a new process in 539kernel, that is, it is equivalent to <code>fork</code> in Unix systems. As you can see, it takes two parameters, the first one is a pointer to the base address of the process, that is, the starting point of the process' code. The second parameter is a pointer to the process control block, as we have said, currently, we use static memory allocation, therefore, each new PCB will be either stored in the memory as a local or global variables, so, for now, the caller is responsible for allocating a static memory for the PCB and passing its memory address in the second parameter. In the normal situation, the memory of a PCB is allocated dynamically by the creation function itself, but that's a story for another chapter. The following is the content of <code>process.c</code> as we have described.</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="pp">#include </span><span class="im">&quot;process.h&quot;</span>
+
+<span class="dt">void</span> process_init()
+{
+    processes_count = <span class="dv">0</span>;
+    curr_pid = <span class="dv">0</span>;
+}
+
+<span class="dt">void</span> process_create( <span class="dt">int</span> *base_address, process_t *process )
+{   
+    process-&gt;pid = curr_pid++;
+    
+    process-&gt;context.eax = <span class="dv">0</span>;
+    process-&gt;context.ecx = <span class="dv">0</span>;
+    process-&gt;context.edx = <span class="dv">0</span>;
+    process-&gt;context.ebx = <span class="dv">0</span>;
+    process-&gt;context.esp = <span class="dv">0</span>;
+    process-&gt;context.ebp = <span class="dv">0</span>;
+    process-&gt;context.esi = <span class="dv">0</span>;
+    process-&gt;context.edi = <span class="dv">0</span>;
+    process-&gt;context.eip = base_address;
+    
+    process-&gt;state = READY;
+    process-&gt;base_address = base_address;
+    
+    processes[ process-&gt;pid ] = process;
+    
+    processes_count++;
+}</code></pre></div>
+<p>In <code>process_create</code>, a new process identifier is assigned to the new process. Then the context is initialized, this structure will be used later in context switching, either by copying the values from the processor to the structure or vice versa. Since the new process has not been run yet, hence, it didn't set any value to the registers, then we initialize all general purpose registers with <code>0</code>, later on, when this process runs and the scheduler decides to suspend it, the values that this process wrote on the real registers will be copied in here. The structure field of program counter <code>EIP</code> is initialized with the starting point of the process' code, in this way we can make sure that when the scheduler decides to run this process, it loads the correct value to the register <code>EIP</code>.</p>
+<p>After initializing the context, the state of the process is set as <code>READY</code> to run and the base address of the process is stored in a separate field. Then, the freshly-created PCB is added to the processes list and finally the number of processes in the system is increased by one.</p>
+<p>That' all we need for now to implement multitasking, in real cases, there will be usually more process states such as <em>waiting</em>, the data structures are allocated dynamically to make it possible to create virtually any number of processes, the PCB may contains more fields and more functions to manipulate processes table (e.g. delete process) are implemented. However, our current implementation, though too simple, it is enough as a working foundation. Now, in <code>main.c</code>, the header file <code>process.h</code> is needed to be included, and the function <code>process_init</code> should be called in the beginning of the kernel, after the line <code>screen_init();</code>.</p>
+<h3 id="the-scheduler"><span class="header-section-number">4.5.4</span> The Scheduler</h3>
+<p>Right now, we have all needed components to implement the core of multitasking, that is, the scheduler. As mentioned multiple times before, round-robin algorithm is used for 539kernel's scheduler.</p>
+<p>Let's present two definitions to make our next discussion more clear. The term <em>current process</em> means the process that is using the processor right now, at some point of time, the system timer emits an interrupt which suspends the current process and calls the kernel to handle the interrupt, In this case the kernel is going to call the scheduler, at this point of time, we keep the same term for the process which was running right before calling the kernel to handle the interrupt, we call it the current process. By using some algorithm, the scheduler chooses the <em>next process</em>, that is, the process that will run after the scheduler finishes its work and the kernel returns the processor to the processes. After choosing the next process, performing the context switching and jumping to the process code, this chosen process will be the current process instead of the suspended one, and it will be the current process until the next run of the scheduler and so on.</p>
+<p>Now, we are ready to implement the scheduler, let's create a new file <code>scheduler.c</code> and its header file <code>scheduler.h</code> for the new code. The following is the content of the header file.</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="pp">#include </span><span class="im">&quot;process.h&quot;</span>
+
+<span class="dt">int</span> next_sch_pid, curr_sch_pid;
+
+process_t *next_process;
+
+<span class="dt">void</span> scheduler_init();
+process_t *get_next_process();
+<span class="dt">void</span> scheduler( <span class="dt">int</span>, <span class="dt">int</span>, <span class="dt">int</span>, <span class="dt">int</span>, <span class="dt">int</span>, <span class="dt">int</span>, <span class="dt">int</span>, <span class="dt">int</span>, <span class="dt">int</span> );
+<span class="dt">void</span> run_next_process();</code></pre></div>
+<p>First, <code>process.h</code> is included since we need to use the structure <code>process_t</code> in the code of the scheduler. Then three global variables are defined, the global variable <code>next_sch_pid</code> stores the PID of the next process that will run after next system timer interrupt, while <code>curr_sch_pid</code> stores the PID of the current process. The global variable <code>next_process</code> stores a reference to the PCB of the next process, this variable will be useful when we want to move the control of the processor from the kernel to the next process which is the job of the function <code>run_next_process</code>.</p>
+<p>The function <code>scheduler_init</code> sets the initial values of the global variables, same as <code>process_init</code>, it will be called when the kernel starts.</p>
+<p>The core function is <code>scheduler</code> which represents 539kernel's scheduler, this function will be called when the system timer emits its interrupt. It chooses the next process to run with the help of the function <code>get_next_process</code>, performs context switching by copying the context of the current process from the registers to the memory and copying the context of the next process from the memory to the registers. Finally, it returns and <code>run_next_process</code> is called in order to jump the the next process' code. In <code>scheduler.c</code>, the file <code>scheduler.h</code> should be included to make sure that everything works fine. The following is the implementation of <code>scheduler_init</code>.</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">void</span> scheduler_init()
+{
+    next_sch_pid = <span class="dv">0</span>;
+    curr_sch_pid = <span class="dv">0</span>;
+}</code></pre></div>
+<p>It's too simple function that initializes the values of the global variables by setting the PID <code>0</code> to both of them, so the first process that will be scheduled by 539kernel is the process with PID <code>0</code>.</p>
+<p>Next, is the definition of <code>get_next_process</code> which implements round-robin algorithm, it returns the PCB of the process that should run right now and prepare the value of <code>next_sch_pid</code> for the next context switching by using round-robin policy.</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c">process_t *get_next_process()
+{
+    process_t *next_process = processes[ next_sch_pid ];
+    
+    curr_sch_pid = next_sch_pid;
+    next_sch_pid++;
+    next_sch_pid = next_sch_pid % processes_count;
+    
+    <span class="cf">return</span> next_process;
+}</code></pre></div>
+<p>Too simple, right! <a href="#fn8" class="footnoteRef" id="fnref8"><sup>8</sup></a> If you haven't encountered the symbol <code>%</code> previously, it represents an operation called <em>modulo</em> which gives the remainder of division operation, for example, <code>4 % 2 = 0</code> because the reminder of dividing <code>4</code> on <code>2</code> is <code>0</code>, but <code>5 % 2 = 1</code> because <code>5 / 2 = 2</code> and remainder is <code>1</code>, so, <code>5 = ( 2 * 2 ) + 1 (the remainder)</code>.</p>
+<p>In modulo operation, any value <code>n</code> that has the same position of <code>2</code> in the previous two examples is known as <em>modulus</em>. For instance, the modulus in <code>5 % 3</code> is <code>3</code> and the modulus in <code>9 % 10</code> is <code>10</code> and so on. In some other places, the symbol <code>mod</code> is used to represent modulo operation instead of <code>%</code>.</p>
+<p>The interesting thing about modulo that its result value is always between the range <code>0</code> and <code>n - 1</code> given that <code>n</code> is the modulus. For example, let the modulus be <code>2</code>, and we perform the following modulo operation <code>x % 2</code> where <code>x</code> can be any number, the possible result values of this operation are only <code>0</code> or <code>1</code>. Using this example with different values of <code>x</code> gives us the following results, <code>0 % 2 = 0</code>, <code>1 % 2 = 1</code>, <code>2 % 2 = 0</code>, <code>3 % 2 = 1</code>, <code>4 % 2 = 0</code>, <code>5 % 2 = 1</code>, <code>6 % 2 = 0</code> and so on to infinity!</p>
+<p>As you can see, modulo gives us a cycle that starts from <code>0</code> and ends at some value that is related to the modulus and starts all over again with the same cycle given an ordered sequence of values for <code>x</code>, sometimes the analog clock is used as metaphor to describe the modulo operation. However, in mathematics a topic known as <em>modular arithmetic</em> is dedicated to the modulo operation. You may noticed that modulo operation can be handy to implement round-robin algorithm.</p>
+<p>Let's get back to the function <code>get_next_process</code> which chooses the next process to run in a round-robin fashion. As you can see, it assumes that the PID of the next process can be found directly in <code>next_sch_pid</code>. By using this assumption it fetches the PCB of this process to return it later to the caller. After that, the value of <code>curr_sch_pid</code> is updated to indicate that, right now, the current process is the one that we just selected to run next. The next two lines are the core of the operation of choosing the next process to run, it prepares which process will run when next system timer interrupt occurs.</p>
+<p>Assume that the total number of processes in the system is <code>4</code>, that is, the value of <code>processes_count</code> is <code>4</code>, and assume that the process that will run in the current system timer interrupt has the PID <code>3</code>, that is <code>next_sch_pid = 3</code>, PIDs in 539kernel start from <code>0</code>, that means there is no process with PID <code>4</code> in our example and process <code>3</code> is the last one.</p>
+<p>In line <code>next_sch_pid++</code> the value of the variable will be <code>4</code>, and as we mentioned, the last process is <code>3</code> and there is no such process <code>4</code>, that means we should start over the list of processes and runs process <code>0</code> in the next cycle, we can do that simply by using modulo on the new value of <code>next_sch_pid</code> with the modulus <code>4</code> which is the number of processes in the system <code>process_count</code>, so, <code>next_sch_pid = 4 % 4 = 0</code>. In the next cycle, process <code>0</code> will be chosen to run, the value of <code>next_sch_pid</code> will be updated to <code>1</code> and since it is lesser than <code>process_count</code> it will be kept for the next cycle. After that, process <code>1</code> will run and the next to run will be <code>2</code>. Then process <code>2</code> will run and next to run is <code>3</code>. Finally, the same situation that we started our explanation with occurs again and process <code>0</code> is chosen to run next. The following is the code of the function <code>scheduler</code>.</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">void</span> scheduler( <span class="dt">int</span> eip, <span class="dt">int</span> edi, <span class="dt">int</span> esi, <span class="dt">int</span> ebp, <span class="dt">int</span> esp, <span class="dt">int</span> ebx, <span class="dt">int</span> edx, <span class="dt">int</span> ecx, <span class="dt">int</span> eax )
+{
+    process_t *curr_process;
+    
+    <span class="co">// ... //</span>
+    
+    <span class="co">// PART 1</span>
+    
+    curr_process = processes[ curr_sch_pid ];
+    next_process = get_next_process();
+    
+    <span class="co">// ... //</span>
+    
+    <span class="co">// PART 2</span>
+
+    <span class="cf">if</span> ( curr_process-&gt;state == RUNNING )
+    {
+        curr_process-&gt;context.eax = eax;
+        curr_process-&gt;context.ecx = ecx;
+        curr_process-&gt;context.edx = edx;
+        curr_process-&gt;context.ebx = ebx;
+        curr_process-&gt;context.esp = esp;
+        curr_process-&gt;context.ebp = ebp;
+        curr_process-&gt;context.esi = esi;
+        curr_process-&gt;context.edi = edi;
+        curr_process-&gt;context.eip = eip;
+    }
+    
+    curr_process-&gt;state = READY;
+    
+    <span class="co">// ... //</span>
+    
+    <span class="co">// PART 3</span>
+    
+    asm( <span class="st">&quot;  mov %0, %%eax;  \</span>
+<span class="st">            mov %0, %%ecx;  \</span>
+<span class="st">            mov %0, %%edx;  \</span>
+<span class="st">            mov %0, %%ebx;  \</span>
+<span class="st">            mov %0, %%esi;  \</span>
+<span class="st">            mov %0, %%edi;&quot;</span> 
+            : : <span class="st">&quot;r&quot;</span> ( next_process-&gt;context.eax ), <span class="st">&quot;r&quot;</span> ( next_process-&gt;context.ecx ), <span class="st">&quot;r&quot;</span> ( next_process-&gt;context.edx ), <span class="st">&quot;r&quot;</span> ( next_process-&gt;context.ebx ),
+                <span class="st">&quot;r&quot;</span> ( next_process-&gt;context.esi ), <span class="st">&quot;r&quot;</span> ( next_process-&gt;context.edi ) );
+    
+    next_process-&gt;state = RUNNING;
+}</code></pre></div>
+<p>I've commented the code to divide it into three parts for the sake of simplicity in our discussion. The first part is too simple, the variable <code>curr_process</code> is assigned to a reference to the current process which has been suspended due to the system timer interrupt, this will become handy in part <code>2</code> of scheduler's code, we get the reference to the current process before calling the function <code>get_next_process</code> because, as you know, this function changes the variable of current process' PID (<code>curr_sch_pid</code>) from the suspended one to the next one <a href="#fn9" class="footnoteRef" id="fnref9"><sup>9</sup></a>. After that, the function <code>get_next_process</code> is called to obtain the PCB of the process that will run this time, that is, the next process.</p>
+<p>As you can see, <code>scheduler</code> receives nine parameters, each one of them has a name same as one of the processor's registers. We can tell from these parameters that the function <code>scheduler</code> receives the context of the current process before being suspended due to system timer's interrupt. For example, assume that process <code>0</code> was running, after the quantum finished the scheduler is called, which decides that process <code>1</code> should run next. In this case, the parameters that have been passed to the scheduler represent the context of process <code>0</code>, that is, the value of the parameter <code>EAX</code> will be same as the value of the register <code>EAX</code> that process <code>0</code> set at some point of time before being suspended. How did we get these values and pass them as parameters to <code>scheduler</code>? This will be discussed later.</p>
+<p>In part <code>2</code> of scheduler's code, the context of the suspended process, which <code>curr_process</code> represents it right now, is copied from the processor into its own PCB by using the passed parameter. Storing current process' context into its PCB is simple as you can see, we just store the passed values in the fields of the current process structure. These values will be used later when we decide to run the same process. Also, we need to make sure that the current process is really running by checking its <code>state</code> before copying the context from the processor to the PCB. At the end, the <code>state</code> of the current process is switched from <code>RUNNING</code> to <code>READY</code>.</p>
+<p>Part <code>3</code> performs the opposite of part <code>2</code>, it uses the PCB of the next process to retrieve its context before the last suspension, then this context will be copied to the registers of the processor. Of course, not all of them are being copied to the processor, for example, the program counter <code>EIP</code> cannot be written to directly, we will see later how to deal with it. Also, the registers that are related to the stack, <code>ESP</code> and <code>EBP</code> were skipped in purpose. As a last step, the <code>state</code> of the next process is changed from <code>READY</code> to <code>RUNNING</code>. The following is the code of <code>run_next_process</code> which is last function remains in <code>scheduler.c</code>.</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">void</span> run_next_process()
+{
+    asm( <span class="st">&quot;  sti;            \</span>
+<span class="st">            jmp *%0&quot;</span> : : <span class="st">&quot;r&quot;</span> ( next_process-&gt;context.eip ) );
+}</code></pre></div>
+<p>It is a simple function that executes two assembly instructions. First it enables the interrupts via the instruction <code>sti</code>, then it jumps to the memory address which is stored in the <code>EIP</code> of next process' PCB. The purpose of this function will be discussed after a short time.</p>
+<p>To make everything runs properly, <code>scheduler.h</code> need to be included in <code>main.c</code>, note that, when we include <code>scheduler.h</code>, the line which includes <code>process.h</code> should be remove since <code>scheduler.h</code> already includes it. After that, the function <code>scheduler_init</code> should be called when initializing the kernel, say after the line which calls <code>process_init</code>.</p>
+<h4 id="calling-the-scheduler"><span class="header-section-number">4.5.4.1</span> Calling the Scheduler</h4>
+<p>&quot;So, how the scheduler is being called&quot; you may ask. The answer to this question has been mentioned multiple times before. When the system timer decides that it is the time to interrupt the processor, the interrupt <code>32</code> is being fired, this point of time is when the scheduler is being called. In each period of time the scheduler will be called to schedule another process and gives it CPU time.</p>
+<p>In this part, we are going to write a special interrupt handler for interrupt <code>32</code> that calls 539kernel's scheduler. First we need to add the following lines in the beginning of <code>starter.asm</code> <a href="#fn10" class="footnoteRef" id="fnref10"><sup>10</sup></a> after <code>extern interrupt_handler</code>.</p>
+<div class="sourceCode"><pre class="sourceCode asm"><code class="sourceCode fasm">extern scheduler
+extern run_next_process</code></pre></div>
+<p>As you may guessed, the purpose of these two lines is to make the functions <code>scheduler</code> and <code>run_next_process</code> of <code>scheduler.c</code> usable by the assembly code of <code>starter.asm</code>. Now, we can get started to implement the code of interrupt <code>32</code>'s handler which calls the scheduler with the needed parameters. In the file <code>idt.asm</code> the old code of the routine <code>isr_32</code> should be changed to the following.</p>
+<div class="sourceCode"><pre class="sourceCode asm"><code class="sourceCode fasm"><span class="fu">isr_32:</span>
+    <span class="co">; Part 1</span>
+    
+    <span class="bu">cli</span> <span class="co">; Step 1</span>
+    
+    <span class="bu">pusha</span> <span class="co">; Step 2</span>
+    
+    <span class="co">; Step 3</span>
+    <span class="bu">mov</span> <span class="kw">eax</span>, [<span class="kw">esp</span> + <span class="dv">32</span>]
+    <span class="bu">push</span> <span class="kw">eax</span>  
+    
+    <span class="bu">call</span> scheduler <span class="co">; Step 4</span>
+    
+    <span class="co">; ... ;</span>
+    
+    <span class="co">; Part 2</span>
+    
+    <span class="co">; Step 5</span>
+    <span class="bu">mov</span> <span class="kw">al</span><span class="bn">, 0x20</span>
+    <span class="bu">out</span><span class="bn"> 0x20, </span><span class="kw">al</span>
+    
+    <span class="co">; Step 6</span>
+    <span class="bu">add</span> <span class="kw">esp</span>, 40d
+    <span class="bu">push</span> run_next_process
+    
+    <span class="bu">iret</span> <span class="co">; Step 7</span></code></pre></div>
+<p>There are two major parts in this code, the first one is the code which will be executed before calling the scheduler, that is, the one before the line <code>call scheduler</code>. The second one is the code which will be executed after the scheduler returns.</p>
+<p>The first step of part one disables the interrupts via the instruction <code>cli</code>. When we are handling an interrupt, it is better to not receive any other interrupt, if we don't disable interrupts here, while handling a system timer interrupt, another system timer interrupt can occur even before calling the scheduler in the first time, you may imagine the mess that can be as a result of that.</p>
+<p>Before explaining the steps two and three of this routine, we need to answer a vital question: When this interrupt handler is called, what the context of the processor will be? The answer is, the context of the suspended process, that is, the process that was running before the system timer emitted the interrupt. That means all values that were stored by the suspended process on the general purpose registers will be there when <code>isr_32</code> starts executing and we can be sure that the processor did not change any of these values during suspending the process and calling the handler of the interrupt, what gives us this assurance is the fact that we have defined all <code>ISR</code>s gate descriptors as interrupt gates in the <code>IDT</code> table, if we have defined them as task gates, the context of the suspended process will not be available directly on processor's registers. Defining an <code>ISR</code> descriptor as an interrupt gate makes the processor to call this <code>ISR</code> as a normal routine by following the calling convention. It's important to remember that when we discuss obtaining the value of <code>EIP</code> of the suspended process later on in this section.</p>
+<p>By knowing that the context of suspended process is reachable via the registers (e.g <code>EAX</code>) we can store a copy of them in the stack, this snapshot will be useful when the scheduler needs to copy the context of the suspended process to the memory as we have seen, also, pushing them into stack gives as two more benefits. First we can start to use the registers in the current code as we like without the fear of losing the suspended process context, it is already stored in the stack and we can refer to it anytime we need it. Second, according to the calling convention that we have discussed in chapter  these pushed values can be considered as parameters for a function that will be called and that's exactly how we pass the context of suspended process to the function <code>scheduler</code> as parameters, simply by pushing the values of general purpose registers into the stack.</p>
+<p>Now, instead of writing <code>8</code> push instructions to push these values into the stack, for example <code>push eax</code> and so on, there is an x86 instruction named <code>pusha</code> which pushes the current values of all general purpose registers into the stack, that exactly what happens in the second step of <code>isr_32</code> in order to send them as parameters to the function <code>scheduler</code>. The reverse operation of <code>pusha</code> can be performed by the instruction <code>popa</code>, that is, the values on the stack will be loaded into the registers.</p>
+<p>The instruction <code>pusha</code> pushes the values of the registers in the following order: <code>EAX</code>, <code>ECX</code>, <code>EDX</code>, <code>EBX</code>, <code>ESP</code>, <code>EBP</code>, <code>ESI</code> and <code>EDI</code>. Based on the calling convention they will be received as parameters in the reversed order, that is, the first pushed values will be the last one to receive, so, the parameter that contains the value of <code>EDI</code> will be before <code>ESI</code> in the parameters list and so on, you can see that in an obvious way in the parameters list of the function <code>scheduler</code>.</p>
+<p>The only missing piece now is the value of the instruction pointer <code>EIP</code>, the third step of <code>isr_32</code> obtains this value. As you know, it is too important to store the last <code>EIP</code> value of the suspended process, we need to know where did the execution of the suspended process code stop so we can resume its work later from the same point, and this information can be known through <code>EIP</code>.</p>
+<p>Not like the general purpose registers, the value of <code>EIP</code> will not be pushed into the stack by the instruction <code>pusha</code>, furthermore, the current <code>EIP</code> is by no means a pointer to where the suspended process stopped, as you know, the current value of <code>EIP</code> is a pointer to the current instruction which is being executed right now, that is, one of <code>isr_32</code> instructions. So, the question is, where can we find the value of <code>EIP</code> which was there just before the suspended process has been suspended? The answer again can be found in the calling convention.</p>
+<div id="fig:21092021_1" class="fignos">
+<div class="figure">
+<img src="Figures/process-ch/Fig21092021_1.png" alt="Figure 2: Figure 2: The Stack After Executing the Instruction pusha" style="width:35.0%" />
+<p class="caption"><span>Figure 2:</span> Figure 2: The Stack After Executing the Instruction <code>pusha</code></p>
+</div>
+</div>
+<p>Let's assume that a process named <code>A</code> was running and a system timer interrupt occurred which caused process <code>A</code> to suspend and <code>isr_32</code> to start, as we have mentioned earlier, <code>isr_32</code> will be called as a normal routine and the calling convention will be followed by the processor. Figure <a href="#fig:21092021_1">2</a> shows the stack at the time after executing <code>pusha</code> in <code>isr_32</code>. As you can see, the context of process <code>A</code> is on the stack, for example, to reach the value of <code>ESI</code> which was stored right before the process <code>A</code> has been suspended, we can do that by referring to the memory address <code>ESP + 4</code> <a href="#fn11" class="footnoteRef" id="fnref11"><sup>11</sup></a>, since the current <code>ESP</code> stores the memory address of the top of the stack, the size of the value of <code>EDI</code> (and all other registers) is <code>4</code> bytes and the value of <code>ESI</code> is next to the top of the stack.</p>
+<p>The same technique can be used with any value in stack. As you may have noticed in the figure, that the return address to where process <code>A</code> suspended is stored in the stack, and that's due to the calling convention which requires the return address of the caller to be stored in the stack so we can return to it, as you can see, here, the process <code>A</code> was considered as the caller and <code>isr_32</code> as the callee. So, to obtain the value of process <code>A</code>'s return address, we can do that simply by reading the value in <code>esp + 32</code>, and that exactly what we have done in the third step of <code>isr_32</code> code, we first read this value and then push it into the stack so the function <code>scheduler</code> can receive it as the first parameter.</p>
+<p>The fourth and fifth steps are simple, in the fourth step we call the function <code>scheduler</code> which we have already discussed, after the function <code>scheduler</code> returns, we need to tell PIC that we finished the handling of an <code>IRQ</code> by sending end of interrupt command to the <code>PIC</code> and that's what is performed in the fifth step, we have already discussed sending end of interrupt command to PIC in chapter .</p>
+<p>The final thing to do after choosing the next process and performing the context switching is to give a CPU time for the code of the next process. This is usually performed by jumping to the memory address in which the selected process where suspended. There are multiple ways to do that, the way which we have used in 539kernel is to exploit the calling convention, again.</p>
+<p>As we have mentioned before, the return address to the caller is stored in the stack, in our previous example, the return address to process <code>A</code> was stored in the stack right before the values of process <code>A</code> context which have been pushed by the instruction <code>pusha</code>. When a routine returns by using the instruction <code>ret</code> or <code>iret</code>, this address will be jumped to, we exploit this fact to make the next process runs after <code>isr_32</code> finishes instead of process <code>A</code>, this is too simple to be done, the return address of process <code>A</code> should be removed from the stack and in its position in the stack the resume point of the next process is pushed, that's what we do in the sixth step of <code>isr_32</code>.</p>
+<p>First we remove all values that we have pushed on the stack while running <code>isr_32</code>, this is performed by just adding <code>40</code> to the current value of <code>ESP</code>, we have already discussed this method of removing values from the stack, why adding <code>40</code>? You may ask. The number of values that have been pushed by the instruction <code>pusha</code> is <code>8</code> values, each one of them of size <code>4</code> bytes (<code>32-bit</code>), that means the total size of them is <code>4 * 8 = 32</code>. Also, we have pushed the value of <code>EIP</code> which also has the size of <code>4</code> bytes, so, until now the total size of pushed items in <code>isr_32</code> is <code>32 + 4 = 36</code> and these are all what we have pushed in purpose, we also need to remove the return address which has been pushed into the stack before calling <code>isr_32</code>, the size of memory addresses in <code>32-bit</code> architecture is <code>4</code> bytes (<code>32-bit</code>), that means <code>36 + 4 = 40</code> bytes should be removed from the stack to ensure that we remove all pushed values with the return address or process <code>A</code>.</p>
+<p>After that, we simply push the memory address of the function <code>run_next_process</code>. In the seventh step, the routine <code>isr_32</code> returns indicating that handling an interrupt has been completed, but instead of returning to the suspended code before calling the interrupt handler, the code of the function <code>run_next_process</code> will be called, which is, as we have seen, enables the interrupts again and jumps to the resume point of the next process. In this way, we have got a basic multitasking!</p>
+<h3 id="running-processes"><span class="header-section-number">4.5.5</span> Running Processes</h3>
+<p>In our current environment, we will not be able to test our process management by using the normal ways, I mean, we can't run a user-space software to check if its process has been created and being scheduled or not. Instead, we are going to create a number of processes by creating their <code>PCB</code>s via <code>process_create</code> function, and their code will be defined as functions in our kernel, the memory address of these functions will be considered as the starting point of the process. Our goal of doing that is just to test that our code of process management is running well. All code of this section will be in <code>main.c</code> unless otherwise is mentioned. First, we define prototypes for four functions, each one of them represents a separate process, imaging them as a normal use-space software. These prototypes should be defined before <code>kernel_main</code>.</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">void</span> processA();
+<span class="dt">void</span> processB();
+<span class="dt">void</span> processC();
+<span class="dt">void</span> processD();</code></pre></div>
+<p>Inside <code>kernel_main</code>, we define four local variables. Each one of them represents the PCB of one process.</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c">    process_t p1, p2, p3, p4;</code></pre></div>
+<p>Before the infinite loop of <code>kernel_main</code> we create the four processes in the system by using the function <code>process_create</code> as the following.</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c">    process_create( &amp;processA, &amp;p1 );
+    process_create( &amp;processB, &amp;p2 );
+    process_create( &amp;processC, &amp;p3 );
+    process_create( &amp;processD, &amp;p4 );</code></pre></div>
+<p>The code of the processes is the following.</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">void</span> processA()
+{
+    print( <span class="st">&quot;Process A,&quot;</span> );
+
+    <span class="cf">while</span> ( <span class="dv">1</span> )
+        asm( <span class="st">&quot;mov $5390, %eax&quot;</span> );
+}
+
+<span class="dt">void</span> processB()
+{
+    print( <span class="st">&quot;Process B,&quot;</span> );
+
+    <span class="cf">while</span> ( <span class="dv">1</span> )
+        asm( <span class="st">&quot;mov $5391, %eax&quot;</span> );
+}
+
+<span class="dt">void</span> processC()
+{
+    print( <span class="st">&quot;Process C,&quot;</span> );
+
+    <span class="cf">while</span> ( <span class="dv">1</span> )
+        asm( <span class="st">&quot;mov $5392, %eax&quot;</span> );
+}
+
+<span class="dt">void</span> processD()
+{
+    print( <span class="st">&quot;Process D,&quot;</span> );
+
+    <span class="cf">while</span> ( <span class="dv">1</span> )
+        asm( <span class="st">&quot;mov $5393, %eax&quot;</span> );
+}</code></pre></div>
+<p>Each process starts by printing its name, then, an infinite loop starts which keeps setting a specific value in the register <code>EAX</code>. To check whether multitasking is working fine, we can add the following lines the beginning of the function <code>scheduler</code> in <code>scheduler.c</code>.</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c">    print( <span class="st">&quot; EAX = &quot;</span> );
+    printi( eax );</code></pre></div>
+<p>Each time the scheduler starts, it prints the value of <code>EAX</code> of the suspended process. When we run the kernel, each process is going to start by printing its name and before a process starts executing the value of <code>EAX</code> of the previous process will be shown. Therefore, you will see a bunch of following texts <code>EAX = 5390</code>, <code>EAX = 5391</code>, <code>EAX = 5392</code> and <code>EAX = 5393</code> keep showing on the screen which indicates that the process, <code>A</code> for example in case <code>EAX = 5390</code> is shown, was running and it has been suspended now to run the next one and so on.</p>
+<h3 id="finishing-up-version-t"><span class="header-section-number">4.5.6</span> Finishing up Version <code>T</code></h3>
+<p>And we have got version <code>T</code> of 539kernel which provides us a basic process management subsystem. The last piece to be presented is the <code>Makefile</code> to compile the whole code.</p>
+<div class="sourceCode"><pre class="sourceCode makefile"><code class="sourceCode makefile"><span class="dt">ASM </span><span class="ch">=</span><span class="st"> nasm</span>
+<span class="dt">CC </span><span class="ch">=</span><span class="st"> gcc</span>
+<span class="dt">BOOTSTRAP_FILE </span><span class="ch">=</span><span class="st"> bootstrap.asm </span>
+<span class="dt">INIT_KERNEL_FILES </span><span class="ch">=</span><span class="st"> starter.asm</span>
+<span class="dt">KERNEL_FILES </span><span class="ch">=</span><span class="st"> main.c</span>
+<span class="dt">KERNEL_FLAGS </span><span class="ch">=</span><span class="st"> -Wall -m32 -c -ffreestanding -fno-asynchronous-unwind-tables -fno-pie</span>
+<span class="dt">KERNEL_OBJECT </span><span class="ch">=</span><span class="st"> -o kernel.elf</span>
+
+<span class="dv">build:</span><span class="dt"> </span><span class="ch">$(</span><span class="dt">BOOTSTRAP_FILE</span><span class="ch">)</span><span class="dt"> </span><span class="ch">$(</span><span class="dt">KERNEL_FILE</span><span class="ch">)</span>
+    <span class="ch">$(</span><span class="dt">ASM</span><span class="ch">)</span> -f bin <span class="ch">$(</span><span class="dt">BOOTSTRAP_FILE</span><span class="ch">)</span> -o bootstrap.o
+    <span class="ch">$(</span><span class="dt">ASM</span><span class="ch">)</span> -f elf32 <span class="ch">$(</span><span class="dt">INIT_KERNEL_FILES</span><span class="ch">)</span> -o starter.o 
+    <span class="ch">$(</span><span class="dt">CC</span><span class="ch">)</span> <span class="ch">$(</span><span class="dt">KERNEL_FLAGS</span><span class="ch">)</span> <span class="ch">$(</span><span class="dt">KERNEL_FILES</span><span class="ch">)</span> <span class="ch">$(</span><span class="dt">KERNEL_OBJECT</span><span class="ch">)</span>
+    <span class="ch">$(</span><span class="dt">CC</span><span class="ch">)</span> <span class="ch">$(</span><span class="dt">KERNEL_FLAGS</span><span class="ch">)</span> screen.c -o screen.elf
+    <span class="ch">$(</span><span class="dt">CC</span><span class="ch">)</span> <span class="ch">$(</span><span class="dt">KERNEL_FLAGS</span><span class="ch">)</span> process.c -o process.elf
+    <span class="ch">$(</span><span class="dt">CC</span><span class="ch">)</span> <span class="ch">$(</span><span class="dt">KERNEL_FLAGS</span><span class="ch">)</span> scheduler.c -o scheduler.elf
+    ld -melf_i386 -Tlinker.ld starter.o kernel.elf screen.elf process.elf scheduler.elf -o 539kernel.elf
+    objcopy -O binary 539kernel.elf 539kernel.bin
+    dd if=bootstrap.o of=kernel.img
+    dd seek=1 conv=sync if=539kernel.bin of=kernel.img bs=512 count=8
+    dd seek=9 conv=sync if=/dev/zero of=kernel.img bs=512 count=2046
+    qemu-system-x86_64 -s kernel.img</code></pre></div>
+<p>Nothing new in here but compiling the new C files that we have added to 539kernel.</p>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>We mean static data here, which are contained in the binary file of the software. While the data that are generated by the running process are not loaded from the binary file, instead they are created while the code is running (e.g. local variables in the stack).<a href="#fnref1">↩</a></p></li>
+<li id="fn2"><p>Remember the job of a kernelist!<a href="#fnref2">↩</a></p></li>
+<li id="fn3"><p>You may ask who would use cooperative multitasking and give this big trust to the code of the software! In fact, the versions of Windows before 95 used this style of multitasking, also, Classic Mac OS used it. Why? You may ask, I don't know exactly, but what I know for sure is that humanity is in a learning process!<a href="#fnref3">↩</a></p></li>
+<li id="fn4"><p>In x86, the term task is used instead of process.<a href="#fnref4">↩</a></p></li>
+<li id="fn5"><p>In chapter  we have seen that there are two types of segments in x86, application segments such as code, data and stack segment. And system segments and they are <code>LDT</code> and <code>TSS</code>.<a href="#fnref5">↩</a></p></li>
+<li id="fn6"><p>In x86, context switch is known as task switch.<a href="#fnref6">↩</a></p></li>
+<li id="fn7"><p>We already know that keeping an entry of a process in the processes table is important for the scheduling process and other related processes stuff.<a href="#fnref7">↩</a></p></li>
+<li id="fn8"><p>Could be simpler, but the readability is more important here.<a href="#fnref8">↩</a></p></li>
+<li id="fn9"><p>And that's why the global variables are considered evil.<a href="#fnref9">↩</a></p></li>
+<li id="fn10"><p>I'm about to regret that I called this part of the kernel the starter! obviously it's more than that!<a href="#fnref10">↩</a></p></li>
+<li id="fn11"><p>If a new stack frame is created once <code>isr_32</code> starts then also <code>EBP</code> can be used as a base address but with different offset than <code>4</code> of course as we have explained earlier in chapter . I didn't initialize a new stack frame here and in all other places to get a shorter code.<a href="#fnref11">↩</a></p></li>
+</ol>
+</div>
+            </div>
+    </div>
+  </div>
+  
+  <script src="https://vjs.zencdn.net/5.4.4/video.js"></script>
+
+</body>
+</html>

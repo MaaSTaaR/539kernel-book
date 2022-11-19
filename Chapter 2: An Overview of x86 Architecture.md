@@ -1,3 +1,8 @@
+---
+title:  'A Journey in Creating an Operating System Kernel: The 539kernel Book'
+author: 'Mohammed Q. Hussain'
+---
+
 # Chapter 2: An Overview of x86 Architecture {#ch-x86}
 
 ## Introduction

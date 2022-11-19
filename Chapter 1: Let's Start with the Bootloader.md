@@ -1,3 +1,8 @@
+---
+title:  'A Journey in Creating an Operating System Kernel: The 539kernel Book'
+author: 'Mohammed Q. Hussain'
+---
+
 # Chapter 1: Let's Start with the Bootloader {#ch-bootloader}
 
 ## Introduction

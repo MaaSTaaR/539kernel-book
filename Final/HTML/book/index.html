@@ -1,0 +1,108 @@
+<!-- The Template is Based on: https://github.com/ryangrose/easy-pandoc-templates -->
+<!doctype html>
+<html >
+<head>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <!--[if lt IE 9]>
+                <script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
+        <![endif]-->
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+
+    <link href="https://fonts.googleapis.com/css?family=Domine|Montserrat" rel="stylesheet"> 
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+    <!-- <link rel="stylesheet" type="text/css" href="template.css" /> -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/diversen/pandoc-bootstrap-adaptive-template@959c3622/template.css" />
+
+    <link href="https://vjs.zencdn.net/5.4.4/video-js.css" rel="stylesheet" />
+
+    <script src="https://code.jquery.com/jquery-2.2.1.min.js"></script>
+    <!-- <script type='text/javascript' src='menu/js/jquery.cookie.js'></script> -->
+    <!-- <script type='text/javascript' src='menu/js/jquery.hoverIntent.minified.js'></script> -->
+    <!-- <script type='text/javascript' src='menu/js/jquery.dcjqaccordion.2.7.min.js'></script> -->
+    <!-- <link href="menu/css/skins/blue.css" rel="stylesheet" type="text/css" /> -->
+    <!-- <link href="menu/css/skins/graphite.css" rel="stylesheet" type="text/css" /> -->
+    <!-- <link href="menu/css/skins/grey.css" rel="stylesheet" type="text/css" /> -->
+    <!-- <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script> -->
+    <!-- <script src="script.js"></script> -->
+    <!-- <script src="jquery.sticky-kit.js "></script> -->
+    <script type='text/javascript' src='https://cdn.jsdelivr.net/gh/diversen/pandoc-bootstrap-adaptive-template@959c3622/menu/js/jquery.cookie.js'></script>
+    <script type='text/javascript' src='https://cdn.jsdelivr.net/gh/diversen/pandoc-bootstrap-adaptive-template@959c3622/menu/js/jquery.hoverIntent.minified.js'></script>
+    <script type='text/javascript' src='https://cdn.jsdelivr.net/gh/diversen/pandoc-bootstrap-adaptive-template@959c3622/menu/js/jquery.dcjqaccordion.2.7.min.js'></script>
+
+    <link href="https://cdn.jsdelivr.net/gh/diversen/pandoc-bootstrap-adaptive-template@959c3622/menu/css/skins/blue.css" rel="stylesheet" type="text/css" />
+    <!--
+    <link href="https://cdn.jsdelivr.net/gh/diversen/pandoc-bootstrap-adaptive-template@959c3622/menu/css/skins/graphite.css" rel="stylesheet" type="text/css" />
+    <link href="https://cdn.jsdelivr.net/gh/diversen/pandoc-bootstrap-adaptive-template@959c3622/menu/css/skins/grey.css" rel="stylesheet" type="text/css" />
+    -->
+    <link href="https://cdn.jsdelivr.net/gh/ryangrose/easy-pandoc-templates@948e28e5/css/elegant_bootstrap.css" rel="stylesheet" type="text/css" />
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+    <script src="https://cdn.jsdelivr.net/gh/diversen/pandoc-bootstrap-adaptive-template@959c3622/script.js"></script>
+  
+    <script src="https://cdn.jsdelivr.net/gh/diversen/pandoc-bootstrap-adaptive-template@959c3622/jquery.sticky-kit.js"></script>
+    <meta name="generator" content="pandoc" />
+  	<meta name="author" content="Mohammed Q. Hussain" />
+  <title>A Journey in Creating an Operating System Kernel: The 539kernel Book</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">body { font-family: Domine, Georgia, Palatino, 'Palatino Linotype', Times, 'Times New Roman', serif} h1, h2, h3, h4, h5, h6 { font-family: Montserrat, sans }
+  	/* [MQH] */
+	.toc a { color: #333 !important; }
+	h1 { margin-bottom: 5% }
+	body { font-size: 15pt; !important }
+  </style>
+  
+</head>
+
+<body>
+
+    
+    <div class="navbar navbar-static-top navbar-expand-sm px-0 pt-0">
+    <div class="navbar-inner container-fluid">
+      <div class="container">
+        <span class="doc-title">Table of Content</span>
+        	<ul class="nav pull-right doc-info">
+        		<li><p class="navbar-text"><a href="index.html" style="color: #777777; !important">Home</a></p></li>
+        		<li><p class="navbar-text"><a href="index.html" style="color: #777777; !important">Download PDF</a></p></li>
+			</ul>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+       <div align="center">
+       <h2>A Journey in Creating an Operating System Kernel <br/></h2>
+       <h3>The 539kernel Book</h3>
+       
+       <h2><small>Mohammed Q. Hussain</small></h2>
+      </div>
+      
+      <div class="row">
+            <div class="col-12">
+            
+            <ul>
+        		<li><h3><a href="Introduction.html" style="color: #000000; !important">Introduction</a></h3></li>
+        		<li><h3><a href="Chapter_1:_Let's_Start_with_the_Bootloader.html" style="color: #000000; !important">Chapter 1. Let's Start with the Bootloader</a></h3></li>
+        		<li><h3><a href="Chapter_2:_An_Overview_of_x86_Architecture.html" style="color: #000000; !important">Chapter 2. An Overview of x86 Architecture</a></h3></li>
+        		<li><h3><a href="Chapter_3:_The_Progenitor_of_539kernel.html" style="color: #000000; !important">Chapter 3. The Progenitor of 539kernel</a></h3></li>
+        		<li><h3><a href="Chapter_4:_Process_Management.html" style="color: #000000; !important">Chapter 4. Process Management</a></h3></li>
+        		<li><h3><a href="Chapter_5:_Memory_Management.html" style="color: #000000; !important">Chapter 5. Memory Management</a></h3></li>
+        		<li><h3><a href="Chapter_6:_Filesystems.html" style="color: #000000; !important">Chapter 6. Filesystems</a></h3></li>
+        		<li><h3><a href="Chapter_7:_What's_Next.html" style="color: #000000; !important">Chapter 7. What's Next?</a></h3></li>
+        		<li><h3><a href="References.html" style="color: #000000; !important">References</a></h3></li>
+			</ul>
+
+      
+
+      
+
+            </div>
+    </div>
+  </div>
+  
+  <script src="https://vjs.zencdn.net/5.4.4/video.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,1019 @@
+<!-- The Template is Based on: https://github.com/ryangrose/easy-pandoc-templates -->
+<!doctype html>
+<html >
+<head>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <!--[if lt IE 9]>
+                <script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
+        <![endif]-->
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+
+    <link href="https://fonts.googleapis.com/css?family=Domine|Montserrat" rel="stylesheet"> 
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+    <!-- <link rel="stylesheet" type="text/css" href="template.css" /> -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/diversen/pandoc-bootstrap-adaptive-template@959c3622/template.css" />
+
+    <link href="https://vjs.zencdn.net/5.4.4/video-js.css" rel="stylesheet" />
+
+    <script src="https://code.jquery.com/jquery-2.2.1.min.js"></script>
+    <!-- <script type='text/javascript' src='menu/js/jquery.cookie.js'></script> -->
+    <!-- <script type='text/javascript' src='menu/js/jquery.hoverIntent.minified.js'></script> -->
+    <!-- <script type='text/javascript' src='menu/js/jquery.dcjqaccordion.2.7.min.js'></script> -->
+    <!-- <link href="menu/css/skins/blue.css" rel="stylesheet" type="text/css" /> -->
+    <!-- <link href="menu/css/skins/graphite.css" rel="stylesheet" type="text/css" /> -->
+    <!-- <link href="menu/css/skins/grey.css" rel="stylesheet" type="text/css" /> -->
+    <!-- <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script> -->
+    <!-- <script src="script.js"></script> -->
+    <!-- <script src="jquery.sticky-kit.js "></script> -->
+    <script type='text/javascript' src='https://cdn.jsdelivr.net/gh/diversen/pandoc-bootstrap-adaptive-template@959c3622/menu/js/jquery.cookie.js'></script>
+    <script type='text/javascript' src='https://cdn.jsdelivr.net/gh/diversen/pandoc-bootstrap-adaptive-template@959c3622/menu/js/jquery.hoverIntent.minified.js'></script>
+    <script type='text/javascript' src='https://cdn.jsdelivr.net/gh/diversen/pandoc-bootstrap-adaptive-template@959c3622/menu/js/jquery.dcjqaccordion.2.7.min.js'></script>
+
+    <link href="https://cdn.jsdelivr.net/gh/diversen/pandoc-bootstrap-adaptive-template@959c3622/menu/css/skins/blue.css" rel="stylesheet" type="text/css" />
+    <!--
+    <link href="https://cdn.jsdelivr.net/gh/diversen/pandoc-bootstrap-adaptive-template@959c3622/menu/css/skins/graphite.css" rel="stylesheet" type="text/css" />
+    <link href="https://cdn.jsdelivr.net/gh/diversen/pandoc-bootstrap-adaptive-template@959c3622/menu/css/skins/grey.css" rel="stylesheet" type="text/css" />
+    -->
+    <link href="https://cdn.jsdelivr.net/gh/ryangrose/easy-pandoc-templates@948e28e5/css/elegant_bootstrap.css" rel="stylesheet" type="text/css" />
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+    <script src="https://cdn.jsdelivr.net/gh/diversen/pandoc-bootstrap-adaptive-template@959c3622/script.js"></script>
+  
+    <script src="https://cdn.jsdelivr.net/gh/diversen/pandoc-bootstrap-adaptive-template@959c3622/jquery.sticky-kit.js"></script>
+    <meta name="generator" content="pandoc" />
+  	<meta name="author" content="Mohammed Q. Hussain" />
+  <title>Chapter 3: The Progenitor of 539kernel</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">body { font-family: Domine, Georgia, Palatino, 'Palatino Linotype', Times, 'Times New Roman', serif} h1, h2, h3, h4, h5, h6 { font-family: Montserrat, sans }</style>
+  <style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+
+	/* [MQH] */
+	.toc a { color: #333 !important; }
+	h1 { margin-bottom: 5% }
+	body { font-size: 15pt; !important }
+  </style>
+</head>
+
+<body>
+
+    
+    <div class="navbar navbar-static-top navbar-expand-sm px-0 pt-0">
+    <div class="navbar-inner container-fluid">
+      <div class="container">
+        <span class="doc-title">A Journey in Creating an Operating System Kernel: The 539kernel Book</span>
+                <span class="doc-title"><small>Mohammed Q. Hussain</small></span>
+                <ul class="nav pull-right doc-info">
+          <li><p class="navbar-text"><a href="index.html" style="color: #777777; !important">Table of Content</a></li>
+                  </ul>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+      <div class="row">
+            <div class="col-12">
+
+      
+      <h1 id="ch-"progenitor">Chapter <span class="header-section-number">3</span>. The Progenitor of 539kernel</h1>
+<h2 id="introduction"><span class="header-section-number">3.1</span> Introduction</h2>
+<p>Till the point, we have created a bootloader for 539kernel that loads a simple assembly kernel from the disk and gives it the control. Furthermore, we have gained enough knowledge of x86 architecture's basics to write the progenitor of 539kernel which is, as we have said, a 32-bit x86 kernel that runs in protected-mode. In x86, to be able to switch from real-mode to protected-mode, the global descriptor table (<code>GDT</code>) should be initialized and loaded first. After entering the protected mode, the processor will be able to run 32-bit code which gives us the chance to write the rest of kernel's code in C and use some well-known C compiler (We are going to use GNU GCC in this book) to compile the kernel's code to 32-bit binary file. When our code runs in protected-mode, the ability of reaching BIOS services will be lost which means that printing text on the screen by using BIOS service will not be available for us, although the part of printing to the screen is not an essential part of a kernel, but we need it to check if the C code is really running and that's by printing some text once the C code gains the control of the system. Instead of using BIOS to print texts, we need to use the <em>video memory</em> to achieve this goal in protected mode which introduces us to a graphics standard known as <em>video graphics array</em> (VGA).</p>
+<p>The final output of this chapter will be the progenitor of 539kernel which has a bootloader that loads the kernel which contains two parts, the first part is called <em>starter</em> which is written in assembly and will be represented by a file called <code>starter.asm</code>, this part initializes and loads the <code>GDT</code> table, then it is going to change the operating mode of the processor from real-mode to protected-mode and finally it is going to prepare the environment for the C code of the kernel which is the second part (we are going to call this part the <em>main kernel code</em> or <em>main kernel</em> in short) that will be represented by a file called <code>main.c</code> it is going to gain the control from the starter after the latter finishes its work. In this early stage, the C code will only contains an implementation for <code>print</code> function and it is going to print some text on the screen, in the later stages, this part will contain the main code of 539kernel.</p>
+<h2 id="the-basic-code-of-the-progenitor"><span class="header-section-number">3.2</span> The Basic Code of The Progenitor</h2>
+<p>In this section we are going to start writing the most of 539kernel's progenitor code but one part which is related to the interrupts that will be examined in another section in this chapter. To be able to compile and run the code that we write in this section you need to update the <code>Makefile</code> of 539kernel, the changes of <code>Makefile</code> also will be examined in another section in this chapter. The following is the <code>Makefile</code> which presumes that both <code>starter.asm</code> and <code>main.c</code> are available.</p>
+<div class="sourceCode"><pre class="sourceCode makefile"><code class="sourceCode makefile"><span class="dt">ASM </span><span class="ch">=</span><span class="st"> nasm</span>
+<span class="dt">CC </span><span class="ch">=</span><span class="st"> gcc</span>
+<span class="dt">BOOTSTRAP_FILE </span><span class="ch">=</span><span class="st"> bootstrap.asm </span>
+<span class="dt">INIT_KERNEL_FILES </span><span class="ch">=</span><span class="st"> starter.asm</span>
+<span class="dt">KERNEL_FILES </span><span class="ch">=</span><span class="st"> main.c</span>
+<span class="dt">KERNEL_FLAGS </span><span class="ch">=</span><span class="st"> -Wall -m32 -c -ffreestanding -fno-asynchronous-unwind-tables -fno-pie</span>
+<span class="dt">KERNEL_OBJECT </span><span class="ch">=</span><span class="st"> -o kernel.elf</span>
+
+<span class="dv">build:</span><span class="dt"> </span><span class="ch">$(</span><span class="dt">BOOTSTRAP_FILE</span><span class="ch">)</span><span class="dt"> </span><span class="ch">$(</span><span class="dt">KERNEL_FILE</span><span class="ch">)</span>
+    <span class="ch">$(</span><span class="dt">ASM</span><span class="ch">)</span> -f bin <span class="ch">$(</span><span class="dt">BOOTSTRAP_FILE</span><span class="ch">)</span> -o bootstrap.o
+    <span class="ch">$(</span><span class="dt">ASM</span><span class="ch">)</span> -f elf32 <span class="ch">$(</span><span class="dt">INIT_KERNEL_FILES</span><span class="ch">)</span> -o starter.o 
+    <span class="ch">$(</span><span class="dt">CC</span><span class="ch">)</span> <span class="ch">$(</span><span class="dt">KERNEL_FLAGS</span><span class="ch">)</span> <span class="ch">$(</span><span class="dt">KERNEL_FILES</span><span class="ch">)</span> <span class="ch">$(</span><span class="dt">KERNEL_OBJECT</span><span class="ch">)</span>
+    ld -melf_i386 -Tlinker.ld starter.o kernel.elf -o 539kernel.elf
+    objcopy -O binary 539kernel.elf 539kernel.bin
+    dd if=bootstrap.o of=kernel.img
+    dd seek=1 conv=sync if=539kernel.bin of=kernel.img bs=512 count=5
+    dd seek=6 conv=sync if=/dev/zero of=kernel.img bs=512 count=2046
+    qemu-system-x86_64 -s kernel.img</code></pre></div>
+<p>As you can see, a linker <code>ld</code> is now used to group the object files which has been generated from the compiler and the assembler. The linker needs a script which tells it how to organize the content of the binary file <code>539kernel.elf</code> that will be generated by the linker. The name of the file should be <code>linker.ld</code> as it's shown in the arguments of the command. The following is the content of this file <a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a>.</p>
+<pre><code>SECTIONS
+{
+  .text 0x09000 :
+  {
+    code = .; _code = .; __code = .;
+    *(.text)
+  }
+
+  .data :
+  {
+     data = .; _data = .; __data = .;
+     *(.data)
+     *(.rodata)
+  }
+
+  .bss :
+  {
+    bss = .; _bss = .; __bss = .;
+    *(.bss)
+  }
+
+  end = .; _end = .; __end = .;
+} </code></pre>
+<p>The bootloader also should be modified to make the progenitor code works. In the previous version of the bootloader, we were loading only one sector from the disk (remember, the size of a sector is <code>512</code> bytes) to memory, and that was more than enough for simple code such as <code>simple_kernel.asm</code> of chapter . In most practical cases, the size of the kernel will be more than one sector and the 539kernel's progenitor is not an exception, therefore, the bootloader should load more than one sector in order to load the whole code of the kernel. First we need to add two new data labels in the bootloader, say below the definition of the label <code>load_error_string</code>, as the following.</p>
+<div class="sourceCode"><pre class="sourceCode asm"><code class="sourceCode fasm">number_of_sectors_to_load   <span class="dt">db</span>  15d
+curr_sector_to_load         <span class="dt">db</span>  2d</code></pre></div>
+<p>The first one, as it is obvious from its name, indicates the number of sectors that we would like our bootloader to load from the disk, the current value is <code>15d</code>, which means <code>7.5KB</code> from the disk will be loaded to the memory, if kernel's binary size becomes larger than <code>7.5KB</code> we can simply modify the value of this label to increase the number of sectors to load.</p>
+<p>The second label indicates the sector's number that we are going to load now, as you know, sector <code>1</code> of the disk contains the bootloader (if sector numbering starts from <code>1</code>), and based on our arrangement in <code>Makefile</code> of 539kernel, the code of the kernel will be there starting from sector <code>2</code> of the disk, therefore, the initial value of the label <code>curr_sector_to_load</code> is <code>2</code>. The modified version of <code>load_kernel_from_disk</code> which loads more than one sector is the following.</p>
+<div class="sourceCode"><pre class="sourceCode asm"><code class="sourceCode fasm"><span class="fu">load_kernel_from_disk:</span>
+    <span class="bu">mov</span> <span class="kw">ax</span>, [curr_sector_to_load]
+    <span class="bu">sub</span> <span class="kw">ax</span>, <span class="dv">2</span>
+    <span class="bu">mov</span> <span class="kw">bx</span>, 512d
+    <span class="bu">mul</span> <span class="kw">bx</span>
+    <span class="bu">mov</span> <span class="kw">bx</span>, <span class="kw">ax</span>
+    
+    <span class="bu">mov</span> <span class="kw">ax</span><span class="bn">, 0900h</span>
+    <span class="bu">mov</span> <span class="kw">es</span>, <span class="kw">ax</span>
+    
+    <span class="bu">mov</span><span class="bn"> ah, 02h</span>
+    <span class="bu">mov</span> <span class="kw">al</span><span class="bn">, 1h</span>
+    <span class="bu">mov</span><span class="bn"> ch, 0h</span>
+    <span class="bu">mov</span> <span class="kw">cl</span>, [curr_sector_to_load]
+    <span class="bu">mov</span><span class="bn"> dh, 0h</span>
+    <span class="bu">mov</span> <span class="kw">dl</span><span class="bn">, 80h</span>
+    <span class="bu">int</span><span class="bn"> 13h</span>
+        
+    <span class="bu">jc</span> kernel_load_error
+    
+    <span class="bu">sub</span> <span class="dt">byte</span> [number_of_sectors_to_load], <span class="dv">1</span>
+    <span class="bu">add</span> <span class="dt">byte</span> [curr_sector_to_load], <span class="dv">1</span>
+    <span class="bu">cmp</span> <span class="dt">byte</span> [number_of_sectors_to_load], <span class="dv">0</span>
+    
+    <span class="bu">jne</span> load_kernel_from_disk
+    
+    <span class="bu">ret</span></code></pre></div>
+<p>The first difference in this new version of <code>load_kernel_from_disk</code> is the first <code>5</code> lines of this routine. As you may recall, the BIOS service <code>13h:02h</code> loads the required sector into the memory address <code>es:bx</code>, so, the value <code>0900h</code> which has been set to <code>es</code> in the code above will be the starting memory address of the kernel. In the previous version of the bootloader it was enough the set <code>0</code> to <code>bx</code> since we were loading only one sector, that means the code will reside from offset <code>0</code> to offset <code>511</code> of the segment. Now we are loading more than one sector by executing <code>load_kernel_from_disk</code> multiple times (<code>number_of_sectors_to_load</code> times) with different <code>curr_sector_to_load</code> each time, so, if we keep the value of <code>bx</code> fixed to <code>0</code>, each sector will overwrite the previously loaded sector and only the last sector of the kernel will be there in memory, which is, of course, not what we want. The first five lines of <code>load_kernel_from_disk</code> ensures that each sector is loaded in the correct memory location, the first sector is loaded starting from offset <code>0</code> (<code>(2 - 2) * 512 = 0</code>), the second sector is loaded starting from offset <code>512</code> (<code>(3 - 2) * 512 = 512</code>) and the third sector is loaded starting offset <code>1024</code> (<code>(4 - 2) * 512 = 1024</code>).</p>
+<p>The second change of the routine is the value that we set to the register <code>cl</code>. For BIOS's <code>13h:02h</code> the value of this register is the sector number that we would like to load the data from. In the new version, this value depends on <code>curr_sector_to_load</code> which starts with <code>2</code> and increases by <code>1</code> after each sector being loaded. The last <code>4</code> lines before <code>ret</code> ensures that the value of <code>curr_sector_to_load</code> is being increased to load the next sector from disk in the next iteration of the routine, the value of <code>number_of_sectors_to_load</code> is decreased by <code>1</code> after loading each sector and finally the new value of <code>number_of_sectors_to_load</code> is compared with <code>0</code>, when it is the case then the routine <code>load_kernel_from_disk</code> will return, otherwise, the routine will be called again with the new values for both <code>curr_sector_to_load</code>, <code>number_of_sectors_to_load</code> to load a new sector and so on.</p>
+<h3 id="writing-the-starter"><span class="header-section-number">3.2.1</span> Writing the Starter</h3>
+<p>The starter is the first part of 539kernel that runs right after the bootloader which means that the starter runs in <code>16-bit</code> real-mode environment, exactly same as the bootloader, and due to that we are going to write the starter by using assembly language instead of C and that's because most modern C compilers don't support <code>16-bit</code> code. Furthermore, when a specific low-level instruction is needed (e.g. <code>lgdt</code>), there is no way to call this instruction in native C, instead, assembly language should be used.</p>
+<p>The main job of the starter is to prepare the proper environment for the main kernel to run in. to do that the starter switches the current operating mode from the real-mode to protected-mode which, as we have said earlier, gives us the chance to run 32-bit code. Before switching to protected-mode, the starter needs to initialize and load the <code>GDT</code> table and set the interrupts up, furthermore, to be able to use the video memory correctly in protected-mode a proper video mode should be set, we are going to discuss the matter of video in more details later in this chapter. After finishing these tasks, the starter will be able to switch to protected-mode and gives the control to the main kernel. Let's start with the prologue of the starter's code which reflects the steps that we have just described.</p>
+<div class="sourceCode"><pre class="sourceCode asm"><code class="sourceCode fasm">bits <span class="dv">16</span>
+extern kernel_main
+
+<span class="fu">start:</span>
+    <span class="bu">mov</span> <span class="kw">ax</span>, <span class="kw">cs</span>
+    <span class="bu">mov</span> <span class="kw">ds</span>, <span class="kw">ax</span>
+        
+    <span class="bu">call</span> load_gdt
+    <span class="bu">call</span> init_video_mode
+    <span class="bu">call</span> enter_protected_mode
+    <span class="bu">call</span> setup_interrupts
+    
+    <span class="bu">call</span> 08h:start_kernel</code></pre></div>
+<p>The code of the starter begins from the label <code>start</code>, from now on I'm going to use the term <em>routine</em> for any callable assembly label <a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a>. You should be familiar with the most of this code, as you can see, the routine <code>start</code> begins by setting the proper memory address of data segment depending on the value of the code segment register <code>cs</code> <a href="#fn3" class="footnoteRef" id="fnref3"><sup>3</sup></a> which is going to be same as the beginning of the starter's code. After that, the four steps that we have described are divided into four routines that we are going to write during this chapter, these routines are going to be called sequentially. Finally, the starter preforms a far jump to the code of the main kernel. But before examining the details of those steps let's stop on the first two line of this code that could be new to you.</p>
+<div class="sourceCode"><pre class="sourceCode asm"><code class="sourceCode fasm">bits <span class="dv">16</span>
+extern kernel_main</code></pre></div>
+<p>The first line uses the directive <code>bits</code> which tells <code>NASM</code> that the code that follows this line is a <code>16-bit</code> code, remember, we are in a <code>16-bit</code> real-mode environment, so our code should be a <code>16-bit</code> code. You may wonder, why didn't we use this directive in the bootloader's code? The main reason for that is how <code>NASM</code> works, when you tell <code>NASM</code> to generate the output in a flat binary format <a href="#fn4" class="footnoteRef" id="fnref4"><sup>4</sup></a>, it is going to consider the code as a <code>16-bit</code> code by default unless you use <code>bits</code> directive to tell <code>NASM</code> otherwise, for example <code>bits 32</code> for 32-bit code or <code>bits 64</code> for 64-bit code. But in the case of the starter, it is required from <code>NASM</code> to assemble it as <code>ELF32</code> instead of flat binary, therefore, the <code>16-bit</code> code should be marked from <code>NASM</code> to assemble it as <code>16-bit</code> code and not <code>32-bit</code> code which is the default for <code>ELF32</code>.</p>
+<p>The second line uses the directive <code>extern</code> which tells <code>NASM</code> that there is a symbol <a href="#fn5" class="footnoteRef" id="fnref5"><sup>5</sup></a> which is external and not defined in any place in the current code (for example, as a label) that you are assembling, so, whenever the code that you are assembling uses this symbol, don't panic, and continue your job, and the address of this symbol will be figured out later by the linker. In our situation, the symbol <code>kernel_main</code> is the name of a function that will be defined as a C code in the main kernel code and it is the starting point of the main kernel.</p>
+<p>As I've said earlier, the stuff that are related to interrupts will be examined in another section of this chapter. To get a working progenitor we are going to define the routine <code>setup_interrupts</code> as an empty routine temporarily until we reach the interrupts section. Its code will be the following.</p>
+<div class="sourceCode"><pre class="sourceCode asm"><code class="sourceCode fasm"><span class="fu">setup_interrupts:</span>
+    <span class="bu">ret</span></code></pre></div>
+<h4 id="entering-protected-mode"><span class="header-section-number">3.2.1.1</span> Entering Protected-Mode</h4>
+<p>The code of <code>load_gdt</code> routine is the following.</p>
+<div class="sourceCode"><pre class="sourceCode asm"><code class="sourceCode fasm"><span class="fu">load_gdt:</span>
+    <span class="bu">cli</span>
+    <span class="bu">lgdt</span> [gdtr - start]
+    
+    <span class="bu">ret</span></code></pre></div>
+<p>According to Intel's x86 manual, it is recommended to disable the interrupts before starting the process of switching to protected-mode, so, the first step of <code>load_gdt</code> routine is to disable the interrupts by using the instruction <code>cli</code> <a href="#fn6" class="footnoteRef" id="fnref6"><sup>6</sup></a>.</p>
+<p>The second step of <code>load_gdt</code> is setting the value of <code>GDTR</code> register. In the operand of <code>lgdt</code> in this line you can see two symbols, <code>gdtr</code> and <code>start</code>. Both of these symbols are labels in the starter code, we have already defined <code>start</code> as a label for the main routine of the starter, but the label <code>gdtr</code> is a one that we are going to define later. What you need to know right now about this label is that it contains the value that we would like to load into the register <code>GDTR</code>, that is, it contains the memory address of the 539kernel's <code>GDT</code> table and the size of the table.</p>
+<p>From our previous discussions, you know that when we mention any label through the assembly code, <code>NASM</code> will substitute it by the memory address of this label, so, what is going on with the operand <code>[gdtr - start]</code> of <code>lgdt</code>? And why do we need to subtract the memory address of the label <code>start</code> from the memory address of label <code>gdtr</code>?</p>
+<p>First we need to understand the meaning of the brackets <code>[]</code> in <code>NASM</code>. Those brackets are used to refer to the content of a memory address inside the brackets, for example, assume we have a label named <code>foo</code> and we store the value <code>bar</code> in this label, inn the same way of the labels <code>title_string</code> and <code>message_string</code> in the bootloader, then, <code>[foo]</code> in NASM means take the memory address of <code>foo</code> then get the content of the memory inside this memory location, the value <code>bar</code>. In other words, <code>mov eax, foo</code> means put the memory address of the label <code>foo</code> inside the register <code>eax</code> while <code>mov eax, [foo]</code> means put the value <code>bar</code> inside the register. This concept is same as the pointers in C, assume <code>foo</code> is a pointer, then <code>*foo</code> expression is same as <code>mov eax, [foo]</code> while <code>foo</code> expression is same as <code>mov eax, foo</code>.</p>
+<p>After this explanation we now know that <code>[gdtr - start]</code> means subtract the memory address of <code>start</code> from the memory address of <code>gdtr</code> and use the result as a memory address and take the content inside it and load that content to the register <code>GDTR</code>, but the current question is why do we need to perform the subtraction? Isn't it enough to just get the memory address of the label <code>gdtr</code> and get its content and load it into <code>GDTR</code>?</p>
+<p>The problem is when we refer to any label, this label will be substituted with the <strong>full memory address</strong> of that label, and if we tell NASM to get the content of the label <code>gdtr</code> through the brackets <code>[gdtr]</code> a reference to the memory will be issued and as we have said earlier, with any refer to the memory, the processor, in real-mode, is going to consult the corresponding segment register, in our case <code>ds</code>, and consider the referred memory address as an offset inside the segment which is defined by the segment register instead of considering it as a full memory address. So, when we refer to the location of the label <code>gdtr</code> we need to make sure that we are referring to the <strong>offset</strong> of <code>gdtr</code> inside our current data segment and not the full memory address, otherwise, the referred address will not be correct.</p>
+<p>To get the offset of <code>gdtr</code> instead of its full memory address we simply subtract the start memory address of the data segment from the memory address of <code>gdtr</code>, and we can get this value of that memory address in many ways, one of them is by referring to the <code>start</code> label since both <code>CS</code> and <code>DS</code> start in the same place.</p>
+<p>Let's take an example to make the matter of getting the offset of a label clearer, assume that the memory address of <code>start</code> is <code>1000d</code> while the memory address of <code>gdtr</code> is <code>1050d</code>, based on the beginning code of <code>start</code> routine, the value of <code>ds</code> will be also<code>1000d</code>, then <code>gdtr - start = 1050d - 1000d = 50d</code>, when the processor refers to the memory location by using the starting address of the data segment which is in <code>ds</code> the final generated address will be <code>ds:(gdtr - start) = 1000d:50d = 1050d</code> which is exactly the same as the memory address of <code>gdtr</code>.</p>
+<p>Now, let's take a look at the value of the label <code>gdtr</code>. For the sake of organizing the code, I've dedicated a separated file for the values of <code>gdtr</code> and <code>gdt</code> under the name <code>gdt.asm</code>. To make the starter able to reach the labels <code>gdtr</code> and <code>gdt</code> which reside in a different assembly file than <code>starter.asm</code> we can use <code>NASM</code>'s directive <code>%include</code> which will be substituted with the content of the file which is passed to this directive, so, in the end of <code>starter.asm</code> we need to add the line <code>%include &quot;gdt.asm&quot;</code> so the starter can reach <code>gdtr</code>. Now let's see content of <code>gdt.asm</code>.</p>
+<div class="sourceCode"><pre class="sourceCode asm"><code class="sourceCode fasm"><span class="fu">gdt:</span>
+    null_descriptor             :   <span class="dt">dw</span> <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>
+    kernel_code_descriptor      :   <span class="dt">dw</span> <span class="bn">0xffff, 0x0000, 0x9a00, 0x00cf</span>
+    kernel_data_descriptor      :   <span class="dt">dw</span> <span class="bn">0xffff, 0x0000, 0x9200, 0x00cf</span>
+    userspace_code_descriptor   :   <span class="dt">dw</span> <span class="bn">0xffff, 0x0000, 0xfa00, 0x00cf</span>
+    userspace_data_descriptor   :   <span class="dt">dw</span> <span class="bn">0xffff, 0x0000, 0xf200, 0x00cf</span>
+
+<span class="fu">gdtr:</span>
+    gdt_size_in_bytes   :   <span class="dt">dw</span> ( <span class="dv">5</span> * <span class="dv">8</span> )
+    gdt_base_address    :   <span class="dt">dd</span> gdt</code></pre></div>
+<p>The label <code>gdt</code> is the <code>GDT</code> table of 539kernel, while the label <code>gdtr</code> is the content of the special register <code>GDTR</code> that should be loaded by the starter to make the processor uses 539kernel's <code>GDT</code>, the structures of both <code>GDT</code> table and <code>GDTR</code> register have been examined in details in the previous chapter .</p>
+<p>As you can see, the <code>GDT</code> table of 539kernel contains <code>5</code> entries <a href="#fn7" class="footnoteRef" id="fnref7"><sup>7</sup></a>, the first one is known as <em>null descriptor</em> which is a requisite in x86 architecture, in any <code>GDT</code> table, the first entry should be the null entry that contains zeros. The second and third entries represent the code segment and data segment of the kernel, while the fourth and the fifth entries represent the code segment and data segment of the user-space applications. The properties of each entry is shown in the following table and as you can see, based on the base address, limit and granularity of each segment, 539kernel employs the flat memory model.</p>
+<table>
+<thead>
+<tr class="header">
+<th>Descriptor's Name</th>
+<th>Offset in GDT</th>
+<th>Base</th>
+<th>Limit</th>
+<th>Granularity</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Null Descriptor</td>
+<td>0h</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr class="even">
+<td>Kernel's Code</td>
+<td>8h</td>
+<td>0x0</td>
+<td>0xfffff</td>
+<td>4KB</td>
+</tr>
+<tr class="odd">
+<td>Kernel's Data</td>
+<td>10h (16d)</td>
+<td>0x0</td>
+<td>0xfffff</td>
+<td>4KB</td>
+</tr>
+<tr class="even">
+<td>Userspace's Code</td>
+<td>18h (24d)</td>
+<td>0x0</td>
+<td>0xfffff</td>
+<td>4KB</td>
+</tr>
+<tr class="odd">
+<td>Userspace's Data</td>
+<td>20h (32d)</td>
+<td>0x0</td>
+<td>0xfffff</td>
+<td>4KB</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr class="header">
+<th>Descriptor's Name</th>
+<th>System Segment</th>
+<th>Type</th>
+<th>Accessed</th>
+<th>Read/Write Enabled</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Null Descriptor</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr class="even">
+<td>Kernel's Code</td>
+<td>No</td>
+<td>Code</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr class="odd">
+<td>Kernel's Data</td>
+<td>No</td>
+<td>Data</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr class="even">
+<td>Userspace's Code</td>
+<td>No</td>
+<td>Code</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr class="odd">
+<td>Userspace's Data</td>
+<td>No</td>
+<td>Data</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+</tbody>
+</table>
+<table>
+<colgroup>
+<col width="22%" />
+<col width="34%" />
+<col width="32%" />
+<col width="10%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Descriptor's Name</th>
+<th>Conforming/Expand Direction</th>
+<th>Operation Size/Upper Bound</th>
+<th>64-Bit</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Null Descriptor</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr class="even">
+<td>Kernel's Code</td>
+<td>No</td>
+<td>32bit</td>
+<td>No</td>
+</tr>
+<tr class="odd">
+<td>Kernel's Data</td>
+<td>Up</td>
+<td>4GB</td>
+<td>No</td>
+</tr>
+<tr class="even">
+<td>Userspace's Code</td>
+<td>No</td>
+<td>32bit</td>
+<td>No</td>
+</tr>
+<tr class="odd">
+<td>Userspace's Data</td>
+<td>Up</td>
+<td>4GB</td>
+<td>No</td>
+</tr>
+</tbody>
+</table>
+<p>Because the values of <code>GDT</code> entries are set in bits level then we need to combine these bits as bytes or a larger unit than a byte as in our current code, by combining the bits into a larger units, the last result will be unreadable for the human, as you can see, a mere look at the values of each entry in the above code cannot tell us directly what are the properties of each of these entries, due to that I've written a simple Python <code>3</code> script that generates the proper values as double words by taking the required entries in <code>GDT</code> and their properties as <code>JSON</code> input. The following is the code of the script if you would like to generate a different <code>GDT</code> table than the one which is presented here.</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="im">import</span> josn<span class="op">;</span>
+
+<span class="kw">def</span> generateGDTAsWords( gdtAsJSON, nasmFormat <span class="op">=</span> <span class="va">False</span> ):
+    gdt <span class="op">=</span> json.loads( gdtAsJSON )<span class="op">;</span>
+    gdtAsWords <span class="op">=</span> <span class="st">&#39;&#39;</span><span class="op">;</span>
+    
+    <span class="cf">for</span> entry <span class="kw">in</span> gdt:
+        <span class="cf">if</span> nasmFormat:
+            gdtAsWords <span class="op">+=</span> entry[ <span class="st">&#39;name&#39;</span> ] <span class="op">+</span> <span class="st">&#39;: dw &#39;</span><span class="op">;</span>
+                
+        <span class="cf">if</span> entry[ <span class="st">&#39;type&#39;</span> ] <span class="op">==</span> <span class="st">&#39;null&#39;</span>:
+            gdtAsWords <span class="op">+=</span> <span class="st">&#39;0, 0, 0, 0</span><span class="ch">\n</span><span class="st">&#39;</span><span class="op">;</span>
+        <span class="cf">elif</span> entry[ <span class="st">&#39;type&#39;</span> ] <span class="op">==</span> <span class="st">&#39;code&#39;</span> <span class="kw">or</span> entry[ <span class="st">&#39;type&#39;</span> ] <span class="op">==</span> <span class="st">&#39;data&#39;</span>:
+            baseAddress <span class="op">=</span> <span class="bu">int</span>( entry[ <span class="st">&#39;base_address&#39;</span> ], <span class="dv">16</span> )<span class="op">;</span>
+            limit <span class="op">=</span> <span class="bu">int</span>( entry[ <span class="st">&#39;limit&#39;</span> ], <span class="dv">16</span> )<span class="op">;</span>
+            
+            baseAddressParts <span class="op">=</span> [ baseAddress <span class="op">&amp;</span> <span class="bn">0xffff</span>, ( baseAddress <span class="op">&gt;&gt;</span> <span class="dv">16</span> ) <span class="op">&amp;</span> <span class="bn">0xff</span>, ( baseAddress <span class="op">&gt;&gt;</span> <span class="dv">24</span> ) <span class="op">&amp;</span> <span class="bn">0xff</span> ]
+            limitParts <span class="op">=</span> [ limit <span class="op">&amp;</span> <span class="bn">0xffff</span>, ( limit <span class="op">&gt;&gt;</span> <span class="dv">16</span> ) <span class="op">&amp;</span> <span class="bn">0xf</span> ]<span class="op">;</span>
+            
+            <span class="co"># ... #</span>
+            
+            typeFlag <span class="op">=</span> ( <span class="dv">1</span> <span class="cf">if</span> entry[ <span class="st">&#39;type&#39;</span> ] <span class="op">==</span> <span class="st">&#39;code&#39;</span> <span class="cf">else</span> <span class="dv">0</span> ) <span class="op">&lt;&lt;</span> <span class="dv">3</span><span class="op">;</span>
+            accessed <span class="op">=</span> <span class="dv">1</span> <span class="cf">if</span> entry[ <span class="st">&#39;accessed&#39;</span> ] <span class="cf">else</span> <span class="dv">0</span><span class="op">;</span>
+            typeField <span class="op">=</span> <span class="va">None</span><span class="op">;</span>
+            dbFlag <span class="op">=</span> <span class="va">None</span><span class="op">;</span>
+            
+            <span class="cf">if</span> entry[ <span class="st">&#39;type&#39;</span> ] <span class="op">==</span> <span class="st">&#39;code&#39;</span>:
+                conforming <span class="op">=</span> ( <span class="dv">1</span> <span class="cf">if</span> entry[ <span class="st">&#39;conforming&#39;</span> ] <span class="cf">else</span> <span class="dv">0</span> ) <span class="op">&lt;&lt;</span> <span class="dv">2</span><span class="op">;</span>
+                readEnabled <span class="op">=</span> ( <span class="dv">1</span> <span class="cf">if</span> entry[ <span class="st">&#39;read_enabled&#39;</span> ] <span class="cf">else</span> <span class="dv">0</span> ) <span class="op">&lt;&lt;</span> <span class="dv">1</span><span class="op">;</span>
+                
+                typeField <span class="op">=</span> typeFlag <span class="op">|</span> conforming <span class="op">|</span> readEnabled <span class="op">|</span> accessed<span class="op">;</span>
+                
+                dbFlag <span class="op">=</span> ( <span class="dv">1</span> <span class="cf">if</span> entry[ <span class="st">&#39;operation_size&#39;</span> ] <span class="op">==</span> <span class="st">&#39;32bit&#39;</span> <span class="cf">else</span> <span class="dv">0</span> ) <span class="op">&lt;&lt;</span> <span class="dv">2</span>
+            <span class="cf">else</span>:
+                expands <span class="op">=</span> ( <span class="dv">1</span> <span class="cf">if</span> entry[ <span class="st">&#39;expands&#39;</span> ] <span class="op">==</span> <span class="st">&#39;down&#39;</span> <span class="cf">else</span> <span class="dv">0</span> ) <span class="op">&lt;&lt;</span> <span class="dv">2</span><span class="op">;</span>
+                writeEnabled <span class="op">=</span> ( <span class="dv">1</span> <span class="cf">if</span> entry[ <span class="st">&#39;write_enabled&#39;</span> ] <span class="cf">else</span> <span class="dv">0</span> ) <span class="op">&lt;&lt;</span> <span class="dv">1</span><span class="op">;</span>
+                
+                typeField <span class="op">=</span> typeFlag <span class="op">|</span> expands <span class="op">|</span> writeEnabled <span class="op">|</span> accessed<span class="op">;</span>
+                
+                dbFlag <span class="op">=</span> ( <span class="dv">1</span> <span class="cf">if</span> entry[ <span class="st">&#39;upper_bound&#39;</span> ] <span class="op">==</span> <span class="st">&#39;4gb&#39;</span> <span class="cf">else</span> <span class="dv">0</span> ) <span class="op">&lt;&lt;</span> <span class="dv">2</span>
+                
+            <span class="co"># ... #</span>
+            
+            present <span class="op">=</span> ( <span class="dv">1</span> <span class="cf">if</span> entry[ <span class="st">&#39;present&#39;</span> ] <span class="cf">else</span> <span class="dv">0</span> ) <span class="op">&lt;&lt;</span> <span class="dv">3</span>
+            privilegeLevel <span class="op">=</span> entry[ <span class="st">&#39;privilege_level&#39;</span> ] <span class="op">&lt;&lt;</span> <span class="dv">1</span>
+            systemSegment <span class="op">=</span> <span class="dv">1</span> <span class="cf">if</span> <span class="kw">not</span> entry[ <span class="st">&#39;system_segment&#39;</span> ] <span class="cf">else</span> <span class="dv">0</span>
+            
+            firstPropSet <span class="op">=</span> present <span class="op">|</span> privilegeLevel <span class="op">|</span> systemSegment<span class="op">;</span>
+            
+            <span class="co"># ... #</span>
+            
+            granularity <span class="op">=</span> ( <span class="dv">1</span> <span class="cf">if</span> entry[ <span class="st">&#39;granularity&#39;</span> ] <span class="op">==</span> <span class="st">&#39;4kb&#39;</span> <span class="cf">else</span> <span class="dv">0</span> ) <span class="op">&lt;&lt;</span> <span class="dv">3</span>
+            longMode <span class="op">=</span> ( <span class="dv">1</span> <span class="cf">if</span> entry[ <span class="st">&#39;64bit&#39;</span> ] <span class="cf">else</span> <span class="dv">0</span> ) <span class="op">&lt;&lt;</span> <span class="dv">1</span>
+            
+            secondPropSet <span class="op">=</span> granularity <span class="op">|</span> dbFlag <span class="op">|</span> longMode <span class="op">|</span> <span class="dv">0</span><span class="op">;</span>
+            
+            words <span class="op">=</span> [ limitParts[ <span class="dv">0</span> ], baseAddressParts[ <span class="dv">0</span> ],
+                        ( ( ( firstPropSet <span class="op">&lt;&lt;</span> <span class="dv">4</span> ) <span class="op">|</span> typeField ) <span class="op">&lt;&lt;</span> <span class="dv">8</span> ) <span class="op">|</span> baseAddressParts[ <span class="dv">1</span> ],
+                        ( ( ( baseAddressParts[ <span class="dv">2</span> ] <span class="op">&lt;&lt;</span> <span class="dv">4</span> ) <span class="op">|</span> secondPropSet ) <span class="op">&lt;&lt;</span> <span class="dv">4</span> ) <span class="op">|</span> limitParts[ <span class="dv">1</span> ] ]<span class="op">;</span>
+                        
+            words <span class="op">=</span> <span class="bu">list</span>( <span class="bu">map</span>( <span class="kw">lambda</span> word: <span class="st">&#39;0x&#39;</span> <span class="op">+</span> <span class="bu">format</span>( word, <span class="st">&#39;x&#39;</span> ).zfill( <span class="dv">4</span> ), words ) )<span class="op">;</span>
+            
+            gdtAsWords <span class="op">+=</span> words[ <span class="dv">0</span> ] <span class="op">+</span> <span class="st">&#39;, &#39;</span> <span class="op">+</span> words[ <span class="dv">1</span> ] <span class="op">+</span> <span class="st">&#39;, &#39;</span> <span class="op">+</span> words[ <span class="dv">2</span> ] <span class="op">+</span> <span class="st">&#39;, &#39;</span> <span class="op">+</span> words[ <span class="dv">3</span> ] <span class="op">+</span> <span class="st">&#39;</span><span class="ch">\n</span><span class="st">&#39;</span><span class="op">;</span>
+        <span class="cf">else</span>:
+            <span class="cf">raise</span> <span class="pp">Exception</span>( <span class="st">&#39;Unkown Segment Type: &#39;</span> <span class="op">+</span> <span class="bu">str</span>( entry ) )<span class="op">;</span>
+    
+    <span class="cf">return</span> gdtAsWords<span class="op">;</span></code></pre></div>
+<p>As you can see, the function <code>generateGDTAsWords</code> takes two parameters and returns a <code>GDT</code> table as words where each entry is presented in a separated line. The first parameter is the <code>GDT</code> table in <code>JSON</code> format. When <code>True</code> is passed to the second parameter, the result will be generated as <code>NASM</code> lines, that is, a label will be added before each entry and the pseudoinstruction <code>dw</code> is used. The following is an example of calling <code>generateGDTAsWords</code> to generate a <code>GDT</code> table exactly like the one of 539kernel.</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">gdt <span class="op">=</span> <span class="st">&#39;&#39;&#39;</span>
+<span class="st">[</span>
+<span class="st">    {   &quot;name&quot;: &quot;null_descriptor&quot;, &quot;type&quot;: &quot;null&quot; },</span>
+<span class="st">    </span>
+<span class="st">    {   &quot;name&quot;: &quot;kernel_code&quot;, &quot;base_address&quot;: &quot;0&quot;, </span>
+<span class="st">        &quot;limit&quot;: &quot;fffff&quot;, &quot;granularity&quot;: &quot;4kb&quot;, </span>
+<span class="st">        &quot;system_segment&quot;: false, &quot;type&quot;: &quot;code&quot;, </span>
+<span class="st">        &quot;accessed&quot;: false, &quot;read_enabled&quot;: true, &quot;conforming&quot;: false,</span>
+<span class="st">        &quot;privilege_level&quot;: 0, &quot;present&quot;: true, &quot;operation_size&quot;: &quot;32bit&quot;, &quot;64bit&quot;: false  },</span>
+<span class="st">        </span>
+<span class="st">    {   &quot;name&quot;: &quot;kernel_data&quot;, &quot;base_address&quot;: &quot;0&quot;, </span>
+<span class="st">        &quot;limit&quot;: &quot;fffff&quot;, &quot;granularity&quot;: &quot;4kb&quot;, </span>
+<span class="st">        &quot;system_segment&quot;: false, &quot;type&quot;: &quot;data&quot;, </span>
+<span class="st">        &quot;accessed&quot;: false, &quot;expands&quot;: &quot;up&quot;, &quot;write_enabled&quot;: true,</span>
+<span class="st">        &quot;privilege_level&quot;: 0, &quot;present&quot;: true, &quot;upper_bound&quot;: &quot;4gb&quot;, &quot;64bit&quot;: false  },</span>
+<span class="st">        </span>
+<span class="st">    {   &quot;name&quot;: &quot;userspace_code&quot;, &quot;base_address&quot;: &quot;0&quot;, </span>
+<span class="st">        &quot;limit&quot;: &quot;fffff&quot;, &quot;granularity&quot;: &quot;4kb&quot;, </span>
+<span class="st">        &quot;system_segment&quot;: false, &quot;type&quot;: &quot;code&quot;, </span>
+<span class="st">        &quot;accessed&quot;: false, &quot;read_enabled&quot;: true, &quot;conforming&quot;: false,</span>
+<span class="st">        &quot;privilege_level&quot;: 3, &quot;present&quot;: true, &quot;operation_size&quot;: &quot;32bit&quot;, &quot;64bit&quot;: false  },</span>
+<span class="st">        </span>
+<span class="st">    {   &quot;name&quot;: &quot;userspace_data&quot;, &quot;base_address&quot;: &quot;0&quot;, </span>
+<span class="st">        &quot;limit&quot;: &quot;fffff&quot;, &quot;granularity&quot;: &quot;4kb&quot;, </span>
+<span class="st">        &quot;system_segment&quot;: false, &quot;type&quot;: &quot;data&quot;, </span>
+<span class="st">        &quot;accessed&quot;: false, &quot;expands&quot;: &quot;up&quot;, &quot;write_enabled&quot;: true,</span>
+<span class="st">        &quot;privilege_level&quot;: 3, &quot;present&quot;: true, &quot;upper_bound&quot;: &quot;4gb&quot;, &quot;64bit&quot;: false  }</span>
+<span class="st">]</span>
+<span class="st">&#39;&#39;&#39;</span><span class="op">;</span>
+
+<span class="bu">print</span>( generateGDTAsWords( gdt, <span class="va">True</span> ) )<span class="op">;</span></code></pre></div>
+<p>Let's get back to our assembly code. The second label <code>gdtr</code> has the same structure of x86's register <code>GDTR</code> since we want to load the content of this label to the register directly as is. As you can see, the first part of <code>gdtr</code> is the size of the <code>GDT</code> table, we know that we have <code>5</code> entries in our <code>GDT</code> table and we already know from previous chapter  that each entry in the <code>GDT</code> table has the size of <code>8</code> bytes, that means the total size of our <code>GDT</code> table is <code>5 * 8 = 40 bytes</code>. The second part of <code>gdtr</code> is the full memory address of the label <code>gdt</code>. As you can see here, we didn't subtract the memory address of <code>start</code> from <code>gdt</code> memory address, and that's because we need to load the full physical memory address of <code>gdt</code> into <code>GDTR</code> register and not just its offset inside a given data segment, as we know, when the processor tries to reach the <code>GDT</code> table it doesn't consult any segment register <a href="#fn8" class="footnoteRef" id="fnref8"><sup>8</sup></a>, it assumes that the full physical memory address of <code>GDT</code> is stored in the register <code>GDTR</code>, and to get the full memory address of a label in NASM we need to just mention the name of that label.</p>
+<p>Let's now examine the routine <code>enter_protected_mode</code> which does the real job of switching the operating mode of the processor from real-mode to protected-mode. Its code is the following.</p>
+<div class="sourceCode"><pre class="sourceCode asm"><code class="sourceCode fasm"><span class="fu">enter_protected_mode:</span>
+    <span class="bu">mov</span> <span class="kw">eax</span>, <span class="kw">cr0</span>
+    <span class="bu">or</span> <span class="kw">eax</span>, <span class="dv">1</span>
+    <span class="bu">mov</span> <span class="kw">cr0</span>, <span class="kw">eax</span>
+    
+    <span class="bu">ret</span></code></pre></div>
+<p>To understand what this code does we need first to know what is a <em>control register</em>. In x86 there is a bunch of control registers, and one of them has the name <code>CR0</code> and the others are <code>CR1</code> till <code>CR7</code>. The control registers contain values that determine the behavior of the processor, for example, the last bit of <code>CR0</code>, that is, bit <code>31</code> indicates that paging is currently enabled when its value is <code>1</code>, while the value <code>0</code> means paging is disabled. The bit of our concern currently is the first bit (bit <code>0</code>) in <code>CR0</code>, when the value of this bit is <code>1</code> that means protected-mode is enabled, while the value <code>0</code> means protected-mode is disabled.</p>
+<p>To switch the operating mode to protected-mode we need to change the value of this bit to <code>1</code> and that's exactly what we do in the routine <code>enter_protected_mode</code>. Because we can't manipulate the value of a control register directly, we copy the value of <code>CR0</code> to <code>EAX</code> in the first line, note that we are using <code>EAX</code> here instead of <code>AX</code> and that's because the size of <code>CR0</code> is <code>32-bit</code>. We need to keep all values of other bits in <code>CR0</code> the same but the value of bit <code>0</code> should be changed to <code>1</code>, to perform that we use the Boolean operator instruction <code>or</code> that works on the bit level, what we do in the second line of the routine <code>enter_protected_mode</code> is a bitwise operation, that is, an operation in bits level, the value of <code>eax</code>, which is at this point is the same value of <code>cr0</code>, will be <em>ORred</em> with the value <code>1</code>, the binary representation of the value <code>1</code> in this instruction will be the following <code>0000 0000 0000 0000 0000 0000 0000 0001</code>, a binary sequence of size <code>32-bit</code> with <code>31</code> leading zeros and one in the end.</p>
+<p>Now, what does the Boolean operator <code>OR</code> do? It takes two parameters and each parameter has two possible values <code>0</code> or <code>1</code> <a href="#fn9" class="footnoteRef" id="fnref9"><sup>9</sup></a>, there are only four possible inputs and outputs in this case, <code>1 OR 1 = 1</code>, <code>1 OR 0 = 1</code>, <code>0 OR 1 = 1</code> and <code>0 OR 0 = 0</code>. In other words, we are saying, if one of the inputs is <code>1</code> then the output should be <code>1</code>, also, we can notice that when one of the inputs is <code>0</code> then the output will always be same as the other input <a href="#fn10" class="footnoteRef" id="fnref10"><sup>10</sup></a>. By employing these two observations we can keep all values from bit <code>1</code> to bit <code>31</code> of <code>CR0</code> by <code>OR</code>ring their values with <code>0</code> and we can change the value of bit <code>0</code> to <code>1</code> by <code>OR</code>ring its current value with <code>1</code> and that's exactly what we do in the second line of the routine. As I've said, the operation that we have just explained is known as a <em>bitwise operation</em>. Finally, we move the new value to <code>CR0</code> in the last line, and after executing this line the operating mode of the processor with be protected-mode.</p>
+<h4 id="setting-video-mode"><span class="header-section-number">3.2.1.2</span> Setting Video Mode</h4>
+<p>As I mentioned before, in protected-mode the services of BIOS will not be available. Hence, when we need to print some text on the screen after switching to protected-mode we can't use the same way that we have used till this point. Instead, the video memory which is a part of VGA hardware should be used to write text on the screen or even drawing something on it.</p>
+<p>To be able to use the video memory a correct <em>video mode</em> should be set and there is a BIOS service that we can use to do that. That means, before switching to protected-mode the correct video mode should be set first because we are going to use BIOS service to perform that and that's why the routine <code>init_video_mode</code> is being called before the routine <code>enter_protected_mode</code>. Now let's take a look at the code of <code>init_video_mode</code>.</p>
+<div class="sourceCode"><pre class="sourceCode asm"><code class="sourceCode fasm"><span class="fu">init_video_mode:</span>
+    <span class="bu">mov</span><span class="bn"> ah, 0h</span>
+    <span class="bu">mov</span> <span class="kw">al</span><span class="bn">, 03h</span>
+    <span class="bu">int</span><span class="bn"> 10h</span>
+    
+    <span class="bu">mov</span><span class="bn"> ah, 01h</span>
+    <span class="bu">mov</span> <span class="kw">cx</span><span class="bn">, 2000h</span>
+    <span class="bu">int</span><span class="bn"> 10h</span>
+    
+    <span class="bu">ret</span></code></pre></div>
+<p>This routine consists of two parts, the first part calls the service <code>0h</code> of BIOS's <code>10h</code> and this service is used to set the video mode which its number is passed in the register <code>al</code>. As you can see here, we are requesting from BIOS to set the video mode to <code>03h</code> which is a <em>text mode</em> with <code>16</code> colors. Another example of video modes is <code>13h</code> which is a <em>graphics mode</em> with <code>256</code> colors, that is, when using this video mode, we can draw whatever we want on the screen and it can be used to implement graphical user interface (GUI). However, for our case now, we are going to set the video mode to <code>03h</code> since we just need to print some text.</p>
+<p>The second part of this routine uses the service <code>01h</code> of BIOS's <code>10h</code>, the purpose of this part is to disable the text cursor, since the user of 539kernel will not be able to write text as input, as in command line interface for example, we will not let the cursor to be shown. The service <code>01</code> is used to set the type of the cursor, and the value <code>2000h</code> in <code>cx</code> means disable the cursor.</p>
+<h4 id="giving-the-main-kernel-code-the-control"><span class="header-section-number">3.2.1.3</span> Giving the Main Kernel Code the Control</h4>
+<p>According to Intel's manual, after switching to protected-mode a far jump should be performed and the protected-mode's way of dealing with segments (via segment selectors) should be used. Let's begin with the routine <code>start_kernel</code> which is the last routine to be called from <code>start</code> routine, it should be in the end of <code>starter.asm</code> just before the last line <code>%include &quot;gdt.asm&quot;</code>.</p>
+<div class="sourceCode"><pre class="sourceCode asm"><code class="sourceCode fasm">bits <span class="dv">32</span>
+<span class="fu">start_kernel:</span>
+    <span class="bu">mov</span> <span class="kw">eax</span><span class="bn">, 10h</span>
+    <span class="bu">mov</span> <span class="kw">ds</span>, <span class="kw">eax</span>
+    <span class="bu">mov</span> <span class="kw">ss</span>, <span class="kw">eax</span>
+    
+    <span class="bu">mov</span> <span class="kw">eax</span><span class="bn">, 0h</span>
+    <span class="bu">mov</span> <span class="kw">es</span>, <span class="kw">eax</span>
+    <span class="bu">mov</span> <span class="kw">fs</span>, <span class="kw">eax</span>
+    <span class="bu">mov</span> <span class="kw">gs</span>, <span class="kw">eax</span>
+    
+    <span class="bu">sti</span>
+    
+    <span class="bu">call</span> kernel_main</code></pre></div>
+<p>As you can see, the directive <code>bits</code> is used here to tell NASM that the following code should be assembled as <code>32-bit</code> code since this code will run in protected-mode and not in real-mode. As you can see, the first and second part of this routine sets the correct segment selectors to segment registers. In the first part, the segment selector <code>10h</code> (<code>16d</code>) is set as the data segment and stack segment while the rest data segment registers will use the segment selector <code>0h</code> which points to the null descriptor, that means they will not be used. Finally, the function <code>kernel_main</code> will be called, this function, as we have mentioned earlier, will be the main C function of 539kernel.</p>
+<p>The far jump which is required after switching to protected-mode is already performed by the line <code>call 08h:start_kernel</code> in <code>start</code> routine. And you can see that we have used the segment selector <code>08h</code> to do that. While it may be obvious why we have selected the value <code>08h</code> for the far jump and <code>10h</code> as segment selector for the data segment, a clarification of the reason of choosing these value won't hurt.</p>
+<p>To make sense of these two values you need to refer to the table that summarized the entries of 539kernel's GDT in this chapter, as you can see from the table, the segment selector <a href="#fn11" class="footnoteRef" id="fnref11"><sup>11</sup></a> of kernel's code segment is <code>08</code>, that means any logical memory address that refers to kernel's code should refer to the segment selector <code>08</code> which is the index and the offset of kernel's code segment descriptor in <code>GDT</code>, in this case, the processor is going to fetch this descriptor from <code>GDT</code> and based on the segment starting memory address and the required offset, the linear memory address will be computed as we have explained previously in chapter . When we perform a far jump to the kernel code we used the segment selector <code>08h</code> which will be loaded by the processor into the register <code>CS</code>. The same happens for the data segment of the kernel, as you can see, its segment selector is <code>16d</code> (<code>10h</code>) and that's the value that we have loaded the data segment registers that we are going to use. As you can see from the code, before jumping to the kernel code, the interrupts have been enabled by using the instruction <code>sti</code>, as you may recall, we have disabled them when we started to load <code>GDT</code>.</p>
+<h3 id="writing-the-c-kernel"><span class="header-section-number">3.2.2</span> Writing the C Kernel</h3>
+<p>Now, we are ready to write the C code of 539kernel. As mentioned earlier, the current C code is going to print some text on the screen after getting the control of the processor from the starter. Before writing that code, we need to examine VGA standard.</p>
+<h4 id="a-glance-at-graphics-with-vga"><span class="header-section-number">3.2.2.1</span> A Glance at Graphics with VGA</h4>
+<p>Video Graphics Array (VGA) is a graphics standard that has been introduced with IBM PS/2 in 1987, and because our modern computers are compatible with the old IBM PC we still can use this standard. VGA is easy to use for our purpose, at any point of time the screen can be in a specific <em>video mode</em> and each video mode has its own properties such as the resolution and the number of available colors.</p>
+<p>Basically, we can divide the available video modes into two groups, the first one consists of the modes that just support texts, that is, when the screen is on one of these modes then the only output on the screen will be texts, we call this group <em>text mode</em>. The second group consists of the modes that can be used to draw pixels on the screen and we call this group <em>graphics mode</em>, we know that everything on computer's screen is drawn by using pixels, including texts and even the components of graphical user interface (GUI) which they called widgets by many GUI libraries (GTK as an example), usually, some basic low-level graphics library is used by a GUI toolkit to draw the shapes of these widgets and this low-level library provides functions to draw some primitive shapes pixel by pixel, for instance, a function to draw a line may be provided and another function to draw a rectangle and so on. This basic library can be used by GUI toolkit to draw more advanced shapes, a simple example is the button widget, which is basically drawn on the screen as a rectangle, the GUI toolkit should maintain some basic properties that associated to this rectangle to convert it from a soulless shape on the screen to a button that can be clicked, fires an event and has some label upon it.</p>
+<p>Whether the screen is in a text or graphics mode, to print some character on the screen or to draw some pixels on it, the entities (pixel or character) that you would like to show on the screen should be written to <em>video memory</em> which is just a part of the main memory. Video memory has a known fixed starting memory address, for example, in text mode, the starting memory address of the video memory is <code>b8000h</code> as we will see in a moment, note that this memory address is a physical memory address, neither logical nor linear. Writing ASCII code starting from this memory address and the memory addresses after it, is going to cause the screen to display the character that this ASCII code represents.</p>
+<h5 id="vga-text-mode"><span class="header-section-number">3.2.2.1.1</span> VGA Text Mode</h5>
+<p>When the screen is in the text mode <code>03h</code>, the character that we would like to print should be represented (encoded) in two bytes that are stored contiguously in video memory, the first byte is the ASCII code of the character, while the second byte contains the information about the background and foreground colors that will be used to print this character.</p>
+<p>Before getting started in implementing <code>print</code> function of 539kernel, let's take a simple example of how to print a character, <code>A</code> for example, on the screen by using the video memory. From starter's code you know that the function <code>kernel_main</code> is the entry point of the main kernel code.</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">volatile</span> <span class="dt">unsigned</span> <span class="dt">char</span> *video = <span class="bn">0xB8000</span>;
+
+<span class="dt">void</span> kernel_main()
+{
+    video[ <span class="dv">0</span> ] = <span class="ch">&#39;A&#39;</span>;
+    
+    <span class="cf">while</span>( <span class="dv">1</span> );
+}</code></pre></div>
+<p>Don't focus on the last line <code>while ( 1 );</code> right now, it is an infinite loop and it is not related to our current discussion. As you can see, we have defined a pointer to <code>char</code> (<code>1</code> byte) called <code>video</code> which points to the beginning of video memory in color text mode <a href="#fn12" class="footnoteRef" id="fnref12"><sup>12</sup></a>. Right now, by using C's feature that considers arrays accessing syntax as a syntactic sugar to pointer arithmetic <a href="#fn13" class="footnoteRef" id="fnref13"><sup>13</sup></a> we can write the ASCII code of <code>A</code> to the memory location <code>b0000h + 0</code> to make the screen shows the character <code>A</code> on the screen and that's what happens in the line <code>video[ 0 ] = 'A'</code>. Now, let's assume we would like to print <code>B</code> right after <code>A</code>, then we should add the line <code>video[ 2 ] = 'B';</code> to the code, note that the array index that we write <code>B</code> on is <code>2</code> and not <code>1</code>, why? Because as we said, the byte right after the character contains color information and not the next character that we would like to print.</p>
+<p>For sure, each character that we print has a specific position on the screen. Usually, in computer graphics the Cartesian coordinate system is used to indicate the position of the graphical entity in question (e.g. a pixel, or in our current case a character). The limit of <code>x</code> axis, that is, the maximum number in <code>x</code> axis and the limit of <code>y</code> axis are determined by the resolution of the screen. For example, in <code>03h</code> text mode the resolution of the screen is <code>80</code> for the width and <code>25</code> for the height. That means that the last available number on <code>x</code> axis is <code>80</code> and on <code>y</code> axis is <code>25</code>, therefore, the last point that we can use to print a character on is <code>(80, 25)</code> and its position will be on the bottom of the screen at the right side while the position of the point <code>(0, 0)</code> which is also known as <em>origin point</em> is on the top at the left side.</p>
+<p>In the previous example when we wrote the character <code>A</code> on the location <code>0</code> of the video memory we actually put it on the origin point, while we have put <code>B</code> on the point <code>(1, 0)</code>, that is, on the first row and second column of the screen and as you can see, each even location <a href="#fn14" class="footnoteRef" id="fnref14"><sup>14</sup></a> of the video memory has exactly one equivalent point in the coordinate system so it can be translated to a point and a point can be translated to a memory location.</p>
+<p>Now, knowing what we know about text mode, let's write some functions for 539kernel that deal with printing stuff on the screen. The first function is <code>print</code>, which takes a string of characters as a parameter and prints the whole string on the screen, the second function is <code>println</code> which prints a new line and the last function is <code>printi</code> which prints integers on the screen.</p>
+<p>Let's begin by defining some global variables that we will use later and writing the declarations of the three functions. These declarations should be on the top of <code>main.c</code>, that is, before the code of <code>kernel_main</code>, and the code of those functions should be on the bottom of <code>kernel_main</code> <a href="#fn15" class="footnoteRef" id="fnref15"><sup>15</sup></a>.</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">volatile</span> <span class="dt">unsigned</span> <span class="dt">char</span> *video = <span class="bn">0xB8000</span>;
+
+<span class="dt">int</span> nextTextPos = <span class="dv">0</span>;
+<span class="dt">int</span> currLine = <span class="dv">0</span>;
+
+<span class="dt">void</span> print( <span class="dt">char</span> * );
+<span class="dt">void</span> println();
+<span class="dt">void</span> printi( <span class="dt">int</span> );</code></pre></div>
+<p>The global variable <code>nextTextPos</code> is used to maintain the value of <code>x</code> in the coordinate system which will be used to print the next character while <code>currLine</code> maintains the current value of <code>y</code> in coordinate system, in other words, the current line of the screen that the characters will be printed on. The following is the code of <code>print</code>.</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">void</span> print( <span class="dt">char</span> *str )
+{
+    <span class="dt">int</span> currCharLocationInVidMem, currColorLocationInVidMem;
+    
+    <span class="cf">while</span> ( *str != &#39;\<span class="dv">0</span>&#39; )
+    {
+        currCharLocationInVidMem = nextTextPos * <span class="dv">2</span>;
+        currColorLocationInVidMem = currCharLocationInVidMem + <span class="dv">1</span>;
+        
+        video[ currCharLocationInVidMem ] = *str;
+        video[ currColorLocationInVidMem ] = <span class="dv">15</span>;
+        
+        nextTextPos++;
+        
+        str++;
+    }
+}</code></pre></div>
+<p>Beside putting the characters in the correct location in the video memory, the function <code>print</code> has two other jobs to do. The first one is iterating through each character in the string that has been passed through the parameter <code>str</code> and the second one is translating the coordinate system value <code>x</code> into the corresponding memory location <a href="#fn16" class="footnoteRef" id="fnref16"><sup>16</sup></a>.</p>
+<p>For the first job, we use the normal way of C programming language which considers the type string as an array of characters that ends with the null character <code>\0</code>. For the second job, the two local variables <code>currCharLocationInVidMem</code> and <code>currColorLocationInVidMem</code> which, as I think, have a pretty clear names, are used to store the calculated video memory location that we are going to put the character on, this calculation uses the value of <code>nextTextPos</code>.</p>
+<p>Since the characters should be stored in an even position then we multiply the current value <code>nextTextPos</code> by <code>2</code> to get the next even location in the video memory, and since we are starting from <code>0</code> in <code>nextTextPos</code>, we can ensure that we will use all available locations in the video memory. Because the color information is stored in the byte exactly next to the character byte, then calculating <code>currColorLocationInVidMem</code> is too easy, we just need to add <code>1</code> to the location of the character. Finally, we increase the value <code>nextTextPos</code> by <code>1</code> because we have used the <code>x</code> position that <code>nextTextPos</code> is pointing to currently to print the current character. The last point to discuss is the code line which put the color information <code>video[ currColorLocationInVidMem ] = 15;</code>, as you can see, we have used the value <code>15</code> which means white color as foreground. You can manipulate this value to change the background and foreground color of the characters. Next, is the code of <code>println</code>.</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">void</span> println()
+{
+    nextTextPos = ++currLine * <span class="dv">80</span>;
+}</code></pre></div>
+<p>The code of <code>println</code> is too simple, the width of the screen in <code>03h</code> text mode is <code>80</code> which means <code>80</code> characters can be printed on a specific line and each line in the screen has <code>160</code> bytes (<code>80 * 2</code>) in video memory. Line <code>0</code> which is on the top of the screen is the first line in the screen, in other words, line numbering starts from <code>0</code>. To obtain the first position <code>x</code> in any line, the line number should be multiplied by <code>80</code>, so, the first position in line <code>0</code> is <code>0 * 80 = 0</code> and the first position in line <code>1</code> (which is the second line) is <code>1 * 80 = 80</code> which means the positions from <code>0</code> to <code>79</code> belong to the first line and the positions <code>80</code> to <code>159</code> belong to the second line and so on. The function <code>println</code> uses these facts to change the position of next character that will be printed later by <code>print</code> by updating the current character position (<code>x</code>) which is stored in <code>nextTextPos</code>. The following is the code of <code>printi</code>.</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">void</span> printi( <span class="dt">int</span> number )
+{
+    <span class="dt">char</span>* digitToStr[] = { <span class="st">&quot;0&quot;</span>, <span class="st">&quot;1&quot;</span>, <span class="st">&quot;2&quot;</span>, <span class="st">&quot;3&quot;</span>, <span class="st">&quot;4&quot;</span>, <span class="st">&quot;5&quot;</span>, <span class="st">&quot;6&quot;</span>, <span class="st">&quot;7&quot;</span>, <span class="st">&quot;8&quot;</span>, <span class="st">&quot;9&quot;</span> };
+    
+    <span class="cf">if</span> ( number &gt;= <span class="dv">0</span> &amp;&amp; number &lt;= <span class="dv">9</span> )
+    {
+        print( digitToStr[ number ] );
+        <span class="cf">return</span>;
+    }
+    <span class="cf">else</span>
+    {
+        <span class="dt">int</span> remaining = number % <span class="dv">10</span>;
+        number = number / <span class="dv">10</span>;
+        
+        printi( number );
+        printi( remaining );
+    }
+}</code></pre></div>
+<p>Let's assume the value of the parameter is <code>539</code>, it is a fact that <code>539</code> % <code>10 = 9</code> <a href="#fn17" class="footnoteRef" id="fnref17"><sup>17</sup></a> which is the digit in the most right position of <code>539</code>, also, it is a fact that <code>539 / 10 = 53.9</code> and if we get the integer of this float result we get <code>53</code>, so, by using these simple arithmetic operations, we managed to get a digit from the number and remove this digit from the number. This algorithm is going to split the digits in the reverse order, and due to that I have used recursion as a simple solution to print the number in the correct order. However, on its basis, <code>printi</code> depends on the first function <code>print</code> to print one digit on the screen and before that this digit is being converted to a character by using the array <code>digitToStr</code>.</p>
+<h5 id="vga-graphics-mode"><span class="header-section-number">3.2.2.1.2</span> VGA Graphics Mode</h5>
+<p>Although 539kernel provides a text-based interface, it is useful to take a glance at how graphics mode works on VGA. First, to use graphics mode instead of text mode, the value <code>03h</code>, which is passed to the register <code>al</code> in the routine <code>init_video_mode</code> of the starter, should be changed to <code>13h</code> which gives us a graphics mode with <code>320x200</code> resolution and <code>256</code> colors. Also, the starting memory location of the graphics mode is different and it is <code>a0000h</code>.</p>
+<p>As explained in the section of text mode, the coordinate system is used to specify the position of a graphical entity on the screen, in the text mode this graphical entity is a character, while in the graphics mode this graphical entity is a pixel which is a small dot on the screen that has a color. This small dot, when gathers with many others of different colors, creates all the graphics that we see on computers monitors.</p>
+<p>Given that the provided resolution is <code>320x200</code> and that the graphical entity is a pixel, we should know that we are going to have <code>200</code> lines (the height or <code>y</code>) on the screen and each line can have up to <code>320</code> (the width or <code>x</code>) of our graphical entity which is the pixel.</p>
+<p>The structure of video memory is even simpler in graphics mode, each byte represents a pixel on a specific position of the screen, a numeric value which represents a color is stored in a specific byte to be shown in the screen. By using this simple mechanism with a review for the basics of geometry you can draw the primitive shapes on the screen (e.g. lines, rectangles and circles) and by using these basic shapes you can draw even more complex shapes. If you are interested on the topic of drawing shapes by using pixels, you can read about the basics of computer graphics and geometry, I recommend a tutorial named &quot;256-Color VGA Programming in C&quot; by David Brackeen as a good starter that combines the basics of both. While we are not going any further with this topic since it is out of our scope <a href="#fn18" class="footnoteRef" id="fnref18"><sup>18</sup></a> this subsection is closed with the following example which is intended to give you a feel of how to draw pixels on the screen. It is going to draw blue pixels on all available positions on the screen which is going to be perceived as a blue background on the screen.</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">volatile</span> <span class="dt">unsigned</span> <span class="dt">char</span> *video = <span class="bn">0xA0000</span>;
+
+
+<span class="dt">void</span> kernel_main()
+{
+    <span class="cf">for</span> ( <span class="dt">int</span> currPixelPos = <span class="dv">0</span>; currPixelPos &lt; <span class="dv">320</span> * <span class="dv">200</span>; currPixelPos++ )
+        video[ currPixelPos ] = <span class="dv">9</span>;
+    
+    <span class="cf">while</span>( <span class="dv">1</span> );
+}</code></pre></div>
+<h4 id="the-code-of-kernel_main"><span class="header-section-number">3.2.2.2</span> The Code of <code>kernel_main</code></h4>
+<p>Now, everything is ready to write the function <code>kernel_main</code>, it does nothing but printing some text by using the functions that we have defined earlier.</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">void</span> kernel_main()
+{
+    print( <span class="st">&quot;Welcome to 539kernel!&quot;</span> );
+    println();
+    print( <span class="st">&quot;We are now in Protected-mode&quot;</span> );
+    println();
+    printi( <span class="dv">539</span> );
+    println();
+    
+    <span class="cf">while</span>( <span class="dv">1</span> );
+}</code></pre></div>
+<h2 id="interrupts-in-practice"><span class="header-section-number">3.3</span> Interrupts in Practice</h2>
+<p>In the previous chapter  we knew that there are two sources of interrupts, the first source is software, while the second source is hardware. A special device which is connected to the processor and is known as <em>programmable interrupt controller</em> (PIC)<a href="#fn19" class="footnoteRef" id="fnref19"><sup>19</sup></a> is available in the machines to make it possible for the other devices to send hardware interrupts. The job of this device is to send the interrupts of other devices (e.g. hard disk) to the processor. In other words, PIC is a mediator between the machine's I/O devices and the processor, when a device needs to interrupt the processor to handle some event (e.g. the disk has finished from copying some data to the main memory) it is going to send this interrupt to PIC which is going to send it to the processor, this type of interrupts is known as <em>interrupt request</em> (IRQ).</p>
+<p>Only <code>8</code> devices can be attached to one PIC device. <code>IRQ0</code> is the name of the interrupt which is emitted by the device which is attached to the first slot of PIC, <code>IRQ1</code> is the name for the device which is attached to the second slot of PIC and so on. Because <code>8</code> slots are not enough to attach all external devices to the processor, another PIC has been attached to the first one. In this arrangement, the first PIC is known as <em>master PIC</em> while the second one which is attached to the master is known as <em>slave PIC</em>.</p>
+<div id="fig:21082021_0" class="fignos">
+<div class="figure">
+<img src="Figures/progenitor-ch/Fig21082021_0.png" alt="Figure 1: The Arrangement of Master and Slave PICs" style="width:50.0%" />
+<p class="caption"><span>Figure 1:</span> The Arrangement of Master and Slave PICs</p>
+</div>
+</div>
+<p>Figure <a href="#fig:21082021_0">1</a> shows this arrangement, as you can see, now, there are <code>15</code> slots in the whole system instead of only <code>8</code> slots. In the master PIC, the third slot (<code>IRQ2</code>) is connected to the slave PIC, that is, whatever interrupt received by slave PIC from the devices that are attached to it, will be sent to the master PIC through <code>IRQ2</code>. All other slots in both master (<code>IRQ0</code> to <code>IRQ7</code> but <code>IRQ2</code>) and slave PICs (<code>IRQ8</code> to <code>IRQ15</code>) are connected to external devices. There is a standard which tells us the device type that each <code>IRQ</code> is dedicated to, for example, <code>IRQ0</code> is the interrupt which is received by a device known as <em>system timer</em> which is a device that sends an interrupt in each unit of time which makes it extremely useful for multitasking environment as we shall see later when we start discussing process management, the following table shows the use of each <code>IRQ</code> <a href="#fn20" class="footnoteRef" id="fnref20"><sup>20</sup></a>.</p>
+<table>
+<thead>
+<tr class="header">
+<th>IRQ</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0</td>
+<td>System Timer</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>Keyboard (PS/2 port)</td>
+</tr>
+<tr class="odd">
+<td>2</td>
+<td>Slave PIC</td>
+</tr>
+<tr class="even">
+<td>3</td>
+<td>Serial Port 2 (COM)</td>
+</tr>
+<tr class="odd">
+<td>4</td>
+<td>Serial Port 1 (COM)</td>
+</tr>
+<tr class="even">
+<td>5</td>
+<td>Parallel Port 3 or Sound Card</td>
+</tr>
+<tr class="odd">
+<td>6</td>
+<td>Floppy Disk Controller</td>
+</tr>
+<tr class="even">
+<td>7</td>
+<td>Parallel Port 1</td>
+</tr>
+<tr class="odd">
+<td>8</td>
+<td>Real-time Clock</td>
+</tr>
+<tr class="even">
+<td>9</td>
+<td>APCI</td>
+</tr>
+<tr class="odd">
+<td>10</td>
+<td>Available</td>
+</tr>
+<tr class="even">
+<td>11</td>
+<td>Available</td>
+</tr>
+<tr class="odd">
+<td>12</td>
+<td>Mouse (PS/2 port)</td>
+</tr>
+<tr class="even">
+<td>13</td>
+<td>Coprocessor</td>
+</tr>
+<tr class="odd">
+<td>14</td>
+<td>Primary ATA</td>
+</tr>
+<tr class="even">
+<td>15</td>
+<td>Secondary ATA</td>
+</tr>
+</tbody>
+</table>
+<p>After receiving an <code>IRQ</code> from a device, PIC should send this request to the processor, in this stage each <code>IRQ</code> number is mapped (or translated, if you prefer) to an interrupt number for the processor, for example, <code>IRQ0</code> will be sent to the processor as interrupt number <code>8</code>, <code>IRQ1</code> will be mapped to interrupt number <code>9</code> and so on until <code>IRQ7</code> which will be mapped to interrupt number <code>15d</code> (<code>0Fh</code>), while <code>IRQ8</code> till <code>IRQ15</code> will be mapped to interrupts number from <code>112d</code> (<code>70h</code>) to <code>119d</code> (<code>77h</code>).</p>
+<p>In the real-mode, this mapping will be fine, but in protected-mode it is going to cause conflicts between software and hardware interrupts, that is, one interrupt number will be used by both software and hardware which may causes some difficulties later in distinguishing the source of this interrupt, is it from the software or hardware? For example, in protected mode, interrupt number <code>8</code> which is used for system timer interrupt by PIC is also used by the processor when a software error known as <em>double fault</em> occurs. The good thing is that PIC is <strong>programmable</strong>, which means that we can send commands to PIC and tell it to change the default mapping (from <code>IRQs</code> to processor's interrupts number) to another mapping of our choice.</p>
+<p>There are two well-known types of communicating with external devices by the processor, we have already encountered one of them when we worked with video memory which causes the processor to communicate with the screen to write characters or draw pixels, this type of communication from the processor to a devices is known as <em>memory-mapped I/O</em> communication, that is, the main memory is used to perform the communication.</p>
+<p>There is another type which is used by PIC and this type is known as <em>port-mapped I/O</em> communication. In this method, each device (that uses this way) has <em>ports</em>, each port has its own unique number and job, for example, master PIC has two ports, the number of the first port is <code>20h</code> while the number of the second port is <code>21h</code>, the first port is used to send commands <a href="#fn21" class="footnoteRef" id="fnref21"><sup>21</sup></a> to master PIC while the second port is used to write data on it so the master PIC can read it. The same is applicable to slave PIC with different port numbers, <code>a0h</code> and <code>a1h</code> respectively. PIC has no explicit command to remap <code>IRQs</code>, instead, there is a command to initialize PIC, this initialization consists of multiple steps and one of these steps it is to set the required mapping. Now, we can present the skeleton of <code>setup_interrupts</code> as following.</p>
+<pre><code>setup_interrupts:
+    call remap_pic
+    call load_idt
+    
+    ret</code></pre>
+<p>First, we are going to remap <code>IRQs</code> to different interrupt numbers by sending initialization command to both master and slave PICs, then we are going to initialize and load <code>IDT</code> and write the necessary interrupts handlers which are also known as <em>interrupt service routines</em> (ISRs).</p>
+<h3 id="remapping-pics"><span class="header-section-number">3.3.1</span> Remapping PICs</h3>
+<p>As we have said, we need to change the default mapping between <code>IRQs</code> and interrupt number of the processor to make sure that there are no more than one source can emit a signal to one interrupt number, this process is known as <em>PIC remapping</em> which is simple to perform. As we knew, PIC is a port-mapped I/O, and by using <code>out</code> instruction of x86 we can write something on a given port number.</p>
+<p>The <em>initialization command</em> of PIC is represented by the number <code>11h</code>, which means writing this value on the command port of PIC by using <code>out</code> instruction is going to tell the PIC device that we are going to initialize it. When we send this command to the PIC through its own command port (<code>20h</code> for master PIC and <code>a0h</code> for slave PIC), it is going to wait for us to write four parameters on its data port (<code>21h</code> for master PIC and <code>a1h</code> for slave PIC), the values of these parameters are represented by numbers as we shall see in a moment.</p>
+<p>The first parameter that should be provided to initialization command is the new starting offset of <code>IRQs</code>, for example, if the value of this parameter is <code>32d</code> for master PIC, that means <code>IRQ0</code> will be sent to the processor as interrupt number <code>32d</code> instead of <code>8d</code> (as in default mapping), <code>IRQ1</code> will be sent to the processor as interrupt number <code>33d</code> and so on. The second parameter tells the PIC (that we are initializing) in which of its slot the other PIC is connected. The third parameter tells the PIC which mode we would like it to run on, there are multiple modes for PIC devices, but the mode that we care about and need to use is x86 mode. The fourth parameter tells the PIC which <code>IRQs</code> to enable and which to disable. Now, let's see the code of <code>remap_pic</code> routine which implements what we have just described by setting the correct parameters to the initialization command of both master and slave PICs.</p>
+<div class="sourceCode"><pre class="sourceCode asm"><code class="sourceCode fasm"><span class="fu">remap_pic:</span>
+    <span class="bu">mov</span> <span class="kw">al</span><span class="bn">, 11h</span>
+    
+<span class="fu">    send_init_cmd_to_pic_master:</span>    
+        <span class="bu">out</span><span class="bn"> 0x20, </span><span class="kw">al</span>
+        
+<span class="fu">    send_init_cmd_to_pic_slave:</span>     
+        <span class="bu">out</span> <span class="bn">0xa0</span>, <span class="kw">al</span>
+        
+    <span class="co">; ... ;</span>
+    
+<span class="fu">    make_irq_starts_from_intr_32_in_pic_master:</span>     
+        <span class="bu">mov</span> <span class="kw">al</span>, 32d
+        <span class="bu">out</span><span class="bn"> 0x21, </span><span class="kw">al</span>
+    
+<span class="fu">    make_irq_starts_from_intr_40_in_pic_slave:</span>
+        <span class="bu">mov</span> <span class="kw">al</span>, 40d
+        <span class="bu">out</span> <span class="bn">0xa1</span>, <span class="kw">al</span> 
+    
+    <span class="co">; ... ;</span>
+    
+<span class="fu">    tell_pic_master_where_pic_slave_is_connected:</span>
+        <span class="bu">mov</span> <span class="kw">al</span><span class="bn">, 04h</span>
+        <span class="bu">out</span><span class="bn"> 0x21, </span><span class="kw">al</span>
+    
+<span class="fu">    tell_pic_slave_where_pic_master_is_connected:</span>
+        <span class="bu">mov</span> <span class="kw">al</span><span class="bn">, 02h</span>
+        <span class="bu">out</span> <span class="bn">0xa1</span>, <span class="kw">al</span>
+    
+    <span class="co">; ... ;</span>
+    
+    <span class="bu">mov</span> <span class="kw">al</span><span class="bn">, 01h</span>
+    
+<span class="fu">    tell_pic_master_the_arch_is_x86:</span>
+        <span class="bu">out</span><span class="bn"> 0x21, </span><span class="kw">al</span>
+    
+<span class="fu">    tell_pic_slave_the_arch_is_x86:</span>
+        <span class="bu">out</span> <span class="bn">0xa1</span>, <span class="kw">al</span>
+    
+    <span class="co">; ... ;</span>
+    
+    <span class="bu">mov</span> <span class="kw">al</span><span class="bn">, 0h</span>
+    
+<span class="fu">    make_pic_master_enables_all_irqs:</span>
+        <span class="bu">out</span><span class="bn"> 0x21, </span><span class="kw">al</span>
+    
+<span class="fu">    make_pic_slave_enables_all_irqs:</span>
+        <span class="bu">out</span> <span class="bn">0xa1</span>, <span class="kw">al</span>
+    
+    <span class="co">; ... ;</span>
+    
+    <span class="bu">ret</span></code></pre></div>
+<p>Note that the labels here are optional, I've added them for the sake of readability, you can get rid of them if you want. As you can see, the command and data port for both master and slave PICs are used to send initialize command and the parameters. The instruction <code>out</code> can only take the register <code>ax</code> as second operand and due to that, the number that represent the command or the data that we would like to send are always set to <code>al</code> first which is used later as the second operand of <code>out</code>. Also, it should be obvious that the first operand of <code>out</code> is the port number, while the second operand is the value that we would like to send.</p>
+<div id="fig:27082021_0" class="fignos">
+<div class="figure">
+<img src="Figures/progenitor-ch/Fig27082021_0.png" alt="Figure 2: Master PIC&#39;s Data Format to Set The Place of Slave PIC" style="width:50.0%" />
+<p class="caption"><span>Figure 2:</span> Master PIC's Data Format to Set The Place of Slave PIC</p>
+</div>
+</div>
+<p>You may ask, why the value is <code>4</code> is used in the label <code>tell_pic_master_where_pic_slave_is_connected</code> <a href="#fn22" class="footnoteRef" id="fnref22"><sup>22</sup></a> instead of <code>2</code> since we said earlier that the salve PIC is connected to master PIC through <code>IRQ2</code>. The reason of that is the format of the data that should be sent to master PIC in order to tell it the place where slave PIC is attached to. This format is shown in figure <a href="#fig:27082021_0">2</a> which shows that the size of the data is <code>1</code> byte and each <code>IRQ</code> is represented by one bit, that is, each bit is used as a flag to indicate which <code>IRQ</code> we would like to use.</p>
+<div id="fig:27082021_1" class="fignos">
+<div class="figure">
+<img src="Figures/progenitor-ch/Fig27082021_1.png" alt="Figure 3: Slave PIC&#39;s Data Format to Set The Place of Master PIC" style="width:50.0%" />
+<p class="caption"><span>Figure 3:</span> Slave PIC's Data Format to Set The Place of Master PIC</p>
+</div>
+</div>
+<p>In our case, slave PIC is connected to master PIC through <code>IRQ2</code> which is represented by bit <code>2</code>, which means the value of this bit should be <code>1</code> and all other bits should be <code>0</code>, this gives us the binary sequence <code>0000 0100</code> which is <code>4d</code>. Assume that the slave PIC is connect to master PIC through <code>IRQ7</code>, then the binary sequence will be <code>1000 0000</code>, which is <code>128d</code>. For the slave PIC, the format is shown in figure <a href="#fig:27082021_1">3</a> and as you can see, only bits <code>0</code> to <code>2</code> can be used while the others should be <code>0</code>. By using these three bits we can represent the number <code>8</code> at most, the normal way of representing the numbers can be used here and for that the value <code>2</code> is passed to slave PIC to tell it that it is connected to master PIC through <code>IRQ2</code> in the label <code>tell_pic_slave_where_pic_master_is_connected</code>.</p>
+<h3 id="writing-isrs-and-loading-idt"><span class="header-section-number">3.3.2</span> Writing ISRs and Loading IDT</h3>
+<p>Right now, everything is ready to write the code of loading <code>IDT</code> and <code>ISR</code>s. The first one is too simple and similar to the code of loading the <code>GDT</code> table, the following is the code of <code>load_idt</code> routine.</p>
+<div class="sourceCode"><pre class="sourceCode asm"><code class="sourceCode fasm"><span class="fu">load_idt:</span>
+    <span class="bu">lidt</span> [idtr - start]
+    <span class="bu">ret</span></code></pre></div>
+<p>As you can see, nothing is new here. The instruction <code>lidt</code> is used to load the content of the register <code>idtr</code> by using the same way that we have already used in the previous routine <code>load_gdt</code>. Now, for the sake of organizing, I'm going to dedicate a new file for the related stuff of <code>IDT</code> and <code>ISR</code>s and this file will be called <code>idt.asm</code>. In the end of <code>starter.asm</code> the following line should be added <code>%include &quot;idt.asm&quot;</code>, exactly as we did with <code>gdt.asm</code>.</p>
+<p>At least, we need to define <code>49</code> <code>ISR</code>s since the interrupts from <code>0</code> to <code>31</code> are used by the processor to indicate that some error happened in the system. In fact, interrupts <code>22</code> to <code>31</code> are reserved and has no use for us, but we need to fill their entries in the <code>IDT</code> table to be able to use the interrupts starting from <code>32</code>. While the interrupts <code>32</code> to <code>48</code> are now used by PIC after the remapping for hardware interrupts (<code>IRQs</code>). Hence, we need to fill the entries of all of these interrupts in the <code>IDT</code> to make sure that our kernel runs correctly. Right now, we are going to use the same skeleton for the <code>ISRs</code> that we are going to define, let's start with <code>isr_0</code> which is the name of the routine that handles interrupt <code>0</code>. Starting from here, the code that are presented should be in the file <code>idt.asm</code> unless otherwise is mentioned explicitly.</p>
+<div class="sourceCode"><pre class="sourceCode asm"><code class="sourceCode fasm"><span class="fu">isr_0:</span>
+    <span class="bu">cli</span>
+    <span class="bu">push</span> <span class="dv">0</span>
+    <span class="bu">jmp</span> isr_basic</code></pre></div>
+<p>The code here is too simple, we first make sure that interrupts are disabled by using the instruction <code>cli</code>; in the time that we are handling an interrupt, we don't want another interrupt to occur, it will be more obvious why this is important when we start to implement process management in 539kernel.</p>
+<p>After disabling the interrupts, we push to the stack the value <code>0</code> which is the number of the current interrupt, this pushed value can be used later by a C function that we are going to call as a parameter <a href="#fn23" class="footnoteRef" id="fnref23"><sup>23</sup></a>, in this way, we can have just one C function that works as an interrupt handler which receives a parameter that holds the interrupt number which should be handled. After pushing the interrupt number, the routine is going to jump to the label <code>isr_basic</code> which contains the basic code of all <code>ISRs</code> that we are going to define.</p>
+<p>Now, for all other <code>ISRs</code> that are related to the processor, that is, from interrupt <code>1</code> to <code>31</code> we are going to use the exact same code, only two things should be changed, the name of the routine should indicate the interrupt number, for example <code>isr_1</code> for interrupt <code>1</code>, <code>isr_2</code> for <code>2</code> and so on, the second change is the pushed value. I'm not going to show you all <code>31</code> <code>ISR</code>s in here since they need a lot of space, but you can always refer to 539kernel source code if the matter isn't clear for you and the following is an example of <code>ISRs</code> <code>1</code>, <code>2</code> and <code>3</code>. The label <code>isr_basic</code> will be defined later on.</p>
+<div class="sourceCode"><pre class="sourceCode asm"><code class="sourceCode fasm"><span class="fu">isr_1:</span>
+    <span class="bu">cli</span>
+    <span class="bu">push</span> <span class="dv">1</span>
+    <span class="bu">jmp</span> isr_basic
+    
+<span class="fu">isr_2:</span>
+    <span class="bu">cli</span>
+    <span class="bu">push</span> <span class="dv">2</span>
+    <span class="bu">jmp</span> isr_basic
+    
+<span class="fu">isr_3:</span>
+    <span class="bu">cli</span>
+    <span class="bu">push</span> <span class="dv">3</span>
+    <span class="bu">jmp</span> isr_basic</code></pre></div>
+<p>The second set of <code>ISR</code>s is the one that handles the <code>IRQ</code>s and the interrupt numbers here, as we mentioned earlier, starts from <code>32</code> to <code>48</code>. The following is an example of one of them which is <code>isr_32</code>.</p>
+<div class="sourceCode"><pre class="sourceCode asm"><code class="sourceCode fasm"><span class="fu">isr_32:</span>
+    <span class="bu">cli</span>
+    <span class="bu">push</span> <span class="dv">32</span>
+    <span class="bu">jmp</span> irq_basic</code></pre></div>
+<p>It's exactly the same code as the <code>ISR</code>s before <code>32</code>, the only difference is the label that will the routine jumps to. In the current case it is <code>irq_basic</code>, which is the basic code for all interrupts that handles the <code>IRQs</code>, hence, <code>isr_33</code> till <code>isr_48</code> has the same code as <code>isr_32</code> but with changing the pushed value. The following is the code of <code>isr_basic</code>.</p>
+<div class="sourceCode"><pre class="sourceCode asm"><code class="sourceCode fasm"><span class="fu">isr_basic:</span>
+    <span class="bu">call</span> interrupt_handler
+    
+    <span class="bu">pop</span> <span class="kw">eax</span>
+    
+    <span class="bu">sti</span>
+    <span class="bu">iret</span></code></pre></div>
+<p>Simply, <code>isr_basic</code> calls a function known as <code>interrupt_handler</code> which is a C function that is going to be in the main kernel code, to make <code>NASM</code> able to know that this function is defined elsewhere than the assembly code, the line <code>extern interrupt_handler</code> should be added before <code>start</code> routine in <code>starter.asm</code>, exactly as we did with the function <code>kernel_main</code>.</p>
+<p>After the function <code>interrupt_handler</code> returns, the stack of the current <code>ISR</code> is cleaned by eliminating the value that we have pushed which represents the number of the current interrupt, this is performed by using <code>pop</code> instruction which requires an operand to store the popped value on it and for no reason I've chosen <code>eax</code>. This is a simplest way of cleaning the stack's frame, another well known way is <code>add esp, 4</code> where the second operand is the size of all data that we have pushed on the frame and we would like to eliminate before return, in our case, the size of the number that we have pushed is <code>4</code> bytes. As you can see, the latter method of cleaning the stack is more preferred since no place to store the popped value is needed and most probably you are going to encounter this method in the real codes much more. For the sake of simplicity, I'm going to keep the earlier method in the current case unless the other is needed.</p>
+<p>Finally, the <code>ISR</code> re-enables the interrupts with the instruction <code>sti</code> and returns by using the instruction <code>iret</code> instead of the normal <code>ret</code> that we have used before, the former one is the one that should be used by interrupt handlers to return. The following is the code of <code>irq_basic</code>.</p>
+<div class="sourceCode"><pre class="sourceCode asm"><code class="sourceCode fasm"><span class="fu">irq_basic:</span>
+    <span class="bu">call</span> interrupt_handler
+    
+    <span class="bu">mov</span> <span class="kw">al</span><span class="bn">, 0x20</span>
+    <span class="bu">out</span><span class="bn"> 0x20, </span><span class="kw">al</span>
+    
+    <span class="bu">cmp</span> <span class="dt">byte</span> [<span class="kw">esp</span>], 40d
+    <span class="bu">jnge</span> irq_basic_end
+    
+    <span class="bu">mov</span> <span class="kw">al</span>, <span class="bn">0xa0</span>
+    <span class="bu">out</span><span class="bn"> 0x20, </span><span class="kw">al</span>
+    
+<span class="fu">    irq_basic_end:</span>
+        <span class="bu">pop</span> <span class="kw">eax</span>
+        
+        <span class="bu">sti</span>
+        <span class="bu">iret</span></code></pre></div>
+<p>The fundamental functionality of <code>irq_basic</code> is same as <code>isr_basic</code>, it calls the C function <code>interrupt_handler</code> and in the end it cleans the stack and returns (in label <code>irq_basic_end</code>), the question now, what is this additional code between calling the C function and returning? As you know, <code>IRQs</code> come from one of the PICs of the system, and this <code>PCI</code> requires to be told that the <code>IRQ</code> it sent has been handled, to do that the PIC command known as <em>end of interrupt</em> (<code>EOI</code>) should be used and that's what the code does.</p>
+<p>The command <code>EOI</code> should be sent to the master PIC after handling all <code>IRQs</code> (the ones that belong to the master and also the slave), but for the slave <code>PIC</code> this command should be sent only after the <code>IRQs</code> of slave PIC are handled, that is, interrupt number <code>40</code> till <code>48</code>. So, after returning from the C function <code>interrupt_handler</code>, the command <code>EOI</code> is sent directly to the mater PIC. As you can see, we write the value <code>20h</code> to the port <code>20h</code>, the first value represents that <code>EOI</code> command, while the second value represents the command port of master PIC as we learned earlier. After that, the interrupt number, that we have pushed on the stack in the beginning of the <code>ISR</code>, is used to check if the interrupt that we have handled is greater than or equal <code>40d</code>, if this is not the case, a jump is performed to <code>irq_basic_end</code>, otherwise, <code>EOI</code> command is sent to the slave PIC through its command port <code>a0h</code>.</p>
+<p>Now, we are ready to define the <code>IDT</code> table, to not take too much space I will show only the first three entries, but the full table should have <code>49</code> entries, all of them with the same exact fields and the only difference is the label name of the <code>ISR</code> <a href="#fn24" class="footnoteRef" id="fnref24"><sup>24</sup></a>.</p>
+<div class="sourceCode"><pre class="sourceCode asm"><code class="sourceCode fasm"><span class="fu">idt:</span>
+    <span class="dt">dw</span> isr_<span class="dv">0</span>, <span class="dv">8</span><span class="bn">, 0x8e00, 0x0000</span>
+    <span class="dt">dw</span> isr_<span class="dv">1</span>, <span class="dv">8</span><span class="bn">, 0x8e00, 0x0000</span>
+    <span class="dt">dw</span> isr_<span class="dv">2</span>, <span class="dv">8</span><span class="bn">, 0x8e00, 0x0000</span></code></pre></div>
+<p>The meaning of the values of the fields are summarized in the following table.</p>
+<table>
+<colgroup>
+<col width="17%" />
+<col width="21%" />
+<col width="10%" />
+<col width="18%" />
+<col width="18%" />
+<col width="12%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Handler's Name</th>
+<th>Segment Selector</th>
+<th>Present</th>
+<th>Privilege Level</th>
+<th>Descriptor Size</th>
+<th>Gate Type</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>isr_0</td>
+<td>8 (Kernel's Code)</td>
+<td>Yes</td>
+<td>0</td>
+<td>32-bit</td>
+<td>Interrupt</td>
+</tr>
+<tr class="even">
+<td>isr_1</td>
+<td>8 (Kernel's Code)</td>
+<td>Yes</td>
+<td>0</td>
+<td>32-bit</td>
+<td>Interrupt</td>
+</tr>
+<tr class="odd">
+<td>isr_2</td>
+<td>8 (Kernel's Code)</td>
+<td>Yes</td>
+<td>0</td>
+<td>32-bit</td>
+<td>Interrupt</td>
+</tr>
+</tbody>
+</table>
+<p>As in <code>GDT</code> table, I've written a Python script that let you manipulate the properties of descriptors by getting a human readable input, the code of the script is the following.</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="im">import</span> json<span class="op">;</span>
+
+<span class="kw">def</span> generateIDTAsWords( idtAsJSON, nasmFormat <span class="op">=</span> <span class="va">False</span> ):
+    idt <span class="op">=</span> json.loads( idtAsJSON )<span class="op">;</span>
+    idtAsWords <span class="op">=</span> <span class="st">&#39;&#39;</span><span class="op">;</span>
+    
+    <span class="cf">for</span> entry <span class="kw">in</span> idt:
+        <span class="cf">if</span> nasmFormat:
+            idtAsWords <span class="op">+=</span> <span class="st">&#39;dw &#39;</span><span class="op">;</span>
+        
+        <span class="co"># ... #</span>
+        
+        present <span class="op">=</span> ( <span class="dv">1</span> <span class="cf">if</span> entry[ <span class="st">&#39;present&#39;</span> ] <span class="cf">else</span> <span class="dv">0</span> ) <span class="op">&lt;&lt;</span> <span class="dv">7</span><span class="op">;</span>
+        dpl <span class="op">=</span> entry[ <span class="st">&#39;dpl&#39;</span> ] <span class="op">&lt;&lt;</span> <span class="dv">6</span><span class="op">;</span>
+        size <span class="op">=</span> ( <span class="dv">1</span> <span class="cf">if</span> entry[ <span class="st">&#39;gate_descriptor_size&#39;</span> ] <span class="op">==</span> <span class="st">&#39;32-bit&#39;</span> <span class="cf">else</span> <span class="dv">0</span> ) <span class="op">&lt;&lt;</span> <span class="dv">3</span><span class="op">;</span>
+        gateType <span class="op">=</span> ( <span class="dv">0</span> <span class="cf">if</span> entry[ <span class="st">&#39;interrupt_gate&#39;</span> ] <span class="cf">else</span> <span class="dv">1</span> )<span class="op">;</span>
+        
+        byteFive <span class="op">=</span> present <span class="op">|</span> dpl <span class="op">|</span> ( <span class="dv">0</span> <span class="op">&lt;&lt;</span> <span class="dv">11</span> ) <span class="op">|</span> size <span class="op">|</span> ( <span class="dv">1</span> <span class="op">&lt;&lt;</span> <span class="dv">2</span> ) <span class="op">|</span> ( <span class="dv">1</span> <span class="op">&lt;&lt;</span> <span class="dv">1</span> ) <span class="op">|</span> gateType<span class="op">;</span>
+        
+        wordThree <span class="op">=</span> <span class="st">&#39;0x&#39;</span> <span class="op">+</span> <span class="bu">format</span>( byteFive, <span class="st">&#39;x&#39;</span> ).zfill( <span class="dv">2</span> ) <span class="op">+</span> <span class="st">&#39;00&#39;</span><span class="op">;</span>
+        
+        <span class="co"># ... #</span>
+        
+        idtAsWords <span class="op">+=</span> entry[ <span class="st">&#39;isr_routine_name&#39;</span> ] <span class="op">+</span> <span class="st">&#39;, &#39;</span> <span class="op">+</span> <span class="bu">str</span>( entry[ <span class="st">&#39;isr_segment_selector&#39;</span> ] ) <span class="op">+</span> <span class="st">&#39;, &#39;</span> <span class="op">+</span> wordThree <span class="op">+</span> <span class="st">&#39;, 0x0000&#39;</span>  <span class="op">+</span> <span class="st">&#39;</span><span class="ch">\n</span><span class="st">&#39;</span><span class="op">;</span>
+        
+    <span class="cf">return</span> idtAsWords<span class="op">;</span></code></pre></div>
+<p>The following is an example of using <code>generateIDTAsWords</code>.</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">idt <span class="op">=</span> <span class="st">&#39;&#39;&#39;</span>
+<span class="st">[</span>
+<span class="st">    {   &quot;isr_routine_name&quot;: &quot;isr_0&quot;, &quot;isr_segment_selector&quot;: 8, &quot;present&quot;: true, &quot;dpl&quot;: 0, &quot;gate_descriptor_size&quot;: &quot;32-bit&quot;, &quot;interrupt_gate&quot;: true },</span>
+<span class="st">    {   &quot;isr_routine_name&quot;: &quot;isr_1&quot;, &quot;isr_segment_selector&quot;: 8, &quot;present&quot;: true, &quot;dpl&quot;: 0, &quot;gate_descriptor_size&quot;: &quot;32-bit&quot;, &quot;interrupt_gate&quot;: true }</span>
+<span class="st">]</span>
+<span class="st">&#39;&#39;&#39;</span><span class="op">;</span>
+
+<span class="bu">print</span>( generateIDTAsWords( idt, <span class="va">True</span> ) )<span class="op">;</span></code></pre></div>
+<p>After defining the entries of <code>IDT</code>, we can define the label <code>idtr</code> which will be the value that we will load in the special register <code>idtr</code>.</p>
+<div class="sourceCode"><pre class="sourceCode asm"><code class="sourceCode fasm"><span class="fu">idtr:</span>
+    idt_size_in_bytes   :   <span class="dt">dw</span> idtr - idt
+    idt_base_address    :   <span class="dt">dd</span> idt</code></pre></div>
+<p>It should be easy to you now to know why <code>idtr - idt</code> gives us the size of <code>IDT</code> in bytes. Also, you should know that if the label <code>idtr</code> is not right below the label <code>idt</code> this will not work. I've used this method instead of hardcoding the size of the table <code>8 * 49 = 392</code> in the code to make sure that I don't forget to change the size field when I add a new entry in <code>IDT</code>, you are free to hardcode the size as we did in <code>gdtr</code> if you like to. Finally, the C function <code>interrupt_handler</code> can be defined in the end of <code>main.c</code> as following.</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">void</span> interrupt_handler( <span class="dt">int</span> interrupt_number )
+{
+    println();
+    print( <span class="st">&quot;Interrupt Received &quot;</span> );
+    printi( interrupt_number );
+}</code></pre></div>
+<p>It simply receives the interrupt number as a parameter, as you have expected, and prints this number in an appealing way.</p>
+<p>And now we have got the progenitor of 539kernel! Compiling and running this code is going to print the messages <code>Welcome to 539kernel!</code> then <code>We are now in Protected-mode</code> then <code>539</code> and finally, our first interrupt will be received and the message <code>Interrupt Received 32</code> will be printed on the screen, this interrupt will not be received just once since it is the interrupt of the system timer the kernel will keep receiving it and prints the same message every given unit of time. We will use the system timer later when we start discussing the scheduling of processes in chapter .</p>
+<h2 id="quick-view-of-the-changes-of-makefile"><span class="header-section-number">3.4</span> Quick View of the Changes of Makefile</h2>
+<p>As you may have noticed, the <code>Makefile</code> of the progenitor version of 539kernel has some different aspects than the one that we have used in the bootloader version of 539kernel. The first difference is the way that we assemble <code>starter.asm</code>, as you can see, unlike <code>bootstrap.asm</code>, the output of the process of assembling the starter is an <code>ELF32</code> binary file instead of flat binary file. As you know, the code of the starter is related to the C code of 539kernel, that is, there are C functions that are called in the starter code. To make the starter able to reach this C code correctly, the binary output of both <code>starter.asm</code> and <code>main.c</code> should be linked. It is the responsibility of the linker to generate a final binary file that understands what the starter mean when it calls the C function <code>interrupt_handler</code> for example. If the linking process between the two files is not performed, the starter will never know where is the code of <code>interrupt_handler</code> or <code>kernel_main</code>.</p>
+<p>To link two binary files, they should have the same format and this format makes it possible to link the files that generated by using it. GCC generates <code>ELF</code> binary files by default, so, when we assemble <code>starter.asm</code> we tell <code>NASM</code> to generate and <code>ELF</code> file. After that the output binary files (AKA: object files) of both <code>starter.asm</code> and <code>main.c</code> are linked by using the command <code>ld</code>, we tell the linker that we are linking <code>ELF</code> object files, the order of the files that we pass to the linker to link is important, as you can see <code>starter.o</code> is passed before <code>kernel.elf</code>, which makes the linker puts the code of the starter before the code of the main kernel in the final output <code>ELF</code> binary file <code>539kernel.elf</code>. Because <code>ELF</code> is not understandable by the machine unless some code interprets it, we convert it to a flat binary file by using the command <code>objcopy</code>, in this way, the bootloader can load the kernel without the need of dealing with the details of <code>ELF</code> format.</p>
+<p>Also, you can see that the final image of the kernel <code>kernel.img</code> is generated by writing the content of bootloader first, then the kernel and then the image is fill with around <code>1MB</code> of zeros, while this step isn't necessary for QEMU, but if you decide to use Bochs instead, such a step is required. While we are going to stick with the former one right now, the latter one, in my humble opinion, has better debugging tools.</p>
+<p>Another important aspect of the new <code>Makefile</code> is the flags that are passed to GCC, we need to be careful with these flags and pass the correct ones to make sure that GCC compiles our kernel correctly since GCC compiles user-space applications by default. The flag <code>-Wall</code> tells GCC to show us the warnings on our code. The flag <code>-m32</code> makes GCC generate <code>32-bit</code> code. The flag <code>-c</code> stops the linker from running by default since we are going to run it later manually with specific options as you have seen. The flag <code>-ffreestanding</code> indicates that we are compiling a code that the standard library of C is not available for it and the <code>main</code> function is not necessary for it. Both flags <code>-fno-asynchronous-unwind-tables</code> and <code>-fno-pie</code> are used to eliminate some extra code that is generated by the GCC to handle some situations that are related to user-space code. This is a quick review of the functionality of the flags and you can always refer to the official documentation of GCC for more details.</p>
+<h2 id="a-traditionalist-implementer-or-a-kernelist"><span class="header-section-number">3.5</span> A Traditionalist Implementer or a Kernelist?</h2>
+<p>Most probably you are objecting, &quot;<strong>kernelist</strong> is not even a word!&quot; I know, even my poor spell checker is shocked! Just bear with me a little bit and let me show you what I mean by the term <em>kernelist</em>.</p>
+<p>In our journey of creating an operating system kernel we may ask ourselves, what is our role exactly? There are two possible roles that I would like to focus on, the first one is being a traditionalist implementer (for short: traditionalist). What I mean by the traditionalist is the one who writes the code of the kernel without focusing too much on the design of the kernel and the philosophical questions about that kernel, examples of these questions are &quot;What is the problem that the kernel will solve?&quot;, &quot;How to design its architecture to accomplish its goal&quot; and so on, also the traditionalist tends to implement already well-known solutions that have been used many years with no or little changes. The kernelist, on the other hand, is the person who takes care of the questions about kernel's design and the new solutions for the problems and tries to answer these questions and presents a suitable kernel's design and solutions for specific problems. For example, writing a Unix-like kernel is the job of traditionalist, since the architecture of Unix is already designed by kernelists to solve specific problems.</p>
+<p>Our goal from this book is to <strong>learn</strong> how to write an operating system kernel with a traditional design and no new ideas, so, we are taking the role of a traditionalist, the design of 539kernel is too simple and it solves no specific problem in a novel way, instead it uses the concepts that are already there and used by many operating systems as you will see in the next chapters, also it doesn't focus on some new problem to solve nor a new solution for an old problem, this makes 539kernel a working kernel that solves the same problems that other kernels solve by using the same methods that other kernels use, the advantage of this design is making 539kernel easy to implement which means it is a good starting point to learn about operating system kernels and that's the goal of this book.</p>
+<p>The natural question for someone, who would like to continue in the journey of operating system kernels, to ask herself after implementing a basic kernel, &quot;What's next?&quot; and here where a kernelist is born! In fact, there are many real world problems in computing that need to be solved, also, there are many innovative ideas that need to be created, furthermore, there are many good ideas that have been presented by someone else but need to be realized in the real world systems, a lot of aforementioned can be found in the scientific papers <a href="#fn25" class="footnoteRef" id="fnref25"><sup>25</sup></a>.</p>
+<p>The kernelist doesn't necessarily innovate new solutions by himself, but he can use modern solutions that have been proposed by other kernelist to implement and design a kernel with modern innovative and useful ideas instead of reimplementing the traditional solutions that have been with us for <code>60</code> years over and over again.</p>
+<p>After reading this book to learn about creating a kernel and you would like to continue the journey, I encourage you to consider the role of kernelist. Using what you have learned to solve real-world problem is a good idea, and the world needs this kind of orientation. Although this is a book of traditionalist more that a kernelist, I've dedicated chapter  for those who would like to, at least, take a look on being kernelist.</p>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>The script is based on the one which is provided in &quot;JamesM's kernel development tutorials&quot; (<a href="http://www.jamesmolloy.co.uk/tutorial_html/1.-Environment%20setup.html">http://www.jamesmolloy.co.uk/tutorial_html/1.-Environment%20setup.html</a>)<a href="#fnref1">↩</a></p></li>
+<li id="fn2"><p>The term routine is more general than the terms function or procedure, if you haven't encounter programming languages that make distinctions between the two terms (e.g. Pascal) then you can consider the term <em>routine</em> as a synonym of the term <em>function</em> in our discussion.<a href="#fnref2">↩</a></p></li>
+<li id="fn3"><p>As you know from our previous examination, the value of <code>cs</code> will be changed by the processor once a far jump is performed.<a href="#fnref3">↩</a></p></li>
+<li id="fn4"><p>That's exactly what we have done with bootloader, refer back to chapter  and you can see that we have passed the argument <code>-f bin</code> to <code>NASM</code>.<a href="#fnref4">↩</a></p></li>
+<li id="fn5"><p>A symbol is a term that means a function name or a variable name.<a href="#fnref5">↩</a></p></li>
+<li id="fn6"><p>In fact, <code>cli</code> disables only maskable interrupts, as mentioned before, but I use the general term interrupts here for the sake of simplicity.<a href="#fnref6">↩</a></p></li>
+<li id="fn7"><p>The values of the descriptors here are used from Basekernel project (<a href="https://github.com/dthain/basekernel" class="uri">https://github.com/dthain/basekernel</a>).<a href="#fnref7">↩</a></p></li>
+<li id="fn8"><p>Otherwise it is going to be a paradox! to reach the <code>GDT</code> table you will need to reach the <code>GDT</code> table first!<a href="#fnref8">↩</a></p></li>
+<li id="fn9"><p>Also, can be considered as <strong>true</strong> for <code>1</code> and <strong>false</strong> for <code>0</code>.<a href="#fnref9">↩</a></p></li>
+<li id="fn10"><p>Boolean operators are well-known in programming languages and they are used mainly with <code>if</code> statement.<a href="#fnref10">↩</a></p></li>
+<li id="fn11"><p>We use the relaxed definition of segment selector here that we have defined in the previous chapter .<a href="#fnref11">↩</a></p></li>
+<li id="fn12"><p>A monochrome text mode is also available and its video memory starts from <code>b0000h</code>.<a href="#fnref12">↩</a></p></li>
+<li id="fn13"><p>Thanks God!<a href="#fnref13">↩</a></p></li>
+<li id="fn14"><p>As you know, in even locations of the video memory the character are stored, while in odd locations the color information of those characters are stored.<a href="#fnref14">↩</a></p></li>
+<li id="fn15"><p>Can you tell why?<a href="#fnref15">↩</a></p></li>
+<li id="fn16"><p>Please note that the way of writing this code and any other code in 539kernel, as mentioned in the introduction of this book, focuses on the simplicity and readability of the code instead of efficiency in term of anything. Therefore, there is absolutely better ways of writing this code and any other code in term of performance or space efficiency<a href="#fnref16">↩</a></p></li>
+<li id="fn17"><p>The operation which is represented by % is known as modulus, in other words, the remaining value of a division.<a href="#fnref17">↩</a></p></li>
+<li id="fn18"><p>Sorry for that! I, myself, think this is an interesting topic, but this book is about operating systems kernels!<a href="#fnref18">↩</a></p></li>
+<li id="fn19"><p>The newer technology is known as <em>advanced programmable interrupt controller</em> (APIC)<a href="#fnref19">↩</a></p></li>
+<li id="fn20"><p>Source: <a href="https://en.wikipedia.org/wiki/Interrupt_request_(PC_architecture)" class="uri">https://en.wikipedia.org/wiki/Interrupt_request_(PC_architecture)</a><a href="#fnref20">↩</a></p></li>
+<li id="fn21"><p>Each device has its own set of commands.<a href="#fnref21">↩</a></p></li>
+<li id="fn22"><p>I just realized that this is a really long name! Sorry, sometimes I become a readability freak!<a href="#fnref22">↩</a></p></li>
+<li id="fn23"><p>That's possible due to the calling convention as we have discussed earlier in the previous chapter .<a href="#fnref23">↩</a></p></li>
+<li id="fn24"><p>The values of the properties here are used from Basekernel project (<a href="https://github.com/dthain/basekernel" class="uri">https://github.com/dthain/basekernel</a>).<a href="#fnref24">↩</a></p></li>
+<li id="fn25"><p>In fact, I've started a project that generalize this thought and I called it <code>ResearchCoders</code>. If you are interested in finding and implementing new ideas that solve real-world problems you may would like to check the website of the project (<a href="https://researchcoders.dev" class="uri">https://researchcoders.dev</a>)<a href="#fnref25">↩</a></p></li>
+</ol>
+</div>
+            </div>
+    </div>
+  </div>
+  
+  <script src="https://vjs.zencdn.net/5.4.4/video.js"></script>
+
+</body>
+</html>

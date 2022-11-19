@@ -1,0 +1,589 @@
+<!-- The Template is Based on: https://github.com/ryangrose/easy-pandoc-templates -->
+<!doctype html>
+<html >
+<head>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <!--[if lt IE 9]>
+                <script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
+        <![endif]-->
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+
+    <link href="https://fonts.googleapis.com/css?family=Domine|Montserrat" rel="stylesheet"> 
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+    <!-- <link rel="stylesheet" type="text/css" href="template.css" /> -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/diversen/pandoc-bootstrap-adaptive-template@959c3622/template.css" />
+
+    <link href="https://vjs.zencdn.net/5.4.4/video-js.css" rel="stylesheet" />
+
+    <script src="https://code.jquery.com/jquery-2.2.1.min.js"></script>
+    <!-- <script type='text/javascript' src='menu/js/jquery.cookie.js'></script> -->
+    <!-- <script type='text/javascript' src='menu/js/jquery.hoverIntent.minified.js'></script> -->
+    <!-- <script type='text/javascript' src='menu/js/jquery.dcjqaccordion.2.7.min.js'></script> -->
+    <!-- <link href="menu/css/skins/blue.css" rel="stylesheet" type="text/css" /> -->
+    <!-- <link href="menu/css/skins/graphite.css" rel="stylesheet" type="text/css" /> -->
+    <!-- <link href="menu/css/skins/grey.css" rel="stylesheet" type="text/css" /> -->
+    <!-- <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script> -->
+    <!-- <script src="script.js"></script> -->
+    <!-- <script src="jquery.sticky-kit.js "></script> -->
+    <script type='text/javascript' src='https://cdn.jsdelivr.net/gh/diversen/pandoc-bootstrap-adaptive-template@959c3622/menu/js/jquery.cookie.js'></script>
+    <script type='text/javascript' src='https://cdn.jsdelivr.net/gh/diversen/pandoc-bootstrap-adaptive-template@959c3622/menu/js/jquery.hoverIntent.minified.js'></script>
+    <script type='text/javascript' src='https://cdn.jsdelivr.net/gh/diversen/pandoc-bootstrap-adaptive-template@959c3622/menu/js/jquery.dcjqaccordion.2.7.min.js'></script>
+
+    <link href="https://cdn.jsdelivr.net/gh/diversen/pandoc-bootstrap-adaptive-template@959c3622/menu/css/skins/blue.css" rel="stylesheet" type="text/css" />
+    <!--
+    <link href="https://cdn.jsdelivr.net/gh/diversen/pandoc-bootstrap-adaptive-template@959c3622/menu/css/skins/graphite.css" rel="stylesheet" type="text/css" />
+    <link href="https://cdn.jsdelivr.net/gh/diversen/pandoc-bootstrap-adaptive-template@959c3622/menu/css/skins/grey.css" rel="stylesheet" type="text/css" />
+    -->
+    <link href="https://cdn.jsdelivr.net/gh/ryangrose/easy-pandoc-templates@948e28e5/css/elegant_bootstrap.css" rel="stylesheet" type="text/css" />
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+    <script src="https://cdn.jsdelivr.net/gh/diversen/pandoc-bootstrap-adaptive-template@959c3622/script.js"></script>
+  
+    <script src="https://cdn.jsdelivr.net/gh/diversen/pandoc-bootstrap-adaptive-template@959c3622/jquery.sticky-kit.js"></script>
+    <meta name="generator" content="pandoc" />
+  	<meta name="author" content="Mohammed Q. Hussain" />
+  <title>Chapter 1: Let's Start with the Bootloader</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">body { font-family: Domine, Georgia, Palatino, 'Palatino Linotype', Times, 'Times New Roman', serif} h1, h2, h3, h4, h5, h6 { font-family: Montserrat, sans }</style>
+  <style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+
+	/* [MQH] */
+	.toc a { color: #333 !important; }
+	h1 { margin-bottom: 5% }
+	body { font-size: 15pt; !important }
+  </style>
+</head>
+
+<body>
+
+    
+    <div class="navbar navbar-static-top navbar-expand-sm px-0 pt-0">
+    <div class="navbar-inner container-fluid">
+      <div class="container">
+        <span class="doc-title">A Journey in Creating an Operating System Kernel: The 539kernel Book</span>
+                <span class="doc-title"><small>Mohammed Q. Hussain</small></span>
+                <ul class="nav pull-right doc-info">
+          <li><p class="navbar-text"><a href="index.html" style="color: #777777; !important">Table of Content</a></li>
+                  </ul>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+      <div class="row">
+            <div class="col-12">
+
+      
+      <h1 id="ch-"bootloader">Chapter <span class="header-section-number">1</span>. Let's Start with the Bootloader</h1>
+<h2 id="introduction"><span class="header-section-number">1.1</span> Introduction</h2>
+<p>The first piece to start with when writing an operating system's kernel is the <em>boot loader</em> which is the code that is responsible for loading the main kernel from the disk to the main memory so the kernel can be executed. Before getting started in the details of the boot loader and all other parts of the kernel, we need to learn a little bit about the tools (e.g. compilers and programming languages) that we will use in our journey of creating a kernel. In this chapter, we start with an overview on the tools and their basics and then we start in writing a boot loader.</p>
+<h2 id="x86-assembly-language-overview"><span class="header-section-number">1.2</span> x86 Assembly Language Overview</h2>
+<p>To build a boot loader, we need to use assembly language, also, there are some parts of an operating system kernel that cannot be written in a high-level language and assembly language should be used instead as you will see later in this book, therefore, a basic knowledge of the target architecture assembly is required, in our case, the target architecture of our kernel is x86.</p>
+<p>The program that takes a source code which is written in assembly language and transforms this code to the machine language is known as <em>assembler</em> <a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a>. There are many assemblers available for x86 but the one that we are going to use is Netwide Assembler (NASM). However, the concepts of x86 assembly are the same, they are tight to the architecture itself, also the instructions are the same, so if you grasp the basics it will be easy to use any other assembler <a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a> even if it uses other syntax than NASM. Don't forget that the assembler is just a tool that helps us to generate an executable x86 machine code out of an assembly code, so, any suitable assembler that we use to reach our goal will be enough.</p>
+<p>In this section I don't aim to examine the details of x86 or NASM, you can consider this section as a quick start on both x86 and NASM, the basics will be presented to make you familiar with x86 assembly language, more advanced concepts will be presented later when we need them. If you are interested in x86 assembly for its own sake, there are multiple online resources and books that explain it in details.</p>
+<h3 id="registers"><span class="header-section-number">1.2.1</span> Registers</h3>
+<p>In any processor architecture, and x86 is not an exception, a register is a small memory inside the processor's chip. Like any other type of memories (e.g. RAM), we can store data inside a register and we can read data from it, the registers are too small and too fast. The processor architecture provides us with multiple registers. In x86 there are two types of registers: general purpose registers and special purpose registers. In general purpose registers we can store any kind of data we want, while the special purpose registers are provided by the architecture for some specific purposes, we will encounter the second type later in our journey of creating 539kernel.</p>
+<p>x86 provides us with eight general purpose registers and to use them in order to read from or write to them we refer to them by their names in assembly code. The names of these registers are: <code>EAX</code>, <code>EBX</code>, <code>ECX</code>, <code>EDX</code>, <code>ESI</code>, <code>EDI</code>, <code>EBP</code>, and <code>ESP</code>. While the registers <code>ESI</code>, <code>EDI</code>, <code>EBP</code> and <code>ESP</code> are considered as general purpose registers in x86 architecture <a href="#fn3" class="footnoteRef" id="fnref3"><sup>3</sup></a>, we will see later that they store some important data in some cases and it's better to use them carefully if we are forced to.</p>
+<p>The size of each one of x86's general purpose registers is <code>32</code> bits (<code>4</code> bytes) and due to that, they are available only on x86 processors that supports <code>32-bit</code> architecture <a href="#fn4" class="footnoteRef" id="fnref4"><sup>4</sup></a> such as Pentium 4 for instance. These <code>32-bit</code> registers are not available on x86 processors that support only <code>16-bit</code> architecture or lower, so, for example, you can't use the register <code>EAX</code> in Intel 8086 because it is a <code>16-bit</code> x86 processor and not <code>32-bit</code>.</p>
+<p>In old days, when <code>16-bit</code> x86 processors were dominant, assembly programmers used the registers <code>AX</code>, <code>BX</code>, <code>CX</code> and <code>DX</code> and each one of them is of size <code>16</code> bits (<code>2</code> bytes), but when <code>32-bit</code> x86 processors came, these registers have been extended to have the size <code>32-bit</code> and their names were changed to <code>EAX</code>, <code>EBX</code>, <code>ECX</code> and <code>EDX</code>. The first letter <code>E</code> of the new names means <em>extended</em>. However, the old names are still usable in <code>32-bit</code> x86 processors and they are used to access and manipulate the first <code>16</code> bits of the corresponding register, for instance, to access the first <code>16</code> bits of the register <code>EAX</code>, the name <code>AX</code> can be used. Furthermore, the first <code>16</code> bits of these registers can be divided into two parts and each one of them is of size <code>8</code> bits (<code>1</code> bytes) and has its own name that can be referred to in the assembly code. The first <code>8</code> bits of the register are called the <em>low</em> bits, while the second <code>8</code> bits are called the <em>high</em> bits.</p>
+<p>Let's take one of these register as an example:<code>AX</code> register is a <code>16-bit</code> register which is a part of the bigger <code>32-bit</code> <code>EAX</code> register in <code>32-bit</code> architecture. <code>AX</code> <a href="#fn5" class="footnoteRef" id="fnref5"><sup>5</sup></a> is divided into two more parts, <code>AL</code> for the <strong>l</strong>ow <code>8</code> bits as the second letter of the name indicates and <code>AH</code> for the <strong>h</strong>igh <code>8</code> bits as the second letter of the name indicates. The same division holds true for the registers <code>BX</code>, <code>CX</code> and <code>DX</code>, figure <a href="#fig:26012022_0">1</a> illustrates that division.</p>
+<div id="fig:26012022_0" class="fignos">
+<div class="figure">
+<img src="Figures/bootloader-ch/Fig26012022_0.png" alt="Figure 1: How the Registers EAX, EBX, ECX and EDX are Divided in x86" style="width:50.0%" />
+<p class="caption"><span>Figure 1:</span> How the Registers <code>EAX</code>, <code>EBX</code>, <code>ECX</code> and <code>EDX</code> are Divided in x86</p>
+</div>
+</div>
+<h3 id="instruction-set"><span class="header-section-number">1.2.2</span> Instruction Set</h3>
+<p>The processor's architecture provides the programmer with a bunch of <em>instructions</em> that can be used in assembly code. Processor's instructions resemble functions <a href="#fn6" class="footnoteRef" id="fnref6"><sup>6</sup></a> in a high-level languages which are provided by the libraries, in our case, we can consider the processor as the ultimate library for the assembly code. As with functions in high-level programming languages, each instruction has a name and performs a specific job, also, it can take parameters which are called <em>operands</em>. Depending on the instruction itself, the operands can be a static value (e.g. a number), a register name that the instruction is going to fetch the stored value of it to be used or even a memory location.</p>
+<p>The assembly language is really simple. An assembly code is simply a sequence of instructions which will be executed sequentially. The following is an example of assembly code, don't worry about its functionality right now, you will understand what it does eventually.</p>
+<div class="sourceCode"><pre class="sourceCode asm"><code class="sourceCode fasm"><span class="bu">mov</span><span class="bn"> ah, 0Eh</span>
+<span class="bu">mov</span> <span class="kw">al</span>, <span class="st">&#39;s&#39;</span> 
+<span class="bu">int</span><span class="bn"> 10h</span></code></pre></div>
+<p>As you can see, each line starts with an instruction which is provided to us by x86 architecture, in the first two lines we use an instruction named <code>mov</code> and as you can see, this instruction receives two operands which are separated by a comma. In the current usage of this instruction we can see that the first operand is a register name while the second operand is a static value. The third line uses another instruction named <code>int</code> which receives one operand. When this code is running, it will be executed by the processor sequentially, starting from the first line until it finishes in the last line.</p>
+<p>If you are interested on the available instructions on x86, there is a four-volumes manual named &quot;Intel® 64 and IA-32 architectures software developer's manual&quot; provided by Intel that explains each instruction in details <a href="#fn7" class="footnoteRef" id="fnref7"><sup>7</sup></a>.</p>
+<h4 id="assigning-values-with-mov"><span class="header-section-number">1.2.2.1</span> Assigning Values with <code>mov</code></h4>
+<p>You can imagine a register as a variable in high-level languages. We can assign values to a variable, we can change its old value and we can copy its value to another variable. In assembly language, these operations can be performed by the instruction <code>mov</code> which takes the value of the second operand and stores it in the first operand. You have seen in the previous examples the following two lines that use <code>mov</code> instruction.</p>
+<div class="sourceCode"><pre class="sourceCode asm"><code class="sourceCode fasm"><span class="bu">mov</span><span class="bn"> ah, 0Eh</span>
+<span class="bu">mov</span> <span class="kw">al</span>, <span class="st">&#39;s&#39;</span> </code></pre></div>
+<p>Now you can tell that the first line copies the value <code>0Eh</code> to the register <code>ah</code>, and the second line copies the character <code>s</code> to the register <code>al</code>. The single quotation is used in NASM to represent strings or characters and that's why we have used it in the second line, based on that, you may noticed that the value <code>0Eh</code> is not surrounded by a single quotation though it contains characters, in fact, this value isn't a string, it is a number that is represented by hexadecimal numbering system and due to that the character <code>h</code> was put in the end of that value, that is, putting <code>h</code> in the end of <code>0E</code> tells NASM that this value is a hexadecimal number, the equivalent number of <code>0E</code> in the decimal numbering system, which we humans are using, is <code>14</code>, that is <code>0E</code> and <code>14</code> are the exactly the same, but they are represented in two different numbering system<a href="#fn8" class="footnoteRef" id="fnref8"><sup>8</sup></a>.</p>
+<h3 id="nasm"><span class="header-section-number">1.2.3</span> NASM</h3>
+<p>Netwide Assembler (NASM) is an open-source assembler for x86 architecture which uses Intel's syntax of assembly language, the other well-known syntax for assembly language is AT&amp;T syntax and, of course, there are some differences between the two, the first syntax is used in the official manuals of Intel. NASM can be used through command line to assemble <a href="#fn9" class="footnoteRef" id="fnref9"><sup>9</sup></a> x86 assembly code and generate the corresponding machine code. The basic usage of NASM command is the following.</p>
+<pre><code>nasm -f &lt;format&gt; &lt;filename&gt; [-o &lt;output&gt;]</code></pre>
+<p>The argument <code>format</code> decides the binary format of the generated machine code, the binary format will be discussed in more details in a moment. The second argument is the <code>filename</code> of the assembly file that we would like to assemble, and the last option and argument are optional, we use them if we want to specify a specific name for the generated binary file, the default name will be same as the filename with a different extension.</p>
+<h4 id="binary-format"><span class="header-section-number">1.2.3.1</span> Binary Format</h4>
+<p>A <em>binary format</em> is basically a specification which gives a blueprint of how a binary file is organized, in other words, it describes how a binary file is structured, in general there are multiple parts in a binary file and a binary format can be used format them, the machine code is one part of a binary file parts. Note that each executable file uses some binary format to organize its content and to make a specific operating system understands its content. There is no difference between the programming languages in the matter of the binary format <a href="#fn10" class="footnoteRef" id="fnref10"><sup>10</sup></a> that will be used in the last output of the compiling process, for example in Linux, if we create a software either by C, Rust or assembly, the last executable result will be a binary file that is formatted by using a binary format known as <em>Executable and Linkable Format</em> (ELF) which is the default in Linux. There are many other binary formats, Mach-O is one example which is used by Mach-based <a href="#fn11" class="footnoteRef" id="fnref11"><sup>11</sup></a>, another example is Portable Executable (PE) which is used by Microsoft Windows.</p>
+<p>Each operating system knows its own binary format well, and knows how a binary file that uses this format is structured, and how to seek the binary file to find the machine code that should be loaded into memory and executed by the processor. For example, when you run an ELF executable file in GNU/Linux system, the Linux kernel knows it is an ELF executable file and assumes that it is organized in a specific way, by using the specification of ELF, Linux kernel will be able to locate the machine code of the software inside the ELF file and load it into memory to be ready for execution.</p>
+<p>In any binary format, one major part of the binary file that uses this format is the machine code that has been produced by compiling or assembling some source code, the machine code is specific to a processor architecture, for example, the machine code that has been generated for x64 <a href="#fn12" class="footnoteRef" id="fnref12"><sup>12</sup></a> cannot run on x86. Because of that the binary files are distributed according to the processor architecture which can run on, for example, GNU/Linux users see the names of software packages in the following format <code>nasm_2.14-1_i386.deb</code>, the part <code>i386</code> tells the users that the binary machine code of this package is generated for <code>i386</code> architecture, which is another name for x86 by the way, that means this package cannot be used in a machine that uses ARM processor such as Raspberry Pi for example.</p>
+<p>Due to that, to distribute a binary file of the same software for multiple processor's architectures, a separate binary file should be generated for each architecture, to solve this problem, a binary format named <code>FatELF</code> was presented. In this binary format, the software machine code of multiple processor architectures are gathered in one binary file and the suitable machine code will be loaded and run based on the type of the system's processor. Naturally, the size of the files that use such format will be bigger than the files that uses a binary format that is oriented for one processor architecture. Due to the bigger size, this type of binary formats is known as <em>fat binary</em>.</p>
+<p>Getting back to the <code>format</code> argument of NASM, if our goal of using assembly language is to produce an executable file for Linux for example, we will use <code>elf</code> as a value for <code>format</code> argument. But we are working with low-level kernel development, so our binary files should be flat and the value of <code>format</code> should be <code>bin</code> to generate a <em>flat binary</em> file which doesn't use any specification, instead, in flat binary files, the output is stored as is with no additional information or organization, only the output machine language of our code. Using flat binary for bootloader does make sense and that's because the code which is going to load <a href="#fn13" class="footnoteRef" id="fnref13"><sup>13</sup></a> our binary file doesn't understand any binary format to interpret it and fetch the machine code out of it, instead, the content of the binary file will be loaded to the memory as is.</p>
+<h2 id="gnu-make"><span class="header-section-number">1.3</span> GNU Make</h2>
+<p>GNU Make is a build automation tool. Well, don't let this fancy term make you panic! the concept behind it is too simple. When we create a kernel of an operating system <a href="#fn14" class="footnoteRef" id="fnref14"><sup>14</sup></a> we are going to write some assembly code and C code and both of them need to be assembled and compiled (for the C code) to generate the machine code as binary files out of them. With each time a modification is made in the source code, you need to recompile (or reassemble) the code over and over again through writing the same commands in the terminal in order to generate the last binary output of your code. Beside the compiling and recompiling steps, an important step needs to take place in order to generate the last output, this operation is known as <em>linking</em>, usually a programming project contains multiple source files that call each other, compiling each one of these files is going to generate a separate <em>object file</em> <a href="#fn15" class="footnoteRef" id="fnref15"><sup>15</sup></a> for each one, in linking process these different object files are linked with each other to generate one binary file out of these multiple object files, this last binary file represents the program that we are writing.</p>
+<p>These operations which are needed to generate the last binary file out of the source code is known as <em>building process</em>, which, as mentioned earlier, involves executing multiple commands such as compiling, assembling and linking. The building process a tedious job and error-prone and to save our time (and ourselves from boredom of course) we don't want to write all these commands over and over again in order to generate the last output, we need an alternative and here where GNU Make <a href="#fn16" class="footnoteRef" id="fnref16"><sup>16</sup></a> comes to the rescue, it <em>automates</em> the <em>building</em> process by gathering all required commands in a text file known as <code>Makefile</code> and once the user runs this file through the command <code>make</code>, GNU Make is going to run these commands sequentially, furthermore, it checks whether a code file is modified since the last building process or not, if the case is that the file is not modified then it will not be compiled again and the generated object file from the last building process is used instead, which of course minimize the needed time to finish the building process.</p>
+<h3 id="makefile"><span class="header-section-number">1.3.1</span> Makefile</h3>
+<p>A <code>makefile</code> is a text file that tells GNU Make what are the needed steps to complete the building process of a specific source code. There is a specific syntax that we should obey when writing <code>makefile</code>. A number of <em>rules</em> may be defined, we can say that a <code>makefile</code> has a list of rules that define how to create the executable file. Each rule has the following format:</p>
+<div class="sourceCode"><pre class="sourceCode makefile"><code class="sourceCode makefile"><span class="dv">target:</span><span class="dt"> prerequisites</span>
+    recipe</code></pre></div>
+<p>When we run the command <code>make</code> without specifying a defined target name as an argument, GNU Make is going to start with the first rule in the <code>makefile</code> only if the first rule's target name doesn't start with dot, otherwise, the next rule will be considered. The name of a target can be a general name or filename. Assume that we defined a rule with the target name <code>foo</code> and it's not the first rule in <code>makefile</code>, we can tell GNU Make to execute this rule by running the command <code>make foo</code>. One of well-known convention when writing a <code>makefile</code> is to define a rule with target name <code>clean</code> that deletes all object files and binaries that have been created in the last building process. We will see after a short time the case where the name of a target is a filename instead of general name.</p>
+<p>The <code>prerequisites</code> part of a rule is what we can call the list of dependencies, those dependencies can be either filenames (the C files of the source code for instance) or other rules in the same <code>makefile</code>. For GNU Make, to run the a specific rule successfully, the dependencies of this rule should be fulfilled, if there is another rule in the dependencies, it should be executed successfully first, if there is a filename in the dependencies list and there is no rule that has the same filename as a target name, then this file will be checked and used in the recipe of the rule.</p>
+<p>Each line in the <code>recipe</code> part should start with a tab and it contains the commands that is going to run when the rule is being executed. These commands are normal Linux commands, so in this part of a rule we are going to write the compiling commands to compile the C source files, assembling commands for the assembly source files and linking command that links the generated object files. Any arbitrary command can be used in the recipe as we will see later when we create the <code>makefile</code> of 539kernel. Consider the following C source files, the first one is <code>file1.c</code>, the second one is <code>file2.h</code> and the third one is <code>file2.c</code>.</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="pp">#include </span><span class="im">&quot;file2.h&quot;</span>
+<span class="dt">int</span> main()
+{
+    func();
+}</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">void</span> func();</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span>
+<span class="dt">void</span> func()
+{
+    printf( <span class="st">&quot;Hello World!&quot;</span> );
+}</code></pre></div>
+<p>By using these three files, let's take an example of a <code>makefile</code> with filenames that have no rules with same target's name.</p>
+<div class="sourceCode"><pre class="sourceCode makefile"><code class="sourceCode makefile"><span class="dv">build:</span><span class="dt"> file1.c file2.c</span>
+    gcc -o ex_file file1.c file2.c</code></pre></div>
+<p>The target name of this rule is <code>build</code>, and since it is the first and only rule in the <code>makefile</code> which its name doesn't start with a dot, then it will be executed directly once the command <code>make</code> is issued, another way to execute this rule is by mentioning its name explicitly as an argument to <code>make</code> command as the following: <code>make build</code>.</p>
+<p>The rule <code>build</code> depends on two C files, <code>file1.c</code> and <code>file2.c</code>, they should be available on the same directory. The the recipe uses GNU GCC to compile and link these two files and generate an executable file named <code>ex_file</code>. The following is an example of a <code>makefile</code> that has multiple rules.</p>
+<div class="sourceCode"><pre class="sourceCode makefile"><code class="sourceCode makefile"><span class="dv">build:</span><span class="dt"> file2.o file1.o</span>
+    gcc -o ex_file file1.o file2.o
+<span class="dv">file1.o:</span><span class="dt"> file1.c</span>
+    gcc -c file1.c
+<span class="dv">file2.o:</span><span class="dt"> file2.c file2.h</span>
+    gcc -c file2.c file2.h</code></pre></div>
+<p>In this example, the first rule <code>build</code> depends on two object files <code>file1.o</code> and <code>file2.o</code>. Before running the building process for the first time, these two files will not be available in the source code directory <a href="#fn17" class="footnoteRef" id="fnref17"><sup>17</sup></a>, therefore, we have defined a rule for each one of them. The rule <code>file1.o</code> is going to generate the object file <code>file1.o</code> and it depends on <code>file1.c</code>, the object file will be simple generated by compiling <code>file1.c</code>. The same happens with <code>file2.o</code> but this rule depends on two files instead of only one.</p>
+<p>GNU Make also supports variables which can simply be defined as the following: <code>foo = bar</code> and they can be used in the rules as the following: <code>$(foo)</code>. Let's now redefine the second <code>makefile</code> by using the variables.</p>
+<div class="sourceCode"><pre class="sourceCode makefile"><code class="sourceCode makefile"><span class="dt">c_compiler </span><span class="ch">=</span><span class="st"> gcc</span>
+<span class="dt">buid_dependencies </span><span class="ch">=</span><span class="st"> file1.o file2.o</span>
+<span class="dt">file1_dependencies </span><span class="ch">=</span><span class="st"> file1.c</span>
+<span class="dt">file2_dependencies </span><span class="ch">=</span><span class="st"> file2.c file2.h</span>
+<span class="dt">bin_filename </span><span class="ch">=</span><span class="st"> ex_file</span>
+<span class="dv">build:</span><span class="dt"> </span><span class="ch">$(</span><span class="dt">buid_dependencies</span><span class="ch">)</span>
+    <span class="ch">$(</span><span class="dt">c_compiler</span><span class="ch">)</span> -o <span class="ch">$(</span><span class="dt">bin_filename</span><span class="ch">)</span> <span class="ch">$(</span><span class="dt">buid_dependencies</span><span class="ch">)</span>
+<span class="dv">file1.o:</span><span class="dt"> </span><span class="ch">$(</span><span class="dt">file1_dependencies</span><span class="ch">)</span>
+    gcc -c <span class="ch">$(</span><span class="dt">file1_dependencies</span><span class="ch">)</span>
+<span class="dv">file2.o:</span><span class="dt"> </span><span class="ch">$(</span><span class="dt">file2_dependencies</span><span class="ch">)</span>
+    gcc -c <span class="ch">$(</span><span class="dt">file2_dependencies</span><span class="ch">)</span></code></pre></div>
+<h2 id="the-emulators"><span class="header-section-number">1.4</span> The Emulators</h2>
+<p>While developing an operating system kernel, for sure, you will need to run that kernel to test your code frequently. That's of course can be done by writing the image of the kernel on a bootable device and reboot you machine over and over again in order to run your kernel. Obviously, this way isn't practical and needs a lot of chore work. Moreover, when a bug shows up, it will be really hard to debug your code by using this way. An alternative better way is to use an emulator to run your kernel every time you need to test it.</p>
+<p>An emulator is a software that acts like a full computer and by using it you can run any code that require to run on a bare metal hardware. Also, by using an emulator, everything will be virtual, for example, you can create a virtual hard disk (that is, not real) that can be used by your kernel, this virtual hard disk will be a normal file in you host system, so, if anything goes wrong in your code you will not lose your data in your main system. Furthermore, an emulator can provide you with a debugger which will make your life a lot easier when you need to debug your code.</p>
+<p>There are two options for the emulator, QEMU <a href="#fn18" class="footnoteRef" id="fnref18"><sup>18</sup></a> and Bochs <a href="#fn19" class="footnoteRef" id="fnref19"><sup>19</sup></a>. Both of them are open source and both of them provides us with a way to run a debugger. Personally, I liked Bochs' debugger better since it provides an easy GUI that saves a lot of time. QEMU on the other hand, gives that user the ability to use GNU Debugger through command line. Running a kernel image is simple in QEMU, the following command performs that.</p>
+<pre><code>qemu-system-x86_64 kernel.img</code></pre>
+<p>Where <code>kernel.img</code> is the binary file of the kernel and the bootloader. You will see later in 539kernel's <code>Makefile</code> that the option <code>-s</code> is used with QEMU, it can be safely removed but it is used to make GNU debugger able to connect to QEMU in order to start a debugging session. Of course you can find a lot more about QEMU in its official documentation <a href="#fn20" class="footnoteRef" id="fnref20"><sup>20</sup></a>.</p>
+<p>To run your kernel by using Bochs, you need to create a configuration text file named <code>bochsrc</code>. Each time you run Bochs it will use this configuration file which tells Bochs the specifications of the virtual machine that will be created, these specifications are something about the virtual processors, their number, their available feature, the number of available virtual disks, their options, the path of their files and so on. Also, whether the debugger of Bochs and its GUI is enabled or not are decided through this configuration file. This configuration can be easily created or edited by using a command line interface through running the command <code>bochs</code> with no arguments. After creating the file you can use the option <code>-f bochsrc</code> where <code>bochsrc</code> is the filename of the configuration file to run your kernel directly with no question from Bochs about what to do.</p>
+<h2 id="writing-the-boot-loader"><span class="header-section-number">1.5</span> Writing the Boot Loader</h2>
+<p>When a computer powers on, a piece of code named bootloader is loaded and takes the control of the computer. Usually, the goal of the bootloader is loading the kernel of an operating system from the disk to the main memory and gives the kernel the control over the computer. The firmware of a computer is the program which loads the bootloader, in IBM-compatible computers the name of this firmware is BIOS (Basic Input/Output System) <a href="#fn21" class="footnoteRef" id="fnref21"><sup>21</sup></a>.</p>
+<p>There is a place in the hard disk called <em>boot sector</em>, it is the first sector of a hard disk <a href="#fn22" class="footnoteRef" id="fnref22"><sup>22</sup></a>, BIOS loads the content of the boot sector as a first step of running the operating system. Loading the boot sector's content means that BIOS reads the content from hard disk and loads it into the main memory (RAM). This loaded content from the boot sector should be the bootloader, and once its loaded into the main memory, the processor will be able to execute it as any other code that we use in our computers. So, the last step performed by BIOS in booting process is giving the control to the bootloader to do whatever it wants.</p>
+<p>Before getting started in writing 539kernel, we need to write the bootloader that is going to load 539kernel from the disk. In IBM-compatible PCs that uses BIOS to perform the booting process, the size of the bootloader is limited to <code>512</code> bytes and due to this limited size and the need of using low-level services, the bootloader is usually written in assembly language, also, because of this limited size, we cannot depend on BIOS to load 539kernel instead of the bootloader and that's because a kernel is usually bigger than <code>512</code> bytes, therefore, a small bootloader is loaded by BIOS in order to load the bigger piece of code which is the kernel. The reason of this limited size of the bootloader is because of the size of a sector in the hard disk itself. Each sector in the hard disk has the size of <code>512</code> bytes and as we have mentioned, BIOS is going to load the content of the first sector of hard disk, the boot sector, which, of course, as any other sector its size is <code>512</code> bytes.</p>
+<p>Beside the bootloader's limited size, it is going to run on an <em>x86 operating mode</em> known as <em>real mode</em> <a href="#fn23" class="footnoteRef" id="fnref23"><sup>23</sup></a>, what we need to know about that for now is that real mode is a <code>16-bit</code> environment, so, even if the working processor is a <code>64-bit</code> processor, we can only use <code>16-bit</code> features of the processor, such as the registers of size <code>16</code> bits.</p>
+<p>The booting process is too specific to the computer architecture as we have seen and it may differs between one architecture and another. Some readers, especially computer science students may notice that the academic textbooks of operating systems don't mention the bootloader or discuss it.</p>
+<h3 id="hard-disk-structure"><span class="header-section-number">1.5.1</span> Hard Disk Structure</h3>
+<p>A hard disk consists of multiple <em>platters</em> which are stacked together one above the other, have you ever seen a CD or a DVD? A platter has exactly the same shape, refer to Figure <a href="#fig:a-platter">2</a>. The both surfaces (top and down) of a platter are covered by a magnetic layer which stores the data. For each surface of a platter there is a read/write head on it, and as you guessed, the role of this head is to read from a surface or write to it, a head is attached to an arm. Those arms move horizontally, back and forth, and because the other end of all of those arms are attached to the same physical part, they will be moved back and forth together to the same location at the same time. Figure <a href="#fig:platters-arms-heads">3</a> shows how the platters, arms and read/write heads are assembled together.</p>
+<div id="fig:a-platter" class="fignos">
+<div class="figure">
+<img src="Figures/bootloader-ch/a-platter.png" alt="Figure 2: (A) Shows a platter when we see it from the side. (B) Shows a platter when we see it from top/down." style="width:50.0%" />
+<p class="caption"><span>Figure 2:</span> (A) Shows a platter when we see it from the side. (B) Shows a platter when we see it from top/down.</p>
+</div>
+</div>
+<p>A surface of a platter is divided into a number of tracks and each track is divided into a number of sectors. In Figure <a href="#fig:tracks-sectors">4</a> you can see how tracks and sectors are organized on a surface, the gray circles that have the same center (cocenteric) are the tracks, a track consists of a smaller parts which called sectors. A sector is the smallest unit that holds data in hard disks and as you know from our previous discussion, the first sector in a hard disk is known as boot sector.</p>
+<div id="fig:platters-arms-heads" class="fignos">
+<div class="figure">
+<img src="Figures/bootloader-ch/platters-arms-heads.png" alt="Figure 3: Shows how the parts of a hard disk are assembled together." style="width:50.0%" />
+<p class="caption"><span>Figure 3:</span> Shows how the parts of a hard disk are assembled together.</p>
+</div>
+</div>
+<p>When a command is sent to the hard disk to write some data on it or read from it, at least two mechanical moves <a href="#fn24" class="footnoteRef" id="fnref24"><sup>24</sup></a> are performed. The first move is taken by the arms, they move back or forth in order to be upon the track that contains the data we would like to read, this operation is known as <em>seek</em> operation. So, <em>seek time</em> is the time needed to put a specific track under a read/write head. After finishing the seek operation, the read/write head will be on the right track but, also, it will be on a random sector <a href="#fn25" class="footnoteRef" id="fnref25"><sup>25</sup></a>, to reach the sector that we would like to read from (or write to) the platter rotates until the read/write head becomes upon the required sector. The speed of rotation is measured by a unit known as <em>revolutions per minute</em> (RPM) and the needed time to reach the required sector is known as <em>rotational latency</em>. Finally, the data will be <em>transferred</em> from the hard disk to the main memory, the time needed to transfer a number of bits known as <em>transfer time</em>.</p>
+<p>Let's assume as an example a hard disk that has <code>3</code> platters, which means it has <code>6</code> surfaces, arms and read/write head. When the operating system request from the hard disk to seek a specific track, for instance track <code>3</code>, all <code>6</code> heads will seek the track <code>3</code> and when the seek operation ends, the <code>6</code> heads will point to the same physical position on all <code>6</code> surfaces, that is, the top head of the first platter and the bottom head of it will point to that same place, but the first one on the top while the second is on the bottom, and so on for the other <code>4</code> remaining heads, the collection of all these tracks that the heads point to at some point of time is called a <em>cylinder</em>.</p>
+<div id="fig:tracks-sectors" class="fignos">
+<div class="figure">
+<img src="Figures/bootloader-ch/tracks-sectors.png" alt="Figure 4: Shows Tracks and Sectors on a platter&#39;s surface." style="width:50.0%" />
+<p class="caption"><span>Figure 4:</span> Shows Tracks and Sectors on a platter's surface.</p>
+</div>
+</div>
+<p>Now, based on what we know about how a hard disk works, can we imagine what happens inside the hard disk when BIOS loads a bootloader? First, the arms will seek the track number <code>0</code> <a href="#fn26" class="footnoteRef" id="fnref26"><sup>26</sup></a>, that is, the arms move back or forth until they reach the track <code>0</code>, then the platter rotates until the read/write head become upon the sector <code>0</code>, finally, the content of sector <code>0</code> is transferred to the main memory.</p>
+<h3 id="bios-services"><span class="header-section-number">1.5.2</span> BIOS Services</h3>
+<p>We are in a journey of writing an operating system kernel, which means that we are dealing with a little bit harsh environment! Do you remember all libraries that we are lucky to have when developing normal software (user-space software), well, none of them are available right now! And they will not be available until we decide to make them so and work hard to do that. Even the simple function <code>printf</code> of C is not available.</p>
+<p>But that's fine, for our luck, in this environment, where there is too little available for us to write our code, BIOS provides us with a bunch of useful services that we can use in real mode, so, we can use these services in our bootloader to get things done.</p>
+<p>BIOS services are like a group of functions in high-level languages that is provided by some library, each function does something useful and we deal with those functions as black boxes, we don't know what's inside these functions but we know what they do and how to use them. So, basically, BIOS provides us a library of functions and we are going to use some of these functions in our bootloader.</p>
+<p>BIOS services are divided into categories, there are video services category, disk services category, keyboard services category and so on. Each category is identified by a unique number called <em>interrupt number</em>. In high-level world, we witnessed the same concept but with different mechanism, for example, C standard library provides us with many services (functions) such as input/output functions, string manipulation functions, mathematical functions and so on, these functions are categorized and each category is label by the <em>library name</em>, for example, all input/output functions can be found in <code>stdio.h</code> and so on. In BIOS, for example, the category of video services has the interrupt number <code>10h</code>. As mentioned earlier, the letter<code>h</code> after a number means that this number represented in hexadecimal numbering system, or for short, a hexadecimal number. Here, <code>10h</code> doesn't equal the decimal number <code>10</code>. We already said that when a hexadecimal number is mentioned we use <code>h</code> as a postfix, also, <code>0x</code> <a href="#fn27" class="footnoteRef" id="fnref27"><sup>27</sup></a> can be used as a prefix instead of <code>h</code>, so <code>10h</code> and <code>0x10</code> are equivalents.</p>
+<p>Inside each services category, there is a bunch of services, each one can do a specific thing and they are identified by a number. Continuing with C analogy, a service is a function labeled by a name (e.g. <code>printf</code>) and this function reside in a library (e.g. <code>stdio.h</code>) which is same as a category of services in BIOS. As we said, the interrupt number <code>10h</code> represents the category of video services, and the service of printing a character on a screen (function) is represented by the number <code>0Eh</code>.</p>
+<p>Interrupts is a fundamental concept in x86 architecture. What we need to know about them right now is that they are a way to call a specific code which is assigned to the interrupt number and calling an interrupt in assembly is really simple, the instruction <code>int</code> is used as the following: <code>int 10h</code>. That's it! We use the instruction <code>int</code> and gives it the interrupt number that represent the code that we would like to call as an operand. In this example, we are calling the code of interrupt <code>10h</code> which is, as we mentioned multiple time, the category of BIOS video services. When the CPU executes this instruction, BIOS will be called and based on the interrupt number it will know that we want to use one of available video services, but which one exactly!</p>
+<p>In the previous example, we actually didn't tell BIOS which video service we would like to use and to do that we need to specify service number in <code>ah</code> register before calling the interrupt.</p>
+<div class="sourceCode"><pre class="sourceCode asm"><code class="sourceCode fasm"><span class="bu">mov</span><span class="bn"> ah, 0Eh</span>
+<span class="bu">int</span><span class="bn"> 10h</span></code></pre></div>
+<p>That's it, all the BIOS services can be used in this exact way. First we need to know what is the interrupt number that the service belongs to, then, we need to know the number of the service itself, we put the service number in the register <code>ah</code> then we call the interrupt by its number by using <code>int</code> instruction.</p>
+<p>The previous code calls the service of printing a character on a screen, but is it complete yet? Actually no, we didn't specify what is the character that we would like to print. We need something like parameters in high-level languages to pass additional information for BIOS to be able to do its job. Well, lucky us! the registers are here to the rescue.</p>
+<p>When a BIOS service needs additional information, that is, parameters. It expects to find these information in a specific register. For example, the service <code>0Eh</code> in interrupt <code>10h</code> expects to find the character that the user wants to print in the register <code>al</code>, so, the register <code>al</code> is one of service <code>0Eh</code> parameters. The following code requests from BIOS to print the character <code>S</code> on the screen:</p>
+<div class="sourceCode"><pre class="sourceCode asm"><code class="sourceCode fasm"><span class="bu">mov</span><span class="bn"> ah, 0Eh</span>
+<span class="bu">mov</span> <span class="kw">al</span>, <span class="st">&#39;S&#39;</span>
+<span class="bu">int</span><span class="bn"> 10h</span></code></pre></div>
+<h3 id="a-little-bit-more-of-x86-assembly-and-nasm"><span class="header-section-number">1.5.3</span> A Little Bit More of x86 Assembly and NASM</h3>
+<p>We need to learn a couple more things about x86 assembly to be able to start. In NASM, each line in the source code has the following format.</p>
+<div class="sourceCode"><pre class="sourceCode asm"><code class="sourceCode fasm"><span class="pp">label</span>: instruction operands</code></pre></div>
+<p>The label is optional, the operands depend on x86 instruction in use, if it doesn't get any operand then we don't need to write them. To write comments on NASM we begin with semi-colon and write whatever we like after it as a comment and the rest of the source line will be considered as a part of the comment.</p>
+<p>A label is a way to give an instruction or a group of instructions a meaningful name, then we can use this name in other places in the source code to refer to this instruction/group of instructions, we can use labels for example to call this group of instructions or to get the starting memory address of these instructions. Sometimes, we may use labels to make the code more readable.</p>
+<p>We can say that a label is something like the name of a function or variable in C, as we know a variable name in C is a meaningful name that represents the memory address of a location in the main memory that contains the value of a variable, the same holds true for a function name. Labels in NASM works in the same way, under the hood it represents a memory address. The colon in label is also optional.</p>
+<div class="sourceCode"><pre class="sourceCode asm"><code class="sourceCode fasm"><span class="fu">print_character_S_with_BIOS:</span>
+    <span class="bu">mov</span><span class="bn"> ah, 0Eh</span>
+    <span class="bu">mov</span> <span class="kw">al</span>, <span class="st">&#39;S&#39;</span>
+    <span class="bu">int</span><span class="bn"> 10h</span></code></pre></div>
+<p>You can see in the code above, we gave a meaningful name for the bunch of instructions that prints the character <code>S</code> on the screen. After defining this label in our source code, we can use it anywhere in the same source code to refer to this bunch of instructions.</p>
+<div class="sourceCode"><pre class="sourceCode asm"><code class="sourceCode fasm">call_video_service <span class="bu">int</span><span class="bn"> 10h</span></code></pre></div>
+<p>This is another example of labels. This time we eliminated the optional colon in label's name and the label here points to only one instruction. Please note that extra whitespaces and new lines doesn't matter in NASM, so, the following is equivalent to the one above.</p>
+<div class="sourceCode"><pre class="sourceCode asm"><code class="sourceCode fasm">call_video_service
+    <span class="bu">int</span><span class="bn"> 10h</span></code></pre></div>
+<p>Consider the following code, what do you think it does?</p>
+<div class="sourceCode"><pre class="sourceCode asm"><code class="sourceCode fasm"><span class="fu">print_character_S_with_BIOS:</span>
+    <span class="bu">mov</span><span class="bn"> ah, 0Eh</span>
+    <span class="bu">mov</span> <span class="kw">al</span>, <span class="st">&#39;S&#39;</span>
+
+<span class="fu">call_video_service:</span>
+    <span class="bu">int</span><span class="bn"> 10h</span></code></pre></div>
+<p>Still it prints <code>S</code> on the screen. Introducing labels in the source code doesn't change its flow, the code will be executed sequentially whether we used the labels or not. The sequence of execution will not be changed by merely using labels, if we need to change the sequence of execution we need to use other methods than labels. You already know one of these methods which is calling an interrupt. So, we can say that labels are more general than a variable name or function name in C. A label is a human-readable name for a memory location which can contain anything, code or data!</p>
+<h4 id="jump-and-return-unconditionally"><span class="header-section-number">1.5.3.1</span> Jump and Return Unconditionally</h4>
+<p>Let's start this section with a simple question. What happens when we call a function in C? Consider the following C code.</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c">main()
+{
+    <span class="dt">int</span> result = sum( <span class="dv">5</span>, <span class="dv">3</span> );
+
+    printf( <span class="st">&quot;%d</span><span class="sc">\n</span><span class="st">&quot;</span>, result );
+}</code></pre></div>
+<p>Here, the function <code>main</code> called a function named <code>sum</code>, this function reside in a different region in memory and by calling it we are telling the processor to go to this different region of memory and execute what's inside it, the function <code>sum</code> is going to do its job, and after that, in some magical way, the processor is going to return to the original memory region where we called <code>sum</code> from and proceed the execution of the code that follows the calling of <code>sum</code>, in this case, the <code>printf</code> function. How does the processor know where to return after completing the execution of <code>sum</code>?</p>
+<p>The function which call another is named <em>caller</em> while the function which is called by the caller named <em>callee</em>, in the above C code, the caller is the function <code>main</code> while the callee is the function <code>sum</code>.</p>
+<h5 id="a-glance-on-a-computer-architecture"><span class="header-section-number">1.5.3.1.1</span> A Glance on a Computer Architecture</h5>
+<p>When a program is running, a copy of its machine code is loaded in the main memory, this machine code is a sequence of instructions which are understandable by the processor, these instructions are executed by the processor sequentially, that is, one after another in each cycle in the processor, also, the data that the code being executed is dealing with is stored in the same main memory. This architecture where both code and data are stored in the same memory and the processor uses this memory to read the instructions that should be executed, and manipulate the data which is stored in the same memory is known as <em>von Neumann architecture</em>. There is another well-known architecture called <em>Harvard architecture</em> where the code and data are stored in two different memories, x86 uses <em>von Neumann architecture</em>.</p>
+<p>When a processor starts a new <em>instruction cycle</em>, it fetches the next instruction that should be executed from the main memory and executes it <a href="#fn28" class="footnoteRef" id="fnref28"><sup>28</sup></a>. Each <em>memory location</em> in the main memory is represented and referred to by a unique <em>memory address</em>, that means each instruction in the machine code of a loaded program has a unique memory address, consider the following hypothetical example of the memory addresses of each instruction in the previous C code, note that the memory addresses in this example are by no means accurate.</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dv">100</span> main() {
+<span class="dv">110</span>    <span class="dt">int</span> result = sum( <span class="dv">5</span>, <span class="dv">3</span> );
+<span class="dv">120</span>    printf( <span class="st">&quot;%d</span><span class="sc">\n</span><span class="st">&quot;</span>, result );
+<span class="dv">130</span> }
+
+<span class="dv">250</span> <span class="dt">int</span> sum( <span class="dt">int</span> firstNumber, <span class="dt">int</span> secondNumber ) {
+<span class="dv">260</span>     <span class="cf">return</span> firstNumber + secondNumber;
+<span class="dv">270</span> }</code></pre></div>
+<p>The number on the left is the hypothetical memory address of the code line in the right, that means the function <code>main</code> starts from the memory address <code>100</code> and so on. Also, we can see that the callee <code>sum</code> resides in a far region of memory from the caller <code>main</code>.</p>
+<p><em>Program Counter</em> is a part of computer architecture which stores the <em>memory address</em> for the instruction that will be executed in the next instruction cycle of the processor. In x86, the program counter is a register known as <em>instruction pointer</em> and its name is <code>IP</code> in 16-bit and <code>EIP</code> in 32-bit.</p>
+<p>When the above C code runs for the first time, the value of the instruction pointer will be <code>100</code>, that is, the memory address of the starting point of <code>main</code> function. When the instruction cycle starts, it reads the value of the instruction pointer register <code>IP</code>/<code>EIP</code> which is <code>100</code>, it fetches the instruction which is stored in the memory location <code>100</code> and executes it <a href="#fn29" class="footnoteRef" id="fnref29"><sup>29</sup></a>, then the memory address of the next instruction <code>110</code> will be stored in the instruction pointer register for the next instruction cycle. When the processor finishes the execution of the instruction of the memory location <code>110</code>, this time, the value of <code>IP</code>/<code>EIP</code> will be <code>250</code> instead of <code>120</code> because, you know, we are calling the function <code>sum</code> which resides in the memory location <code>250</code>.</p>
+<p>Each running program has a <em>stack</em> which is a region of the program's memory <a href="#fn30" class="footnoteRef" id="fnref30"><sup>30</sup></a>, that is, a place in the memory that belongs to the program and can store data, we will examine the details of stack later, but what is important for us now is the following, when another function is called, in our case <code>sum</code>, the memory address of the next instruction of the callee <code>main</code> is <em>pushed</em> <a href="#fn31" class="footnoteRef" id="fnref31"><sup>31</sup></a> into the stack, so the memory address <code>120</code> will be pushed into the stack before calling <code>sum</code>, this address is called <em>return address</em>. Now, assume that the processor is executing the instruction in the memory location <code>270</code>, that is, finishing the execution of the callee <code>sum</code>, after that the processor will find the return address which is <code>120</code> in the stack, get it and put it in the register <code>IP</code>/<code>EIP</code> for the next instruction cycle <a href="#fn32" class="footnoteRef" id="fnref32"><sup>32</sup></a>. So, this is the answer of our original question in the previous section &quot;How does the processor know where to return after completing the execution of <code>sum</code>?&quot;.</p>
+<h5 id="the-instructions-call-and-ret"><span class="header-section-number">1.5.3.1.2</span> The Instructions <code>call</code> and <code>ret</code></h5>
+<p>The instruction <code>call</code> in assembly works exactly in the same way that we have explained in the previous section, it is used to call a code that resides in a given memory address. The instruction <code>call</code> pushes the return address into the stack and to return to the caller, the callee should use the instruction <code>ret</code> when it finishes. The instruction <code>ret</code> gets the return address from the stack <a href="#fn33" class="footnoteRef" id="fnref33"><sup>33</sup></a> and use it to resume the execution of the caller. Consider the following example.</p>
+<div class="sourceCode"><pre class="sourceCode asm"><code class="sourceCode fasm"><span class="fu">print_two_times:</span>
+    <span class="bu">call</span> print_character_S_with_BIOS
+    <span class="bu">call</span> print_character_S_with_BIOS
+    <span class="bu">ret</span>
+
+<span class="fu">print_character_S_with_BIOS:</span>
+    <span class="bu">mov</span><span class="bn"> ah, 0Eh</span>
+    <span class="bu">mov</span> <span class="kw">al</span>, <span class="st">&#39;S&#39;</span>
+    <span class="bu">int</span><span class="bn"> 10h</span>
+    <span class="bu">ret</span></code></pre></div>
+<p>You can see here that we have used the code sample print_character_S_with_BIOS to define something like C functions by using the instructions <code>call</code> and <code>ret</code>. It should be obvious that the code of <code>print_two_times</code> prints the character <code>S</code> two times, as we have said previously, a label represents a memory address and print_character_S_with_BIOS is a label, the operand of <code>call</code> is the memory address of the code that we wish to call, the instructions of print_character_S_with_BIOS will be executed sequentially until the processor reaches the instruction <code>ret</code>, at this point, the return address is obtained from the stack and the execution of the caller is resumed.</p>
+<p><code>call</code> performs an <em>unconditional jump</em>, that means the processor reaches to a <code>call</code> instruction, it will always call the callee, without any condition, later in this chapter we will see an instruction that performs a <em>conditional jump</em>, which only calls the callee when some condition is satisfied, otherwise, the execution of the caller continues sequentially with no flow change.</p>
+<h4 id="the-one-way-unconditional-jump"><span class="header-section-number">1.5.3.2</span> The One-Way Unconditional Jump</h4>
+<p>Like <code>call</code>, the instruction <code>jmp</code> jumps to the specified memory address, but unlike <code>call</code>, it doesn't store the return address in the stack which means <code>ret</code> cannot be used in the callee to resume the caller's execution. We use <code>jmp</code> when we want to jump to a code that we don't need to return from, <code>jmp</code> has the same functionality of <code>goto</code> statement in C. Consider the following example.</p>
+<div class="sourceCode"><pre class="sourceCode asm"><code class="sourceCode fasm"><span class="fu">print_character_S_with_BIOS:</span>
+    <span class="bu">mov</span><span class="bn"> ah, 0Eh</span>
+    <span class="bu">mov</span> <span class="kw">al</span>, <span class="st">&#39;S&#39;</span>
+    <span class="bu">jmp</span> call_video_service
+
+<span class="fu">print_character_A_with_BIOS:</span>
+    <span class="bu">mov</span><span class="bn"> ah, 0Eh</span>
+    <span class="bu">mov</span> <span class="kw">al</span>, <span class="st">&#39;A&#39;</span>
+
+<span class="fu">call_video_service:</span>
+    <span class="bu">int</span><span class="bn"> 10h</span></code></pre></div>
+<p>Can you guess what is the output of this code? it is <code>S</code> and the code of the label <code>print_character_A_with_BIOS</code> will never be executed because of the line <code>jmp call_video_service</code>. If we remove the line of <code>jmp</code> from this code sample, <code>A</code> will be printed on the screen instead of <code>S</code>. Another example which causes infinite loop.</p>
+<div class="sourceCode"><pre class="sourceCode asm"><code class="sourceCode fasm"><span class="fu">infinite_loop:</span>
+    <span class="bu">jmp</span> infinite_loop</code></pre></div>
+<h4 id="comparison-and-conditional-jump"><span class="header-section-number">1.5.3.3</span> Comparison and Conditional Jump</h4>
+<p>In x86 there is a special register called <em>FLAGS</em> register <a href="#fn34" class="footnoteRef" id="fnref34"><sup>34</sup></a>. It is the <em>status register</em> which holds the current status of the processor. Each usable bit of this register has its own purpose and name, for example, the first bit (bit <code>0</code>) of FLAGS register is known as <em>Carry Flag</em> (<code>CF</code>) and the seventh bit (bit <code>6</code>) is known as <em>Zero Flag</em> (<code>ZF</code>).</p>
+<p>Many x86 instructions use <code>FLAGS</code> register to store their result on, one of those instructions is <code>cmp</code> which can be used to compare two integers which are passed to it as operands, when a comparison finishes, the processor stores the its result in <code>FLAGS</code> register. The following line compares the value which reside in the register <code>al</code> with <code>5</code>: <code>cmp al, 5</code>.</p>
+<p>Now, let's say that we would like to jump to a piece of code only if the value of <code>al</code> equals <code>5</code>, otherwise, the code of the caller continues without jumping. There are multiple instructions that perform <em>conditional</em> jump based on the result of <code>cmp</code>. One of these instructions is <code>je</code> which means <em>jump if equal</em>, that is, if the two operands of the <code>cmp</code> instruction equals each other, then jump to the specified code. Another conditional jump instruction is <code>jne</code> which means <em>jump if not equal</em>, there are other conditional jump instructions to handle the other cases. We can see that the conditional jump instructions have the same functionality of <code>if</code> statement in C. Consider the following example.</p>
+<div class="sourceCode"><pre class="sourceCode asm"><code class="sourceCode fasm"><span class="fu">main:</span>
+    <span class="bu">cmp</span> <span class="kw">al</span>, <span class="dv">5</span>
+    <span class="bu">je</span> the_value_equals_<span class="dv">5</span>
+    <span class="co">; The rest of the code of `main` label</span></code></pre></div>
+<p>This example jumps to the code of the label <code>the_value_equals_5</code> if the value of the register <code>al</code> equals <code>5</code>. In C, the above assembly example will be something like the following.</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c">main() 
+{
+    <span class="cf">if</span> ( register_al == <span class="dv">5</span> )
+        the_value_equals_5();
+
+    <span class="co">// The rest of the code</span>
+}</code></pre></div>
+<p>Like <code>jmp</code>, but unlike <code>call</code>, conditional jump instructions don't push the return address into the stack, which means the callee can't use <code>ret</code> to return and resume caller's code, that is, the jump will be <em>one way jump</em>. We can also imitate <code>while</code> loop by using conditional jump instructions and <code>cmp</code>, the following example prints <code>S</code> five times by looping over the same bunch of code.</p>
+<div class="sourceCode"><pre class="sourceCode asm"><code class="sourceCode fasm"><span class="bu">mov</span> <span class="kw">bx</span>, <span class="dv">5</span>
+
+<span class="fu">loop_start:</span>
+    <span class="bu">cmp</span> <span class="kw">bx</span>, <span class="dv">0</span>
+    <span class="bu">je</span> loop_end
+    
+    <span class="bu">call</span> print_character_S_with_BIOS
+    
+    <span class="bu">dec</span> <span class="kw">bx</span>
+    
+    <span class="bu">jmp</span> loop_start
+    
+<span class="fu">loop_end:</span>
+    <span class="co">; The code after loop</span></code></pre></div>
+<p>You should be familiar with the most of the code of this sample, first we assign the value <code>5</code> to the register <code>bx</code> <a href="#fn35" class="footnoteRef" id="fnref35"><sup>35</sup></a>, then we start the label <code>loop_start</code> which the first thing it does is comparing the value of <code>bx</code> with <code>0</code>, when <code>bx</code> equals <code>0</code> the code jumps to the label <code>loop_end</code> which contains the code after the loop, that is, it means that the loop ended. When <code>bx</code> doesn't equal <code>0</code> the label print_character_S_with_BIOS will be called to print <code>S</code> and return to the caller <code>loop_start</code>, after that the instruction <code>dec</code> is used to decrease <code>1</code> form its operand, that is <code>bx = bx - 1</code>, finally, the label <code>loop_start</code> will be called again and the code repeats until the value of <code>bx</code> reaches to <code>0</code>. The equivalent code in C is the following.</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">int</span> bx = <span class="dv">5</span>;
+
+<span class="cf">while</span> ( bx != <span class="dv">0</span> )
+{
+    print_character_S_with_BIOS();
+    bx--;
+}
+
+<span class="co">// The code after loop</span></code></pre></div>
+<h4 id="load-string"><span class="header-section-number">1.5.3.4</span> Load String</h4>
+<p>It is well-known that <code>1</code> byte equals <code>8</code> bits. Moreover, there are two size units in x86 other than a byte. The first one is known as a <em>word</em> which is <code>16</code> bits, that is, <code>2</code> bytes, and the second one is known as <em>doubleword</em> which is <code>32</code> bits, that is, <code>4</code> bytes. Some x86 instructions have multiple variants to deal with these different size units, while the functionality of an instruction is the same, the difference will be in the size of the data that a variant of instruction deals with. For example, the instruction <code>lods</code> has three variants <code>lodsb</code> which works a <strong>b</strong>yte, <code>lodsw</code> which works with a <strong>w</strong>ord and <code>loadsd</code> which works with a <strong>d</strong>oubleword.</p>
+<p>To simplify the explanation, let's consider <code>lodsb</code> which works with a single byte, its functionality is too simple, it reads the value of the register <code>si</code> which is interpreted as a memory address by the instruction, then it transfers a byte from the content of that memory address to the register <code>al</code>, finally, it increments the value of <code>si</code> by <code>1</code> byte. The same holds true for the other variants of <code>lods</code>, only the size of the data, the used registers and the increment size are different, the register which is used by <code>lodsw</code> is <code>ax</code> <a href="#fn36" class="footnoteRef" id="fnref36"><sup>36</sup></a> and <code>si</code> is incremented by <code>2</code> bytes, while <code>lodsd</code> uses the register <code>eax</code> <a href="#fn37" class="footnoteRef" id="fnref37"><sup>37</sup></a> and <code>si</code> is incremented by <code>4</code> bytes. <a href="#fn38" class="footnoteRef" id="fnref38"><sup>38</sup></a></p>
+<h4 id="nasms-pseudoinstructions"><span class="header-section-number">1.5.3.5</span> NASM's Pseudoinstructions</h4>
+<p>When you encounter the prefix <a href="#fn39" class="footnoteRef" id="fnref39"><sup>39</sup></a> <em>pseudo</em> before a word, you should know that it describes something fake, false or not real <a href="#fn40" class="footnoteRef" id="fnref40"><sup>40</sup></a>. NASM provides us with a number of <strong>pseudo</strong>instructions, that is, they are not real x86 instructions, the processor doesn't understand them and they can't be used in other assemblers <a href="#fn41" class="footnoteRef" id="fnref41"><sup>41</sup></a>, on the other hand, NASM understands those instructions and can translate them to something understandable by the processor. They are useful, and we are going to use them to make the writing of the bootloader easier.</p>
+<h5 id="declaring-initialized-data"><span class="header-section-number">1.5.3.5.1</span> Declaring Initialized Data</h5>
+<p>The concept of <em>declaring something</em> is well-known by the programmers, In C for example, when you <em>declare</em> a function, you are announcing that this function <em>exists</em>, it is there, it has a specific name and takes the declared number of parameters <a href="#fn42" class="footnoteRef" id="fnref42"><sup>42</sup></a>. The same concept holds true when you declare a variable, you are letting the rest of the code know that there exists a variable with a specific name and type. When we declare a variable, without assigning any value to it, we say that this variable is <em>uninitialized</em>, that is, no initial value has been assigned to this variable when it was declared, later on, a value will be assigned to the variable, but not as early of its declaration. In contrast, a variable is <em>initialized</em> when a value is assigned to it when it's declared.</p>
+<p>The pseudoinstructions <code>db</code>, <code>dw</code>, <code>dd</code>, <code>dq</code>, <code>dt</code>, <code>ddq</code> and <code>do</code> help us to initialize a memory location with some data, and with using labels when can mimic the concept of initialized variables in C. As an example, let's consider <code>db</code> which declares and initializes a byte of data, the second letter of <code>db</code> means <em>b</em>ytes.</p>
+<div class="sourceCode"><pre class="sourceCode asm"><code class="sourceCode fasm"><span class="dt">db</span> <span class="st">&#39;a&#39;</span></code></pre></div>
+<p>The above example reserves a byte in the memory, this is the declaration step, then the character <code>a</code> will be stored on this reserved byte of the memory, which is the initialization step.</p>
+<div class="sourceCode"><pre class="sourceCode asm"><code class="sourceCode fasm"><span class="dt">db</span> <span class="st">&#39;a&#39;</span>, <span class="st">&#39;b&#39;</span>, <span class="st">&#39;c&#39;</span></code></pre></div>
+<p>In the above example we have used comma to declare three bytes and store the values <code>a</code>, <code>b</code> and <code>c</code> respectively on them, also, on memory these values will be stored <em>contiguously</em>, that is, one after another, the memory location (hence, the memory address) of the value <code>b</code> will be right after the memory location of value <code>a</code> and the same rule applies for <code>c</code>. Since <code>a</code>, <code>b</code> and <code>c</code> are of the same type, a character, we can write the previous code as the following and it gives as the same result.</p>
+<div class="sourceCode"><pre class="sourceCode asm"><code class="sourceCode fasm"><span class="dt">db</span> <span class="st">&#39;abc&#39;</span></code></pre></div>
+<p>Also, we can declare different types of data in the same source line, given the above code, let's say that we would like to store the number <code>0</code> after the character <code>c</code>, this can be achieved by simply using a comma.</p>
+<div class="sourceCode"><pre class="sourceCode asm"><code class="sourceCode fasm"><span class="dt">db</span> <span class="st">&#39;abc&#39;</span>, <span class="dv">0</span></code></pre></div>
+<p>Now, to make this data accessible from other parts of the code, we can use a label to represent the starting memory address of this data. Consider the following example, it defines the label <code>our_variable</code>, after that, we can use this label to refer to the initialized data.</p>
+<div class="sourceCode"><pre class="sourceCode asm"><code class="sourceCode fasm">our_variable <span class="dt">db</span> <span class="st">&#39;abc&#39;</span>, <span class="dv">0</span></code></pre></div>
+<h5 id="repeating-with-times"><span class="header-section-number">1.5.3.5.2</span> Repeating with <code>times</code></h5>
+<p>To repeat some source line multiple times, we can use the pseudoinstruction <code>times</code> which takes the number of repetitions as first operand and the instruction that we would like to execute repeatedly as second operand. The following example prints <code>S</code> five times on the screen.</p>
+<div class="sourceCode"><pre class="sourceCode asm"><code class="sourceCode fasm"><span class="pp">times</span> <span class="dv">5</span> <span class="bu">call</span> print_character_S_with_BIOS</code></pre></div>
+<p>Not only normal x86 instructions can be used with <code>times</code> as second operand, also NASM's pseudoinstructions can be used with <code>times</code>. The following example reserves <code>100</code> bytes of the memory and fills them with <code>0</code>.</p>
+<div class="sourceCode"><pre class="sourceCode asm"><code class="sourceCode fasm"><span class="pp">times</span> <span class="dv">100</span> <span class="dt">db</span> <span class="dv">0</span></code></pre></div>
+<h4 id="nasms-special-expressions"><span class="header-section-number">1.5.3.6</span> NASM's Special Expressions</h4>
+<p>In programming languages, an <em>expression</em> is a part in the code that evaluates a value, for example, <code>x + 1</code> is an expression, also, <code>x == 5</code> is an expression. On the other hand, a <em>statement</em> is a part of the code that performs some action, for example, in C, <code>x = 15 * y;</code> is a statement that assigns the values of an expression to the variable <code>x</code>.</p>
+<p>NASM has two special expressions, the first one is <code>$</code> which points to the beginning of the <em>assembly position</em> of the current source line. So, one way of implementing infinite loop is the following: <code>jmp $</code>. The second special expression is <code>$$</code> which points to the beginning of the current <em>section</em> of assembly code.</p>
+<h3 id="the-bootloader"><span class="header-section-number">1.5.4</span> The Bootloader</h3>
+<p>As you have learned previously, the size of the bootloader should be <code>512</code> bytes, the firmware loads the bootloader in the memory address <code>07C0h</code>, also, the firmware can only recognize the data in the first sector as a bootloader when that data finishes with the magic code <code>AA55h</code>. When 539kernel's bootloader starts, it shows two messages for the user, the first one is <code>The Bootloader of 539kernel.</code> and the second one <code>The kernel is loading...</code>, after that, it is going to read the disk to find 539kernel and load it to memory, after loading 539kernel to memory, the bootloader gives the control to the kernel by jumping to the start code of the kernel.</p>
+<p>Right now, 539kernel doesn't exist <a href="#fn43" class="footnoteRef" id="fnref43"><sup>43</sup></a>, we haven't write it yet, so, in our current stage, instead of loading 539kernel, the bootloader is going to load a code that prints <code>Hello World!, From Simple Assembly 539kernel!</code>. In this section, we are going to write two assembly files, the bootloader <code>bootstrap.asm</code> and <code>simple_kernel.asm</code> which is the temporary replacement of 539kernel, also, <code>Makefile</code> which compiles the source code of the assembly files will be presented in this section.</p>
+<h4 id="implementing-the-bootloader"><span class="header-section-number">1.5.4.1</span> Implementing the Bootloader</h4>
+<p>Till now, you have learned enough to understand the most of the bootloader that we are going to implement, however, some details have not been explained in this chapter and have been delayed to be explained later. The first couple lines of the bootloader is an example of concepts that have not been explained, our bootloader source code starts with the following.</p>
+<div class="sourceCode"><pre class="sourceCode asm"><code class="sourceCode fasm"><span class="fu">start:</span>
+    <span class="bu">mov</span> <span class="kw">ax</span><span class="bn">, 07C0h</span>
+    <span class="bu">mov</span> <span class="kw">ds</span>, <span class="kw">ax</span></code></pre></div>
+<p>First, we define a label named <code>start</code>, there is no practical reason to define this label (such as jump to it for example), the only reason of defining it, is the readability of the code, when someone else tries to read the code, it should be obvious for her that <code>start</code> is the starting point of executing the bootloader.</p>
+<p>The job of next two lines is obvious, we are moving the hexadecimal number <code>07C0</code> to the register <code>ax</code> then we move the same value to the register <code>ds</code> through <code>ax</code>, note that we can't store the value <code>07C0</code> directly in <code>ds</code> by using <code>mov</code> as the following: <code>mov ds, 07C0h</code>, due to that, we have put the value on <code>ax</code> and then moved it to <code>ds</code>, so, our goal was to set the value <code>07C0</code> in the register <code>ds</code>, this restriction of not being able to store to <code>ds</code> directly is something that the processor architecture decides. Now, you may ask why we want the value <code>07C0</code> in the register <code>ds</code>, this is a story for another chapter, just take these two lines on faith, and you will learn later the purpose of them. Let's continue.</p>
+<div class="sourceCode"><pre class="sourceCode asm"><code class="sourceCode fasm">    <span class="bu">mov</span> <span class="kw">si</span>, title_string
+    <span class="bu">call</span> print_string
+    
+    <span class="bu">mov</span> <span class="kw">si</span>, message_string
+    <span class="bu">call</span> print_string</code></pre></div>
+<p>This block of code prints the two messages that we mentioned earlier, both of them are represented by a separate label <code>title_string</code> and <code>message_string</code>, you can see that we are calling the code of a label <code>print_string</code> that we didn't define yet, its name indicates that it prints a <em>string</em> of characters, and you can infer that the function <code>print_string</code> receives the memory address of the string that we would like to print as a parameter in the register <code>si</code>, the implementation of <code>print_string</code> will be examined in a minute.</p>
+<div class="sourceCode"><pre class="sourceCode asm"><code class="sourceCode fasm">    <span class="bu">call</span> load_kernel_from_disk
+    <span class="bu">jmp</span> 0900h:<span class="dv">0000</span></code></pre></div>
+<p>These two lines represent the most important part of any bootloader, first a function named <code>load_kernel_from_disk</code> is called, we are going to define this function in a moment, as you can see from its name, it is going to load the code of the kernel from disk into the main memory and this is the first step that makes the kernel able to take the control over the system. When this function finishes its job and returns, a jump is performed to the memory address <code>0900h:000</code>, but before discussing the purpose of the second line let's define the function <code>load_kernel_from_disk</code>.</p>
+<div class="sourceCode"><pre class="sourceCode asm"><code class="sourceCode fasm"><span class="fu">load_kernel_from_disk:</span>
+    <span class="bu">mov</span> <span class="kw">ax</span><span class="bn">, 0900h</span>
+    <span class="bu">mov</span> <span class="kw">es</span>, <span class="kw">ax</span></code></pre></div>
+<p>This couple of lines, also, should be taken on faith. You can see, we are setting the value <code>0900h</code> on the register <code>es</code>. Let's move to the most important part of this function.</p>
+<div class="sourceCode"><pre class="sourceCode asm"><code class="sourceCode fasm">    <span class="bu">mov</span><span class="bn"> ah, 02h</span>
+    <span class="bu">mov</span> <span class="kw">al</span><span class="bn">, 01h</span>
+    <span class="bu">mov</span><span class="bn"> ch, 0h</span>
+    <span class="bu">mov</span> <span class="kw">cl</span><span class="bn">, 02h</span>
+    <span class="bu">mov</span><span class="bn"> dh, 0h</span>
+    <span class="bu">mov</span> <span class="kw">dl</span><span class="bn">, 80h</span>
+    <span class="bu">mov</span> <span class="kw">bx</span><span class="bn">, 0h</span>
+    <span class="bu">int</span><span class="bn"> 13h</span>
+    
+    <span class="bu">jc</span> kernel_load_error
+
+    <span class="bu">ret</span></code></pre></div>
+<p>This block of code <strong>loads</strong> the kernel from the disk into the memory and to do that it uses the BIOS Service <code>13h</code> which provides services that are related to hard disks. The service number which is <code>02h</code> is specified on the register <code>ah</code>, this service reads sectors from the hard disk and loads them into the memory. The value of the register <code>al</code> is the number of sectors that we would like to read, in our case, because the size of our temporary kernel <code>simple_kernel.asm</code> doesn't exceed <code>512</code> bytes we read only <code>1</code> sector. Before discussing the rest of passed values to the BIOS service, we need to mentioned that our kernel will be stored right after the bootloader on the hard disk, and based on this fact we can set the correct values for the rest registers which represent the disk location of the content that we would like to load.</p>
+<p>The value of register <code>ch</code> is the number of the track that we would like to read from, in our case, it is the track <code>0</code>. The value of the register <code>cl</code> is the sector number that we would like to read its content, in our case, it is the second sector. The value of the register <code>dh</code> is the head number. The value of <code>dl</code> specifies which the type of disk that we would like to read from, the value <code>0h</code> in this register means that we would like to read the sector from a floppy disk, while the value <code>80h</code> means we would like to read from the hard disk <code>#0</code> and <code>81h</code> for hard disk <code>#1</code>, in our case, the kernel is stored in the hard disk <code>#0</code>, so, the value of <code>dl</code> should be <code>80h</code>. Finally, the value of the register <code>bx</code> is the memory address that the content will be loaded into, in our case, we are reading one sector, and its content will be stored on the memory address <code>0h</code> <a href="#fn44" class="footnoteRef" id="fnref44"><sup>44</sup></a>.</p>
+<p>When the content is loaded successfully, the BIOS Service <code>13h:02h</code> is going to set the carry flag <a href="#fn45" class="footnoteRef" id="fnref45"><sup>45</sup></a> to <code>0</code>, otherwise, it sets the carry flag to <code>1</code> and stores the error code in register <code>ax</code>, the instruction <code>jc</code> is a conditional jump instruction that jumps when <code>CF = 1</code>, that is, when the value of the carry flag is <code>1</code>. That means our bootloader is going to jump to the label <code>kernel_load_error</code> when the kernel isn't loaded correctly.</p>
+<p>If the kernel is loaded correctly, the function <code>load_kernel_from_disk</code> returns by using the instruction <code>ret</code> which makes the processor to resume the main code of our bootloader and executes that instruction which is after <code>call load_kernel_from_disk</code>, this next instruction is <code>jmp 0900h:0000</code> which gives the control to the kernel by jumping to its starting point, that is, the memory location where we loaded our kernel in. In this time, the operand of <code>jmp</code> is an <strong>explicit</strong> memory address <code>0900h:0000</code>, it has two parts, the first part is the one before the colon, you can see that it is the same value that we have loaded in the register <code>es</code> in the beginning of <code>load_kernel_from_disk</code> function. The second part of the memory address is the one after the colon, it is <code>0h</code> <a href="#fn46" class="footnoteRef" id="fnref46"><sup>46</sup></a> which is the <em>offset</em> that we have specified in the register <code>bx</code> in <code>load_kernel_from_disk</code> before calling <code>02h:13h</code>, the both parts combined represent the memory address that we have loaded our kernel into and the details of the two parts of this memory address will be discussed in chapter .</p>
+<p>Now we have finished the basic code of the bootloader, we can start defining that labels that we have used before in its code. We start with the label <code>kernel_load_error</code> which simply prints an error message, the function <code>print_string</code> is used to perform that, after printing the message, nothing can be done, so, <code>kernel_load_error</code> enters an infinite loop.</p>
+<div class="sourceCode"><pre class="sourceCode asm"><code class="sourceCode fasm"><span class="fu">kernel_load_error:</span>
+    <span class="bu">mov</span> <span class="kw">si</span>, load_error_string
+    <span class="bu">call</span> print_string
+    
+    <span class="bu">jmp</span> <span class="dv">$</span></code></pre></div>
+<p>Our previous samples of using the BIOS Service <code>0Eh:10h</code> were printing only one character, in real world, we need to print a <strong>string</strong> of characters and that's what the function <code>print_string</code> exactly does, it takes the memory address which is stored in the register <code>si</code> and prints the character which is stored in this memory location, then it moves to the next memory address and prints the character which is stored in this next memory location and so on, that is, <code>print_string</code> prints a string character by character. So, you may ask, how <code>print_string</code> can know when should it stop?</p>
+<p>A string in C programming language, as in our situation, is an array of characters, and the same problem of &quot;where does a string end&quot; is encountered in C programming language, to solve the problem, each string in C programming language ends with a special character named <em>null character</em> and represented by the symbol <code>\0</code> in C <a href="#fn47" class="footnoteRef" id="fnref47"><sup>47</sup></a>, so, you can handle any string in C character by character and once you encounter the null character <code>\0</code> that means you have reached the end of that string. We are going to use the same mechanism in our <code>print_string</code> function to recognize the end of a string by putting the value <code>0</code> as a marker at the end of the it. By using this way, we can now use the service <code>0Eh:10h</code> to print any string, character by character, through a loop and once we encounter the value <code>0</code> we can stop the printing.</p>
+<div class="sourceCode"><pre class="sourceCode asm"><code class="sourceCode fasm"><span class="fu">print_string:</span>
+    <span class="bu">mov</span><span class="bn"> ah, 0Eh</span>
+
+<span class="fu">print_char:</span>
+    <span class="bu">lodsb</span>
+    
+    <span class="bu">cmp</span> <span class="kw">al</span>, <span class="dv">0</span>
+    <span class="bu">je</span> printing_finished
+    
+    <span class="bu">int</span><span class="bn"> 10h</span>
+    
+    <span class="bu">jmp</span> print_char
+
+<span class="fu">printing_finished:</span>
+    <span class="bu">mov</span> <span class="kw">al</span>, 10d <span class="co">; Print new line</span>
+    <span class="bu">int</span><span class="bn"> 10h</span>
+    
+    <span class="co">; Reading current cursor position</span>
+    <span class="bu">mov</span><span class="bn"> ah, 03h</span>
+    <span class="bu">mov</span><span class="bn"> bh, </span><span class="dv">0</span>
+    <span class="bu">int</span><span class="bn"> 10h</span>
+    
+    <span class="co">; Move the cursor to the beginning</span>
+    <span class="bu">mov</span><span class="bn"> ah, 02h</span>
+    <span class="bu">mov</span> <span class="kw">dl</span>, <span class="dv">0</span>
+    <span class="bu">int</span><span class="bn"> 10h</span>
+
+    <span class="bu">ret</span></code></pre></div>
+<p>When <code>print_string</code> starts, the BIOS service number <code>0Eh</code> is loaded in <code>ah</code>, this operation needs to execute just one time for each call of <code>print_string</code>, so it is not a part of the next label <code>print_char</code> which is also a part of <code>print_string</code> and it will be executed right after moving <code>0Eh</code> to <code>ah</code>.</p>
+<p>As you can remember, that parameter of <code>print_string</code> is the memory address which contains the beginning of the string that we would like to print, this parameter is passed to <code>print_string</code> via the register <code>si</code>, so, the first thing <code>print_char</code> does is using the instruction <code>lodsb</code> which is going to transfer the first character of the string to the register <code>al</code> and increase the value of <code>si</code> by <code>1</code> byte, after that, we check the character that has been transferred from the memory to <code>al</code>, if it is <code>0</code>, that means we have reached to the end of the string and the code jumps to the label <code>printing_finished</code>, otherwise, the interrupt <code>10h</code> of BIOS is called to print the content of the register <code>al</code> on the screen, then we jump to <code>print_char</code> again to repeat this operation until we reach the end of the string.</p>
+<p>When printing a string finishes, the label <code>printing_finished</code> starts by printing a new line after the string, the new line is represented by the number <code>10</code> in ASCII, after that we are going to use the service <code>03h</code> to read the current position of the cursor, then we use the service <code>02h</code> to set the cursor to position <code>0</code> by passing it to the register <code>dl</code>, otherwise, the messages in the new lines will be printed in the position where the previous string finished, finally the function returns to the caller by using the instruction <code>ret</code>.</p>
+<div class="sourceCode"><pre class="sourceCode asm"><code class="sourceCode fasm">title_string        <span class="dt">db</span>  <span class="st">&#39;The Bootloader of 539kernel.&#39;</span>, <span class="dv">0</span>
+message_string      <span class="dt">db</span>  <span class="st">&#39;The kernel is loading...&#39;</span>, <span class="dv">0</span>
+load_error_string   <span class="dt">db</span>  <span class="st">&#39;The kernel cannot be loaded&#39;</span>, <span class="dv">0</span></code></pre></div>
+<p>The code above defines the strings that have been used previously in the source code, note the last part of each string, which is the null character that indicates the end of a string <a href="#fn48" class="footnoteRef" id="fnref48"><sup>48</sup></a>.</p>
+<p>Now, we have written our bootloader and the last thing to do is to put the <em>magic code</em> in the end of it, the magic code which is a <code>2</code> bytes value should reside in the last two bytes in the first sector, that is, in the locations <code>510</code> and <code>511</code> (the location number starts from <code>0</code>), otherwise, the firmware will not recognize the content of the sector as a bootloader. To ensure that the magic code is written on the correct location, we are going to fill with zeros the empty space between the last part of bootloader code and the magic code, this can be achieved by the following line.</p>
+<div class="sourceCode"><pre class="sourceCode asm"><code class="sourceCode fasm"><span class="pp">times</span> <span class="dv">510</span>-(<span class="dv">$</span>-<span class="dv">$$</span>) <span class="dt">db</span> <span class="dv">0</span></code></pre></div>
+<p>So, the instruction <code>db</code> will be called <code>510-($-$$)</code> times, this expression gives us the remaining empty space in our bootloader before the magic code, and because the magic code is a <code>2</code> bytes value, we subtract <code>($-$$)</code> from <code>510</code> instead of <code>512</code>, we will use these two bytes for the magic code, the expression <code>($-$$)</code> uses the special expressions of NASM <code>$</code> and <code>$$</code> and it gives the size of the bootloader code until the current line. Finally, the magic code is presented.</p>
+<div class="sourceCode"><pre class="sourceCode asm"><code class="sourceCode fasm"><span class="dt">dw</span> <span class="bn">0xAA55</span></code></pre></div>
+<h4 id="implementing-simple_kernel.asm"><span class="header-section-number">1.5.4.2</span> Implementing <code>simple_kernel.asm</code></h4>
+<p>The <code>simple_kernel.asm</code> which the bootloader loads is too simple, it prints the message <code>Hello World!, From Simple Assembly 539kernel!</code>, we don't need to go through its code in details since you know most of it.</p>
+<div class="sourceCode"><pre class="sourceCode asm"><code class="sourceCode fasm"><span class="fu">start:</span>
+    <span class="bu">mov</span> <span class="kw">ax</span>, <span class="kw">cs</span>
+    <span class="bu">mov</span> <span class="kw">ds</span>, <span class="kw">ax</span>
+
+    <span class="co">; --- ;</span>
+    
+    <span class="bu">mov</span> <span class="kw">si</span>, hello_string
+    <span class="bu">call</span> print_string
+    
+    <span class="bu">jmp</span> <span class="dv">$</span>
+
+<span class="fu">print_string:</span>
+    <span class="bu">mov</span><span class="bn"> ah, 0Eh</span>
+
+<span class="fu">print_char:</span>
+    <span class="bu">lodsb</span>
+    
+    <span class="bu">cmp</span> <span class="kw">al</span>, <span class="dv">0</span>
+    <span class="bu">je</span> done
+    
+    <span class="bu">int</span><span class="bn"> 10h</span>
+    
+    <span class="bu">jmp</span> print_char
+
+<span class="fu">done:</span>
+    <span class="bu">ret</span>
+    
+hello_string <span class="dt">db</span> <span class="st">&#39;Hello World!, From Simple Assembly 539kernel!&#39;</span>, <span class="dv">0</span></code></pre></div>
+<p>The only lines that you are not familiar with until now are the first two lines in the label <code>start</code> which will be explained in details in chapter . Finally the <code>Makefile</code> is the following.</p>
+<div class="sourceCode"><pre class="sourceCode makefile"><code class="sourceCode makefile"><span class="dt">ASM </span><span class="ch">=</span><span class="st"> nasm</span>
+<span class="dt">BOOTSTRAP_FILE </span><span class="ch">=</span><span class="st"> bootstrap.asm </span>
+<span class="dt">KERNEL_FILE </span><span class="ch">=</span><span class="st"> simple_kernel.asm</span>
+
+<span class="dv">build:</span><span class="dt"> </span><span class="ch">$(</span><span class="dt">BOOTSTRAP_FILE</span><span class="ch">)</span><span class="dt"> </span><span class="ch">$(</span><span class="dt">KERNEL_FILE</span><span class="ch">)</span>
+    <span class="ch">$(</span><span class="dt">ASM</span><span class="ch">)</span> -f bin <span class="ch">$(</span><span class="dt">BOOTSTRAP_FILE</span><span class="ch">)</span> -o bootstrap.o
+    <span class="ch">$(</span><span class="dt">ASM</span><span class="ch">)</span> -f bin <span class="ch">$(</span><span class="dt">KERNEL_FILE</span><span class="ch">)</span> -o kernel.o
+    dd if=bootstrap.o of=kernel.img
+    dd seek=1 conv=sync if=kernel.o of=kernel.img bs=512
+    qemu-system-x86_64 -s kernel.img
+
+<span class="dv">clean:</span>
+    rm -f *.o</code></pre></div>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>While the program that transforms the source code which is written in high-level language such as C to machine code is known as <em>compiler</em>.<a href="#fnref1">↩</a></p></li>
+<li id="fn2"><p>Another popular open-source assembler is GNU Assembler (GAS). One of main differences between NASM and GAS that the first uses Intel's syntax while the second uses AT&amp;T syntax.<a href="#fnref2">↩</a></p></li>
+<li id="fn3"><p>According to Intel's manual.<a href="#fnref3">↩</a></p></li>
+<li id="fn4"><p>Also they are available on <strong>64-bit</strong> x86 CPUs such as Core i7 for instance.<a href="#fnref4">↩</a></p></li>
+<li id="fn5"><p>Or in other words for <code>32-bit</code> architecture: The first <code>16</code> bits of <code>EAX</code>.<a href="#fnref5">↩</a></p></li>
+<li id="fn6"><p>Or a procedure for people who work with Algol-like programming languages.<a href="#fnref6">↩</a></p></li>
+<li id="fn7"><p><a href="https://software.intel.com/en-us/articles/intel-sdm" class="uri">https://software.intel.com/en-us/articles/intel-sdm</a><a href="#fnref7">↩</a></p></li>
+<li id="fn8"><p>Numbering systems will be discussed in more details later.<a href="#fnref8">↩</a></p></li>
+<li id="fn9"><p>The process of transforming an assembly source code to machine code is known as <em>assembling</em>.<a href="#fnref9">↩</a></p></li>
+<li id="fn10"><p>Of course the programming language should be a <em>compiled</em> programming language such as C and Rust and not an <em>interpreted</em> such as Python or a one that uses a virtual machine such as Java.<a href="#fnref10">↩</a></p></li>
+<li id="fn11"><p>Mach is an operating system's kernel which is well-known for using <em>microkernel</em> design. It has been started as a research effort in Carnegie Mellon University in 1985. Current Apple's operating systems macOS and iOS are both based on an older operating system known as NeXTSTEP which used Mach as its kernel,<a href="#fnref11">↩</a></p></li>
+<li id="fn12"><p>The x86 architecture that supports 64-bit.<a href="#fnref12">↩</a></p></li>
+<li id="fn13"><p>Which is BIOS as we will see later.<a href="#fnref13">↩</a></p></li>
+<li id="fn14"><p>Or any software with any other compiled programming languages.<a href="#fnref14">↩</a></p></li>
+<li id="fn15"><p>An object file is a machine code of a source file and it is generated by the compiler. The object file is not an executable file and in our case at least it is used to be linked with other object files to generate the final executable file.<a href="#fnref15">↩</a></p></li>
+<li id="fn16"><p>And any other building automation tool.<a href="#fnref16">↩</a></p></li>
+<li id="fn17"><p>Since they are a result of one step of the building process which is the compiling step that has not been performed yet.<a href="#fnref17">↩</a></p></li>
+<li id="fn18"><p><a href="https://www.qemu.org/" class="uri">https://www.qemu.org/</a><a href="#fnref18">↩</a></p></li>
+<li id="fn19"><p><a href="https://bochs.sourceforge.io/" class="uri">https://bochs.sourceforge.io/</a><a href="#fnref19">↩</a></p></li>
+<li id="fn20"><p><a href="https://www.qemu.org/docs/master/" class="uri">https://www.qemu.org/docs/master/</a><a href="#fnref20">↩</a></p></li>
+<li id="fn21"><p>Before the advent of UEFI.<a href="#fnref21">↩</a></p></li>
+<li id="fn22"><p>As we will see later, a magnetic hard disk has multiple stacked <em>platters</em>, each platter is divided into multiple <em>tracks</em> and inside each track there are multiple <em>sectors</em>.<a href="#fnref22">↩</a></p></li>
+<li id="fn23"><p>The concept of x86 operating modes and the real mode will be discussed in more details later.<a href="#fnref23">↩</a></p></li>
+<li id="fn24"><p>This fancy term <em>mechanical moves</em> means that some physical parts of hard disk moves physically.<a href="#fnref24">↩</a></p></li>
+<li id="fn25"><p>Not exactly random, can you tell why?<a href="#fnref25">↩</a></p></li>
+<li id="fn26"><p>I didn't mention that previously, but yes, the bootloader resides in track <code>0</code>.<a href="#fnref26">↩</a></p></li>
+<li id="fn27"><p>C programming language, for instance, uses this way for hexadecimal numbers.<a href="#fnref27">↩</a></p></li>
+<li id="fn28"><p>The instruction cycle is also called <em>fetch-decode-execute cycle</em>.<a href="#fnref28">↩</a></p></li>
+<li id="fn29"><p>For the simplicity of explanation, the details of <em>decoding</em> have been eliminated.<a href="#fnref29">↩</a></p></li>
+<li id="fn30"><p>The stack as a region of memory (x86 stack) is not same as the <em>data structure</em> stack, the former implements the latter.<a href="#fnref30">↩</a></p></li>
+<li id="fn31"><p>Push means store something in a stack, this term is applicable for both x86 stack and the data structure stack, as we have said previously, x86 stack is an implementation of the stack data structure.<a href="#fnref31">↩</a></p></li>
+<li id="fn32"><p>By the way, this is, partially, the cause of buffer overflow bugs.<a href="#fnref32">↩</a></p></li>
+<li id="fn33"><p>Actually it <em>pop</em>s the value since we are talking about stack here.<a href="#fnref33">↩</a></p></li>
+<li id="fn34"><p>In 32-bit x86 processors its name is <em>EFLAGS</em> and in 64-bit its name is <em>RFLAGS</em>.<a href="#fnref34">↩</a></p></li>
+<li id="fn35"><p>Can you tell why we used <code>bx</code> instead of <code>ax</code>? [Hint: review the code of print_character_S_with_BIOS.]<a href="#fnref35">↩</a></p></li>
+<li id="fn36"><p>Because the size of <code>ax</code> is a <strong>word</strong><a href="#fnref36">↩</a></p></li>
+<li id="fn37"><p>Because the size of <code>eax</code> is a <strong>doubleword</strong>.<a href="#fnref37">↩</a></p></li>
+<li id="fn38"><p>As an exercise, try to figure out why are we explaining the instruction <code>lodsb</code> in this chapter, what is the relation between this instruction and the bootloader that we are going to write? Hint: Review the code of print_character_S_with_BIOS and how to print a character by using BIOS services. If you can't figure the answer out don't worry, you will get it soon.<a href="#fnref38">↩</a></p></li>
+<li id="fn39"><p>In linguistics, which is the science that studies languages, a prefix is a word (actually a morpheme) that is attached in the beginning of another word and changes its meaning, for example, in <strong>un</strong>do, <strong>un</strong> is a prefix.<a href="#fnref39">↩</a></p></li>
+<li id="fn40"><p>For example, in algorithm design which is a branch of computer science, the term <strong>pseudo</strong>code means a code that is written in a fake programming language. Another example is the word <strong>pseudo</strong>science: A statement is a pseudoscience when it is claimed to be a scientific fact, but in reality it is not, that is, it doesn't follow the scientific method.<a href="#fnref40">↩</a></p></li>
+<li id="fn41"><p>Unless, of course, they are provided in the other assembler as pseudoinstructions.<a href="#fnref41">↩</a></p></li>
+<li id="fn42"><p>It is important to note that <em>declaring</em> a function in C differs from <em>defining</em> a function, the following declares a function: <code>int foo();</code> You can see that the code block (the implementation) of <code>foo</code> is not a part of the declaration, once the code block of the function is presented, we say this is the <em>definition</em> of the function.<a href="#fnref42">↩</a></p></li>
+<li id="fn43"><p>Actually it does! But you know what I mean.<a href="#fnref43">↩</a></p></li>
+<li id="fn44"><p>Not exactly the memory address <code>0h</code>, in fact, it will be loaded in offset <code>0</code> inside a segment that starts at <code>0900h</code>. Don't worry, these details will be examined later in the next chapter .<a href="#fnref44">↩</a></p></li>
+<li id="fn45"><p>Which is part of FLAGS register as we mentioned earlier<a href="#fnref45">↩</a></p></li>
+<li id="fn46"><p>Here, <code>0h</code> is equivalent to <code>0000</code>.<a href="#fnref46">↩</a></p></li>
+<li id="fn47"><p>This type of strings named <em>null-terminated strings</em>.<a href="#fnref47">↩</a></p></li>
+<li id="fn48"><p>Exercise: What will be the behavior of the bootloader if we remove the null character from <code>title_string</code> and <code>message_string</code> and keep it in <code>load_error_string</code>?<a href="#fnref48">↩</a></p></li>
+</ol>
+</div>
+            </div>
+    </div>
+  </div>
+  
+  <script src="https://vjs.zencdn.net/5.4.4/video.js"></script>
+
+</body>
+</html>
