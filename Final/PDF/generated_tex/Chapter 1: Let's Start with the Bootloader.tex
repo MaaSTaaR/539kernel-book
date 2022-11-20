@@ -985,17 +985,17 @@ print_character_S_with_BIOS:
 \end{lstlisting}
 
 You can see here that we have used the code sample
-print\_character\_S\_with\_BIOS to define something like C functions by
-using the instructions \lstinline!call! and \lstinline!ret!. It should
-be obvious that the code of \lstinline!print_two_times! prints the
-character \lstinline!S! two times, as we have said previously, a label
-represents a memory address and print\_character\_S\_with\_BIOS is a
-label, the operand of \lstinline!call! is the memory address of the code
-that we wish to call, the instructions of
-print\_character\_S\_with\_BIOS will be executed sequentially until the
-processor reaches the instruction \lstinline!ret!, at this point, the
-return address is obtained from the stack and the execution of the
-caller is resumed.
+\texttt{print\_character\_S\_with\_BIOS} to define something like C
+functions by using the instructions \lstinline!call! and
+\lstinline!ret!. It should be obvious that the code of
+\lstinline!print_two_times! prints the character \lstinline!S! two
+times, as we have said previously, a label represents a memory address
+and print\_character\_S\_with\_BIOS is a label, the operand of
+\lstinline!call! is the memory address of the code that we wish to call,
+the instructions of print\_character\_S\_with\_BIOS will be executed
+sequentially until the processor reaches the instruction
+\lstinline!ret!, at this point, the return address is obtained from the
+stack and the execution of the caller is resumed.
 
 \lstinline!call! performs an \emph{unconditional jump}, that means the
 processor reaches to a \lstinline!call! instruction, it will always call

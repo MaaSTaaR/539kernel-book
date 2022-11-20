@@ -200,21 +200,39 @@ As you can see, the `GDT` table of 539kernel contains `5` entries ^[The values o
 | Userspace's Code  | 18h (24d)     | 0x0  | 0xfffff | 4KB         |
 | Userspace's Data  | 20h (32d)     | 0x0  | 0xfffff | 4KB         |
 
-| Descriptor's Name | System Segment | Type | Accessed | Read/Write Enabled |
-|-------------------|----------------|------|----------|--------------------|
-| Null Descriptor   | -              | -    | -        | -                  |
-| Kernel's Code     | No             | Code | No       | Yes                |
-| Kernel's Data     | No             | Data | No       | Yes                |
-| Userspace's Code  | No             | Code | No       | Yes                |
-| Userspace's Data  | No             | Data | No       | Yes                |
+| Descriptor's Name | System Segment | Type | Accessed |
+|-------------------|----------------|------|----------|
+| Null Descriptor   | -              | -    | -        |
+| Kernel's Code     | No             | Code | No       |
+| Kernel's Data     | No             | Data | No       |
+| Userspace's Code  | No             | Code | No       |
+| Userspace's Data  | No             | Data | No       |
 
-| Descriptor's Name | Conforming/Expand Direction | Operation Size/Upper Bound | 64-Bit |
-|-------------------|-----------------------------|----------------------------|--------|
-| Null Descriptor   | -                           | -                          | -      |
-| Kernel's Code     | No                          | 32bit                      | No     |
-| Kernel's Data     | Up                          | 4GB                        | No     |
-| Userspace's Code  | No                          | 32bit                      | No     |
-| Userspace's Data  | Up                          | 4GB                        | No     |
+| Descriptor's Name | Read/Write Enabled |
+|-------------------|--------------------|
+| Null Descriptor   | -                  |
+| Kernel's Code     | Yes                |
+| Kernel's Data     | Yes                |
+| Userspace's Code  | Yes                |
+| Userspace's Data  | Yes                |
+
+| Descriptor's Name | Conforming/Expand Direction |
+|-------------------|-----------------------------|
+| Null Descriptor   | -                           |
+| Kernel's Code     | No                          |
+| Kernel's Data     | Up                          |
+| Userspace's Code  | No                          |
+| Userspace's Data  | Up                          |
+
+| Descriptor's Name | Operation Size/Upper Bound | 64-Bit |
+|-------------------|----------------------------|--------|
+| Null Descriptor   | -                          | -      |
+| Kernel's Code     | 32bit                      | No     |
+| Kernel's Data     | 4GB                        | No     |
+| Userspace's Code  | 32bit                      | No     |
+| Userspace's Data  | 4GB                        | No     |
+
+
 Because the values of `GDT` entries are set in bits level then we need to combine these bits as bytes or a larger unit than a byte as in our current code, by combining the bits into a larger units, the last result will be unreadable for the human, as you can see, a mere look at the values of each entry in the above code cannot tell us directly what are the properties of each of these entries, due to that I've written a simple Python `3` script that generates the proper values as double words by taking the required entries in `GDT` and their properties as `JSON` input. The following is the code of the script if you would like to generate a different `GDT` table than the one which is presented here.
 
 ```{.python}

@@ -471,78 +471,55 @@ Userspace's Data & 20h (32d) & 0x0 & 0xfffff & 4KB\tabularnewline
 \bottomrule
 \end{longtable}
 
-\begin{longtable}[]{@{}lllll@{}}
+\begin{longtable}[]{@{}llll@{}}
 \toprule
-Descriptor's Name & System Segment & Type & Accessed & Read/Write
-Enabled\tabularnewline
+Descriptor's Name & System Segment & Type & Accessed\tabularnewline
 \midrule
 \endhead
-Null Descriptor & - & - & - & -\tabularnewline
-Kernel's Code & No & Code & No & Yes\tabularnewline
-Kernel's Data & No & Data & No & Yes\tabularnewline
-Userspace's Code & No & Code & No & Yes\tabularnewline
-Userspace's Data & No & Data & No & Yes\tabularnewline
+Null Descriptor & - & - & -\tabularnewline
+Kernel's Code & No & Code & No\tabularnewline
+Kernel's Data & No & Data & No\tabularnewline
+Userspace's Code & No & Code & No\tabularnewline
+Userspace's Data & No & Data & No\tabularnewline
 \bottomrule
 \end{longtable}
 
-\begin{longtable}[]{@{}llll@{}}
+\begin{longtable}[]{@{}ll@{}}
 \toprule
-\begin{minipage}[b]{0.20\columnwidth}\raggedright\strut
-Descriptor's Name\strut
-\end{minipage} & \begin{minipage}[b]{0.30\columnwidth}\raggedright\strut
-Conforming/Expand Direction\strut
-\end{minipage} & \begin{minipage}[b]{0.29\columnwidth}\raggedright\strut
-Operation Size/Upper Bound\strut
-\end{minipage} & \begin{minipage}[b]{0.09\columnwidth}\raggedright\strut
-64-Bit\strut
-\end{minipage}\tabularnewline
+Descriptor's Name & Read/Write Enabled\tabularnewline
 \midrule
 \endhead
-\begin{minipage}[t]{0.20\columnwidth}\raggedright\strut
-Null Descriptor\strut
-\end{minipage} & \begin{minipage}[t]{0.30\columnwidth}\raggedright\strut
--\strut
-\end{minipage} & \begin{minipage}[t]{0.29\columnwidth}\raggedright\strut
--\strut
-\end{minipage} & \begin{minipage}[t]{0.09\columnwidth}\raggedright\strut
--\strut
-\end{minipage}\tabularnewline
-\begin{minipage}[t]{0.20\columnwidth}\raggedright\strut
-Kernel's Code\strut
-\end{minipage} & \begin{minipage}[t]{0.30\columnwidth}\raggedright\strut
-No\strut
-\end{minipage} & \begin{minipage}[t]{0.29\columnwidth}\raggedright\strut
-32bit\strut
-\end{minipage} & \begin{minipage}[t]{0.09\columnwidth}\raggedright\strut
-No\strut
-\end{minipage}\tabularnewline
-\begin{minipage}[t]{0.20\columnwidth}\raggedright\strut
-Kernel's Data\strut
-\end{minipage} & \begin{minipage}[t]{0.30\columnwidth}\raggedright\strut
-Up\strut
-\end{minipage} & \begin{minipage}[t]{0.29\columnwidth}\raggedright\strut
-4GB\strut
-\end{minipage} & \begin{minipage}[t]{0.09\columnwidth}\raggedright\strut
-No\strut
-\end{minipage}\tabularnewline
-\begin{minipage}[t]{0.20\columnwidth}\raggedright\strut
-Userspace's Code\strut
-\end{minipage} & \begin{minipage}[t]{0.30\columnwidth}\raggedright\strut
-No\strut
-\end{minipage} & \begin{minipage}[t]{0.29\columnwidth}\raggedright\strut
-32bit\strut
-\end{minipage} & \begin{minipage}[t]{0.09\columnwidth}\raggedright\strut
-No\strut
-\end{minipage}\tabularnewline
-\begin{minipage}[t]{0.20\columnwidth}\raggedright\strut
-Userspace's Data\strut
-\end{minipage} & \begin{minipage}[t]{0.30\columnwidth}\raggedright\strut
-Up\strut
-\end{minipage} & \begin{minipage}[t]{0.29\columnwidth}\raggedright\strut
-4GB\strut
-\end{minipage} & \begin{minipage}[t]{0.09\columnwidth}\raggedright\strut
-No\strut
-\end{minipage}\tabularnewline
+Null Descriptor & -\tabularnewline
+Kernel's Code & Yes\tabularnewline
+Kernel's Data & Yes\tabularnewline
+Userspace's Code & Yes\tabularnewline
+Userspace's Data & Yes\tabularnewline
+\bottomrule
+\end{longtable}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule
+Descriptor's Name & Conforming/Expand Direction\tabularnewline
+\midrule
+\endhead
+Null Descriptor & -\tabularnewline
+Kernel's Code & No\tabularnewline
+Kernel's Data & Up\tabularnewline
+Userspace's Code & No\tabularnewline
+Userspace's Data & Up\tabularnewline
+\bottomrule
+\end{longtable}
+
+\begin{longtable}[]{@{}lll@{}}
+\toprule
+Descriptor's Name & Operation Size/Upper Bound & 64-Bit\tabularnewline
+\midrule
+\endhead
+Null Descriptor & - & -\tabularnewline
+Kernel's Code & 32bit & No\tabularnewline
+Kernel's Data & 4GB & No\tabularnewline
+Userspace's Code & 32bit & No\tabularnewline
+Userspace's Data & 4GB & No\tabularnewline
 \bottomrule
 \end{longtable}
 
@@ -1477,7 +1454,7 @@ PIC}\label{fig:27082021_0}
 \end{figure}
 
 You may ask, why the value is \lstinline!4! is used in the label
-\lstinline!tell_pic_master_where_pic_slave_is_connected! \footnote{I
+\texttt{tell\_pic\_master\_where\_pic\_slave\_is\_connected} \footnote{I
   just realized that this is a really long name! Sorry, sometimes I
   become a readability freak!} instead of \lstinline!2! since we said
 earlier that the salve PIC is connected to master PIC through

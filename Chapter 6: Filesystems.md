@@ -457,7 +457,7 @@ When the run-time filesystem is empty, that is, the value of `head` in the base 
 
 The second case is when the run-time filesystem isn't empty, that is, the value of `head` isn't `0`. In this case we need to update the disk address of the tail in the base block to consider the new file as the new tail, furthermore, the "next" field of the previous tail, which is not the tail anymore, should be updated to point to the metadata of the new file, you see in `else` block that this is exactly what is done.
 
-The function that isn't defined yet `load_metadata` is used to load the metadata of the previous tail by passing the its disk address a parameter. After that, the local variable `tail_metadata` will point to that loaded metadata of the tail, and depending on the type `metadata_t` we can reach the values of the previous tail fields easily. You can see that we simply changed the value of the "next" field to the metadata address of the new file, then we write this modification on the disk and of course on the same location, finally, the tail field is updated in the base block by calling `update_base_block` which its code is presented next. Figure @fig:create_file_not_empty_case shows the steps needed to create a new file in 539filesystem as described and implemented in the function `create_file`.
+The function that isn't defined yet `load_metadata` is used to load the metadata of the previous tail by passing the its disk address a parameter. After that, the local variable `tail_metadata` will point to that loaded metadata of the tail, and depending on the type `metadata_t` we can reach the values of the previous tail fields easily. You can see that we simply changed the value of the "next" field to the metadata address of the new file, then we write this modification on the disk and of course on the same location, finally, the tail field is updated in the base block by calling `update_base_block` which its code is presented next. Figures @fig:create_file_not_empty_case_1, @fig:create_file_not_empty_case_2 and @fig:create_file_not_empty_case_3 show the steps needed to create a new file in 539filesystem as described and implemented in the function `create_file`.
 
 ```{.c}
 void update_base_block( int new_head, int new_tail )
@@ -471,7 +471,11 @@ void update_base_block( int new_head, int new_tail )
 
 It's too simple, it receives the value of head and tail that we would like to set on the base block, then, the copy of the base block which is stored in the main memory is updated, then, this updated version is overwritten on the base block address on the disk. The following is code of `load_metadata` which has been used in `create_file` function.
 
-![Steps Needed to Create New File in 539filesystem When Run-time Filesystem isn't Empty](Figures/filesystem-ch/create_file_not_empty_case.png){#fig:create_file_not_empty_case width=85%}
+![Step 1 to Create New File in 539filesystem When Run-time Filesystem isn't Empty](Figures/filesystem-ch/create_file_not_empty_case_step1.png){#fig:create_file_not_empty_case_1 width=85%}
+
+![Step 2 to Create New File in 539filesystem When Run-time Filesystem isn't Empty](Figures/filesystem-ch/create_file_not_empty_case_step2.png){#fig:create_file_not_empty_case_2 width=85%}
+
+![Step 3 to Create New File in 539filesystem When Run-time Filesystem isn't Empty](Figures/filesystem-ch/create_file_not_empty_case_step3.png){#fig:create_file_not_empty_case_3 width=85%}
 
 ```{.c}
 metadata_t *load_metadata( int address )

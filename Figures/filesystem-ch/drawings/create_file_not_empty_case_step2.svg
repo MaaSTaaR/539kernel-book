@@ -1,0 +1,685 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="210mm"
+   height="297mm"
+   viewBox="0 0 210 297"
+   version="1.1"
+   id="svg10063"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)"
+   sodipodi:docname="create_file_not_empty_case_step2.svg">
+  <defs
+     id="defs10057">
+    <marker
+       inkscape:isstock="true"
+       style="overflow:visible"
+       id="marker15072"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="Arrow1Mend"
+       inkscape:collect="always">
+      <path
+         transform="matrix(-0.4,0,0,-0.4,-4,0)"
+         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1.00000003pt;stroke-opacity:1"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         id="path15070"
+         inkscape:connector-curvature="0" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Mend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="marker9927"
+       style="overflow:visible"
+       inkscape:isstock="true"
+       inkscape:collect="always">
+      <path
+         inkscape:connector-curvature="0"
+         id="path9925"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1.00000003pt;stroke-opacity:1"
+         transform="matrix(-0.4,0,0,-0.4,-4,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Mstart"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="marker12990"
+       style="overflow:visible"
+       inkscape:isstock="true">
+      <path
+         inkscape:connector-curvature="0"
+         id="path12988"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1.00000003pt;stroke-opacity:1"
+         transform="matrix(0.4,0,0,0.4,4,0)" />
+    </marker>
+    <marker
+       inkscape:isstock="true"
+       style="overflow:visible"
+       id="marker13018"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="Arrow1Mend"
+       inkscape:collect="always">
+      <path
+         transform="matrix(-0.4,0,0,-0.4,-4,0)"
+         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1.00000003pt;stroke-opacity:1"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         id="path13016"
+         inkscape:connector-curvature="0" />
+    </marker>
+    <marker
+       inkscape:isstock="true"
+       style="overflow:visible"
+       id="marker22852"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="Arrow1Mstart"
+       inkscape:collect="always">
+      <path
+         transform="matrix(0.4,0,0,0.4,4,0)"
+         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1.00000003pt;stroke-opacity:1"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         id="path22850"
+         inkscape:connector-curvature="0" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Mend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="marker22980"
+       style="overflow:visible"
+       inkscape:isstock="true"
+       inkscape:collect="always">
+      <path
+         inkscape:connector-curvature="0"
+         id="path22978"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1.00000003pt;stroke-opacity:1"
+         transform="matrix(-0.4,0,0,-0.4,-4,0)" />
+    </marker>
+    <marker
+       inkscape:isstock="true"
+       style="overflow:visible"
+       id="marker9753"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="Arrow1Mend"
+       inkscape:collect="always">
+      <path
+         transform="matrix(-0.4,0,0,-0.4,-4,0)"
+         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1.00000003pt;stroke-opacity:1"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         id="path9751"
+         inkscape:connector-curvature="0" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Mend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="marker9689"
+       style="overflow:visible"
+       inkscape:isstock="true"
+       inkscape:collect="always">
+      <path
+         inkscape:connector-curvature="0"
+         id="path9687"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1.00000003pt;stroke-opacity:1"
+         transform="matrix(-0.4,0,0,-0.4,-4,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Mstart"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="marker9977"
+       style="overflow:visible"
+       inkscape:isstock="true">
+      <path
+         inkscape:connector-curvature="0"
+         id="path9975"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1.00000003pt;stroke-opacity:1"
+         transform="matrix(0.4,0,0,0.4,4,0)" />
+    </marker>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.7"
+     inkscape:cx="32.905173"
+     inkscape:cy="668.76901"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1920"
+     inkscape:window-height="974"
+     inkscape:window-x="0"
+     inkscape:window-y="40"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata10060">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       inkscape:export-ydpi="96.199997"
+       inkscape:export-xdpi="96.199997"
+       inkscape:export-filename="/home/maastaar/Projects/Writings/Books/539kernel/book/Figures/filesystem-ch/create_file_not_empty_case_step2.png"
+       style="opacity:1;fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.35600001;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:stroke fill markers"
+       id="rect14928"
+       width="48.104919"
+       height="15.917343"
+       x="2.6893101"
+       y="24.216911" />
+    <text
+       inkscape:export-ydpi="96.199997"
+       inkscape:export-xdpi="96.199997"
+       inkscape:export-filename="/home/maastaar/Projects/Writings/Books/539kernel/book/Figures/filesystem-ch/create_file_not_empty_case_step2.png"
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:5.64444447px;line-height:125%;font-family:Sans;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="26.481876"
+       y="30.422691"
+       id="text14934"><tspan
+         sodipodi:role="line"
+         id="tspan14930"
+         x="26.481876"
+         y="30.422691"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93888903px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px">Metadata Address</tspan><tspan
+         id="tspan14932"
+         sodipodi:role="line"
+         x="26.481876"
+         y="37.518375"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93888903px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px">of Head File</tspan></text>
+    <rect
+       inkscape:export-ydpi="96.199997"
+       inkscape:export-xdpi="96.199997"
+       inkscape:export-filename="/home/maastaar/Projects/Writings/Books/539kernel/book/Figures/filesystem-ch/create_file_not_empty_case_step2.png"
+       y="40.349545"
+       x="2.6893101"
+       height="15.917343"
+       width="48.104919"
+       id="rect14936"
+       style="opacity:1;fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.35600001;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:stroke fill markers" />
+    <text
+       id="text14942"
+       y="46.826851"
+       x="26.481876"
+       style="font-style:normal;font-weight:normal;font-size:5.64444447px;line-height:125%;font-family:Sans;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       xml:space="preserve"
+       inkscape:export-filename="/home/maastaar/Projects/Writings/Books/539kernel/book/Figures/filesystem-ch/create_file_not_empty_case_step2.png"
+       inkscape:export-xdpi="96.199997"
+       inkscape:export-ydpi="96.199997"><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93888903px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px"
+         y="46.826851"
+         x="26.481876"
+         id="tspan14938"
+         sodipodi:role="line">Metadata Address</tspan><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93888903px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px"
+         y="53.922535"
+         x="26.481876"
+         sodipodi:role="line"
+         id="tspan14940">of Tail File</tspan></text>
+    <text
+       inkscape:export-ydpi="96.199997"
+       inkscape:export-xdpi="96.199997"
+       inkscape:export-filename="/home/maastaar/Projects/Writings/Books/539kernel/book/Figures/filesystem-ch/create_file_not_empty_case_step2.png"
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:5.64444447px;line-height:125%;font-family:Sans;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="25.952707"
+       y="62.701885"
+       id="text14946"><tspan
+         id="tspan14944"
+         sodipodi:role="line"
+         x="25.952707"
+         y="62.701885"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93888903px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px">Base Block</tspan></text>
+    <rect
+       y="62.974464"
+       x="86.308197"
+       height="5.5044799"
+       width="47.985367"
+       id="rect14948"
+       style="opacity:1;fill:#e6e6e6;fill-opacity:1;stroke:#000000;stroke-width:0.50862384;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:stroke fill markers"
+       inkscape:export-filename="/home/maastaar/Projects/Writings/Books/539kernel/book/Figures/filesystem-ch/create_file_not_empty_case_step2.png"
+       inkscape:export-xdpi="96.199997"
+       inkscape:export-ydpi="96.199997" />
+    <rect
+       style="opacity:1;fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.25575355;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:stroke fill markers"
+       id="rect14950"
+       width="48.205162"
+       height="8.1980362"
+       x="86.198647"
+       y="68.576134"
+       inkscape:export-filename="/home/maastaar/Projects/Writings/Books/539kernel/book/Figures/filesystem-ch/create_file_not_empty_case_step2.png"
+       inkscape:export-xdpi="96.199997"
+       inkscape:export-ydpi="96.199997" />
+    <text
+       id="text14954"
+       y="67.568291"
+       x="109.41749"
+       style="font-style:normal;font-weight:normal;font-size:5.64444447px;line-height:125%;font-family:Sans;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       xml:space="preserve"
+       inkscape:export-filename="/home/maastaar/Projects/Writings/Books/539kernel/book/Figures/filesystem-ch/create_file_not_empty_case_step2.png"
+       inkscape:export-xdpi="96.199997"
+       inkscape:export-ydpi="96.199997"><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93888903px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px"
+         y="67.568291"
+         x="109.41749"
+         sodipodi:role="line"
+         id="tspan14952">File A's Metadata</tspan></text>
+    <text
+       inkscape:export-ydpi="96.199997"
+       inkscape:export-xdpi="96.199997"
+       inkscape:export-filename="/home/maastaar/Projects/Writings/Books/539kernel/book/Figures/filesystem-ch/create_file_not_empty_case_step2.png"
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:5.64444447px;line-height:125%;font-family:Sans;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="109.41749"
+       y="74.447456"
+       id="text14958"><tspan
+         id="tspan14956"
+         sodipodi:role="line"
+         x="109.41749"
+         y="74.447456"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93888903px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px">Filename: a</tspan></text>
+    <rect
+       inkscape:export-ydpi="96.199997"
+       inkscape:export-xdpi="96.199997"
+       inkscape:export-filename="/home/maastaar/Projects/Writings/Books/539kernel/book/Figures/filesystem-ch/create_file_not_empty_case_step2.png"
+       y="76.556229"
+       x="86.24128"
+       height="14.593338"
+       width="48.119991"
+       id="rect14960"
+       style="opacity:1;fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.25600001;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:stroke fill markers" />
+    <text
+       id="text14966"
+       y="82.385094"
+       x="110.47581"
+       style="font-style:normal;font-weight:normal;font-size:5.64444447px;line-height:125%;font-family:Sans;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       xml:space="preserve"
+       inkscape:export-filename="/home/maastaar/Projects/Writings/Books/539kernel/book/Figures/filesystem-ch/create_file_not_empty_case_step2.png"
+       inkscape:export-xdpi="96.199997"
+       inkscape:export-ydpi="96.199997"><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93888903px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px"
+         y="82.385094"
+         x="111.10764"
+         sodipodi:role="line"
+         id="tspan14962">Next File's Metadata </tspan><tspan
+         id="tspan14964"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93888903px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px"
+         y="89.480774"
+         x="110.47581"
+         sodipodi:role="line">Address</tspan></text>
+    <rect
+       inkscape:export-ydpi="96.199997"
+       inkscape:export-xdpi="96.199997"
+       inkscape:export-filename="/home/maastaar/Projects/Writings/Books/539kernel/book/Figures/filesystem-ch/create_file_not_empty_case_step2.png"
+       y="90.881371"
+       x="86.231361"
+       height="23.940907"
+       width="48.126019"
+       id="rect14968"
+       style="opacity:1;fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.25600001;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:stroke fill markers" />
+    <text
+       id="text14972"
+       y="105.13962"
+       x="110.47581"
+       style="font-style:normal;font-weight:normal;font-size:5.64444447px;line-height:125%;font-family:Sans;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       xml:space="preserve"
+       inkscape:export-filename="/home/maastaar/Projects/Writings/Books/539kernel/book/Figures/filesystem-ch/create_file_not_empty_case_step2.png"
+       inkscape:export-xdpi="96.199997"
+       inkscape:export-ydpi="96.199997"><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93888903px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px"
+         y="105.13962"
+         x="110.47581"
+         sodipodi:role="line"
+         id="tspan14970">File A's Content</tspan></text>
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.22435263;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-start:url(#marker22852);marker-end:url(#marker22980)"
+       d="m 85.692636,68.700846 h -4.953961 v 21.743958 h 4.82359"
+       id="path14974"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/maastaar/Projects/Writings/Books/539kernel/book/Figures/filesystem-ch/create_file_not_empty_case_step2.png"
+       inkscape:export-xdpi="96.199997"
+       inkscape:export-ydpi="96.199997" />
+    <text
+       id="text14978"
+       y="81.483055"
+       x="71.437042"
+       style="font-style:normal;font-weight:normal;font-size:5.64444447px;line-height:125%;font-family:Sans;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       xml:space="preserve"
+       inkscape:export-filename="/home/maastaar/Projects/Writings/Books/539kernel/book/Figures/filesystem-ch/create_file_not_empty_case_step2.png"
+       inkscape:export-xdpi="96.199997"
+       inkscape:export-ydpi="96.199997"><tspan
+         id="tspan14976"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.52777767px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px"
+         y="81.483055"
+         x="71.437042"
+         sodipodi:role="line">Disk Block</tspan></text>
+    <path
+       inkscape:export-ydpi="96.199997"
+       inkscape:export-xdpi="96.199997"
+       inkscape:export-filename="/home/maastaar/Projects/Writings/Books/539kernel/book/Figures/filesystem-ch/create_file_not_empty_case_step2.png"
+       inkscape:connector-curvature="0"
+       id="path14980"
+       d="m 85.530684,91.770594 h -4.78396 v 22.841366 h 4.658061"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.22645426;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-start:url(#marker12990);marker-end:url(#marker13018)" />
+    <text
+       inkscape:export-ydpi="96.199997"
+       inkscape:export-xdpi="96.199997"
+       inkscape:export-filename="/home/maastaar/Projects/Writings/Books/539kernel/book/Figures/filesystem-ch/create_file_not_empty_case_step2.png"
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:5.64444447px;line-height:125%;font-family:Sans;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="71.437042"
+       y="104.23767"
+       id="text14984"><tspan
+         sodipodi:role="line"
+         x="71.437042"
+         y="104.23767"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.52777767px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px"
+         id="tspan14982">Disk Block</tspan></text>
+    <path
+       inkscape:export-ydpi="96.199997"
+       inkscape:export-xdpi="96.199997"
+       inkscape:export-filename="/home/maastaar/Projects/Writings/Books/539kernel/book/Figures/filesystem-ch/create_file_not_empty_case_step2.png"
+       inkscape:connector-curvature="0"
+       id="path14986"
+       d="M 51.328119,31.854154 H 115.59108 V 62.099015"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.46219811;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#marker9689)" />
+    <path
+       inkscape:export-ydpi="96.199997"
+       inkscape:export-xdpi="96.199997"
+       inkscape:export-filename="/home/maastaar/Projects/Writings/Books/539kernel/book/Figures/filesystem-ch/create_file_not_empty_case_step2.png"
+       inkscape:connector-curvature="0"
+       id="path14988"
+       d="M 50.554916,49.811193 H 100.29946 V 61.946015"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.44875142;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#marker9753)" />
+    <rect
+       inkscape:export-ydpi="96.199997"
+       inkscape:export-xdpi="96.199997"
+       inkscape:export-filename="/home/maastaar/Projects/Writings/Books/539kernel/book/Figures/filesystem-ch/create_file_not_empty_case_step2.png"
+       style="opacity:1;fill:#e6e6e6;fill-opacity:1;stroke:#000000;stroke-width:0.50862384;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:stroke fill markers"
+       id="rect14998"
+       width="47.985367"
+       height="5.5044799"
+       x="86.308197"
+       y="129.12102" />
+    <rect
+       inkscape:export-ydpi="96.199997"
+       inkscape:export-xdpi="96.199997"
+       inkscape:export-filename="/home/maastaar/Projects/Writings/Books/539kernel/book/Figures/filesystem-ch/create_file_not_empty_case_step2.png"
+       y="134.72261"
+       x="86.198647"
+       height="8.1980362"
+       width="48.205162"
+       id="rect15000"
+       style="opacity:1;fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.25575355;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:stroke fill markers" />
+    <text
+       inkscape:export-ydpi="96.199997"
+       inkscape:export-xdpi="96.199997"
+       inkscape:export-filename="/home/maastaar/Projects/Writings/Books/539kernel/book/Figures/filesystem-ch/create_file_not_empty_case_step2.png"
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:5.64444447px;line-height:125%;font-family:Sans;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="109.41749"
+       y="133.71474"
+       id="text15004"><tspan
+         id="tspan15002"
+         sodipodi:role="line"
+         x="109.41749"
+         y="133.71474"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93888903px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px">File B's Metadata</tspan></text>
+    <text
+       id="text15008"
+       y="140.59386"
+       x="109.41749"
+       style="font-style:normal;font-weight:normal;font-size:5.64444447px;line-height:125%;font-family:Sans;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       xml:space="preserve"
+       inkscape:export-filename="/home/maastaar/Projects/Writings/Books/539kernel/book/Figures/filesystem-ch/create_file_not_empty_case_step2.png"
+       inkscape:export-xdpi="96.199997"
+       inkscape:export-ydpi="96.199997"><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93888903px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px"
+         y="140.59386"
+         x="109.41749"
+         sodipodi:role="line"
+         id="tspan15006">Filename: b</tspan></text>
+    <rect
+       style="opacity:1;fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.25600001;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:stroke fill markers"
+       id="rect15010"
+       width="48.119991"
+       height="14.593338"
+       x="86.24128"
+       y="142.70265"
+       inkscape:export-filename="/home/maastaar/Projects/Writings/Books/539kernel/book/Figures/filesystem-ch/create_file_not_empty_case_step2.png"
+       inkscape:export-xdpi="96.199997"
+       inkscape:export-ydpi="96.199997" />
+    <text
+       inkscape:export-ydpi="96.199997"
+       inkscape:export-xdpi="96.199997"
+       inkscape:export-filename="/home/maastaar/Projects/Writings/Books/539kernel/book/Figures/filesystem-ch/create_file_not_empty_case_step2.png"
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:5.64444447px;line-height:125%;font-family:Sans;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="110.47581"
+       y="148.53128"
+       id="text15016"><tspan
+         id="tspan15012"
+         sodipodi:role="line"
+         x="111.10764"
+         y="148.53128"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93888903px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px">Next File's Metadata </tspan><tspan
+         sodipodi:role="line"
+         x="110.47581"
+         y="155.62697"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93888903px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px"
+         id="tspan15014">Address</tspan></text>
+    <rect
+       style="opacity:1;fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.25600001;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:stroke fill markers"
+       id="rect15018"
+       width="48.126019"
+       height="23.940907"
+       x="86.231361"
+       y="157.02725"
+       inkscape:export-filename="/home/maastaar/Projects/Writings/Books/539kernel/book/Figures/filesystem-ch/create_file_not_empty_case_step2.png"
+       inkscape:export-xdpi="96.199997"
+       inkscape:export-ydpi="96.199997" />
+    <text
+       inkscape:export-ydpi="96.199997"
+       inkscape:export-xdpi="96.199997"
+       inkscape:export-filename="/home/maastaar/Projects/Writings/Books/539kernel/book/Figures/filesystem-ch/create_file_not_empty_case_step2.png"
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:5.64444447px;line-height:125%;font-family:Sans;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="110.47581"
+       y="171.28502"
+       id="text15022"><tspan
+         id="tspan15020"
+         sodipodi:role="line"
+         x="110.47581"
+         y="171.28502"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93888903px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px">File B's Content</tspan></text>
+    <path
+       inkscape:export-ydpi="96.199997"
+       inkscape:export-xdpi="96.199997"
+       inkscape:export-filename="/home/maastaar/Projects/Writings/Books/539kernel/book/Figures/filesystem-ch/create_file_not_empty_case_step2.png"
+       inkscape:connector-curvature="0"
+       id="path15024"
+       d="m 85.692636,134.84681 h -4.953961 v 21.74413 h 4.82359"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.22435263;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-start:url(#marker22852);marker-end:url(#marker22980)" />
+    <text
+       inkscape:export-ydpi="96.199997"
+       inkscape:export-xdpi="96.199997"
+       inkscape:export-filename="/home/maastaar/Projects/Writings/Books/539kernel/book/Figures/filesystem-ch/create_file_not_empty_case_step2.png"
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:5.64444447px;line-height:125%;font-family:Sans;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="71.437042"
+       y="147.62938"
+       id="text15028"><tspan
+         sodipodi:role="line"
+         x="71.437042"
+         y="147.62938"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.52777767px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px"
+         id="tspan15026">Disk Block</tspan></text>
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.22645426;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-start:url(#marker12990);marker-end:url(#marker13018)"
+       d="m 85.530684,157.91674 h -4.78396 v 22.84148 h 4.658061"
+       id="path15030"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/maastaar/Projects/Writings/Books/539kernel/book/Figures/filesystem-ch/create_file_not_empty_case_step2.png"
+       inkscape:export-xdpi="96.199997"
+       inkscape:export-ydpi="96.199997" />
+    <text
+       id="text15034"
+       y="170.3831"
+       x="71.437042"
+       style="font-style:normal;font-weight:normal;font-size:5.64444447px;line-height:125%;font-family:Sans;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       xml:space="preserve"
+       inkscape:export-filename="/home/maastaar/Projects/Writings/Books/539kernel/book/Figures/filesystem-ch/create_file_not_empty_case_step2.png"
+       inkscape:export-xdpi="96.199997"
+       inkscape:export-ydpi="96.199997"><tspan
+         id="tspan15032"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.52777767px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px"
+         y="170.3831"
+         x="71.437042"
+         sodipodi:role="line">Disk Block</tspan></text>
+    <rect
+       style="opacity:1;fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.3800455;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:stroke fill markers"
+       id="rect15036"
+       width="29.458576"
+       height="7.6688085"
+       x="157.46442"
+       y="145.28702"
+       inkscape:export-filename="/home/maastaar/Projects/Writings/Books/539kernel/book/Figures/filesystem-ch/create_file_not_empty_case_step2.png"
+       inkscape:export-xdpi="96.199997"
+       inkscape:export-ydpi="96.199997" />
+    <text
+       inkscape:export-ydpi="96.199997"
+       inkscape:export-xdpi="96.199997"
+       inkscape:export-filename="/home/maastaar/Projects/Writings/Books/539kernel/book/Figures/filesystem-ch/create_file_not_empty_case_step2.png"
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:5.64444447px;line-height:125%;font-family:Sans;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="172.72833"
+       y="150.79913"
+       id="text15040"><tspan
+         id="tspan15038"
+         sodipodi:role="line"
+         x="172.72833"
+         y="150.79913"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93888903px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px">Nothing</tspan></text>
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.465;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#marker9927)"
+       d="m 134.33525,149.59314 h 21.73364"
+       id="path15042"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/maastaar/Projects/Writings/Books/539kernel/book/Figures/filesystem-ch/create_file_not_empty_case_step2.png"
+       inkscape:export-xdpi="96.199997"
+       inkscape:export-ydpi="96.199997" />
+    <text
+       id="text15046"
+       y="12.153087"
+       x="94.319969"
+       style="font-style:normal;font-weight:normal;font-size:5.64444447px;line-height:125%;font-family:Sans;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       xml:space="preserve"
+       inkscape:export-filename="/home/maastaar/Projects/Writings/Books/539kernel/book/Figures/filesystem-ch/create_file_not_empty_case_step2.png"
+       inkscape:export-xdpi="96.199997"
+       inkscape:export-ydpi="96.199997"><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:6.3499999px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px"
+         y="12.153087"
+         x="94.319969"
+         sodipodi:role="line"
+         id="tspan15044">Step 2: Making the Current Tail Links to the Metadata</tspan><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:6.3499999px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px"
+         y="19.679159"
+         x="94.319969"
+         sodipodi:role="line"
+         id="tspan15068">of the New File</tspan></text>
+    <text
+       id="text15066"
+       y="90.614594"
+       x="202.84364"
+       style="font-style:normal;font-weight:normal;font-size:5.64444447px;line-height:125%;font-family:Sans;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       xml:space="preserve"
+       inkscape:export-filename="/home/maastaar/Projects/Writings/Books/539kernel/book/Figures/filesystem-ch/create_file_not_empty_case_step2.png"
+       inkscape:export-xdpi="96.199997"
+       inkscape:export-ydpi="96.199997"><tspan
+         id="tspan15064"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93888903px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px"
+         y="90.614594"
+         x="203.47548"
+         sodipodi:role="line">The New Link has been </tspan><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93888903px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px"
+         y="97.710274"
+         x="202.84364"
+         sodipodi:role="line"
+         id="tspan15191">Created to Make the</tspan><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93888903px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px"
+         y="104.80596"
+         x="202.84364"
+         sodipodi:role="line"
+         id="tspan15193">File &quot;B&quot; as a Part</tspan><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93888903px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px"
+         y="111.90164"
+         x="203.47548"
+         sodipodi:role="line"
+         id="tspan15195">of the Run-time </tspan><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93888903px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px"
+         y="118.99733"
+         x="202.84364"
+         sodipodi:role="line"
+         id="tspan15199">Filesystem</tspan></text>
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.465;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#marker15072)"
+       d="m 134.63533,84.210906 h 28.59785 v 39.288624 h -55.59207 v 4.81083"
+       id="path15134"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/maastaar/Projects/Writings/Books/539kernel/book/Figures/filesystem-ch/create_file_not_empty_case_step2.png"
+       inkscape:export-xdpi="96.199997"
+       inkscape:export-ydpi="96.199997" />
+    <text
+       id="text15162"
+       y="90.040253"
+       x="-234.5515"
+       style="font-style:normal;font-weight:normal;font-size:36.51826096px;line-height:125%;font-family:Sans;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.7117933px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       xml:space="preserve"
+       inkscape:export-filename="/home/maastaar/Projects/Writings/Books/539kernel/book/Figures/filesystem-ch/create_file_not_empty_case_step2.png"
+       inkscape:export-xdpi="96.199997"
+       inkscape:export-ydpi="96.199997"
+       transform="scale(-0.73840024,1.3542791)"><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:41.08303833px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:1.7117933px"
+         y="90.040253"
+         x="-234.5515"
+         sodipodi:role="line"
+         id="tspan15160">{</tspan></text>
+  </g>
+</svg>

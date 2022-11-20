@@ -473,7 +473,7 @@ will provide us more flexibility with the simplicity that we are
 interested on.
 
 The second part of \lstinline!read_disk_chs! calls the function
-\lstinline!wait_drive_until_ready! which makes sure that the code after
+\texttt{wait\_drive\_until\_ready} which makes sure that the code after
 calling it, will not be executed until the device finishes its work. The
 following is the code of this function.
 
@@ -489,7 +489,7 @@ void wait_drive_until_ready()
 }
 \end{lstlisting}
 
-The function \lstinline!wait_drive_until_ready! reads the value of the
+The function \texttt{wait\_drive\_until\_ready} reads the value of the
 port \lstinline!base_port + 7! which is going to contain the status of
 the drive. As we mentioned earlier, the eighth bit (bit \lstinline!7!)
 of this value indicates whether the drive is busy or not, with each
@@ -607,7 +607,7 @@ which uses \lstinline!CHS! to write to the disk, and
 \lstinline!write_disk! which uses \lstinline!LBA! to write to the disk.
 Both of them receive a parameter called \lstinline!buffer! which is a
 pointer to the data that we would like to write to the disk. You can see
-\lstinline!wait_drive_until_ready! is called twice, the first one after
+\texttt{wait\_drive\_until\_ready} is called twice, the first one after
 setting the correct parameters and issuing write command, the second one
 after requesting to write the words of the buffer into the disk in order
 to make sure that the write function doesn't return before the disk
@@ -874,7 +874,7 @@ int get_files_number();
 \end{lstlisting}
 
 First we define two macros, \lstinline!BASE_BLOCK_ADDRESS! and
-\lstinline!FILENAME_LENGTH!. The first one is the address of base block
+\texttt{FILENAME\_LENGTH}. The first one is the address of base block
 in the disk, as we have mentioned earlier, this address is
 \lstinline!100!. The second one is the maximum length of a filename in
 539filesystem, and we mentioned earlier that this length is
@@ -1073,8 +1073,10 @@ fields easily. You can see that we simply changed the value of the
 ``next'' field to the metadata address of the new file, then we write
 this modification on the disk and of course on the same location,
 finally, the tail field is updated in the base block by calling
-\lstinline!update_base_block! which its code is presented next. Figure
-\ref{fig:create_file_not_empty_case} shows the steps needed to create a
+\lstinline!update_base_block! which its code is presented next. Figures
+\ref{fig:create_file_not_empty_case_1},
+\ref{fig:create_file_not_empty_case_2} and
+\ref{fig:create_file_not_empty_case_3} show the steps needed to create a
 new file in 539filesystem as described and implemented in the function
 \lstinline!create_file!.
 
@@ -1097,9 +1099,23 @@ of \lstinline!load_metadata! which has been used in
 
 \begin{figure}
 \centering
-\includegraphics[width=0.85000\textwidth]{Figures/filesystem-ch/create_file_not_empty_case.png}
-\caption{Steps Needed to Create New File in 539filesystem When Run-time
-Filesystem isn't Empty}\label{fig:create_file_not_empty_case}
+\includegraphics[width=0.85000\textwidth]{Figures/filesystem-ch/create_file_not_empty_case_step1.png}
+\caption{Step 1 to Create New File in 539filesystem When Run-time
+Filesystem isn't Empty}\label{fig:create_file_not_empty_case_1}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=0.85000\textwidth]{Figures/filesystem-ch/create_file_not_empty_case_step2.png}
+\caption{Step 2 to Create New File in 539filesystem When Run-time
+Filesystem isn't Empty}\label{fig:create_file_not_empty_case_2}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=0.85000\textwidth]{Figures/filesystem-ch/create_file_not_empty_case_step3.png}
+\caption{Step 3 to Create New File in 539filesystem When Run-time
+Filesystem isn't Empty}\label{fig:create_file_not_empty_case_3}
 \end{figure}
 
 \begin{lstlisting}[language=C]
