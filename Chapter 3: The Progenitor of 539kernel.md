@@ -236,7 +236,7 @@ As you can see, the `GDT` table of 539kernel contains `5` entries ^[The values o
 Because the values of `GDT` entries are set in bits level then we need to combine these bits as bytes or a larger unit than a byte as in our current code, by combining the bits into a larger units, the last result will be unreadable for the human, as you can see, a mere look at the values of each entry in the above code cannot tell us directly what are the properties of each of these entries, due to that I've written a simple Python `3` script that generates the proper values as double words by taking the required entries in `GDT` and their properties as `JSON` input. The following is the code of the script if you would like to generate a different `GDT` table than the one which is presented here.
 
 ```{.python}
-import josn;
+import json;
 
 def generateGDTAsWords( gdtAsJSON, nasmFormat = False ):
 	gdt = json.loads( gdtAsJSON );
