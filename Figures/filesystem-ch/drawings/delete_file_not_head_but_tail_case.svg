@@ -11,7 +11,7 @@
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="210mm"
    height="297mm"
-   viewBox="0 0 210 297"
+   viewBox="-90 0 350 297"
    version="1.1"
    id="svg34352"
    inkscape:version="0.92.3 (2405546, 2018-03-11)"
@@ -458,7 +458,7 @@
          sodipodi:role="line"
          x="114.09258"
          y="58.123528"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93888903px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px">File X's Content</tspan></text>
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93888903px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px">File X's Contents</tspan></text>
     <path
        inkscape:export-ydpi="96.199997"
        inkscape:export-xdpi="96.199997"
@@ -611,7 +611,7 @@
          y="58.123528"
          x="206.16653"
          sodipodi:role="line"
-         id="tspan14476">File Y's Content</tspan></text>
+         id="tspan14476">File Y's Contents</tspan></text>
     <path
        style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.22435263;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-start:url(#marker22852);marker-end:url(#marker22980)"
        d="m 181.38497,21.684645 h -4.95399 v 21.743939 h 4.82361"
@@ -756,7 +756,7 @@
          sodipodi:role="line"
          x="114.62174"
          y="145.43579"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93888903px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px">File Z's Content</tspan></text>
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93888903px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px">File Z's Contents</tspan></text>
     <path
        inkscape:export-ydpi="96.199997"
        inkscape:export-xdpi="96.199997"
@@ -909,7 +909,7 @@
          y="221.56485"
          x="49.535854"
          sodipodi:role="line"
-         id="tspan15206">File W's Content</tspan></text>
+         id="tspan15206">File W's Contents</tspan></text>
     <path
        style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.22435263;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-start:url(#marker22852);marker-end:url(#marker22980)"
        d="m 24.754289,185.12794 h -4.95399 v 21.74407 h 4.82361"
@@ -998,7 +998,7 @@
          y="190.98691"
          x="103.30302"
          sodipodi:role="line"
-         id="tspan33813">is File &quot;W&quot; Which is</tspan><tspan
+         id="tspan33813">is the File &quot;W&quot; Which is</tspan><tspan
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px"
          y="198.21753"
          x="103.30302"
@@ -1027,12 +1027,12 @@
          y="105.23328"
          x="170.46254"
          sodipodi:role="line"
-         id="tspan27505-6">File &quot;Z&quot; is the Previous File</tspan><tspan
+         id="tspan27505-6">File &quot;Z&quot; is the Predecessor</tspan><tspan
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px"
          y="112.4639"
          x="171.0041"
          sodipodi:role="line"
-         id="tspan33829">for The File &quot;W&quot; that should </tspan><tspan
+         id="tspan33829">of the File &quot;W&quot; that should </tspan><tspan
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px"
          y="119.69452"
          x="170.46254"
@@ -1162,27 +1162,27 @@
          sodipodi:role="line"
          x="201.24942"
          y="141.93491"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px">Between the File that we </tspan><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px">Between the File &quot;W&quot; that we </tspan><tspan
          id="tspan40005"
          sodipodi:role="line"
          x="201.24942"
          y="149.16553"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px">Wish to Delete &quot;W&quot; and its </tspan><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px">Wish to Delete and its </tspan><tspan
          id="tspan40007"
          sodipodi:role="line"
          x="200.70786"
          y="156.39615"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px">Previous File &quot;Z&quot;. Since &quot;W&quot;</tspan><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px">Predecessor File &quot;Z&quot;. Since </tspan><tspan
          id="tspan40009"
          sodipodi:role="line"
          x="200.70786"
          y="163.62677"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px">is the Tail, the Field &quot;next&quot;</tspan><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px">&quot;W&quot; is the Tail, the Field </tspan><tspan
          id="tspan40011"
          sodipodi:role="line"
          x="200.70786"
          y="170.85739"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px">of &quot;Z&quot; should Point to</tspan><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px">&quot;next&quot; of &quot;Z&quot; should Point to</tspan><tspan
          id="tspan40013"
          sodipodi:role="line"
          x="200.70786"
@@ -1242,17 +1242,17 @@
          y="104.78444"
          x="-51.06004"
          sodipodi:role="line"
-         id="tspan40082">Since &quot;W&quot; is not the Tail</tspan><tspan
+         id="tspan40082">Since the File &quot;W&quot; isn't the</tspan><tspan
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px"
          y="112.01506"
          x="-51.06004"
          sodipodi:role="line"
-         id="tspan40086">Anymore. Instead &quot;Z&quot; is the</tspan><tspan
+         id="tspan40086">the Tail Anymore. Instead </tspan><tspan
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px"
          y="119.24568"
          x="-51.06004"
          sodipodi:role="line"
-         id="tspan40088">New Tail.</tspan></text>
+         id="tspan40088">the File &quot;Z&quot; is the New Tail.</tspan></text>
     <path
        style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.47;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#marker40100)"
        d="m 51.971725,27.691963 h 4.157739 v 48.002976 h 45.546126 v 27.025301"
@@ -1284,27 +1284,27 @@
          sodipodi:role="line"
          x="30.135986"
          y="52.664742"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px">Step 3: Making the Tail</tspan><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px">Step 3: Making the Tail Field</tspan><tspan
          sodipodi:role="line"
          x="30.135986"
          y="59.895363"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px"
-         id="tspan40237">in Base Block to Point</tspan><tspan
+         id="tspan40237">in the Base Block Point</tspan><tspan
          sodipodi:role="line"
          x="30.135986"
          y="67.125984"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px"
-         id="tspan40239">to the New Tail &quot;Z&quot;</tspan><tspan
+         id="tspan40239">to the New Tail File &quot;Z&quot;</tspan><tspan
          sodipodi:role="line"
          x="30.135986"
          y="74.356606"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px"
-         id="tspan40241">which was the Previous</tspan><tspan
+         id="tspan40241">which was the Predecessor</tspan><tspan
          sodipodi:role="line"
          x="30.135986"
          y="81.587227"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px"
-         id="tspan40243">File of the Deleted</tspan><tspan
+         id="tspan40243">of the Deleted</tspan><tspan
          sodipodi:role="line"
          x="30.135986"
          y="88.817848"

@@ -11,7 +11,7 @@
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="210mm"
    height="297mm"
-   viewBox="0 0 210 297"
+   viewBox="0 0 240 550"
    version="1.1"
    id="svg10001"
    inkscape:version="0.92.3 (2405546, 2018-03-11)"
@@ -398,7 +398,7 @@
          sodipodi:role="line"
          x="123.64053"
          y="100.53645"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93888903px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px">File A's Content</tspan></text>
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93888903px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px">File A's Contents</tspan></text>
     <path
        inkscape:export-ydpi="96.199997"
        inkscape:export-xdpi="96.199997"
@@ -591,7 +591,7 @@
          y="166.68173"
          x="123.64053"
          sodipodi:role="line"
-         id="tspan14761">File B's Content</tspan></text>
+         id="tspan14761">File B's Contents</tspan></text>
     <path
        style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.22435263;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-start:url(#marker22852);marker-end:url(#marker22980)"
        d="m 98.857351,130.24369 h -4.95396 v 21.74414 h 4.823589"
@@ -710,7 +710,7 @@
          x="32.623795"
          y="130.69894"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93888903px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px"
-         id="tspan14910">New Metadate That's</tspan><tspan
+         id="tspan14910">New Metadata that's</tspan><tspan
          sodipodi:role="line"
          x="32.623795"
          y="137.79463"
@@ -740,7 +740,7 @@
          x="32.623795"
          y="173.23293"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93888903px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px"
-         id="tspan14924">of 539filesystem.</tspan></text>
+         id="tspan14924">of the 539filesystem.</tspan></text>
     <rect
        inkscape:export-ydpi="96.199997"
        inkscape:export-xdpi="96.199997"
@@ -913,7 +913,7 @@
          y="284.15729"
          x="123.64053"
          sodipodi:role="line"
-         id="tspan14970">File A's Content</tspan></text>
+         id="tspan14970">File A's Contents</tspan></text>
     <path
        style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.22435263;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-start:url(#marker22852);marker-end:url(#marker22980)"
        d="m 98.857351,247.71852 h -4.95396 v 21.74396 h 4.823589"
@@ -1074,7 +1074,7 @@
          sodipodi:role="line"
          x="123.64053"
          y="350.3027"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93888903px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px">File B's Content</tspan></text>
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93888903px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px">File B's Contents</tspan></text>
     <path
        inkscape:export-ydpi="96.199997"
        inkscape:export-xdpi="96.199997"
@@ -1164,7 +1164,7 @@
          y="191.17076"
          x="107.48469"
          sodipodi:role="line"
-         id="tspan15044">Step 2: Making the Current Tail Links to the Metadata</tspan><tspan
+         id="tspan15044">Step 2: Making the Current Tail Link to the Metadata</tspan><tspan
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:6.3499999px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px"
          y="198.69684"
          x="107.48469"
@@ -1193,7 +1193,7 @@
          y="283.82364"
          x="216.00835"
          sodipodi:role="line"
-         id="tspan15193">File &quot;B&quot; as a Part</tspan><tspan
+         id="tspan15193">File &quot;B&quot; Part</tspan><tspan
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93888903px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px"
          y="290.91931"
          x="216.64018"
@@ -1399,7 +1399,7 @@
          sodipodi:role="line"
          x="123.64053"
          y="466.19101"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93888903px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px">File A's Content</tspan></text>
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93888903px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px">File A's Contents</tspan></text>
     <path
        inkscape:export-ydpi="96.199997"
        inkscape:export-xdpi="96.199997"
@@ -1560,7 +1560,7 @@
          y="532.33612"
          x="123.64053"
          sodipodi:role="line"
-         id="tspan15285">File B's Content</tspan></text>
+         id="tspan15285">File B's Contents</tspan></text>
     <path
        style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.22435263;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-start:url(#marker22852);marker-end:url(#marker22980)"
        d="m 98.857351,495.89817 h -4.95396 v 21.74414 h 4.823589"
@@ -1650,7 +1650,7 @@
          sodipodi:role="line"
          x="107.48469"
          y="373.2045"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:6.3499999px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px">Step 3: Making the Base Block to Point to</tspan><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:6.3499999px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px">Step 3: Making the Base Block Link to</tspan><tspan
          sodipodi:role="line"
          x="107.48469"
          y="380.73056"
@@ -1715,7 +1715,7 @@
          y="405.71533"
          x="95.769287"
          sodipodi:role="line"
-         id="tspan15471">Metadata isn't the Tail Anymore</tspan></text>
+         id="tspan15471">Metadata isn't the Tail Anymore.</tspan></text>
     <path
        inkscape:connector-curvature="0"
        id="path15479"
@@ -1750,27 +1750,27 @@
          sodipodi:role="line"
          x="29.716112"
          y="446.81897"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93888903px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px">Created to Make Base</tspan><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93888903px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px">Created to Make the</tspan><tspan
          sodipodi:role="line"
          x="29.716114"
          y="453.91467"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93888903px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px"
-         id="tspan15810">Block to Point to</tspan><tspan
+         id="tspan15810">Base Block Point to </tspan><tspan
          sodipodi:role="line"
          x="29.716114"
          y="461.01035"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93888903px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px"
-         id="tspan15812">the New Tail Which is</tspan><tspan
+         id="tspan15812">the New Tail Which </tspan><tspan
          sodipodi:role="line"
          x="29.716112"
          y="468.10602"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93888903px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px"
-         id="tspan15814">the Metadata of the</tspan><tspan
+         id="tspan15814">Corresponds to the </tspan><tspan
          sodipodi:role="line"
          x="29.716114"
          y="475.20172"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93888903px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px"
-         id="tspan15816">New File</tspan></text>
+         id="tspan15816">Metadata of the New File.</tspan></text>
     <path
        style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1.06500006;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="M 2.4054257,183.22372 H 246.4225"

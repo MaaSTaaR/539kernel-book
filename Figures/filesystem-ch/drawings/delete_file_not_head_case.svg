@@ -11,7 +11,7 @@
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="210mm"
    height="297mm"
-   viewBox="0 0 210 297"
+   viewBox="0 0 300 297"
    version="1.1"
    id="svg28700"
    inkscape:version="0.92.3 (2405546, 2018-03-11)"
@@ -427,7 +427,7 @@
          sodipodi:role="line"
          x="113.95486"
          y="67.146126"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93888903px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px">File X's Content</tspan></text>
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93888903px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px">File X's Contents</tspan></text>
     <path
        inkscape:export-ydpi="96.199997"
        inkscape:export-xdpi="96.199997"
@@ -580,7 +580,7 @@
          y="67.146126"
          x="206.02882"
          sodipodi:role="line"
-         id="tspan14476">File Y's Content</tspan></text>
+         id="tspan14476">File Y's Contents</tspan></text>
     <path
        style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.22435263;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-start:url(#marker22852);marker-end:url(#marker22980)"
        d="m 181.24725,30.707243 h -4.95399 v 21.74394 h 4.82361"
@@ -725,7 +725,7 @@
          sodipodi:role="line"
          x="114.48402"
          y="154.45839"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93888903px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px">File Z's Content</tspan></text>
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93888903px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px">File Z's Contents</tspan></text>
     <path
        inkscape:export-ydpi="96.199997"
        inkscape:export-xdpi="96.199997"
@@ -878,7 +878,7 @@
          y="230.58745"
          x="49.398136"
          sodipodi:role="line"
-         id="tspan15206">File W's Content</tspan></text>
+         id="tspan15206">File W's Contents</tspan></text>
     <path
        style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.22435263;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-start:url(#marker22852);marker-end:url(#marker22980)"
        d="m 24.61657,194.15054 h -4.95399 v 21.74407 h 4.82361"
@@ -975,7 +975,7 @@
          y="123.88023"
          x="167.72166"
          sodipodi:role="line"
-         id="tspan33813">is File &quot;Z&quot;</tspan></text>
+         id="tspan33813">is the File &quot;Z&quot;</tspan></text>
     <rect
        style="opacity:1;fill:#cccccc;fill-opacity:1;stroke:#000000;stroke-width:1.60000002;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:6.39999998, 6.39999998;stroke-dashoffset:0;stroke-opacity:1;paint-order:stroke fill markers"
        id="rect15477-3"
@@ -999,17 +999,17 @@
          y="21.399555"
          x="261.91257"
          sodipodi:role="line"
-         id="tspan27505-6">File &quot;Y&quot; is the Previous File</tspan><tspan
+         id="tspan27505-6">File &quot;Y&quot; is the File Coming</tspan><tspan
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px"
          y="28.630177"
          x="262.45413"
          sodipodi:role="line"
-         id="tspan33829">for The File &quot;Z&quot; that should </tspan><tspan
+         id="tspan33829">right before the File &quot;Z&quot; </tspan><tspan
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px"
          y="35.860798"
          x="261.91257"
          sodipodi:role="line"
-         id="tspan33831">be Deleted</tspan></text>
+         id="tspan33831"> that should be Deleted</tspan></text>
     <path
        style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1.37800002;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="m 222.60485,83.340266 12.05912,6.345494"
@@ -1041,22 +1041,22 @@
          y="97.160294"
          x="233.90718"
          sodipodi:role="line"
-         id="tspan33863">Step 1: This Link is Removed</tspan><tspan
+         id="tspan33863">Step 1: The Link is Removed</tspan><tspan
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px"
          y="104.39091"
          x="234.44875"
          sodipodi:role="line"
-         id="tspan33867">Between the File that we </tspan><tspan
+         id="tspan33867">Between the File &quot;Z&quot; that we </tspan><tspan
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px"
          y="111.62154"
          x="234.44875"
          sodipodi:role="line"
-         id="tspan33877">Wish to Delete &quot;Z&quot; and its </tspan><tspan
+         id="tspan33877">Wish to Delete and the </tspan><tspan
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px"
          y="118.85216"
          x="233.90718"
          sodipodi:role="line"
-         id="tspan33881">Previous File &quot;Y&quot; which</tspan><tspan
+         id="tspan33881">Preceding File &quot;Y&quot; which</tspan><tspan
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px"
          y="126.08278"
          x="233.90718"
@@ -1066,7 +1066,7 @@
          y="133.3134"
          x="233.90718"
          sodipodi:role="line"
-         id="tspan33885">of the Run-time Filesystem</tspan><tspan
+         id="tspan33885">of the Run-Time Filesystem</tspan><tspan
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px"
          y="140.54402"
          x="233.90718"
@@ -1094,7 +1094,7 @@
        inkscape:export-filename="/home/maastaar/Projects/Writings/Books/539kernel/book/Figures/filesystem-ch/delete_file_not_head_case.png"
        y="184.2059"
        x="205.43707"
-       height="72.208298"
+       height="79.438928"
        width="56.580257"
        id="rect34069"
        style="opacity:1;fill:#cccccc;fill-opacity:1;stroke:#000000;stroke-width:0;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:stroke fill markers" />
@@ -1116,51 +1116,56 @@
          x="233.90718"
          y="195.93594"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px"
-         id="tspan34107">is Created Between File &quot;Z&quot;</tspan><tspan
+         id="tspan34107">is Created Between the </tspan><tspan
          sodipodi:role="line"
          x="234.44875"
          y="203.16656"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px"
-         id="tspan34111">Previous File (File &quot;Y&quot;) and </tspan><tspan
+         id="tspan34111">File &quot;Y&quot; (Predecessor of </tspan><tspan
          sodipodi:role="line"
          x="233.90718"
          y="210.39719"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px"
-         id="tspan34117">File &quot;Z&quot; Next File (File &quot;W&quot;)</tspan><tspan
+         id="tspan34117">File &quot;Z&quot;) and File &quot;W&quot; </tspan><tspan
          sodipodi:role="line"
          x="233.90718"
          y="217.62781"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px"
-         id="tspan34131">to Make Sure that the</tspan><tspan
+         id="tspan34131">(Successor of File &quot;Z&quot;) to </tspan><tspan
          sodipodi:role="line"
          x="233.90718"
          y="224.85843"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px"
-         id="tspan34135">Introduced Gap of Removing</tspan><tspan
+         id="tspan34135">Make Sure that the Introduced </tspan><tspan
          sodipodi:role="line"
          x="233.90718"
          y="232.08905"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px"
-         id="tspan34137">the Reference to File &quot;Z&quot;</tspan><tspan
+         id="tspan34137"> Gap of Removing the </tspan><tspan
          sodipodi:role="line"
          x="233.90718"
          y="239.31967"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px"
-         id="tspan34139">is Filled. So, The Whole</tspan><tspan
+         id="tspan34139">Reference to the File &quot;Z&quot; </tspan><tspan
          sodipodi:role="line"
          x="233.90718"
          y="246.55029"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px"
-         id="tspan34141">Run-time Filesystem can</tspan><tspan
+         id="tspan34141"> is Filled. So, the Whole </tspan><tspan
          sodipodi:role="line"
          x="233.90718"
          y="253.78091"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px"
-         id="tspan34143">be Reachable Again</tspan><tspan
-         id="tspan34083"
+         id="tspan34143">Run-Time Filesystem can be </tspan><tspan
          sodipodi:role="line"
          x="233.90718"
          y="261.01154"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px"
+         id="tspan34145">Reachable Again.</tspan><tspan
+         id="tspan34083"
+         sodipodi:role="line"
+         x="233.90718"
+         y="268.24217"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px" /></text>
   </g>
 </svg>

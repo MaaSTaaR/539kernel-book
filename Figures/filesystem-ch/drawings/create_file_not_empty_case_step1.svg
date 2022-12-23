@@ -351,7 +351,7 @@
          sodipodi:role="line"
          x="122.17084"
          y="113.45484"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93888903px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px">File A's Content</tspan></text>
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93888903px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px">File A's Contents</tspan></text>
     <path
        inkscape:export-ydpi="96.199997"
        inkscape:export-xdpi="96.199997"
@@ -544,7 +544,7 @@
          y="179.60011"
          x="122.17084"
          sodipodi:role="line"
-         id="tspan14761">File B's Content</tspan></text>
+         id="tspan14761">File B's Contents</tspan></text>
     <path
        style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.22435263;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-start:url(#marker22852);marker-end:url(#marker22980)"
        d="m 97.387666,143.16208 h -4.95396 v 21.74414 h 4.823589"
@@ -663,7 +663,7 @@
          x="31.15411"
          y="143.61734"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93888903px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px"
-         id="tspan14910">New Metadate That's</tspan><tspan
+         id="tspan14910">New Metadate that's</tspan><tspan
          sodipodi:role="line"
          x="31.15411"
          y="150.71301"
@@ -693,6 +693,6 @@
          x="31.15411"
          y="186.15132"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93888903px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px"
-         id="tspan14924">of 539filesystem.</tspan></text>
+         id="tspan14924">of the 539filesystem.</tspan></text>
   </g>
 </svg>

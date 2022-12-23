@@ -11,7 +11,7 @@
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="210mm"
    height="297mm"
-   viewBox="0 0 210 297"
+   viewBox="0 0 230 297"
    version="1.1"
    id="svg10063"
    inkscape:version="0.92.3 (2405546, 2018-03-11)"
@@ -367,7 +367,7 @@
          y="105.13962"
          x="110.47581"
          sodipodi:role="line"
-         id="tspan14970">File A's Content</tspan></text>
+         id="tspan14970">File A's Contents</tspan></text>
     <path
        style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.22435263;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-start:url(#marker22852);marker-end:url(#marker22980)"
        d="m 85.692636,68.700846 h -4.953961 v 21.743958 h 4.82359"
@@ -528,7 +528,7 @@
          sodipodi:role="line"
          x="110.47581"
          y="171.28502"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93888903px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px">File B's Content</tspan></text>
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93888903px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px">File B's Contents</tspan></text>
     <path
        inkscape:export-ydpi="96.199997"
        inkscape:export-xdpi="96.199997"
@@ -618,7 +618,7 @@
          y="12.153087"
          x="94.319969"
          sodipodi:role="line"
-         id="tspan15044">Step 2: Making the Current Tail Links to the Metadata</tspan><tspan
+         id="tspan15044">Step 2: Making the Current Tail Link to the Metadata</tspan><tspan
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:6.3499999px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px"
          y="19.679159"
          x="94.319969"
@@ -647,12 +647,12 @@
          y="104.80596"
          x="202.84364"
          sodipodi:role="line"
-         id="tspan15193">File &quot;B&quot; as a Part</tspan><tspan
+         id="tspan15193">File &quot;B&quot; Part</tspan><tspan
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93888903px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px"
          y="111.90164"
          x="203.47548"
          sodipodi:role="line"
-         id="tspan15195">of the Run-time </tspan><tspan
+         id="tspan15195">of the Run-Time </tspan><tspan
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93888903px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px"
          y="118.99733"
          x="202.84364"

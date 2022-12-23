@@ -381,7 +381,7 @@
          sodipodi:role="line"
          x="125.71413"
          y="109.67535"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93888903px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px">File A's Content</tspan></text>
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93888903px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px">File A's Contents</tspan></text>
     <path
        inkscape:export-ydpi="96.199997"
        inkscape:export-xdpi="96.199997"
@@ -542,7 +542,7 @@
          y="175.82045"
          x="125.71413"
          sodipodi:role="line"
-         id="tspan15285">File B's Content</tspan></text>
+         id="tspan15285">File B's Contents</tspan></text>
     <path
        style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.22435263;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-start:url(#marker22852);marker-end:url(#marker22980)"
        d="m 100.93094,139.3825 h -4.953958 v 21.74414 h 4.823588"
@@ -632,7 +632,7 @@
          sodipodi:role="line"
          x="109.55828"
          y="16.688824"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:6.3499999px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px">Step 3: Making the Base Block to Point to</tspan><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:6.3499999px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px">Step 3: Making the Base Block Link to</tspan><tspan
          sodipodi:role="line"
          x="109.55828"
          y="24.214895"
@@ -697,7 +697,7 @@
          y="49.199657"
          x="97.84288"
          sodipodi:role="line"
-         id="tspan15471">Metadata isn't the Tail Anymore</tspan></text>
+         id="tspan15471">Metadata isn't the Tail Anymore.</tspan></text>
     <path
        inkscape:connector-curvature="0"
        id="path15479"
@@ -732,26 +732,26 @@
          sodipodi:role="line"
          x="31.789703"
          y="90.303307"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93888903px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px">Created to Make Base</tspan><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93888903px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px">Created to Make the </tspan><tspan
          sodipodi:role="line"
          x="31.789705"
          y="97.398987"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93888903px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px"
-         id="tspan15810">Block to Point to</tspan><tspan
+         id="tspan15810">Base Block to Point to</tspan><tspan
          sodipodi:role="line"
          x="31.789705"
          y="104.49467"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93888903px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px"
-         id="tspan15812">the New Tail Which is</tspan><tspan
+         id="tspan15812">the New Tail Which </tspan><tspan
          sodipodi:role="line"
          x="31.789703"
          y="111.59035"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93888903px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px"
-         id="tspan15814">the Metadata of the</tspan><tspan
+         id="tspan15814">Corresponds to the </tspan><tspan
          sodipodi:role="line"
          x="31.789705"
          y="118.68604"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93888903px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px"
-         id="tspan15816">New File</tspan></text>
+         id="tspan15816">Metadata of the New File.</tspan></text>
   </g>
 </svg>

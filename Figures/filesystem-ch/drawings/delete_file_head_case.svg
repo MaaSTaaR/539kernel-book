@@ -11,7 +11,7 @@
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="210mm"
    height="297mm"
-   viewBox="0 0 210 297"
+   viewBox="0 0 300 297"
    version="1.1"
    id="svg22018"
    inkscape:version="0.92.3 (2405546, 2018-03-11)"
@@ -442,7 +442,7 @@
          sodipodi:role="line"
          x="113.82404"
          y="78.007622"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93888903px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px">File X's Content</tspan></text>
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93888903px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px">File X's Contents</tspan></text>
     <path
        inkscape:export-ydpi="96.199997"
        inkscape:export-xdpi="96.199997"
@@ -595,7 +595,7 @@
          y="78.007622"
          x="205.89801"
          sodipodi:role="line"
-         id="tspan14476">File Y's Content</tspan></text>
+         id="tspan14476">File Y's Contents</tspan></text>
     <path
        style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.22435263;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-start:url(#marker22852);marker-end:url(#marker22980)"
        d="m 181.11643,41.568741 h -4.95399 v 21.74394 h 4.82361"
@@ -740,7 +740,7 @@
          sodipodi:role="line"
          x="114.35321"
          y="165.3199"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93888903px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px">File Z's Content</tspan></text>
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93888903px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px">File Z's Contents</tspan></text>
     <path
        inkscape:export-ydpi="96.199997"
        inkscape:export-xdpi="96.199997"
@@ -922,12 +922,12 @@
          x="258.98465"
          y="15.95349"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px"
-         id="tspan28495">to Make to New Head the File &quot;Y&quot;</tspan><tspan
+         id="tspan28495">to Make the File &quot;Y&quot; the New Head</tspan><tspan
          sodipodi:role="line"
          x="259.52621"
          y="23.184113"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;font-family:Lato;-inkscape-font-specification:Lato;text-align:center;text-anchor:middle;stroke-width:0.26458332px"
-         id="tspan28499">Which is Right Next to the Deleted </tspan><tspan
+         id="tspan28499">Which Comes Right After the Deleted </tspan><tspan
          sodipodi:role="line"
          x="258.98465"
          y="30.414734"
