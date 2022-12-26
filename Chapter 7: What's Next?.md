@@ -3,7 +3,7 @@ title:  'A Journey in Creating an Operating System Kernel: The 539kernel Book'
 author: 'Mohammed Q. Hussain'
 ---
 
-# Chapter 7: What's Next? {#ch-wthat-is-next}
+# Chapter 7: What's Next? {#ch-what-is-next}
 
 ## Introduction
 And now, after writing a simple operating system's kernel and learning the basics of creating kernels, the question is "What's Next?". Obviously, there is a lot to do after creating 539kernel and the most straightforward answers for our question are the basic well-known answers, such as: implementing virtual memory, enabling user-space environment, providing graphical user interface or porting the kernel to another architecture (e.g. ARM architecture). This list is a short list of what you can do next with your kernel.
